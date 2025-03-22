@@ -9,19 +9,21 @@ package constructor;
  * @author mhoang
  */
 public class ctkm {
-    public String maCTKM,ngayBD,ngayKT;
+    public String ngayBD,ngayKT;
+    public int maCTKM;
     public ctkm(){
 }
-    public ctkm(String maCTKM,String ngayBD,String ngayKT)
+    public ctkm(int maCTKM,String ngayBD,String ngayKT)
     {
         this.maCTKM=maCTKM;
         this.ngayBD=ngayBD;
         this.ngayKT=ngayKT;
     }
 
-    public String getMaCTKM() {
+    public int getMaCTKM() {
         return maCTKM;
     }
+
 
     public String getNgayBD() {
         return ngayBD;
@@ -31,7 +33,7 @@ public class ctkm {
         return ngayKT;
     }
 
-    public void setMaCTKM(String maCTKM) {
+    public void setMaCTKM(int maCTKM) {
         this.maCTKM = maCTKM;
     }
 

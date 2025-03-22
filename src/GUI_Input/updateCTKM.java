@@ -27,7 +27,9 @@ public class updateCTKM extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         
-        txtCTKM.setText(data.getMaCTKM());
+        int ma = data.getMaCTKM();
+
+        txtCTKM.setText(String.valueOf(ma));
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         
@@ -217,7 +219,7 @@ public class updateCTKM extends javax.swing.JDialog {
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-        String ma = txtCTKM.getText();
+        int ma = Integer.parseInt(txtCTKM.getText());
         if(dateNhap.getDate() == null || dateKetThuc.getDate()==null)
         {
             JLabel lbTBnull = new JLabel("Không được để trống!");

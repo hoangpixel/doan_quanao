@@ -29,8 +29,7 @@ public class inputCTKM extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         
-        
-        String ma = "RTEUIO" + maTuDong;
+        String ma = String.valueOf(maTuDong);
         txtMaCTKM.setText(ma);
     }
 
@@ -189,10 +188,10 @@ public class inputCTKM extends javax.swing.JDialog {
 
     private void btnXacNhan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhan1ActionPerformed
         // TODO add your handling code here:
-        String maCTPN = txtMaCTKM.getText();
+        int maCTKM = Integer.parseInt(txtMaCTKM.getText());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        if(maCTPN.isEmpty() || dateNhap.getDate()==null || dateKT.getDate()==null)
+        if(dateNhap.getDate()==null || dateKT.getDate()==null)
         {
             JLabel lbTBnull = new JLabel("Không được để trống!");
             lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
@@ -211,7 +210,7 @@ public class inputCTKM extends javax.swing.JDialog {
         String ngayBD = sdf.format(dateNhap.getDate());
         String ngayKT = sdf.format(dateKT.getDate());
         
-        km = new ctkm(maCTPN,ngayBD,ngayKT);
+        km = new ctkm(maCTKM,ngayBD,ngayKT);
         nhap = true;
         dispose();
     }//GEN-LAST:event_btnXacNhan1ActionPerformed

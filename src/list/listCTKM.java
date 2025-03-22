@@ -65,7 +65,7 @@ public class listCTKM extends javax.swing.JFrame {
             while(rs.next())
             {
                 ctkm ct = new ctkm();
-                ct.maCTKM = rs.getString(1);
+                ct.maCTKM = rs.getInt(1);
                 ct.ngayBD = rs.getString(2);
                 ct.ngayKT = rs.getString(3);
                 dsctkm.add(ct);
@@ -99,7 +99,14 @@ public class listCTKM extends javax.swing.JFrame {
         rowSorter = new TableRowSorter<>(model);
         tbCTKM.setRowSorter(rowSorter);
         tbCTKM.setModel(model);
-        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn nội dung ra chính giữa
+        for (int i = 0; i < tbCTKM.getColumnCount(); i++) {
+        tbCTKM.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+}
+
         //căn header ra center
         JTableHeader headerTB = tbCTKM.getTableHeader();
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
@@ -517,7 +524,7 @@ public class listCTKM extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, lbThongBao,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String ma = tbCTKM.getValueAt(i, 0).toString();
+        int ma = (int) tbCTKM.getValueAt(i, 0);
         String ngaybd = tbCTKM.getValueAt(i, 1).toString();
         String ngaykt = tbCTKM.getValueAt(i, 2).toString();
         
