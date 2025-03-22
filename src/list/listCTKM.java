@@ -131,6 +131,7 @@ public class listCTKM extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
+        cbTim = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCTKM = new javax.swing.JTable();
@@ -250,6 +251,11 @@ public class listCTKM extends javax.swing.JFrame {
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
         btnRefresh.setToolTipText("");
         btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -260,6 +266,9 @@ public class listCTKM extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
+
+        cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã", "Tìm theo ngày nhập", "Tìm theo ngày kết thúc" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -276,11 +285,13 @@ public class listCTKM extends javax.swing.JFrame {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
-                .addGap(31, 31, 31))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,7 +313,8 @@ public class listCTKM extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch))))
+                            .addComponent(btnSearch)
+                            .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
@@ -554,17 +566,23 @@ public class listCTKM extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        String tim = txtSearch.getText();
-        if(tim.length() == 0)
+        String tim = txtSearch.getText().trim();
+        int i = cbTim.getSelectedIndex();
+        if(tim.isEmpty())
         {
-            rowSorter.setRowFilter(null); //Nếu không nhập gì thì hiển thị hết
+            rowSorter.setRowFilter(null);
         }else
         {
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + tim));
+            // Này thì nó sẽ trả về những kết quả tương ứng 0 là mã 1 là ngày nhập 2 là ngày kết thúc
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + tim,i));
         }
-        
-        
+            
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        docSQL();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -610,6 +628,7 @@ public class listCTKM extends javax.swing.JFrame {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JComboBox<String> cbTim;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
