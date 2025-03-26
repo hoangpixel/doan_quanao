@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
-import BUS.listCTKM;
+import list.listCTKM;
 import DTO.ctkm;
 import java.awt.Font;
 import java.text.SimpleDateFormat;

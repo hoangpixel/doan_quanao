@@ -3,20 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-import GUI_Input.inputCTKM;
-import GUI_Input.deleteCTKM;
-import GUI_Input.updateCTKM;
-import DTO.ctkm;
-import java.awt.Font;
 import javax.swing.*;
-import java.util.Vector;
-import java.util.ArrayList;
-import java.sql.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import borderRadius.roundedBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
+
 /**
  *
  * @author mhoang
@@ -34,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnHome, btnCTKM, btnNCC, jButton8, jButton10, jButton11, jButton12 };
+    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, jButton8, jButton10, jButton11, jButton12 };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -57,7 +46,7 @@ public class navleft extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         btnCTKM = new javax.swing.JButton();
-        btnNCC = new javax.swing.JButton();
+        btnCTKMSP = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -75,12 +64,15 @@ public class navleft extends javax.swing.JPanel {
 
         btnCTKM.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnCTKM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/coupon.png"))); // NOI18N
-        btnCTKM.setText("CTKM");
+        btnCTKM.setText("       CTKM");
         btnCTKM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCTKM.setIconTextGap(20);
 
-        btnNCC.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnNCC.setText("jButton6");
-        btnNCC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCTKMSP.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCTKMSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3615756_card_coupon_discount_gift_label_icon.png"))); // NOI18N
+        btnCTKMSP.setText("             CTKMSP");
+        btnCTKMSP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCTKMSP.setIconTextGap(1);
 
         jButton8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jButton8.setText("jButton6");
@@ -88,8 +80,9 @@ public class navleft extends javax.swing.JPanel {
 
         btnHome.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home.png"))); // NOI18N
-        btnHome.setText("Home");
+        btnHome.setText("      Home");
         btnHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHome.setIconTextGap(20);
 
         jButton10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jButton10.setText("jButton6");
@@ -111,7 +104,7 @@ public class navleft extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCTKM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCTKMSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -127,7 +120,7 @@ public class navleft extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,8 +193,8 @@ public class navleft extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCTKM;
+    public javax.swing.JButton btnCTKMSP;
     private javax.swing.JButton btnHome;
-    public javax.swing.JButton btnNCC;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;

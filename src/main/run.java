@@ -1,7 +1,7 @@
 package main;
 
 import GUI.navleft;
-import BUS.listCTKM;
+import list.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -31,21 +31,23 @@ public class run extends JFrame {
         nav.highlightButton(nav.btnCTKM);
         });
 
-        nav.btnNCC.addActionListener(e -> {
-        cardLayout.show(contentPanel, "NCC");
-        nav.highlightButton(nav.btnNCC);
+        nav.btnCTKMSP.addActionListener(e -> {
+        cardLayout.show(contentPanel, "CTKMSP");
+        nav.highlightButton(nav.btnCTKMSP);
         });
 
 
         // Thêm các panel cần hiển thị
         listCTKM ctkmPanel = new listCTKM();
         contentPanel.add(ctkmPanel, "CTKM");
+        listCTKMSP ctkmspPanel = new listCTKMSP();
+        contentPanel.add(ctkmspPanel,"CTKMSP");
 
         add(contentPanel, BorderLayout.CENTER);
 
         // Bắt sự kiện các nút trong navleft
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));
-        nav.btnNCC.addActionListener(e -> cardLayout.show(contentPanel, "NCC"));
+        nav.btnCTKMSP.addActionListener(e -> cardLayout.show(contentPanel, "CTKMSP"));
     }
 
     public static void main(String[] args) {
