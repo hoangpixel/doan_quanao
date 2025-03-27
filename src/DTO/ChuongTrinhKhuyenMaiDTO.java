@@ -8,12 +8,12 @@ package DTO;
  *
  * @author mhoang
  */
-public class ctkm {
+public class ChuongTrinhKhuyenMaiDTO {
     public String ngayBD,ngayKT;
     public int maCTKM;
-    public ctkm(){
+    public ChuongTrinhKhuyenMaiDTO(){
 }
-    public ctkm(int maCTKM,String ngayBD,String ngayKT)
+    public ChuongTrinhKhuyenMaiDTO(int maCTKM,String ngayBD,String ngayKT)
     {
         this.maCTKM=maCTKM;
         this.ngayBD=ngayBD;

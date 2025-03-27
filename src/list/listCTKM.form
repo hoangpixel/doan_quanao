@@ -187,6 +187,9 @@
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="listCTKM_txtSearch"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnSearch">
           <Properties>

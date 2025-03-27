@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
-import DTO.ctkmsp;
+import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
 import java.awt.Font;
 import java.sql.*;
 import javax.swing.JLabel;
@@ -21,8 +21,8 @@ public class updateCTKMSP extends javax.swing.JDialog {
     Statement st;
     ResultSet rs1,rs2;
     public boolean xacNhan = false;
-    public ctkmsp km;
-    public updateCTKMSP(java.awt.Frame parent , boolean model, ctkmsp data) {
+    public ChuongTrinhKhuyenMaiSanPhamDTO km;
+    public updateCTKMSP(java.awt.Frame parent , boolean model, ChuongTrinhKhuyenMaiSanPhamDTO data) {
         super(parent,model);
         initComponents();
         setLocationRelativeTo(parent);
@@ -282,7 +282,7 @@ public class updateCTKMSP extends javax.swing.JDialog {
         int rs = JOptionPane.showConfirmDialog(this, xnCapNhat,"Xác nhận cập nhật",JOptionPane.YES_NO_OPTION);
         if(rs == JOptionPane.YES_OPTION)
         {
-        km = new ctkmsp(mactkm,mactkmsp,masp,ptgg);
+        km = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
         xacNhan=true;
         dispose();
         }
@@ -297,7 +297,7 @@ public class updateCTKMSP extends javax.swing.JDialog {
         return xacNhan;
     }
     
-    public ctkmsp getCTKM()
+    public ChuongTrinhKhuyenMaiSanPhamDTO getCTKM()
     {
         return km;
     }

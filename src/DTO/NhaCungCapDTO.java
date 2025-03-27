@@ -1,16 +1,16 @@
 
 package DTO;
 
-public class NhaCungCap {
+public class NhaCungCapDTO {
     private int maNCC;
     private String tenNCC;
     private String sdtNCC;
     private String diaChi;
 
-    public NhaCungCap() {
+    public NhaCungCapDTO() {
     }
     
-    public NhaCungCap(int maNCC, String tenNCC, String sdtNCC, String diaChi) {
+    public NhaCungCapDTO(int maNCC, String tenNCC, String sdtNCC, String diaChi) {
         this.maNCC = maNCC;
         this.tenNCC = tenNCC;
         this.sdtNCC = sdtNCC;

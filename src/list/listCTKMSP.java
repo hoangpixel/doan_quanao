@@ -14,7 +14,7 @@ import javax.swing.table.TableRowSorter;
 import borderRadius.roundedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import DTO.ctkmsp;
+import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
 import GUI_Input.inputCTKMSP;
 import GUI_Input.deleteCTKMSP;
 import GUI_Input.updateCTKMSP;
@@ -27,7 +27,7 @@ public class listCTKMSP extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    ArrayList<ctkmsp> dsctmksp = new ArrayList<ctkmsp>();
+    ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> dsctmksp = new ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO>();
     DefaultTableModel model = new DefaultTableModel();
     Connection con;
     Statement st;
@@ -87,14 +87,14 @@ public class listCTKMSP extends javax.swing.JPanel {
             model.setRowCount(0);
             while(rs.next())
             {
-                ctkmsp ct = new ctkmsp();
+                ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO();
                 ct.mactkm = rs.getInt(1);
                 ct.mactkmsp = rs.getInt(2);
                 ct.masp = rs.getInt(3);
                 ct.ptgg = rs.getInt(4);
                 dsctmksp.add(ct);
             }
-            for(ctkmsp ct : dsctmksp)
+            for(ChuongTrinhKhuyenMaiSanPhamDTO ct : dsctmksp)
             {
                 Vector row = new Vector();
                 row.add(ct.mactkmsp);
@@ -286,7 +286,7 @@ public class listCTKMSP extends javax.swing.JPanel {
             
             if(dialog.xacNhanNhap())
             {
-                ctkmsp ct = dialog.getCTKMSP();
+                ChuongTrinhKhuyenMaiSanPhamDTO ct = dialog.getCTKMSP();
                 try {
                     String user = "root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
                     Class.forName("com.mysql.cj.jdbc.Driver");
@@ -366,14 +366,14 @@ public class listCTKMSP extends javax.swing.JPanel {
         int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
         int masp = (int) tbCTKMSP.getValueAt(i, 2);
         int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
-        ctkmsp ct = new ctkmsp(mactkm,mactkmsp,masp,ptgg);
+        ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         updateCTKMSP dialog = new updateCTKMSP(topFrame,true,ct);
         dialog.setVisible(true);
         
         if(dialog.xacNhanUpdate())
         {
-            ctkmsp update = dialog.getCTKM();
+            ChuongTrinhKhuyenMaiSanPhamDTO update = dialog.getCTKM();
             try {
                 String user = "root",pass = "",url = "jdbc:mysql://localhost:3306/doanquanao";
                 Class.forName("com.mysql.cj.jdbc.Driver");

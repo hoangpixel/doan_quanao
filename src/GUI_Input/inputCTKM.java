@@ -4,7 +4,7 @@
  */
 package GUI_Input;
 import list.listCTKM;
-import DTO.ctkm;
+import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -20,7 +20,7 @@ public class inputCTKM extends javax.swing.JDialog {
     /**
      * Creates new form inputCTKM
      */
-    public ctkm km;
+    public ChuongTrinhKhuyenMaiDTO km;
     private int maTuDong;
     public boolean nhap = false;
     public inputCTKM(java.awt.Frame parent, boolean modal, int maTuDong) {
@@ -210,7 +210,7 @@ public class inputCTKM extends javax.swing.JDialog {
         String ngayBD = sdf.format(dateNhap.getDate());
         String ngayKT = sdf.format(dateKT.getDate());
         
-        km = new ctkm(maCTKM,ngayBD,ngayKT);
+        km = new ChuongTrinhKhuyenMaiDTO(maCTKM,ngayBD,ngayKT);
         nhap = true;
         dispose();
     }//GEN-LAST:event_btnXacNhan1ActionPerformed
@@ -220,7 +220,7 @@ public class inputCTKM extends javax.swing.JDialog {
     {
         return nhap;
     }
-    public ctkm getKM()
+    public ChuongTrinhKhuyenMaiDTO getKM()
     {
         return km;
     }

@@ -1,16 +1,16 @@
 
 package DTO;
 
-public class PhienBanSanPham {
+public class PhienBanSanPhamDTO {
     private int maSP;
     private String size;
     private String mau;
     private int soLuong;
 
-    public PhienBanSanPham() {
+    public PhienBanSanPhamDTO() {
     }
 
-    public PhienBanSanPham(int maSP, String size, String mau, int soLuong) {
+    public PhienBanSanPhamDTO(int maSP, String size, String mau, int soLuong) {
         this.maSP = maSP;
         this.size = size;
         this.mau = mau;

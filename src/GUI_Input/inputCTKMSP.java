@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
-import DTO.ctkmsp;
+import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
 import java.awt.Font;
 import java.awt.Frame;
 import javax.swing.JLabel;
@@ -18,7 +18,7 @@ public class inputCTKMSP extends javax.swing.JDialog {
     /**
      * Creates new form inputCTKMSP
      */
-    public ctkmsp km;
+    public ChuongTrinhKhuyenMaiSanPhamDTO km;
     private int maTuDong;
     public boolean nhap=false;
     Connection con;
@@ -275,7 +275,7 @@ public class inputCTKMSP extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);  
                 return;
             }
-        km = new ctkmsp(mactkm,mactkmsp,masp,ptgg);
+        km = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
         nhap=true;
         dispose();
         } catch (Exception e) {
@@ -289,7 +289,7 @@ public class inputCTKMSP extends javax.swing.JDialog {
         return nhap;
     }
     
-    public ctkmsp getCTKMSP()
+    public ChuongTrinhKhuyenMaiSanPhamDTO getCTKMSP()
     {
         return km;
     }

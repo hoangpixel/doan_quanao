@@ -6,7 +6,7 @@ package list;
 import GUI_Input.inputCTKM;
 import GUI_Input.deleteCTKM;
 import GUI_Input.updateCTKM;
-import DTO.ctkm;
+import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
 import javax.swing.*;
 import java.util.Vector;
@@ -26,7 +26,7 @@ public class listCTKM extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    ArrayList<ctkm> dsctkm = new ArrayList<ctkm>();
+    ArrayList<ChuongTrinhKhuyenMaiDTO> dsctkm = new ArrayList<ChuongTrinhKhuyenMaiDTO>();
     DefaultTableModel model = new DefaultTableModel();
     TableRowSorter<DefaultTableModel> rowSorter;
     Connection con;
@@ -64,13 +64,13 @@ public class listCTKM extends javax.swing.JPanel {
             model.setRowCount(0);
             while(rs.next())
             {
-                ctkm ct = new ctkm();
+                ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO();
                 ct.maCTKM = rs.getInt(1);
                 ct.ngayBD = rs.getString(2);
                 ct.ngayKT = rs.getString(3);
                 dsctkm.add(ct);
             }
-            for(ctkm ct : dsctkm)
+            for(ChuongTrinhKhuyenMaiDTO ct : dsctkm)
             {
                 Vector row = new Vector();
                 row.add(ct.maCTKM);
@@ -288,7 +288,7 @@ public class listCTKM extends javax.swing.JPanel {
         
         if(dialog.xacNhanNhap())
         {
-            ctkm ct = dialog.getKM();
+            ChuongTrinhKhuyenMaiDTO ct = dialog.getKM();
             try {
                 
               String user = "root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
@@ -389,7 +389,7 @@ public class listCTKM extends javax.swing.JPanel {
         String ngaybd = tbCTKM.getValueAt(i, 1).toString();
         String ngaykt = tbCTKM.getValueAt(i, 2).toString();
         
-        ctkm ct = new ctkm(ma,ngaybd,ngaykt);
+        ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO(ma,ngaybd,ngaykt);
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         updateCTKM dialog = new updateCTKM(topFrame,true,ct);
@@ -397,7 +397,7 @@ public class listCTKM extends javax.swing.JPanel {
         
         if(dialog.xacNhanUpdate())
         {
-            ctkm update = dialog.getCTKM();
+            ChuongTrinhKhuyenMaiDTO update = dialog.getCTKM();
             try {
                 String user = "root",pass = "",url = "jdbc:mysql://localhost:3306/doanquanao";
                 Class.forName("com.mysql.cj.jdbc.Driver");

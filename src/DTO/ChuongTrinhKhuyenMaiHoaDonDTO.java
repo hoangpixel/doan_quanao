@@ -1,16 +1,16 @@
 
 package DTO;
 
-public class ChuongTrinhKhuyenMaiHoaDon {
+public class ChuongTrinhKhuyenMaiHoaDonDTO {
     private int maCTKM;
     private int maCTKMHD;
     private int soTienHD;
     private int phanTramGiamGia;
 
-    public ChuongTrinhKhuyenMaiHoaDon() {
+    public ChuongTrinhKhuyenMaiHoaDonDTO() {
     }
 
-    public ChuongTrinhKhuyenMaiHoaDon(int maCTKM, int maCTKMHD, int soTienHD, int phanTramGiamGia) {
+    public ChuongTrinhKhuyenMaiHoaDonDTO(int maCTKM, int maCTKMHD, int soTienHD, int phanTramGiamGia) {
         this.maCTKM = maCTKM;
         this.maCTKMHD = maCTKMHD;
         this.soTienHD = soTienHD;

@@ -8,10 +8,10 @@ package DTO;
  *
  * @author mhoang
  */
-public class ctkmsp {
+public class ChuongTrinhKhuyenMaiSanPhamDTO {
     public int mactkm,mactkmsp,masp,ptgg;
-    public ctkmsp(){}
-    public ctkmsp(int mactkm,int mactkmsp,int masp,int ptgg)
+    public ChuongTrinhKhuyenMaiSanPhamDTO(){}
+    public ChuongTrinhKhuyenMaiSanPhamDTO(int mactkm,int mactkmsp,int masp,int ptgg)
     {
         this.mactkm=mactkm;
         this.mactkmsp=mactkmsp;
