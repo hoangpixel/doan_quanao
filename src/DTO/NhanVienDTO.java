@@ -8,42 +8,42 @@ package DTO;
  *
  * @author suvie
  */
-public class NhanVien {
+public class NhanVienDTO {
     //Attributes
     private int ma;
     private String ho;
     private String ten;
+    private int luong;
     private String sdt;
     private String diachi;
     private String email;
-    private int luong;
     //Constructors
-    public NhanVien() {
+    public NhanVienDTO() {
         this.ma = 0;
         this.ho = "";
         this.ten = "";
-        this.diachi = "";
-        this.sdt = "";
-        this.email = "";
         this.luong = 0;
+        this.sdt = "";
+        this.diachi = "";
+        this.email = "";
     }
-    public NhanVien(int ma, String ho, String ten, String sdt, String diachi, String email, int luong) {
+    public NhanVienDTO(int ma, String ho, String ten, int luong, String sdt, String diachi, String email) {
         this.ma = ma;
         this.ho = ho;
         this.ten = ten;
-        this.diachi = diachi;
-        this.sdt = sdt;
-        this.email = email;
         this.luong = luong;
+        this.sdt = sdt;
+        this.diachi = diachi;
+        this.email = email;
     }
-    public NhanVien(NhanVien nv) {
+    public NhanVienDTO(NhanVienDTO nv) {
         this.ma = nv.ma;
         this.ho = nv.ho;
         this.ten = nv.ten;
-        this.diachi = nv.diachi;
-        this.sdt = nv.sdt;
-        this.email = nv.email;
         this.luong = nv.luong;
+        this.sdt = nv.sdt;
+        this.diachi = nv.diachi;
+        this.email = nv.email;
     }
     //Getter
     public int getMa() {
