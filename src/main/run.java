@@ -1,7 +1,8 @@
 package main;
 
+import GUI.ctkmspGUI;
+import GUI.ctkmGUI;
 import GUI.navleft;
-import list.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -38,9 +39,9 @@ public class run extends JFrame {
 
 
         // Thêm các panel cần hiển thị
-        listCTKM ctkmPanel = new listCTKM();
+        ctkmGUI ctkmPanel = new ctkmGUI();
         contentPanel.add(ctkmPanel, "CTKM");
-        listCTKMSP ctkmspPanel = new listCTKMSP();
+        ctkmspGUI ctkmspPanel = new ctkmspGUI();
         contentPanel.add(ctkmspPanel,"CTKMSP");
 
         add(contentPanel, BorderLayout.CENTER);

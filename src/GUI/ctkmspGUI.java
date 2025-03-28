@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package list;
+package GUI;
 import java.awt.Font;
 import javax.swing.*;
 import java.util.Vector;
@@ -21,7 +21,7 @@ import GUI_Input.updateCTKMSP;
  *
  * @author mhoang
  */
-public class listCTKMSP extends javax.swing.JPanel {
+public class ctkmspGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form listCTKM
@@ -33,7 +33,7 @@ public class listCTKMSP extends javax.swing.JPanel {
     ResultSet rs;
     
 //  
-    public listCTKMSP() {
+    public ctkmspGUI() {
         initComponents();
         headerTable();
         docSQL();
