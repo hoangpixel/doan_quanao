@@ -19,7 +19,7 @@ public class NhanVienDAO {
     Statement st = null;
     ResultSet rs = null;
     
-    NhanVienDAO() {
+    public NhanVienDAO() {
         this.url = "jdbc:mysql://localhost:3306/java_quanao";
         if(conn == null) {
             try {
@@ -34,7 +34,7 @@ public class NhanVienDAO {
             }
         }
     }
-    ArrayList docDSNV() {
+    public ArrayList<NhanVienDTO> docDSNV() {
         ArrayList dsnv = new ArrayList <NhanVienDTO>();
         try {
             String qry = "select * from nhanvien";
@@ -58,7 +58,7 @@ public class NhanVienDAO {
         return dsnv;
     }
     
-    void them(NhanVienDTO nv) {
+    public void them(NhanVienDTO nv) {
         try {
             String qry = "Insert into nhanvien values(";
             qry = qry + "'" + nv.getMa() + "'";
@@ -77,7 +77,7 @@ public class NhanVienDAO {
         }
     }
     
-    void xoa(String ma) {
+    public void xoa(String ma) {
         try {
             String qry = "Delete from nhanvien where MANV = '" + ma + "'";
             st = conn.createStatement();
@@ -88,7 +88,7 @@ public class NhanVienDAO {
         }
     }
     
-    void sua(NhanVienDTO nv) {
+    public void sua(NhanVienDTO nv) {
         try {
             String qry = "Update nhanvien Set";
             qry = qry + " " + "HO=" + "'" + nv.getHo() + "'";

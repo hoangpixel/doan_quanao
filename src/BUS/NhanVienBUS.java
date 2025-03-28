@@ -13,15 +13,15 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class NhanVienBUS {
-    static ArrayList <NhanVienDTO> dsnv;
-    NhanVienBUS() {}
-    void docDSNV() {
+    public static ArrayList <NhanVienDTO> dsnv;
+    public NhanVienBUS() {}
+    public void docDSNV() {
         NhanVienDAO data = new NhanVienDAO();
         if(dsnv == null)
             dsnv = new ArrayList<NhanVienDTO>();
         dsnv = data.docDSNV();
     }
-    void them(NhanVienDTO nv) {
+    public void them(NhanVienDTO nv) {
         NhanVienDAO data = new NhanVienDAO();
         data.them(nv);
         dsnv.add(nv);

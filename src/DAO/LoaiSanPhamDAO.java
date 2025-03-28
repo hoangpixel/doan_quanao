@@ -6,7 +6,6 @@ package DAO;
 
 
 import DTO.LoaiSanPhamDTO;
-import DTO.NhanVienDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -22,7 +21,7 @@ public class LoaiSanPhamDAO {
     Statement st = null;
     ResultSet rs = null;
     
-    LoaiSanPhamDAO() {
+    public LoaiSanPhamDAO() {
         this.url = "jdbc:mysql://localhost:3306/java_quanao";
         if(conn == null) {
             try {
@@ -37,7 +36,7 @@ public class LoaiSanPhamDAO {
             }
         }
     }
-    ArrayList docLSP() {
+    public ArrayList<LoaiSanPhamDTO> docLSP() {
         ArrayList dslsp = new ArrayList <LoaiSanPhamDTO>();
         try {
             String qry = "select * from loaisp";
@@ -51,12 +50,12 @@ public class LoaiSanPhamDAO {
             }
         }
         catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi đọc thông tin nhân viên!");
+            JOptionPane.showMessageDialog(null, "Lỗi đọc thông tin loại sản phẩm!");
         }
         return dslsp;
     }
     
-    void them(LoaiSanPhamDTO lsp) {
+    public void them(LoaiSanPhamDTO lsp) {
         try {
             String qry = "Insert into loaisp values(";
             qry = qry + "'" + lsp.getMaLoai() + "'";
@@ -70,32 +69,27 @@ public class LoaiSanPhamDAO {
         }
     }
     
-    void xoa(String ma) {
+    public void xoa(String ma) {
         try {
-            String qry = "Delete from nhanvien where MANV = '" + ma + "'";
+            String qry = "Delete from lsp where MALOAI = '" + ma + "'";
             st = conn.createStatement();
             st.executeUpdate(qry);
         }
         catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi xóa nhân viên!");
+            JOptionPane.showMessageDialog(null, "Lỗi xóa loại sản phẩm!");
         }
     }
     
-    void sua(NhanVienDTO nv) {
+    public void sua(LoaiSanPhamDTO lsp) {
         try {
-            String qry = "Update nhanvien Set";
-            qry = qry + " " + "HO=" + "'" + nv.getHo() + "'";
-            qry = qry + ",TEN=" + "'" + nv.getTen() + "'";
-            qry = qry + ",LUONG=" + "'" + nv.getLuong() + "'";
-            qry = qry + ",SDT=" + "'" + nv.getSDT() + "'";
-            qry = qry + ",DIACHI=" + "'" + nv.getDiaChi() + "'";
-            qry = qry + ",EMAIL=" + "'" + nv.getEmail() + "'";
-            qry = qry + " " + " where MANV='" + nv.getMa() + "'";
+            String qry = "Update loaisp Set";
+            qry = qry + " " + "HO=" + "'" + lsp.getTenLoai() + "'";
+            qry = qry + " " + " where MALOAI='" + lsp.getMaLoai() + "'";
             st = conn.createStatement();
             st.executeUpdate(qry);
         }
         catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi sửa nhân viên!");
+            JOptionPane.showMessageDialog(null, "Lỗi sửa loại sản phẩm!");
         }
     }
 }
