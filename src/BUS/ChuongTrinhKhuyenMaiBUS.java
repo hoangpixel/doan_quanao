@@ -2,7 +2,6 @@
 package BUS;
 import DTO.ChuongTrinhKhuyenMaiDTO;
 import DAO.ChuongTrinhKhuyenMaiDAO;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 public class ChuongTrinhKhuyenMaiBUS {
     public static ArrayList<ChuongTrinhKhuyenMaiDTO> ds;
@@ -12,19 +11,14 @@ public class ChuongTrinhKhuyenMaiBUS {
     public void docDSCTKM()
     {
         ChuongTrinhKhuyenMaiDAO data = new ChuongTrinhKhuyenMaiDAO();
-        if(ds == null)
-        {
-            ds = new ArrayList<ChuongTrinhKhuyenMaiDTO>();
             ds = data.docDSCTKM();
-        }
     }
     
     public void them(ChuongTrinhKhuyenMaiDTO ct)
     {
-        
         ChuongTrinhKhuyenMaiDAO data = new ChuongTrinhKhuyenMaiDAO();
         data.them(ct);
-        ds.add(ct);
+//        ds.add(ct);
 
     }
     
@@ -39,5 +33,55 @@ public class ChuongTrinhKhuyenMaiBUS {
     {
         ChuongTrinhKhuyenMaiDAO data = new ChuongTrinhKhuyenMaiDAO();
         data.sua(ct);
+    }
+    
+    public ArrayList<ChuongTrinhKhuyenMaiDTO> timKiemThuong(String tim,int index)
+    {
+        if(ds == null)
+        {
+            docDSCTKM();
+        }
+        
+        ArrayList<ChuongTrinhKhuyenMaiDTO> kq = new ArrayList<>();
+        if(index == 1 || index == 2)
+        {
+            String regex = "^\\d{2}/\\d{2}\\d{4}$";
+            if(!tim.matches(regex))
+            {
+                return kq;
+            }
+        }
+        for(ChuongTrinhKhuyenMaiDTO ct : ds)
+        {
+
+            switch (index)
+            {
+                case 0:
+                {
+                    if(String.valueOf(ct.getMaCTKM()).contains(tim))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+                case 1:
+                {
+                    if(ct.getNgayBD().contains(tim))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    if(ct.getNgayKT().contains(tim))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+            }
+        }
+        return kq;
     }
 }

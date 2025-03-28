@@ -6,6 +6,7 @@ package DAO;
 
 
 import DTO.LoaiSanPhamDTO;
+import DTO.NhanVienDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

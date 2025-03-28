@@ -8,7 +8,7 @@ import java.sql.*;
  * @author mhoang
  */
 public class ChuongTrinhKhuyenMaiDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
+    String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
     Connection con;
     Statement st;
     ResultSet rs;
@@ -51,9 +51,8 @@ public class ChuongTrinhKhuyenMaiDAO {
     public void them(ChuongTrinhKhuyenMaiDTO ct)
     {
         try {
-            String qry = "Insert into ctkm values(";
-            qry = qry + "'" + ct.getMaCTKM() + "'";
-            qry = qry + "'" + ct.getNgayBD() + "'";
+            String qry = "Insert into ctkm (NGAYBD,NGAYKT) values (";
+            qry = qry + "'" + ct.getNgayBD() + "',";
             qry = qry + "'" + ct.getNgayKT() + "'";
             qry = qry + ")";
             st = con.createStatement();
@@ -80,9 +79,9 @@ public class ChuongTrinhKhuyenMaiDAO {
         try {
             
         String qry = "Update ctkm Set ";
-        qry = qry + " " + "ngaybd=" + "'" + ct.getNgayBD() + "'";
-        qry = qry + ",ngaykt=" + "'" + ct.getNgayKT() + "'";
-        qry = qry + " " + " where mactkm='" + ct.getMaCTKM() + "'";
+        qry = qry + " " + "NGAYBD=" + "'" + ct.getNgayBD() + "'";
+        qry = qry + ",NGAYKT=" + "'" + ct.getNgayKT() + "'";
+        qry = qry + " " + " where MACTKM='" + ct.getMaCTKM() + "'";
             st = con.createStatement();
             st.executeUpdate(qry);            
         } catch (Exception e) {

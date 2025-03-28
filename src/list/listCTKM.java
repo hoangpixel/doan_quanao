@@ -3,20 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package list;
-import GUI_Input.inputCTKM;
+import GUI_Input.insertCTKM;
 import GUI_Input.deleteCTKM;
 import GUI_Input.updateCTKM;
+import BUS.ChuongTrinhKhuyenMaiBUS;
 import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
 import javax.swing.*;
 import java.util.Vector;
-import java.util.ArrayList;
-import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import borderRadius.roundedBorder;
+import java.lang.reflect.Array;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import java.util.ArrayList;
 /**
  *
  * @author mhoang
@@ -26,12 +27,8 @@ public class listCTKM extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    ArrayList<ChuongTrinhKhuyenMaiDTO> dsctkm = new ArrayList<ChuongTrinhKhuyenMaiDTO>();
     DefaultTableModel model = new DefaultTableModel();
-    TableRowSorter<DefaultTableModel> rowSorter;
-    Connection con;
-    Statement st;
-    ResultSet rs;
+
     
     public listCTKM() {
         initComponents();
@@ -39,56 +36,25 @@ public class listCTKM extends javax.swing.JPanel {
         docSQL();
     }
     
-    public int demMa()
-    {
-     int n=tbCTKM.getRowCount();
-     int d=1;
-     for(int i=0;i<n;i++)
-     {
-         d++;
-     }
-     return d;
-    }
-    
-    
     public void docSQL()
     {
-        try {
-            String user="root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url,user,pass);
-            String qry = "select * from ctkm";
-            st = con.createStatement();
-            rs = st.executeQuery(qry);
-            dsctkm.clear();
-            model.setRowCount(0);
-            while(rs.next())
-            {
-                ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO();
-                ct.maCTKM = rs.getInt(1);
-                ct.ngayBD = rs.getString(2);
-                ct.ngayKT = rs.getString(3);
-                dsctkm.add(ct);
-            }
-            for(ChuongTrinhKhuyenMaiDTO ct : dsctkm)
-            {
-                Vector row = new Vector();
-                row.add(ct.maCTKM);
-                row.add(ct.ngayBD);
-                row.add(ct.ngayKT);
-                model.addRow(row);
-            }
-            tbCTKM.setModel(model);
-            
-            
-        } catch (SQLException e) {
-            System.out.println("Error SQL: " + e.getMessage());
+        model.setRowCount(0);
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        if(ChuongTrinhKhuyenMaiBUS.ds == null)
+        {
+            bus.docDSCTKM();
         }
-        catch (ClassNotFoundException ex) {
-            System.out.println("Error Driver : " + ex.getMessage());
+        for(ChuongTrinhKhuyenMaiDTO ct : ChuongTrinhKhuyenMaiBUS.ds)
+        {
+            Vector row = new Vector();
+            row.add(ct.getMaCTKM());
+            row.add(ct.getNgayBD());
+            row.add(ct.getNgayKT());
+            model.addRow(row);
         }
+        tbCTKM.setModel(model);
     }
-
+    
     public void headerTable()
     {
         Vector header = new Vector();
@@ -96,8 +62,6 @@ public class listCTKM extends javax.swing.JPanel {
         header.add("Ngày bắt đầu");
         header.add("Ngày kết thúc");
         model = new DefaultTableModel(header,0);
-        rowSorter = new TableRowSorter<>(model);
-        tbCTKM.setRowSorter(rowSorter);
         tbCTKM.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -277,55 +241,31 @@ public class listCTKM extends javax.swing.JPanel {
     
     // Gọi thư mục inputCTKM.java để điền info
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
-        // TODO add your handling code here:
-        int d=demMa();
+
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        inputCTKM dialog = new inputCTKM(topFrame,true,d);
+        insertCTKM dialog = new insertCTKM(topFrame, true);
         dialog.setVisible(true);
-        
-        
-        // Sử lý btnNhap khi đã nhập thông tin
-        
-        if(dialog.xacNhanNhap())
+        if(dialog.xacNhanInsert())
         {
-            ChuongTrinhKhuyenMaiDTO ct = dialog.getKM();
-            try {
-                
-              String user = "root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-               Class.forName("com.mysql.cj.jdbc.Driver");
-               con = DriverManager.getConnection(url,user,pass);
-               String qry = "Insert into ctkm (mactkm,ngaybd,ngaykt) values (";
-               qry = qry +"'" + ct.getMaCTKM() + "'";
-               qry = qry + "," +"'" + ct.getNgayBD() + "'";
-               qry = qry + "," +"'" + ct.getNgayKT() + "'";
-               qry = qry + ")";
-               st = con.createStatement();
-               st.executeUpdate(qry);
-               
-               Vector row = new Vector();
-               row.add(ct.getMaCTKM());
-               row.add(ct.getNgayBD());
-               row.add(ct.getNgayKT());
-               model.addRow(row);
-                
-            } catch (SQLException e) {
-                System.out.println("Error SQL : " + e.getMessage());
-            }catch (ClassNotFoundException e)
+            ChuongTrinhKhuyenMaiDTO km = dialog.getCTKM();
+            ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+            bus.them(km);
+            bus.docDSCTKM();
+            model.setRowCount(0);
+            for(ChuongTrinhKhuyenMaiDTO ct : ChuongTrinhKhuyenMaiBUS.ds)
             {
-                System.out.println("Error Driver : " + e.getMessage());
+                Vector row = new Vector();
+                row.add(ct.getMaCTKM());
+                row.add(ct.getNgayBD());
+                row.add(ct.getNgayKT());
+                model.addRow(row);
             }
-            
-            
+            tbCTKM.setModel(model);
         }
-       
-        
-        
     }//GEN-LAST:event_btnThemMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-              
-        // Xử lý nếu như chấp nhận xóa
+        // TODO add your handling code here:      
         int i = tbCTKM.getSelectedRow();
         if(i<0)
         {
@@ -341,36 +281,13 @@ public class listCTKM extends javax.swing.JPanel {
         
         if(dialog.xacNhanXoa())
         {
-            // Này để lấy mã từ cột 0
-            String maXoa = tbCTKM.getValueAt(i, 0).toString();
-            
-            try {
-                String user = "root",pass="",url = "jdbc:mysql://localhost:3306/doanquanao";
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                st = con.createStatement();
-                String qry = "Delete from ctkm where mactkm='" + maXoa + "'";
-                int xn = st.executeUpdate(qry);
-                if(xn > 0)
-                {
-                    model.removeRow(i);
-                    JLabel lb = new JLabel("Xóa thành công!");
-                    lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                    JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }else
-                {
-                    JLabel lbLoi = new JLabel("Không tìm thấy mã để xóa!");
-                    lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                    JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (SQLException e) {
-                System.out.println("Error SQL : " + e.getMessage());
-            }catch (ClassNotFoundException e)           
-            {
-                System.out.println("Error Driver : " + e.getMessage());
-            }
-            
+            int ma = (int) tbCTKM.getValueAt(i, 0);
+            ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+            bus.xoa(ma);
+            model.removeRow(i);
+            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
         
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -380,76 +297,90 @@ public class listCTKM extends javax.swing.JPanel {
         int i = tbCTKM.getSelectedRow();
         if(i<0)
         {
-            JLabel lbThongBao = new JLabel("Vui lòng chọn mã cần cập nhật");
-            lbThongBao.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbThongBao,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;            
         }
-        int ma = (int) tbCTKM.getValueAt(i, 0);
-        String ngaybd = tbCTKM.getValueAt(i, 1).toString();
-        String ngaykt = tbCTKM.getValueAt(i, 2).toString();
         
-        ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO(ma,ngaybd,ngaykt);
+        int ma = (int) tbCTKM.getValueAt(i, 0);
+        String bd = tbCTKM.getValueAt(i, 1).toString();
+        String kt = tbCTKM.getValueAt(i, 2).toString();
+        
+        ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO(ma,bd,kt);
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        updateCTKM dialog = new updateCTKM(topFrame,true,ct);
+        updateCTKM dialog = new updateCTKM(topFrame, true, ct);
         dialog.setVisible(true);
         
         if(dialog.xacNhanUpdate())
         {
-            ChuongTrinhKhuyenMaiDTO update = dialog.getCTKM();
-            try {
-                String user = "root",pass = "",url = "jdbc:mysql://localhost:3306/doanquanao";
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                st = con.createStatement();
-                String qry = "Update ctkm Set ";
-                qry = qry + " " + "ngaybd=" + "'" + update.getNgayBD() + "'";
-                qry = qry + ",ngaykt=" + "'" + update.getNgayKT() + "'";
-                qry = qry + " " + " where mactkm='" + update.getMaCTKM() + "'";
-                int xn =  st.executeUpdate(qry);
-                
-                if(xn > 0)
-                {
-                    model.setValueAt(update.getNgayBD(),i,1);
-                    model.setValueAt(update.getNgayKT(), i, 2);
+            ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+            ChuongTrinhKhuyenMaiDTO km = dialog.getCTKM();
+            bus.sua(km);
+            
+            
+            model.setValueAt(km.getNgayBD(), i, 1);
+            model.setValueAt(km.getNgayKT(), i, 2);
                     JLabel lbThanhCong = new JLabel("Cập nhật thành công");
                     lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
                     JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-                }
-                
-                
-                
-            } catch (SQLException e) {
-                System.out.println("ERROR SQL : " + e.getMessage());
-            }catch (ClassNotFoundException ex) {
-                System.out.println("ERROR DRIVER : "+ ex.getMessage());
-                
-            }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbCTKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTKMMouseClicked
 
     }//GEN-LAST:event_tbCTKMMouseClicked
-
+    public void updateTB(ArrayList<ChuongTrinhKhuyenMaiDTO> dskq)
+    {
+        model.setRowCount(0);
+        for(ChuongTrinhKhuyenMaiDTO ct : dskq)
+        {
+            Vector row = new Vector();
+            row.add(ct.getMaCTKM());
+            row.add(ct.getNgayBD());
+            row.add(ct.getNgayKT());
+            model.addRow(row);
+        }
+        tbCTKM.setModel(model);
+    }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         String tim = txtSearch.getText().trim();
-        int i = cbTim.getSelectedIndex();
         if(tim.isEmpty())
         {
-            rowSorter.setRowFilter(null);
-        }else
-        {
-            // Này thì nó sẽ trả về những kết quả tương ứng 0 là mã 1 là ngày nhập 2 là ngày kết thúc
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + tim,i));
+            docSQL();
+            return;
         }
+        int i = cbTim.getSelectedIndex();
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        ArrayList<ChuongTrinhKhuyenMaiDTO> kq = bus.timKiemThuong(tim, i);
+        updateTB(kq);
+        
+        String mess ="";
+        if(kq.isEmpty())
+        {
+            mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+        if(i == 1 || i == 2)
+        {
             
+            String regex = "^\\d{2}/\\d{2}\\/d{4}$";
+            if(!tim.matches(regex))
+            {
+            mess = "Vui lòng nhập đúng định dạng (dd/MM/yyyy)";          
+            }
+        }
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
+        ChuongTrinhKhuyenMaiBUS.ds = null;
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 

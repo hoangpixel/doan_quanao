@@ -6,7 +6,9 @@ package GUI;
 import DTO.ChuongTrinhKhuyenMaiDTO;
 import BUS.ChuongTrinhKhuyenMaiBUS;
 import DAO.ChuongTrinhKhuyenMaiDAO;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -60,8 +62,18 @@ public class ctkmGUI extends javax.swing.JFrame {
         txtMactkm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnSua.setText("Cập nhật");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnDoc.setText("Đọc SQL");
         btnDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +141,11 @@ public class ctkmGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tbCTKM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbCTKMMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbCTKM);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -173,7 +190,35 @@ public class ctkmGUI extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        
+        ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO();
+        if(dateBD.getDate()==null || dateKT.getDate()==null)
+        {
+            JOptionPane.showMessageDialog(this, "Lỗi");
+            return;
+        }
+        if(dateBD.getDate().after(dateKT.getDate()))
+        {
+                        JOptionPane.showMessageDialog(this, "Lỗi");
+return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String start = sdf.format(dateBD.getDate());
+        String end = sdf.format(dateKT.getDate());
+        ct.setNgayBD(start);
+        ct.setNgayKT(end);
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        bus.them(ct);
+        bus.docDSCTKM();
+        model.setRowCount(0);
+        for(ChuongTrinhKhuyenMaiDTO c : ChuongTrinhKhuyenMaiBUS.ds)
+        {
+            Vector row = new Vector();
+            row.add(c.getMaCTKM());
+            row.add(c.getNgayBD());
+            row.add(c.getNgayKT());
+            model.addRow(row);
+        }
+        tbCTKM.setModel(model);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocActionPerformed
@@ -185,7 +230,7 @@ public class ctkmGUI extends javax.swing.JFrame {
         }
         Vector header = new Vector();
         header.add("Mã");
-        header.add("Ngày bắt đầ");
+        header.add("Ngày bắt đầu");
         header.add("Ngày kết thúc");
         model = new DefaultTableModel(header,0);
         for(ChuongTrinhKhuyenMaiDTO ct : ChuongTrinhKhuyenMaiBUS.ds)
@@ -198,6 +243,68 @@ public class ctkmGUI extends javax.swing.JFrame {
         }
         tbCTKM.setModel(model);
     }//GEN-LAST:event_btnDocActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int i = tbCTKM.getSelectedRow();
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        if( i >= 0)
+        {
+            int maXoa = (int) tbCTKM.getValueAt(i, 0);
+            bus.xoa(maXoa);
+            model.removeRow(i);
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        int i = tbCTKM.getSelectedRow();
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        ChuongTrinhKhuyenMaiDTO ct = new ChuongTrinhKhuyenMaiDTO();
+        if(i >= 0)
+        {
+            int ma = Integer.parseInt(txtMactkm.getText());
+        if(dateBD.getDate()==null || dateKT.getDate()==null)
+        {
+            JOptionPane.showMessageDialog(this, "Lỗi");
+            return;
+        }
+        if(dateBD.getDate().after(dateKT.getDate()))
+        {
+            JOptionPane.showMessageDialog(this, "Lỗi");
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String start = sdf.format(dateBD.getDate());
+        String end = sdf.format(dateKT.getDate());
+            ct.setNgayBD(start);
+            ct.setNgayKT(end);
+            
+            bus.sua(ct);
+            model.setValueAt(start, i, 1);
+            model.setValueAt(end, i, 2);
+
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+private void tbCTKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTKMMouseClicked
+    int i = tbCTKM.getSelectedRow();
+    if (i >= 0) {
+        ChuongTrinhKhuyenMaiDTO ct = ChuongTrinhKhuyenMaiBUS.ds.get(i);
+        
+        txtMactkm.setText(String.valueOf(ct.getMaCTKM()));
+        
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            dateBD.setDate(sdf.parse(ct.getNgayBD()));
+            dateKT.setDate(sdf.parse(ct.getNgayKT()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng ngày!");
+        }
+    }
+}//GEN-LAST:event_tbCTKMMouseClicked
+
 
     /**
      * @param args the command line arguments
@@ -250,4 +357,8 @@ public class ctkmGUI extends javax.swing.JFrame {
     private javax.swing.JTable tbCTKM;
     private javax.swing.JTextField txtMactkm;
     // End of variables declaration//GEN-END:variables
+
+    private ChuongTrinhKhuyenMaiDTO ChuongTrinhKhuyenMaiDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
