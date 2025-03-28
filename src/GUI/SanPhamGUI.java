@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package list;
+package GUI;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -13,12 +13,12 @@ import javax.swing.SwingUtilities;
  *
  * @author Vinh
  */
-public class listSanPham extends javax.swing.JPanel {
+public class SanPhamGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form listNCC
      */
-    public listSanPham() {
+    public SanPhamGUI() {
         initComponents();
         setSizeIcon();
     }
@@ -28,7 +28,7 @@ public class listSanPham extends javax.swing.JPanel {
             JFrame frame = new JFrame("Danh sách NCC");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 700); // Kích thước cửa sổ
-            frame.add(new listSanPham()); // Thêm JPanel vào JFrame
+            frame.add(new SanPhamGUI()); // Thêm JPanel vào JFrame
             frame.setVisible(true);
         });
     }
