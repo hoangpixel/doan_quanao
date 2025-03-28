@@ -7,13 +7,13 @@ public class SanPhamDTO {
     private int donGia;
     private String donViTinh;
     private String chatLieu;
-    private String maLoai;
+    private int maLoai;
     private String moTa;
 
     public SanPhamDTO() {
     }
 
-    public SanPhamDTO(int maSP, String tenSP, int donGia, String donViTinh, String chatLieu, String maLoai, String moTa) {
+    public SanPhamDTO(int maSP, String tenSP, int donGia, String donViTinh, String chatLieu, int maLoai, String moTa) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.donGia = donGia;
@@ -43,7 +43,7 @@ public class SanPhamDTO {
         return chatLieu;
     }
 
-    public String getMaLoai() {
+    public int getMaLoai() {
         return maLoai;
     }
 
@@ -71,7 +71,7 @@ public class SanPhamDTO {
         this.chatLieu = chatLieu;
     }
 
-    public void setMaLoai(String maLoai) {
+    public void setMaLoai(int maLoai) {
         this.maLoai = maLoai;
     }
 

@@ -1,0 +1,9 @@
+# Thư mục tạm sinh khi build
+build/
+dist/
+nbproject/private/
+*.class
+
+# File hệ thống không cần thiết
+.DS_Store
+Thumbs.db
