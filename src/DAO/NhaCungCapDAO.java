@@ -16,19 +16,29 @@ import javax.swing.JOptionPane;
  * @author Vinh
  */
 public class NhaCungCapDAO {
-    public void themNCC(NhaCungCapDTO ncc) {
+    
+    // Trả về mã nhà cung cấp mới được tạo tự động
+    public int themNCC(NhaCungCapDTO ncc) {
         String query = "insert into ncc (TENNCC, SDTNCC, DIACHI) values (?, ?, ?)";
         Connection conn = null;
+        int maNCC = -1;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
+            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             
             st.setString(1, ncc.getTenNCC());
             st.setString(2, ncc.getSdtNCC());
             st.setString(3, ncc.getDiaChi());
             
-            st.executeUpdate();
-            
+            int row = st.executeUpdate();
+            if(row > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if(rs.next()) {
+                    maNCC = rs.getInt(1);
+                }
+                rs.close();
+
+            }
             st.close();
         } catch (SQLException e) {
             Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -36,6 +46,7 @@ public class NhaCungCapDAO {
         } finally {
             DBConnect.closeConnection(conn);
         }
+        return maNCC;
     }
     
     public void suaNCC (NhaCungCapDTO ncc) {
@@ -74,9 +85,9 @@ public class NhaCungCapDAO {
             int row = st.executeUpdate();
             
             if (row > 0) {
-                JOptionPane.showMessageDialog(null, "Đã xóa sản phẩm thành công!");
+                JOptionPane.showMessageDialog(null, "Đã xóa nhà cung cấp thành công!");
             } else {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm để xóa.");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy nhà cung cấp để xóa.");
             }
         } catch (SQLException e) {
             Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -140,4 +151,6 @@ public class NhaCungCapDAO {
         }
         return dsncc;
     }
+    
+    
 }

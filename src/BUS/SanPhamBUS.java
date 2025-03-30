@@ -60,10 +60,6 @@ public class SanPhamBUS {
     public static ArrayList<SanPhamDTO> getDanhSachSanPham() {
         return dssp;
     }
-
-    public static void setDssp(ArrayList<SanPhamDTO> dssp) {
-        SanPhamBUS.dssp = dssp;
-    }
     
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoTen (String tenSP) {
         return new SanPhamDAO().laySanPhamTheoTen(tenSP);

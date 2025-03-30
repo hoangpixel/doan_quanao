@@ -4,16 +4,14 @@
  */
 package GUI;
 
-import BUS.SanPhamBUS;
-import DAO.SanPhamDAO;
-import DTO.SanPhamDTO;
-import GUI_Input.ChiTietSanPham;
-import GUI_Input.SuaSanPham;
-import GUI_Input.ThemSanPham;
+import BUS.NhaCungCapBUS;
+import DTO.NhaCungCapDTO;
+import GUI_Input.ChiTietNCC;
+import GUI_Input.SuaNCC;
+import GUI_Input.ThemNCC;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,51 +19,49 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
  * @author Vinh
  */
-public class SanPhamGUI extends javax.swing.JPanel {
-    private SanPhamBUS sanPhamBUS = new SanPhamBUS();
+public class NhaCungCapGUI extends javax.swing.JPanel {
+
     /**
-     * Creates new form listNCC
+     * Creates new form NhaCungCapGUI
      */
+    private NhaCungCapBUS nhaCungCapBUS = new NhaCungCapBUS();
     DefaultTableModel model = new DefaultTableModel();
-    
-    public SanPhamGUI() {
+    public NhaCungCapGUI() {
         initComponents();
-        setSizeIcon();
-
+        this.setSizeIcon();
+        
         // Gán model cho bảng
-        tbSanPham.setModel(model);
-
+        tbNCC.setModel(model);
+        
         // Đặt tên cột
-        String[] header = {"Mã SP", "Tên SP", "Đơn Giá", "Đơn Vị Tính", "Chất Liệu", "Mã Loại", "Mô Tả"};
+        String[] header = {"Mã NCC", "Tên NCC", "Số điện thoại", "Địa chỉ"};
         model.setColumnIdentifiers(header);
-
+        
         // Tạo renderer có padding và căn giữa
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setVerticalAlignment(JLabel.CENTER);
         
         // Gán renderer cho tất cả các cột
-        for (int i = 0; i < tbSanPham.getColumnCount(); i++) {
-            tbSanPham.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        for (int i = 0; i < tbNCC.getColumnCount(); i++) {
+            tbNCC.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
 
         // Cấu hình thêm cho bảng
-        tbSanPham.setRowHeight(30);
-        tbSanPham.setFocusable(false);
-        tbSanPham.setAutoCreateRowSorter(true);
-        tbSanPham.setDefaultEditor(Object.class, null);
-        tbSanPham.setShowVerticalLines(false);
+        tbNCC.setRowHeight(30);
+        tbNCC.setFocusable(false);
+        tbNCC.setAutoCreateRowSorter(true);
+        tbNCC.setDefaultEditor(Object.class, null);
+        tbNCC.setShowVerticalLines(false);
 
         // Load dữ liệu
         
-        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
-
+        this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
     }
 
     /**
@@ -89,10 +85,9 @@ public class SanPhamGUI extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbSanPham = new javax.swing.JTable();
+        tbNCC = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setLayout(new java.awt.BorderLayout(12, 0));
+        setLayout(new java.awt.BorderLayout());
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
@@ -154,7 +149,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sản phẩm", "Tên sản phẩm", "Giá thấp nhất", "Giá cao nhất", "Chất liệu" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã NCC", "Tên NCC", "SĐT NCC", "Địa chỉ" }));
         cbbSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSearchActionPerformed(evt);
@@ -191,7 +186,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,102 +222,98 @@ public class SanPhamGUI extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        tbSanPham.setModel(new javax.swing.table.DefaultTableModel(
+        tbNCC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã", "Tên", "Giá", "Đơn vị tính", "Chất liệu", "Mã loại", "Mô tả"
+                "Mã NCC", "Tên NCC", "Số điện thoại", "Địa chỉ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbSanPham.setShowGrid(true);
-        jScrollPane1.setViewportView(tbSanPham);
+        tbNCC.setShowGrid(true);
+        jScrollPane1.setViewportView(tbNCC);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
+        ThemNCC dialog = new ThemNCC(frame, true);
+        dialog.setVisible(true);
+        if(dialog.isXacNhanThem()) {
+            this.loadDataTable(NhaCungCapBUS.getDsncc());
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbbSearchActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tbSanPham.getSelectedRow();
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int row = tbNCC.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
         }
         else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            String tenSP = model.getValueAt(row, 1).toString();
+            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
+            SuaNCC dialog = new SuaNCC(frame, true, maNCC);
+            dialog.setVisible(true);
+            if(dialog.isXacNhanSua()) {
+                this.loadDataTable(NhaCungCapBUS.getDsncc());
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int row = tbNCC.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
+        }
+        else {
+            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
+            String tenNCC = model.getValueAt(row, 1).toString();
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa sản phẩm \"" + tenSP + "\""+ " có mã SP: \"" + maSP + "\" ?",
+                "Bạn có chắc muốn xóa nhà cung cấp \"" + tenNCC + "\""+ " có mã NCC: \"" + maNCC + "\" ?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Xóa sản phẩm
-                sanPhamBUS.xoaSanPham(maSP);
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
+                nhaCungCapBUS.xoaNCC(maNCC);
+                this.loadDataTable(NhaCungCapBUS.getDsncc());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
-            dialog.setVisible(true);
-            if(dialog.isXacNhanThem()) {
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-            }
-        }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-        ThemSanPham dialog = new ThemSanPham(frame, true);
-        dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
-            this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        int row = tbSanPham.getSelectedRow();
+        int row = tbNCC.getSelectedRow();
         if(row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
         }
         else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            ChiTietSanPham dialog = new ChiTietSanPham(frame, true, maSP);
+            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
+            ChiTietNCC dialog = new ChiTietNCC(frame, true, maNCC);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
+        this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbSearchActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
@@ -332,49 +323,44 @@ public class SanPhamGUI extends javax.swing.JPanel {
         if(!value.isEmpty()) {
             switch (key) {
                 case "Mã sản phẩm":
-                    try {
-                        ds.add(sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value)));
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
-                    break;
+                try {
+                    ds.add(sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value)));
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                    return;
+                }
+                break;
                 case "Tên sản phẩm":
-                    ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
-                    break;
+                ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
+                break;
                 case "Giá thấp nhất":
-                    try {
-                        ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
-                    break;
+                try {
+                    ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                    return;
+                }
+                break;
                 case "Giá cao nhất":
-                    try {
-                        ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
-                    break;
+                try {
+                    ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                    return;
+                }
+                break;
                 case "Chất liệu":
-                    ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
-                    break;
+                ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
+                break;
             }
         }
         this.loadDataTable(ds);
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void setSizeIcon() {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
-        Image img = originalIcon.getImage();
-        Image newImg = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH); // Đổi kích thước icon
-        btnDetail.setIcon(new ImageIcon(newImg)); // Đặt icon mới
-        
-        
-    }
-    
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -388,31 +374,31 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbSanPham;
+    private javax.swing.JTable tbNCC;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDataTable(ArrayList<SanPhamDTO> ds) {
+    private void loadDataTable(ArrayList<NhaCungCapDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
-            for(SanPhamDTO sp : ds) {
+            for(NhaCungCapDTO ncc : ds) {
                 Vector row = new Vector();
-                row.add(sp.getMaSP());
-                row.add(sp.getTenSP());
-                row.add(sp.getDonGia());
-                row.add(sp.getDonViTinh());
-                row.add(sp.getChatLieu());
-                row.add(sp.getMaLoai());
-                row.add(sp.getMoTa());
-
+                row.add(ncc.getMaNCC());
+                row.add(ncc.getTenNCC());
+                row.add(ncc.getSdtNCC());
+                row.add(ncc.getDiaChi());
                 model.addRow(row);
             }
+            tbNCC.setModel(model);
         }
-        tbSanPham.setModel(model);
+    }
+    
+    private void setSizeIcon() {
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
+        Image img = originalIcon.getImage();
+        Image newImg = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH); // Đổi kích thước icon
+        btnDetail.setIcon(new ImageIcon(newImg)); // Đặt icon mới
+        
+        
     }
 }
-
-
-
-
-

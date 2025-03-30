@@ -1,5 +1,6 @@
 package main;
 
+import GUI.NhaCungCapGUI;
 import GUI.SanPhamGUI;
 import GUI.ctkmspGUI;
 import GUI.ctkmGUI;
@@ -42,6 +43,11 @@ public class run extends JFrame {
         cardLayout.show(contentPanel, "SanPham");
         nav.highlightButton(nav.btnSanPham);
         });
+        
+        nav.btnNCC.addActionListener(e -> {
+        cardLayout.show(contentPanel, "NhaCungCap");
+        nav.highlightButton(nav.btnNCC);
+        });
 
 
         // Thêm các panel cần hiển thị
@@ -52,6 +58,9 @@ public class run extends JFrame {
         // panel sản phẩm
         SanPhamGUI sanPhamPanel = new SanPhamGUI();
         contentPanel.add(sanPhamPanel, "SanPham");
+        //panel ncc
+        NhaCungCapGUI nhaCungCapGUI = new NhaCungCapGUI();
+        contentPanel.add(nhaCungCapGUI, "NhaCungCap");
 
         add(contentPanel, BorderLayout.CENTER);
         
@@ -60,6 +69,7 @@ public class run extends JFrame {
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));
         nav.btnCTKMSP.addActionListener(e -> cardLayout.show(contentPanel, "CTKMSP"));
         nav.btnSanPham.addActionListener(e -> cardLayout.show(contentPanel, "SanPham"));
+        nav.btnNCC.addActionListener(e -> cardLayout.show(contentPanel, "NhaCungCap"));
     }
 
     public static void main(String[] args) {

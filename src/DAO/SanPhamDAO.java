@@ -178,40 +178,6 @@ public class SanPhamDAO {
         return dssp;
     }
     
-    public boolean kiemTraTonTai(int maSP) {
-        String query = "select * from sanpham where MASP = ?";
-        Connection conn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        try {
-            conn = DBConnect.getConnection();
-            st = conn.prepareStatement(query);
-            st.setInt(1, maSP);
-            rs = st.executeQuery();
-            
-            if(rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
-
-        }
-        finally {
-            try {
-                st.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            try {
-                rs.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            DBConnect.closeConnection(conn);
-        }
-        return false;
-    }
-    
     // Hàm tìm kiếm các sản phẩm theo tên (gần đúng)
     public ArrayList<SanPhamDTO> laySanPhamTheoTen(String tenSP) {
         ArrayList<SanPhamDTO> dssp = new ArrayList<>();
