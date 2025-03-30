@@ -58,6 +58,18 @@ public class NhaCungCapBUS {
     public static ArrayList<NhaCungCapDTO> getDsncc() {
         return dsncc;
     }
+    
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoTen(String tenNCC) {
+        return new NhaCungCapDAO().timKiemNCCTheoTen(tenNCC);
+    }
+    
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoSDT (String sdt) {
+        return new NhaCungCapDAO().timKiemNCCTheoSDT(sdt);
+    }
+    
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoDiaChi (String diaChi) {
+        return new NhaCungCapDAO().timKiemNCCTheoDiaChi(diaChi);
+    }
 
     
     

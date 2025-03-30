@@ -150,11 +150,6 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         });
 
         cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã NCC", "Tên NCC", "SĐT NCC", "Địa chỉ" }));
-        cbbSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSearchActionPerformed(evt);
-            }
-        });
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -311,47 +306,34 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbbSearchActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
         if(!value.isEmpty()) {
             switch (key) {
-                case "Mã sản phẩm":
-                try {
-                    ds.add(sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value)));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Tên sản phẩm":
-                ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
-                break;
-                case "Giá thấp nhất":
-                try {
-                    ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Giá cao nhất":
-                try {
-                    ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Chất liệu":
-                ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
-                break;
+                case "Mã NCC":
+                    try {
+                        NhaCungCapDTO ncc = nhaCungCapBUS.layNCCTheoMa(Integer.parseInt(value));
+                        if (ncc != null) {
+                            ds.add(ncc);
+                        }
+                        
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                        return;
+                    }
+                    break;
+                case "Tên NCC":
+                    ds = nhaCungCapBUS.timKiemNCCTheoTen(value);
+                    break;
+                case "SĐT NCC":
+                    ds = nhaCungCapBUS.timKiemNCCTheoSDT(value);
+                    break;
+                case "Địa chỉ":
+                    ds = nhaCungCapBUS.timKiemNCCTheoDiaChi(value);
+                    break;
             }
         }
         this.loadDataTable(ds);

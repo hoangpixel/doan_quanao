@@ -6,6 +6,7 @@ package GUI_Input;
 
 import BUS.NhaCungCapBUS;
 import DTO.NhaCungCapDTO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +23,7 @@ public class SuaNCC extends javax.swing.JDialog {
         super(parent, modal);
         this.maNCC = maNCC;
         initComponents();
+        loadNCC(maNCC);
     }
 
     /**
@@ -149,6 +151,14 @@ public class SuaNCC extends javax.swing.JDialog {
         NhaCungCapDTO nhaCungCapDTO = new NhaCungCapDTO();
         nhaCungCapDTO.setMaNCC(maNCC);
         nhaCungCapDTO.setTenNCC(txtTenNCC.getText());
+        try {
+            int sdt = Integer.parseInt(txtSDT.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại hợp lệ!");
+            txtSDT.requestFocus();
+            txtSDT.selectAll();
+            return;
+        }
         nhaCungCapDTO.setSdtNCC(txtSDT.getText());
         nhaCungCapDTO.setDiaChi(txtDiaChi.getText());
         
@@ -167,6 +177,13 @@ public class SuaNCC extends javax.swing.JDialog {
 
     public boolean isXacNhanSua() {
         return xacNhanSua;
+    }
+    
+    public void loadNCC(int maNCC) {
+        NhaCungCapDTO nhaCungCapDTO = new NhaCungCapBUS().layNCCTheoMa(maNCC);
+        txtTenNCC.setText(nhaCungCapDTO.getTenNCC());
+        txtSDT.setText(nhaCungCapDTO.getSdtNCC());
+        txtDiaChi.setText(nhaCungCapDTO.getDiaChi());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

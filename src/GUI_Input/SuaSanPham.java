@@ -6,6 +6,7 @@ package GUI_Input;
 
 import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,7 +14,7 @@ import DTO.SanPhamDTO;
  */
 public class SuaSanPham extends javax.swing.JDialog {
     private int maSP;
-    private boolean xacNhanThem = false;
+    private boolean xacNhanSua = false;
     /**
      * Creates new form SuaSanPhama
      */
@@ -49,10 +50,15 @@ public class SuaSanPham extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         scrollMoTa = new javax.swing.JScrollPane();
         txtMoTa = new javax.swing.JTextArea();
-        btnXacNhanThem = new javax.swing.JButton();
+        btnXacNhan = new javax.swing.JButton();
         btnHuyBo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -78,19 +84,7 @@ public class SuaSanPham extends javax.swing.JDialog {
 
         jLabel2.setText("Tên sản phẩm");
 
-        txtTenSanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTenSanPhamActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Đơn giá");
-
-        txtDonGia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDonGiaActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Đơn vị tính");
 
@@ -110,11 +104,11 @@ public class SuaSanPham extends javax.swing.JDialog {
         txtMoTa.setWrapStyleWord(true);
         scrollMoTa.setViewportView(txtMoTa);
 
-        btnXacNhanThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXacNhanThem.setText("Xác nhận");
-        btnXacNhanThem.addActionListener(new java.awt.event.ActionListener() {
+        btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXacNhan.setText("Xác nhận");
+        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXacNhanThemActionPerformed(evt);
+                btnXacNhanActionPerformed(evt);
             }
         });
 
@@ -151,7 +145,7 @@ public class SuaSanPham extends javax.swing.JDialog {
                             .addComponent(txtDonGia)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(107, 107, 107)
-                        .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(87, 87, 87)
                         .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(81, Short.MAX_VALUE))
@@ -186,7 +180,7 @@ public class SuaSanPham extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
 
@@ -195,20 +189,30 @@ public class SuaSanPham extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTenSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenSanPhamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenSanPhamActionPerformed
-
-    private void txtDonGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDonGiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDonGiaActionPerformed
-
-    private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
-
-    }//GEN-LAST:event_btnXacNhanThemActionPerformed
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        SanPhamDTO sanPhamDTO = new SanPhamDTO();
+        sanPhamDTO.setMaSP(maSP);
+        sanPhamDTO.setTenSP(txtTenSanPham.getText());
+        try {
+            sanPhamDTO.setDonGia(Integer.parseInt(txtDonGia.getText()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá hợp lệ! (là số)");
+            txtDonGia.requestFocus();
+            txtDonGia.selectAll();
+            return;
+        }
+        
+        sanPhamDTO.setDonViTinh(cbbDonViTinh.getSelectedItem().toString());
+        sanPhamDTO.setChatLieu(txtChatLieu.getText());
+        sanPhamDTO.setMaLoai(1);
+        sanPhamDTO.setMoTa(txtMoTa.getText());
+        new SanPhamBUS().suaSanPham(sanPhamDTO);
+        xacNhanSua = true;
+        dispose();
+    }//GEN-LAST:event_btnXacNhanActionPerformed
 
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
-
+        dispose();
     }//GEN-LAST:event_btnHuyBoActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -218,7 +222,7 @@ public class SuaSanPham extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuyBo;
-    private javax.swing.JButton btnXacNhanThem;
+    private javax.swing.JButton btnXacNhan;
     private javax.swing.JComboBox<String> cbbDonViTinh;
     private javax.swing.JComboBox<String> cbbLoaiSanPham;
     private javax.swing.JLabel jLabel2;
@@ -249,8 +253,8 @@ public class SuaSanPham extends javax.swing.JDialog {
         
     }
 
-    public boolean isXacNhanThem() {
-        return xacNhanThem;
+    public boolean isXacNhanSua() {
+        return xacNhanSua;
     }
     
 }

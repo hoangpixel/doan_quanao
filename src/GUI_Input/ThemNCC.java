@@ -6,6 +6,7 @@ package GUI_Input;
 
 import BUS.NhaCungCapBUS;
 import DTO.NhaCungCapDTO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -147,7 +148,16 @@ public class ThemNCC extends javax.swing.JDialog {
 
     private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
         NhaCungCapDTO ncc = new NhaCungCapDTO();
+        
         ncc.setTenNCC(txtTenNCC.getText());
+        try {
+            int sdt = Integer.parseInt(txtSDT.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại hợp lệ!");
+            txtSDT.requestFocus();
+            txtSDT.selectAll();
+            return;
+        }
         ncc.setSdtNCC(txtSDT.getText());
         ncc.setDiaChi(txtDiaChi.getText());
         new NhaCungCapBUS().themNCC(ncc);

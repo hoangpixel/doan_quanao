@@ -6,6 +6,7 @@ package GUI_Input;
 
 import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -190,7 +191,15 @@ public class ThemSanPham extends javax.swing.JDialog {
     private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
         SanPhamDTO sanPhamDTO = new SanPhamDTO();
         sanPhamDTO.setTenSP(txtTenSanPham.getText());
-        sanPhamDTO.setDonGia(Integer.parseInt(txtDonGia.getText()));
+        try {
+            sanPhamDTO.setDonGia(Integer.parseInt(txtDonGia.getText()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá hợp lệ! (là số)");
+            txtDonGia.requestFocus();
+            txtDonGia.selectAll();
+            return;
+        }
+        
         sanPhamDTO.setDonViTinh(cbbDonViTinh.getSelectedItem().toString());
         sanPhamDTO.setChatLieu(txtChatLieu.getText());
         // xử lý sau =)))

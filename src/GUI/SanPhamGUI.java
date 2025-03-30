@@ -290,7 +290,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
             SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
             dialog.setVisible(true);
-            if(dialog.isXacNhanThem()) {
+            if(dialog.isXacNhanSua()) {
                 this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
             }
         }
@@ -333,7 +333,11 @@ public class SanPhamGUI extends javax.swing.JPanel {
             switch (key) {
                 case "Mã sản phẩm":
                     try {
-                        ds.add(sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value)));
+                        SanPhamDTO sp = sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value));
+                        if(sp != null) {
+                            ds.add(sp);
+                        } else {
+                        }
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
                         return;

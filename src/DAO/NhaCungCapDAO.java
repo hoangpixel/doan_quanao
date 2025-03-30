@@ -98,7 +98,7 @@ public class NhaCungCapDAO {
     }
     
     public NhaCungCapDTO layNCCTheoMaNCC (int maNCC) {
-        NhaCungCapDTO ncc = new NhaCungCapDTO();
+        NhaCungCapDTO ncc = null;
         String query = "select * from ncc where MANCC = ?";
         Connection conn = null;
         try {
@@ -108,6 +108,7 @@ public class NhaCungCapDAO {
             
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
+                ncc = new NhaCungCapDTO();
                 ncc.setMaNCC(rs.getInt("MANCC"));
                 ncc.setTenNCC(rs.getString("TENNCC"));
                 ncc.setSdtNCC(rs.getString("SDTNCC"));
@@ -150,6 +151,88 @@ public class NhaCungCapDAO {
             DBConnect.closeConnection(conn);
         }
         return dsncc;
+    }
+    
+    // Tìm kiếm nhà cung cấp theo tên gần đúng trả về danh sách ncc
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoTen(String tenNCC) {
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        String query = "select * from ncc where lower(TENNCC) like lower(?)";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + tenNCC + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhaCungCapDTO nhaCungCapDTO = new NhaCungCapDTO();
+                nhaCungCapDTO.setMaNCC(Integer.parseInt(rs.getString(1)));
+                nhaCungCapDTO.setTenNCC(rs.getString(2));
+                nhaCungCapDTO.setSdtNCC(rs.getString(3));
+                nhaCungCapDTO.setDiaChi(rs.getString(4));
+                
+                ds.add(nhaCungCapDTO);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        
+        return ds;
+    }
+    
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoSDT (String sdt) {
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        String query = "select * from ncc where SDTNCC like ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + sdt + "%");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                NhaCungCapDTO nhaCungCapDTO = new NhaCungCapDTO();
+                nhaCungCapDTO.setMaNCC(Integer.parseInt(rs.getString(1)));
+                nhaCungCapDTO.setTenNCC(rs.getString(2));
+                nhaCungCapDTO.setSdtNCC(rs.getString(3));
+                nhaCungCapDTO.setDiaChi(rs.getString(4));
+                ds.add(nhaCungCapDTO);
+            }
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        
+        return ds;
+    }
+    
+    public ArrayList<NhaCungCapDTO> timKiemNCCTheoDiaChi (String diaChi) {
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        String query = "select * from ncc where lower(DIACHI) like lower(?)";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + diaChi + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhaCungCapDTO nhaCungCapDTO = new NhaCungCapDTO();
+                nhaCungCapDTO.setMaNCC(Integer.parseInt(rs.getString(1)));
+                nhaCungCapDTO.setTenNCC(rs.getString(2));
+                nhaCungCapDTO.setSdtNCC(rs.getString(3));
+                nhaCungCapDTO.setDiaChi(rs.getString(4));
+                
+                ds.add(nhaCungCapDTO);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        
+        return ds;
     }
     
     
