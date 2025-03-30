@@ -37,10 +37,10 @@ public class ChuongTrinhKhuyenMaiSanPhamDAO {
         while(rs.next())
         {
             ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO();
-            ct.setMactkm(rs.getInt(1));
-            ct.setMactkmsp(rs.getInt(2));
-            ct.setMasp(rs.getInt(3));
-            ct.setPtgg(rs.getInt(4));
+            ct.setMactkm(rs.getInt("MACTKM"));
+            ct.setMactkmsp(rs.getInt("MACTKMSP"));
+            ct.setMasp(rs.getInt("MASP"));
+            ct.setPtgg(rs.getInt("PTGG"));
             ds.add(ct);
         }
         } catch (Exception e) {
@@ -72,19 +72,19 @@ public class ChuongTrinhKhuyenMaiSanPhamDAO {
         }
     }
     
-    public void capnhat(ChuongTrinhKhuyenMaiSanPhamDTO ct)
-    {
-        try {
-            
-            String qry = "Update ctkmsp Set ";
-            qry = qry + " " + "MACTKM='" + ct.getMactkm() + "'";
-            qry = qry + "," + "MASP='" + ct.getMasp() + "'";
-            qry = qry + "," + "PTGG='" + ct.getPtgg() + "'";
-            qry = qry + " " + " Where MACTKMSP='" + ct.getMactkmsp() + "'";
-            st = con.createStatement();
-            st.executeUpdate(qry);
-            
-        } catch (Exception e) {
-        }
+public void capnhat(ChuongTrinhKhuyenMaiSanPhamDTO ct)
+{
+    try {
+        String qry = "UPDATE ctkmsp SET " +
+                     "MACTKM = " + ct.getMactkm() + ", " +
+                     "MASP = " + ct.getMasp() + ", " +
+                     "PTGG = " + ct.getPtgg() + 
+                     " WHERE MACTKMSP = " + ct.getMactkmsp();
+        
+        st = con.createStatement();
+        st.executeUpdate(qry);
+    } catch (Exception e) {
     }
+}
+
 }

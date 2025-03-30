@@ -65,10 +65,9 @@ public class ctkmspGUI extends javax.swing.JPanel {
     {
         model.setRowCount(0);
         ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
-        if(ChuongTrinhKhuyenMaiSanPhamBUS.ds == null)
-        {
+
             bus.docDSCTKMSP();
-        }
+        
         for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ChuongTrinhKhuyenMaiSanPhamBUS.ds)
         {
             Vector row = new Vector();

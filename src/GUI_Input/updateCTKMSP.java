@@ -239,6 +239,7 @@ public class updateCTKMSP extends javax.swing.JDialog {
         boolean dk=false;
         ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
         bus.docDSCTKM();
+        int ma = Integer.parseInt(txtCTKMSP.getText());
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
         int ptgg = Integer.parseInt(txtPTGG.getText());
@@ -267,7 +268,7 @@ public class updateCTKMSP extends javax.swing.JDialog {
             JLabel lbThanhCong = new JLabel("Cập nhật thành công");
             lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-        km = new ChuongTrinhKhuyenMaiSanPhamDTO(0,mactkm,masp,ptgg);
+        km = new ChuongTrinhKhuyenMaiSanPhamDTO(ma,mactkm,masp,ptgg);
         xacNhan=true;
         dispose();
         }
