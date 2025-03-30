@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.sql.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import BUS.ChuongTrinhKhuyenMaiBUS;
+import DTO.ChuongTrinhKhuyenMaiDTO;
 /**
  *
  * @author mhoang
@@ -17,25 +19,19 @@ public class updateCTKMSP extends javax.swing.JDialog {
     /**
      * Creates new form updateCTKM
      */
-    Connection con;
-    Statement st;
-    ResultSet rs1,rs2;
+    ChuongTrinhKhuyenMaiSanPhamDTO km;
     public boolean xacNhan = false;
-    public ChuongTrinhKhuyenMaiSanPhamDTO km;
-    public updateCTKMSP(java.awt.Frame parent , boolean model, ChuongTrinhKhuyenMaiSanPhamDTO data) {
+    
+
+    public updateCTKMSP(java.awt.Frame parent,boolean model,ChuongTrinhKhuyenMaiSanPhamDTO data) {
         super(parent,model);
         initComponents();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(this);
         
-        int mactkmsp = data.getMactkmsp();
-        int mactkm = data.getMactkm();
-        int masp = data.getMasp();
-        int ptgg = data.getPtgg();
-        txtCTKMSP.setText(String.valueOf(mactkmsp));
-        txtCTKM.setText(String.valueOf(mactkm));
-        txtMASP.setText(String.valueOf(masp));
-        txtPTGG.setText(String.valueOf(ptgg));
-       
+        txtCTKMSP.setText(String.valueOf(data.getMactkmsp()));
+        txtCTKM.setText(String.valueOf(data.getMactkm()));
+        txtMASP.setText(String.valueOf(data.getMasp()));
+        txtPTGG.setText(String.valueOf(data.getPtgg()));
         
     }
 
@@ -226,67 +222,54 @@ public class updateCTKMSP extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        xacNhan=false;
+        xacNhan = false;
         dispose();
-        
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-        if(txtMASP.getText().isEmpty() || txtCTKM.getText().isEmpty() || txtPTGG.getText().isEmpty())
+        if(txtCTKM.getText().isEmpty() || txtMASP.getText().isEmpty() || txtPTGG.getText().isEmpty())
         {
             JLabel lbTBnull = new JLabel("Không được để trống!");
             lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;
+            return;            
         }
-        try {
-                    int mactkmsp = Integer.parseInt(txtCTKMSP.getText());
+
+        boolean dk=false;
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        bus.docDSCTKM();
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
         int ptgg = Integer.parseInt(txtPTGG.getText());
-            String user="root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url,user,pass);
-            
-            // Kiểm tra mã ctkm có trong database hay không
-            String qry1 = "select count(*) from ctkm where mactkm = ?";
-            PreparedStatement ps1 = con.prepareStatement(qry1);
-            ps1.setInt(1, mactkm);
-            rs1 = ps1.executeQuery();
-            rs1.next();
-            int d1 = rs1.getInt(1);
-            if(d1 == 0)
+        for(ChuongTrinhKhuyenMaiDTO ctkm : ChuongTrinhKhuyenMaiBUS.ds)
+        {
+            if(mactkm == ctkm.getMaCTKM())
             {
-                JLabel lbLoi = new JLabel("Không tồn tại mã CTKM " + mactkm + " trong hệ thống");
-                lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);  
-                return;
-            } 
-            // Này thì kiểm tra tương tự với masp
-            String qry2 = "select count(*) from sanpham where masp = ?";
-            PreparedStatement ps2 = con.prepareStatement(qry2);
-            ps2.setInt(1, masp);
-            rs2 = ps2.executeQuery();
-            rs2.next();
-            int d2 = rs2.getInt(1);
-            if(d2==0)
-            {
-                JLabel lbLoi = new JLabel("Không tồn tại mã sản phẩm " + masp + " trong hệ thống");
-                lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);  
-                return;
+                dk=true;
+                break;
             }
-                    JLabel xnCapNhat = new JLabel("Bạn có chắc chắn không?");
+        }
+        
+        if(!dk)
+        {
+            JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không có trong hệ thống!");
+            lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;                 
+        }
+        
+        JLabel xnCapNhat = new JLabel("Bạn có chắc chắn không?");
         xnCapNhat.setFont(new Font("Segoe UI",Font.BOLD,16));
         int rs = JOptionPane.showConfirmDialog(this, xnCapNhat,"Xác nhận cập nhật",JOptionPane.YES_NO_OPTION);
         if(rs == JOptionPane.YES_OPTION)
         {
-        km = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
+            JLabel lbThanhCong = new JLabel("Cập nhật thành công");
+            lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        km = new ChuongTrinhKhuyenMaiSanPhamDTO(0,mactkm,masp,ptgg);
         xacNhan=true;
         dispose();
-        }
-        } catch (Exception e) {
         }
 
     }//GEN-LAST:event_btnCapNhatActionPerformed
@@ -297,7 +280,7 @@ public class updateCTKMSP extends javax.swing.JDialog {
         return xacNhan;
     }
     
-    public ChuongTrinhKhuyenMaiSanPhamDTO getCTKM()
+    public ChuongTrinhKhuyenMaiSanPhamDTO getCTKMSP()
     {
         return km;
     }

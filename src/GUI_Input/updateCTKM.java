@@ -244,6 +244,9 @@ public class updateCTKM extends javax.swing.JDialog {
         int rs = JOptionPane.showConfirmDialog(this, xnCapNhat,"Xác nhận cập nhật",JOptionPane.YES_NO_OPTION);
         if(rs == JOptionPane.YES_OPTION)
         {
+            JLabel lbThanhCong = new JLabel("Cập nhật thành công");
+            lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
         km = new ChuongTrinhKhuyenMaiDTO(ma,ngayBD,ngayKT);
         xacNhan=true;
         dispose();

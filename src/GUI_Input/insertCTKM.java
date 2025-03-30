@@ -5,10 +5,7 @@
 package GUI_Input;
 import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 /**

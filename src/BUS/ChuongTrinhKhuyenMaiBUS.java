@@ -43,14 +43,6 @@ public class ChuongTrinhKhuyenMaiBUS {
         }
         
         ArrayList<ChuongTrinhKhuyenMaiDTO> kq = new ArrayList<>();
-        if(index == 1 || index == 2)
-        {
-            String regex = "^\\d{2}/\\d{2}\\d{4}$";
-            if(!tim.matches(regex))
-            {
-                return kq;
-            }
-        }
         for(ChuongTrinhKhuyenMaiDTO ct : ds)
         {
 

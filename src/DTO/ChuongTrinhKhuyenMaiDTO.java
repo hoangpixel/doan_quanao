@@ -11,7 +11,7 @@ package DTO;
 public class ChuongTrinhKhuyenMaiDTO {
     public String ngayBD,ngayKT;
     public int maCTKM;
-    public ChuongTrinhKhuyenMaiDTO(){
+    public ChuongTrinhKhuyenMaiDTO(){                           
 }
     public ChuongTrinhKhuyenMaiDTO(int maCTKM,String ngayBD,String ngayKT)
     {

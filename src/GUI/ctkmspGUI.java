@@ -14,7 +14,8 @@ import borderRadius.roundedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
-import GUI_Input.inputCTKMSP;
+import BUS.ChuongTrinhKhuyenMaiSanPhamBUS;
+import GUI_Input.insertCTKMSP;
 import GUI_Input.deleteCTKMSP;
 import GUI_Input.updateCTKMSP;
 /**
@@ -26,11 +27,8 @@ public class ctkmspGUI extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> dsctmksp = new ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO>();
     DefaultTableModel model = new DefaultTableModel();
-    Connection con;
-    Statement st;
-    ResultSet rs;
+
     
 //  
     public ctkmspGUI() {
@@ -38,27 +36,19 @@ public class ctkmspGUI extends javax.swing.JPanel {
         headerTable();
         docSQL();
     }
-    public int demMa()
-    {
-        int n = tbCTKMSP.getRowCount();
-        int d=1;
-        for(int i=0;i<n;i++)
-        {
-            d++;
-        }
-        return d;
-    }
+
+
     public void headerTable()
     {
         Vector header = new Vector();
-        header.add("Mã chi tiết khuyến mãi sản phẩm");
-        header.add("Mã chi tiết khuyến mãi");
+        header.add("Mã chương trình khuyến mãi sản phẩm");
+        header.add("Mã chương trình khuyến mãi");
         header.add("Mã sản phẩm");
         header.add("Phần trăm giảm giá");
         model = new DefaultTableModel(header,0);
+        tbCTKMSP.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tbCTKMSP.setModel(model);
 
         // Căn nội dung ra chính giữa
         for (int i = 0; i < tbCTKMSP.getColumnCount(); i++) {
@@ -71,48 +61,25 @@ public class ctkmspGUI extends javax.swing.JPanel {
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
     }
-    
-
     public void docSQL()
     {
-        try {
-            String user="root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url,user,pass);
-            String qry = "select * from ctkmsp";
-            st = con.createStatement();
-            rs = st.executeQuery(qry);
-            dsctmksp.clear();
-            model.setRowCount(0);
-            while(rs.next())
-            {
-                ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO();
-                ct.mactkm = rs.getInt(1);
-                ct.mactkmsp = rs.getInt(2);
-                ct.masp = rs.getInt(3);
-                ct.ptgg = rs.getInt(4);
-                dsctmksp.add(ct);
-            }
-            for(ChuongTrinhKhuyenMaiSanPhamDTO ct : dsctmksp)
-            {
-                Vector row = new Vector();
-                row.add(ct.mactkmsp);
-                row.add(ct.mactkm);
-                row.add(ct.masp);
-                row.add(ct.ptgg);
-                model.addRow(row);
-            }
-            tbCTKMSP.setModel(model);
-            
-            
-        } catch (SQLException e) {
-            System.out.println("Error SQL: " + e.getMessage());
+        model.setRowCount(0);
+        ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+        if(ChuongTrinhKhuyenMaiSanPhamBUS.ds == null)
+        {
+            bus.docDSCTKMSP();
         }
-        catch (ClassNotFoundException ex) {
-            System.out.println("Error Driver : " + ex.getMessage());
+        for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ChuongTrinhKhuyenMaiSanPhamBUS.ds)
+        {
+            Vector row = new Vector();
+            row.add(ct.getMactkmsp());
+            row.add(ct.getMactkm());
+            row.add(ct.getMasp());
+            row.add(ct.getPtgg());
+            model.addRow(row);
         }
+        tbCTKMSP.setModel(model);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -274,40 +241,32 @@ public class ctkmspGUI extends javax.swing.JPanel {
     
     
     
-    
     // Gọi thư mục inputCTKM.java để điền info
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
-            int d = demMa();
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            inputCTKMSP dialog = new inputCTKMSP(topFrame,true,d);
-            dialog.setVisible(true);
-            
-            
-            if(dialog.xacNhanNhap())
-            {
-                ChuongTrinhKhuyenMaiSanPhamDTO ct = dialog.getCTKMSP();
-                try {
-                    String user = "root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    con = DriverManager.getConnection(url,user,pass);
-                    String qry = "Insert into ctkmsp (mactkm,mactkmsp,masp,ptgg) values (";
-                    qry = qry + "'" + ct.getMactkm() + "'";
-                    qry = qry + "," + "'" + ct.getMactkmsp() + "'";
-                    qry = qry + "," + "'" + ct.getMasp() + "'";
-                    qry = qry + "," + "'" + ct.getPtgg() + "'";
-                    qry = qry + ")";
-                    st = con.createStatement();
-                    st.executeUpdate(qry);
-                    
-                    Vector row = new Vector();
-                    row.add(ct.getMactkmsp());
-                    row.add(ct.getMactkm());
-                    row.add(ct.getMasp());
-                    row.add(ct.getPtgg());
-                    model.addRow(row);
-                } catch (Exception e) {
-                }
-            }
+
+         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         insertCTKMSP dialog = new insertCTKMSP(topFrame, true);
+         dialog.setVisible(true);
+         
+         if(dialog.xacNhanNhap())
+         {
+             ChuongTrinhKhuyenMaiSanPhamDTO km = dialog.getCTKMSP();
+             ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+             bus.them(km);
+             bus.docDSCTKMSP();
+             model.setRowCount(0);
+             for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ChuongTrinhKhuyenMaiSanPhamBUS.ds)
+             {
+                 Vector row = new Vector();
+                 row.add(ct.getMactkmsp());
+                 row.add(ct.getMactkm());
+                 row.add(ct.getMasp());
+                 row.add(ct.getPtgg());
+                 model.addRow(row);
+             }
+             tbCTKMSP.setModel(model);
+         }
+        
     }//GEN-LAST:event_btnThemMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -318,87 +277,54 @@ public class ctkmspGUI extends javax.swing.JPanel {
            lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
            JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
            return;
-        }
+        }        
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        deleteCTKMSP dialog = new deleteCTKMSP(topFrame,true);
+        deleteCTKMSP dialog = new deleteCTKMSP(topFrame, true);
         dialog.setVisible(true);
+        
         if(dialog.xacNhanXoa())
         {
-            String maXoa = tbCTKMSP.getValueAt(i, 0).toString();
-            try {
-                    String user = "root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    con = DriverManager.getConnection(url,user,pass);
-                    st = con.createStatement();
-                    String qry = "Delete from ctkmsp where mactkmsp = '" + maXoa + "'";
-                    int xn = st.executeUpdate(qry);
-                   
-                if(xn > 0)
-                {
-                    model.removeRow(i);
-                    JLabel lb = new JLabel("Xóa thành công!");
-                    lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                    JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }else
-                {
-                    JLabel lbLoi = new JLabel("Không tìm thấy mã để xóa!");
-                    lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                    JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);
-                }
-                
-            } catch (Exception e) {
-            }
+            int maXoa = (int) tbCTKMSP.getValueAt(i, 0);
+            ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+            bus.xoa(maXoa);
+            model.removeRow(i);
+            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);            
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
         int i = tbCTKMSP.getSelectedRow();
         if(i<0)
         {
-            JLabel lbThongBao = new JLabel("Vui lòng chọn mã cần cập nhật");
-            lbThongBao.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbThongBao,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);        
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;
+        }   
+        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
         int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
         int masp = (int) tbCTKMSP.getValueAt(i, 2);
         int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
-        ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
+        ChuongTrinhKhuyenMaiSanPhamDTO ct = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp,mactkm,masp,ptgg);
+        
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        updateCTKMSP dialog = new updateCTKMSP(topFrame,true,ct);
+        updateCTKMSP dialog = new updateCTKMSP(topFrame, true, ct);
         dialog.setVisible(true);
         
         if(dialog.xacNhanUpdate())
         {
-            ChuongTrinhKhuyenMaiSanPhamDTO update = dialog.getCTKM();
-            try {
-                String user = "root",pass = "",url = "jdbc:mysql://localhost:3306/doanquanao";
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                st = con.createStatement();
-                String qry = "Update ctkmsp Set ";
-                qry = qry + " " + "mactkm=" + "'" + update.getMactkm() + "'";
-                qry = qry + ",masp=" + "'" + update.getMasp() + "'";
-                qry = qry + ",ptgg=" + "'" + update.getPtgg() + "'";
-                qry = qry + " " + " where mactkmsp='" + update.getMactkmsp() + "'";
-                int xn =  st.executeUpdate(qry);
-                
-                if(xn > 0)
-                {
-                    model.setValueAt(update.getMactkm(),i,1);
-                    model.setValueAt(update.getMasp(), i, 2);
-                    model.setValueAt(update.getPtgg(), i, 3);
-                    JLabel lbThanhCong = new JLabel("Cập nhật thành công");
-                    lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
-                    JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-                }
-                
-                
-                               
-            } catch (Exception e) {
-            }
+            ChuongTrinhKhuyenMaiSanPhamDTO km = dialog.getCTKMSP();
+            ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+            bus.capnhat(km);
+            
+            model.setValueAt(km.getMactkm(), i, 1);
+            model.setValueAt(km.getMasp(), i, 2);
+            model.setValueAt(km.getPtgg(), i, 3);
+            
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 

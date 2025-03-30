@@ -9,9 +9,9 @@ import java.sql.*;
  */
 public class ChuongTrinhKhuyenMaiDAO {
     String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
-    Connection con;
-    Statement st;
-    ResultSet rs;
+    Connection con=null;
+    Statement st=null;
+    ResultSet rs=null;
 
     public ChuongTrinhKhuyenMaiDAO() {
         if(con==null)

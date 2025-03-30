@@ -11,10 +11,10 @@ package DTO;
 public class ChuongTrinhKhuyenMaiSanPhamDTO {
     public int mactkm,mactkmsp,masp,ptgg;
     public ChuongTrinhKhuyenMaiSanPhamDTO(){}
-    public ChuongTrinhKhuyenMaiSanPhamDTO(int mactkm,int mactkmsp,int masp,int ptgg)
+    public ChuongTrinhKhuyenMaiSanPhamDTO(int mactkmsp,int mactkm,int masp,int ptgg)
     {
-        this.mactkm=mactkm;
         this.mactkmsp=mactkmsp;
+        this.mactkm=mactkm;
         this.masp=masp;
         this.ptgg=ptgg;
     }

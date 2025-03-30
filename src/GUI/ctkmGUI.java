@@ -12,9 +12,7 @@ import java.awt.Font;
 import javax.swing.*;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import borderRadius.roundedBorder;
-import java.lang.reflect.Array;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.util.ArrayList;
@@ -322,9 +320,7 @@ public class ctkmGUI extends javax.swing.JPanel {
             
             model.setValueAt(km.getNgayBD(), i, 1);
             model.setValueAt(km.getNgayKT(), i, 2);
-                    JLabel lbThanhCong = new JLabel("Cập nhật thành công");
-                    lbThanhCong.setFont(new Font("Segoe UI",Font.BOLD,16));
-                    JOptionPane.showMessageDialog(this, lbThanhCong,"Thông báo",JOptionPane.INFORMATION_MESSAGE);
+
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -361,15 +357,6 @@ public class ctkmGUI extends javax.swing.JPanel {
         if(kq.isEmpty())
         {
             mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
-        if(i == 1 || i == 2)
-        {
-            
-            String regex = "^\\d{2}/\\d{2}\\/d{4}$";
-            if(!tim.matches(regex))
-            {
-            mess = "Vui lòng nhập đúng định dạng (dd/MM/yyyy)";          
-            }
-        }
             JLabel lbNull = new JLabel(mess);
             lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);

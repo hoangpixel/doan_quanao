@@ -5,39 +5,25 @@
 package GUI_Input;
 import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
 import java.awt.Font;
-import java.awt.Frame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import java.sql.*;
+import BUS.ChuongTrinhKhuyenMaiBUS;
+import DTO.ChuongTrinhKhuyenMaiDTO;
 /**
  *
  * @author mhoang
  */
-public class inputCTKMSP extends javax.swing.JDialog {
+public class insertCTKMSP extends javax.swing.JDialog {
 
     /**
      * Creates new form inputCTKMSP
      */
-    public ChuongTrinhKhuyenMaiSanPhamDTO km;
-    private int maTuDong;
-    public boolean nhap=false;
-    Connection con;
-    Statement st;
-    ResultSet rs1,rs2;
-    
-    
-    public inputCTKMSP(java.awt.Frame parent,boolean model,int maTuDong) {
+    ChuongTrinhKhuyenMaiSanPhamDTO km;
+    public boolean xacNhan=false;
+    public insertCTKMSP(java.awt.Frame parent,boolean model) {
         super(parent,model);
-        this.maTuDong=maTuDong;
         initComponents();
-        setLocationRelativeTo(parent);
-        String ma = String.valueOf(maTuDong);
-        txtCTKMSP.setText(ma);
-
-    }
-
-    private inputCTKMSP(Frame parent, boolean model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        setLocationRelativeTo(this);
     }
 
     /**
@@ -52,12 +38,10 @@ public class inputCTKMSP extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtCTKM = new javax.swing.JTextField();
-        txtCTKMSP = new javax.swing.JTextField();
         txtMASP = new javax.swing.JTextField();
         txtPTGG = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -67,23 +51,6 @@ public class inputCTKMSP extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Nhập chi tiết khuyến mãi sản phẩm");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
-        );
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Mã CTKMSP : ");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Mã SP : ");
@@ -95,10 +62,6 @@ public class inputCTKMSP extends javax.swing.JDialog {
         jLabel5.setText("Mã CTKM : ");
 
         txtCTKM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        txtCTKMSP.setEditable(false);
-        txtCTKMSP.setBackground(new java.awt.Color(255, 255, 204));
-        txtCTKMSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtMASP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -154,10 +117,6 @@ public class inputCTKMSP extends javax.swing.JDialog {
                         .addGap(32, 32, 32)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPTGG, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCTKM))
@@ -166,33 +125,46 @@ public class inputCTKMSP extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtMASP, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCTKMSP, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))))
+                                .addComponent(txtPTGG, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtMASP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMASP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtPTGG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,99 +173,73 @@ public class inputCTKMSP extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        // TODO add your handling code here:
+        xacNhan = false;
         dispose();
-        nhap=false;
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        // TODO add your handling code here:
-        
-        if(txtCTKM.getText().isEmpty() || txtMASP.getText().isEmpty() ||txtPTGG.getText().isEmpty())
+
+        if(txtCTKM.getText().isEmpty() || txtMASP.getText().isEmpty() || txtPTGG.getText().isEmpty())
         {
             JLabel lbTBnull = new JLabel("Không được để trống!");
             lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);  
-            return;
+            JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;            
         }
-
-        try {
-        int mactkmsp = Integer.parseInt(txtCTKMSP.getText());
+        ChuongTrinhKhuyenMaiBUS busCTKM = new ChuongTrinhKhuyenMaiBUS();
+        busCTKM.docDSCTKM();
+        boolean dk = false;
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
         int ptgg = Integer.parseInt(txtPTGG.getText());
         
-            String user="root",pass="",url="jdbc:mysql://localhost:3306/doanquanao";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url,user,pass);
-            
-            // Kiểm tra mã ctkm có trong database hay không
-            String qry1 = "select count(*) from ctkm where mactkm = ?";
-            PreparedStatement ps1 = con.prepareStatement(qry1);
-            ps1.setInt(1, mactkm);
-            rs1 = ps1.executeQuery();
-            rs1.next();
-            int d1 = rs1.getInt(1);
-            if(d1 == 0)
+        
+        
+        for(ChuongTrinhKhuyenMaiDTO ctkm : ChuongTrinhKhuyenMaiBUS.ds)
+        {
+            if(ctkm.getMaCTKM() == mactkm)
             {
-                JLabel lbLoi = new JLabel("Không tồn tại mã CTKM " + mactkm + " trong hệ thống");
-                lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);  
-                return;
+                dk=true;
+                break;
             }
-            
-            // Này thì kiểm tra tương tự với masp
-            String qry2 = "select count(*) from sanpham where masp = ?";
-            PreparedStatement ps2 = con.prepareStatement(qry2);
-            ps2.setInt(1, masp);
-            rs2 = ps2.executeQuery();
-            rs2.next();
-            int d2 = rs2.getInt(1);
-            if(d2==0)
-            {
-                JLabel lbLoi = new JLabel("Không tồn tại mã sản phẩm " + masp + " trong hệ thống");
-                lbLoi.setFont(new Font("Segoe UI",Font.BOLD,16));
-                JOptionPane.showMessageDialog(this, lbLoi,"Thông báo",JOptionPane.ERROR_MESSAGE);  
-                return;
-            }
-        km = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkm,mactkmsp,masp,ptgg);
-        nhap=true;
-        dispose();
-        } catch (Exception e) {
         }
+            if(!dk)
+            {
+            JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không có trong hệ thống!");
+            lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;                
+            }        
+        km = new ChuongTrinhKhuyenMaiSanPhamDTO(0,mactkm,masp,ptgg);
+        xacNhan = true;
+        dispose();
         
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
-    
     public boolean xacNhanNhap()
     {
-        return nhap;
+        return xacNhan;
     }
     
     public ChuongTrinhKhuyenMaiSanPhamDTO getCTKMSP()
     {
         return km;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -302,7 +248,6 @@ public class inputCTKMSP extends javax.swing.JDialog {
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnXacNhan;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -310,7 +255,6 @@ public class inputCTKMSP extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtCTKM;
-    private javax.swing.JTextField txtCTKMSP;
     private javax.swing.JTextField txtMASP;
     private javax.swing.JTextField txtPTGG;
     // End of variables declaration//GEN-END:variables
