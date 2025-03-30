@@ -37,6 +37,11 @@ public class run extends JFrame {
         cardLayout.show(contentPanel, "CTKMSP");
         nav.highlightButton(nav.btnCTKMSP);
         });
+        
+        nav.btnSanPham.addActionListener(e -> {
+        cardLayout.show(contentPanel, "SanPham");
+        nav.highlightButton(nav.btnSanPham);
+        });
 
 
         // Thêm các panel cần hiển thị

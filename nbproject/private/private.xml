@@ -12,12 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI_Input/updateCTKMSP.java</file>
-            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI/ctkmspGUI.java</file>
-            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI/ctkmGUI.java</file>
-            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/main/run.java</file>
-            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI_Input/updateCTKM.java</file>
             <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/DAO/ChuongTrinhKhuyenMaiSanPhamDAO.java</file>
+            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/main/run.java</file>
+            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI/ctkmspGUI.java</file>
+            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI_Input/updateCTKM.java</file>
+            <file>file:/C:/Users/mhoang/Desktop/doan_quanao/src/GUI_Input/updateCTKMSP.java</file>
         </group>
     </open-files>
 </project-private>
