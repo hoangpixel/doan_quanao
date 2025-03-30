@@ -1,5 +1,6 @@
 package main;
 
+import GUI.SanPhamGUI;
 import GUI.ctkmspGUI;
 import GUI.ctkmGUI;
 import GUI.navleft;
@@ -43,12 +44,17 @@ public class run extends JFrame {
         contentPanel.add(ctkmPanel, "CTKM");
         ctkmspGUI ctkmspPanel = new ctkmspGUI();
         contentPanel.add(ctkmspPanel,"CTKMSP");
+        // panel sản phẩm
+        SanPhamGUI sanPhamPanel = new SanPhamGUI();
+        contentPanel.add(sanPhamPanel, "SanPham");
 
         add(contentPanel, BorderLayout.CENTER);
+        
 
         // Bắt sự kiện các nút trong navleft
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));
         nav.btnCTKMSP.addActionListener(e -> cardLayout.show(contentPanel, "CTKMSP"));
+        nav.btnSanPham.addActionListener(e -> cardLayout.show(contentPanel, "SanPham"));
     }
 
     public static void main(String[] args) {

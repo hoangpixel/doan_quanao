@@ -4,10 +4,24 @@
  */
 package GUI;
 
+import BUS.SanPhamBUS;
+import DAO.SanPhamDAO;
+import DTO.SanPhamDTO;
+import GUI_Input.ChiTietSanPham;
+import GUI_Input.SuaSanPham;
+import GUI_Input.ThemSanPham;
+import GUI_Input.XoaSanPham;
 import java.awt.Image;
+import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -18,19 +32,39 @@ public class SanPhamGUI extends javax.swing.JPanel {
     /**
      * Creates new form listNCC
      */
+    DefaultTableModel model = new DefaultTableModel();
+    
     public SanPhamGUI() {
         initComponents();
         setSizeIcon();
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Danh sách NCC");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1200, 700); // Kích thước cửa sổ
-            frame.add(new SanPhamGUI()); // Thêm JPanel vào JFrame
-            frame.setVisible(true);
-        });
+
+        // Gán model cho bảng
+        tbSanPham.setModel(model);
+
+        // Đặt tên cột
+        String[] header = {"Mã SP", "Tên SP", "Đơn Giá", "Đơn Vị Tính", "Chất Liệu", "Mã Loại", "Mô Tả"};
+        model.setColumnIdentifiers(header);
+
+        // Tạo renderer có padding và căn giữa
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        
+        // Gán renderer cho tất cả các cột
+        for (int i = 0; i < tbSanPham.getColumnCount(); i++) {
+            tbSanPham.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
+
+        // Cấu hình thêm cho bảng
+        tbSanPham.setRowHeight(30);
+        tbSanPham.setFocusable(false);
+        tbSanPham.setAutoCreateRowSorter(true);
+        tbSanPham.setDefaultEditor(Object.class, null);
+        tbSanPham.setShowVerticalLines(false);
+
+        // Load dữ liệu
+        loadDanhSachSanPham();
+
     }
 
     /**
@@ -97,6 +131,11 @@ public class SanPhamGUI extends javax.swing.JPanel {
         btnDetail.setText("CHI TIẾT");
         btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailActionPerformed(evt);
+            }
+        });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         btnExcel.setText("XUẤT EXCEL");
@@ -108,6 +147,11 @@ public class SanPhamGUI extends javax.swing.JPanel {
         btnRefresh.setText("REFRESH");
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sản phẩm", "Tên sản phẩm", "Giá thấp nhất", "Giá cao nhất", "Chất liệu" }));
         cbbSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +161,11 @@ public class SanPhamGUI extends javax.swing.JPanel {
         });
 
         btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,6 +242,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tbSanPham.setShowGrid(true);
         jScrollPane1.setViewportView(tbSanPham);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -200,25 +250,82 @@ public class SanPhamGUI extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
     private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbSearchActionPerformed
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int row = tbSanPham.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+        }
+        else {
+            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
+            XoaSanPham dialog = new XoaSanPham(frame, true, maSP);
+            dialog.setVisible(true);
+            if(dialog.isXacNhanXoa()) {
+                this.loadDanhSachSanPham();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int row = tbSanPham.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+        }
+        else {
+            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
+            SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
+            dialog.setVisible(true);
+            if(dialog.isXacNhanThem()) {
+                this.loadDanhSachSanPham();
+            }
+        }
+        
+        
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
+        ThemSanPham dialog = new ThemSanPham(frame, true);
+        dialog.setVisible(true);
+        if(dialog.isXacNhanThem()) {
+            this.loadDanhSachSanPham();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+        // TODO add your handling code here:
+        int row = tbSanPham.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+        }
+        else {
+            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
+            ChiTietSanPham dialog = new ChiTietSanPham(frame, true, maSP);
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_btnDetailActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        this.loadDanhSachSanPham();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        String key = cbbSearch.getSelectedItem().toString();
+        
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void setSizeIcon() {
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
@@ -245,6 +352,29 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JTable tbSanPham;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    private void loadDanhSachSanPham() {
+        SanPhamBUS sanPhamBUS = new SanPhamBUS();
+        if(SanPhamBUS.dssp == null) {
+            SanPhamBUS.dssp = sanPhamBUS.layTatCaSanPham();
+        }
+        model.setRowCount(0);
+        for(SanPhamDTO sp : SanPhamBUS.dssp) {
+            Vector row = new Vector();
+            row.add(sp.getMaSP());
+            row.add(sp.getTenSP());
+            row.add(sp.getDonGia());
+            row.add(sp.getDonViTinh());
+            row.add(sp.getChatLieu());
+            row.add(sp.getMaLoai());
+            row.add(sp.getMoTa());
+            
+            model.addRow(row);
+        }
+        tbSanPham.setModel(model);
+        
+        
+    }
 }
 
 
