@@ -1,7 +1,7 @@
 # Thư mục tạm sinh khi build
 build/
 dist/
-nbproject/
+nbproject/private/
 *.class
 
 # File hệ thống không cần thiết
