@@ -13,19 +13,17 @@ import java.util.ArrayList;
  * @author Vinh
  */
 public class SanPhamBUS {
-    public static ArrayList<SanPhamDTO> dssp;
+    private static ArrayList<SanPhamDTO> dssp;
     
     public void themSanPham(SanPhamDTO sp) {
-        SanPhamDAO spDAO = new SanPhamDAO();
         if(dssp == null)
             dssp = new ArrayList<>();
-        sp.setMaSP(spDAO.themSanPham(sp));
+        sp.setMaSP(new SanPhamDAO().themSanPham(sp));
         dssp.add(sp);
     }
     
     public void suaSanPham(SanPhamDTO sp) {
-        SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        sanPhamDAO.suaSanPham(sp);
+        new SanPhamDAO().suaSanPham(sp);
         for(SanPhamDTO spDTO : dssp) {
             if(spDTO.getMaSP() == sp.getMaSP()) {
                 spDTO.setChatLieu(sp.getChatLieu());
@@ -40,26 +38,46 @@ public class SanPhamBUS {
     }
     
     public void xoaSanPham(int maSP) {
-        SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        sanPhamDAO.xoaSanPham(maSP);
+        new SanPhamDAO().xoaSanPham(maSP);
         dssp.removeIf(sp -> sp.getMaSP() == maSP);
     }
     
     public SanPhamDTO laySanPhamTheoMaSP(int maSP) {
-        SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        return sanPhamDAO.laySanPhamTheoMaSP(maSP);
+        return new SanPhamDAO().laySanPhamTheoMaSP(maSP);
     }
     
     public ArrayList<SanPhamDTO> layTatCaSanPham() {
         if(dssp == null){
-            SanPhamDAO sanPhamDAO = new SanPhamDAO();
-            dssp = sanPhamDAO.layTatCaSanPham();
+            dssp = new SanPhamDAO().layTatCaSanPham();
         }
         return dssp;
     }
     
     public void refreshDanhSach() {
-        SanPhamDAO dao = new SanPhamDAO();
-        dssp = dao.layTatCaSanPham();
+        dssp = new SanPhamDAO().layTatCaSanPham();
+    }
+    
+    public static ArrayList<SanPhamDTO> getDanhSachSanPham() {
+        return dssp;
+    }
+
+    public static void setDssp(ArrayList<SanPhamDTO> dssp) {
+        SanPhamBUS.dssp = dssp;
+    }
+    
+    public ArrayList<SanPhamDTO> timKiemSanPhamTheoTen (String tenSP) {
+        return new SanPhamDAO().laySanPhamTheoTen(tenSP);
+    }
+    
+    public ArrayList<SanPhamDTO> timKiemSanPhamTheoGiaThapNhat (int giaThapNhat) {
+        return new SanPhamDAO().laySanPhamTheoGiaThapNhat(giaThapNhat);
+    }
+    
+    public ArrayList<SanPhamDTO> timKiemSanPhamTheoGiCaoNhat (int giaCaoNhat) {
+        return new SanPhamDAO().laySanPhamTheoGiaCaoNhat(giaCaoNhat);
+    }
+    
+    public ArrayList<SanPhamDTO> timKiemSanPhamTheoChatLieu (String chatLieu) {
+        return new SanPhamDAO().laySanPhamTheoChatLieu(chatLieu);
     }
 }

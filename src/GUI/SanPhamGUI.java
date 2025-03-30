@@ -12,6 +12,7 @@ import GUI_Input.SuaSanPham;
 import GUI_Input.ThemSanPham;
 import GUI_Input.XoaSanPham;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,7 +29,7 @@ import javax.swing.table.TableColumnModel;
  * @author Vinh
  */
 public class SanPhamGUI extends javax.swing.JPanel {
-
+    private SanPhamBUS sanPhamBUS = new SanPhamBUS();
     /**
      * Creates new form listNCC
      */
@@ -63,7 +64,8 @@ public class SanPhamGUI extends javax.swing.JPanel {
         tbSanPham.setShowVerticalLines(false);
 
         // Load dữ liệu
-        loadDanhSachSanPham();
+        
+        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
 
     }
 
@@ -269,7 +271,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             XoaSanPham dialog = new XoaSanPham(frame, true, maSP);
             dialog.setVisible(true);
             if(dialog.isXacNhanXoa()) {
-                this.loadDanhSachSanPham();
+                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -285,7 +287,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
             dialog.setVisible(true);
             if(dialog.isXacNhanThem()) {
-                this.loadDanhSachSanPham();
+                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
             }
         }
         
@@ -298,7 +300,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
         ThemSanPham dialog = new ThemSanPham(frame, true);
         dialog.setVisible(true);
         if(dialog.isXacNhanThem()) {
-            this.loadDanhSachSanPham();
+            this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -318,13 +320,49 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDanhSachSanPham();
+        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
-        
+        String value = txtSearch.getText();
+        if(!value.isEmpty()) {
+            switch (key) {
+                case "Mã sản phẩm":
+                    try {
+                        ds.add(sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value)));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                        return;
+                    }
+                    break;
+                case "Tên sản phẩm":
+                    ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
+                    break;
+                case "Giá thấp nhất":
+                    try {
+                        ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                        return;
+                    }
+                    break;
+                case "Giá cao nhất":
+                    try {
+                        ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                        return;
+                    }
+                    break;
+                case "Chất liệu":
+                    ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
+                    break;
+            }
+        }
+        this.loadDataTable(ds);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void setSizeIcon() {
@@ -353,27 +391,23 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDanhSachSanPham() {
-        SanPhamBUS sanPhamBUS = new SanPhamBUS();
-        if(SanPhamBUS.dssp == null) {
-            SanPhamBUS.dssp = sanPhamBUS.layTatCaSanPham();
-        }
+    private void loadDataTable(ArrayList<SanPhamDTO> ds) {
         model.setRowCount(0);
-        for(SanPhamDTO sp : SanPhamBUS.dssp) {
-            Vector row = new Vector();
-            row.add(sp.getMaSP());
-            row.add(sp.getTenSP());
-            row.add(sp.getDonGia());
-            row.add(sp.getDonViTinh());
-            row.add(sp.getChatLieu());
-            row.add(sp.getMaLoai());
-            row.add(sp.getMoTa());
-            
-            model.addRow(row);
+        if(ds != null) {
+            for(SanPhamDTO sp : ds) {
+                Vector row = new Vector();
+                row.add(sp.getMaSP());
+                row.add(sp.getTenSP());
+                row.add(sp.getDonGia());
+                row.add(sp.getDonViTinh());
+                row.add(sp.getChatLieu());
+                row.add(sp.getMaLoai());
+                row.add(sp.getMoTa());
+
+                model.addRow(row);
+            }
         }
         tbSanPham.setModel(model);
-        
-        
     }
 }
 
