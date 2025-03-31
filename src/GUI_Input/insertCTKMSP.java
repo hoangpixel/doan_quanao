@@ -201,29 +201,19 @@ public class insertCTKMSP extends javax.swing.JDialog {
             return;            
         }
         ChuongTrinhKhuyenMaiBUS busCTKM = new ChuongTrinhKhuyenMaiBUS();
-        busCTKM.docDSCTKM();
-        boolean dk = false;
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
         int ptgg = Integer.parseInt(txtPTGG.getText());
         
-        
-        
-        for(ChuongTrinhKhuyenMaiDTO ctkm : ChuongTrinhKhuyenMaiBUS.ds)
-        {
-            if(ctkm.getMaCTKM() == mactkm)
+       
+            if(!busCTKM.ktraMa(mactkm))
             {
-                dk=true;
-                break;
-            }
-        }
-            if(!dk)
-            {
-            JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không có trong hệ thống!");
+             JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không có trong hệ thống!");
             lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;                
-            }        
+            }
+                  
         km = new ChuongTrinhKhuyenMaiSanPhamDTO(0,mactkm,masp,ptgg);
         xacNhan = true;
         dispose();

@@ -76,4 +76,19 @@ public class ChuongTrinhKhuyenMaiBUS {
         }
         return kq;
     }
+    public boolean ktraMa(int ma)
+    {
+        if(ds == null)
+        {
+            docDSCTKM();
+        }
+        for(ChuongTrinhKhuyenMaiDTO ct : ds)
+        {
+            if(ct.getMaCTKM() == ma)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

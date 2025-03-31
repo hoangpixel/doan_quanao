@@ -17,8 +17,6 @@ public class NhanVienBUS {
     public NhanVienBUS() {}
     public void docDSNV() {
         NhanVienDAO data = new NhanVienDAO();
-        if(dsnv == null)
-            dsnv = new ArrayList<NhanVienDTO>();
         dsnv = data.docDSNV();
     }
     public void them(NhanVienDTO nv) {
@@ -26,4 +24,16 @@ public class NhanVienBUS {
         data.them(nv);
         dsnv.add(nv);
     }
+    public boolean ktraMaNv(int maKtra)
+    {
+        for(NhanVienDTO nv : dsnv)
+        {
+            if(nv.getMa() == maKtra)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

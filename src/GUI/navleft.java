@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, jButton10, jButton11, btnNCC };
+    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, jButton11, btnNCC };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -49,7 +49,7 @@ public class navleft extends javax.swing.JPanel {
         btnCTKMSP = new javax.swing.JButton();
         btnSanPham = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        btnHoaDon = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         btnNCC = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -84,9 +84,9 @@ public class navleft extends javax.swing.JPanel {
         btnHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHome.setIconTextGap(20);
 
-        jButton10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton10.setText("jButton6");
-        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoaDon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnHoaDon.setText("Hóa đơn");
+        btnHoaDon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jButton11.setText("jButton6");
@@ -106,7 +106,7 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnCTKM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCTKMSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -126,7 +126,7 @@ public class navleft extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(243, Short.MAX_VALUE))
@@ -194,10 +194,10 @@ public class navleft extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCTKM;
     public javax.swing.JButton btnCTKMSP;
+    public javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnHome;
     public javax.swing.JButton btnNCC;
     public javax.swing.JButton btnSanPham;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
