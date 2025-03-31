@@ -68,14 +68,14 @@ public class hoadonGUI extends javax.swing.JPanel {
         model.setRowCount(0);
         HoaDonBUS bus = new HoaDonBUS();
         bus.docDSHD();
-        for(HoaDonDTO hd : HoaDonBUS.ds)
+        for(HoaDonDTO ct : HoaDonBUS.ds)
         {
             Vector row = new Vector();
-            row.add(hd.getMahd());
-            row.add(hd.getNgaylap());
-            row.add(hd.getManv());
-            row.add(hd.getMakh());
-            row.add(hd.getTongtien());
+            row.add(ct.getMahd());
+            row.add(ct.getNgaylap());
+            row.add(ct.getManv());
+            row.add(ct.getMakh());
+            row.add(ct.getTongtien());
             model.addRow(row);
         }
         tbHoadon.setModel(model);
@@ -244,12 +244,32 @@ public class hoadonGUI extends javax.swing.JPanel {
     
     // Gọi thư mục inputCTKM.java để điền info
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
-
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        insertHoaDon dialog = new insertHoaDon(topFrame,true);
+        insertHoaDon dialog = new insertHoaDon(topFrame, true);
         dialog.setVisible(true);
-        
-        
+
+        if (dialog.xacNhanNhap()) {
+            HoaDonDTO hd = dialog.getHoaDon();
+
+            HoaDonBUS bus = new HoaDonBUS();
+            bus.them(hd);
+
+            // Đọc lại dữ liệu từ SQL
+            docSQL();
+
+            // Cập nhật lại bảng
+            model.setRowCount(0);
+            for (HoaDonDTO ct : HoaDonBUS.ds) {
+                Vector row = new Vector();
+                row.add(ct.getMahd());
+                row.add(ct.getNgaylap());
+                row.add(ct.getManv());
+                row.add(ct.getMakh());
+                row.add(ct.getTongtien());
+                model.addRow(row);
+            }
+            tbHoadon.setModel(model);
+        }
     }//GEN-LAST:event_btnThemMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import BUS.ChuongTrinhKhuyenMaiBUS;
 import DTO.ChuongTrinhKhuyenMaiDTO;
+import BUS.SanPhamBUS;
 /**
  *
  * @author mhoang
@@ -201,6 +202,7 @@ public class insertCTKMSP extends javax.swing.JDialog {
             return;            
         }
         ChuongTrinhKhuyenMaiBUS busCTKM = new ChuongTrinhKhuyenMaiBUS();
+        SanPhamBUS busSP = new SanPhamBUS();
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
         int ptgg = Integer.parseInt(txtPTGG.getText());
@@ -208,7 +210,7 @@ public class insertCTKMSP extends javax.swing.JDialog {
        
             if(!busCTKM.ktraMa(mactkm))
             {
-             JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không có trong hệ thống!");
+             JLabel lbSaictkm = new JLabel("Mã CTKM hoặc MASP không tồn tại!");
             lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;                

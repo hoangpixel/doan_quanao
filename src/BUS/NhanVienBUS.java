@@ -24,16 +24,20 @@ public class NhanVienBUS {
         data.them(nv);
         dsnv.add(nv);
     }
-    public boolean ktraMaNv(int maKtra)
+    
+    public boolean ktraMa(int ma)
     {
-        for(NhanVienDTO nv : dsnv)
+        if(dsnv == null)
         {
-            if(nv.getMa() == maKtra)
+            docDSNV();
+        }
+        for(NhanVienDTO ct : dsnv)
+        {
+            if(ct.getMa() == ma)
             {
                 return true;
             }
         }
         return false;
     }
-    
 }

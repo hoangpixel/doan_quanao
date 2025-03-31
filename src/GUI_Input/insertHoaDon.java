@@ -3,16 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
-import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import DTO.HoaDonDTO;
-import DTO.NhanVienDTO;
-import BUS.NhanVienBUS;
-
-
+import BUS.HoaDonBUS;
+import DAO.HoaDonDAO;
 /**
  *
  * @author mhoang
@@ -208,28 +205,22 @@ public HoaDonDTO hd;
             return;              
           }
           
-          NhanVienBUS busNv = new NhanVienBUS();
-//          KhachHangBUS busKh = new KhachHangBUS();
           int manv = Integer.parseInt(txtManv.getText());
           int makh = Integer.parseInt(txtMakh.getText());
-          int tongtien=0;
           SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
           String ngaynhap = sdf.format(dateNhap.getDate());
-          if(!busNv.ktraMaNv(manv))
+          
+          HoaDonDAO data = new HoaDonDAO();
+          if(!data.ktraMaNV(manv))
           {
-             JLabel lbSaictkm = new JLabel("Mã nhân viên : " + txtManv.getText() + " không có trong hệ thống!");
-            lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;                
+             JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
+            lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaimanv,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;              
           }
-//          if(!busKh.ktraMaKh(makh))
-//          {
-//             JLabel lbSaictkm = new JLabel("Mã khách hàng : " + txtMakh.getText() + " không có trong hệ thống!");
-//            lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
-//            JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
-//            return;                  
-//          }
-          hd = new HoaDonDTO(0,ngaynhap,manv,makh,tongtien);
+          
+          
+          hd = new HoaDonDTO(0,ngaynhap,manv,makh,0);
           xacNhan = true;
           dispose();
     }//GEN-LAST:event_btnThemActionPerformed

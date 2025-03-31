@@ -51,9 +51,9 @@ public class run extends JFrame {
         nav.highlightButton(nav.btnNCC);
         });
         
-        nav.btnCTKMSP.addActionListener(e -> {
+        nav.btnHoaDon.addActionListener(e -> {
         cardLayout.show(contentPanel, "hoadon");
-        nav.highlightButton(nav.btnCTKMSP);
+        nav.highlightButton(nav.btnHoaDon);
         });
         
         nav.btnCTKMHD.addActionListener(e -> {

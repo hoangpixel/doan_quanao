@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="doan_java">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/doan_java.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

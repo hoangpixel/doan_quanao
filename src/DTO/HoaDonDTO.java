@@ -9,7 +9,7 @@ package DTO;
  * @author mhoang
  */
 public class HoaDonDTO {
-    public int mahd,manv,makh,tongtien=0;
+    public int mahd,manv,makh,tongtien;
     public String ngaylap;
     public HoaDonDTO(){}
     public HoaDonDTO(int mahd,String ngaylap,int manv,int makh,int tongtien)
