@@ -1,5 +1,6 @@
 package main;
 
+import GUI.ChuongTrinhKhuyenMaiHoaDonGUI;
 import GUI.NhaCungCapGUI;
 import GUI.SanPhamGUI;
 import GUI.ctkmspGUI;
@@ -54,6 +55,11 @@ public class run extends JFrame {
         cardLayout.show(contentPanel, "hoadon");
         nav.highlightButton(nav.btnCTKMSP);
         });
+        
+        nav.btnCTKMHD.addActionListener(e -> {
+        cardLayout.show(contentPanel, "CTKMHD");
+        nav.highlightButton(nav.btnCTKMHD);
+        });
 
 
         // Thêm các panel cần hiển thị
@@ -71,6 +77,10 @@ public class run extends JFrame {
         hoadonGUI hdPanel = new hoadonGUI();
         contentPanel.add(hdPanel,"hoadon");
         add(contentPanel, BorderLayout.CENTER);
+        // panel CTKMHD
+        ChuongTrinhKhuyenMaiHoaDonGUI ctkmhdgui = new ChuongTrinhKhuyenMaiHoaDonGUI();
+        contentPanel.add(ctkmhdgui,"CTKMHD");
+        add(contentPanel, BorderLayout.CENTER);
         
 
         // Bắt sự kiện các nút trong navleft
@@ -79,6 +89,7 @@ public class run extends JFrame {
         nav.btnSanPham.addActionListener(e -> cardLayout.show(contentPanel, "SanPham"));
         nav.btnNCC.addActionListener(e -> cardLayout.show(contentPanel, "NhaCungCap"));
         nav.btnHoaDon.addActionListener(e -> cardLayout.show(contentPanel, "hoadon"));
+        nav.btnCTKMHD.addActionListener(e -> cardLayout.show(contentPanel, "CTKMHD"));
     }
 
     public static void main(String[] args) {
