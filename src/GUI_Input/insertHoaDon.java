@@ -3,26 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
-import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import DTO.HoaDonDTO;
+import BUS.HoaDonBUS;
+import DAO.HoaDonDAO;
 /**
  *
  * @author mhoang
  */
-public class insertCTKM extends javax.swing.JDialog {
+public class insertHoaDon extends javax.swing.JDialog {
 
     /**
      * Creates new form updateCTKM
      */
-    public boolean xacNhan = false;
-    public ChuongTrinhKhuyenMaiDTO km;
-    public insertCTKM(java.awt.Frame parent , boolean model) {
+public boolean xacNhan = false;
+public HoaDonDTO hd;
+    public insertHoaDon(java.awt.Frame parent,boolean model) {
         super(parent,model);
         initComponents();
-        setLocationRelativeTo(parent);   
+        setLocationRelativeTo(this);
     }
 
     /**
@@ -37,10 +39,12 @@ public class insertCTKM extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         dateNhap = new com.toedter.calendar.JDateChooser();
-        dateKetThuc = new com.toedter.calendar.JDateChooser();
+        txtManv = new javax.swing.JTextField();
+        txtMakh = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
@@ -49,7 +53,7 @@ public class insertCTKM extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Nhập phiếu chương trình khuyến mãi");
+        jLabel1.setText("Nhập phiếu hóa đơn");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,11 +72,20 @@ public class insertCTKM extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Ngày kết thúc : ");
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Ngày bắt đầu : ");
+        jLabel4.setText("Ngày lập phiếu : ");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Mã nhân viên : ");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Mã khách hàng : ");
+
+        dateNhap.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtManv.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtMakh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -81,13 +94,15 @@ public class insertCTKM extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(72, 72, 72)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dateNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                    .addComponent(dateKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(dateNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(txtManv)
+                    .addComponent(txtMakh))
+                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,11 +111,15 @@ public class insertCTKM extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(dateNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(dateKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtManv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMakh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -130,7 +149,7 @@ public class insertCTKM extends javax.swing.JDialog {
                 .addComponent(btnThem)
                 .addGap(54, 54, 54)
                 .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,9 +180,9 @@ public class insertCTKM extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -171,49 +190,51 @@ public class insertCTKM extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        xacNhan=false;
+        xacNhan = false;
         dispose();
         
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(dateNhap.getDate() == null || dateKetThuc.getDate()==null)
-        {
+          if(dateNhap.getDate() == null || txtManv.getText().isEmpty() || txtMakh.getText().isEmpty())
+          {
             JLabel lbTBnull = new JLabel("Không được để trống!");
             lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        if(dateNhap.getDate().after(dateKetThuc.getDate()))
-        {
-            JLabel lbTBnull = new JLabel("Thời gian nhập không được lớn hơn thời gian kết thúc!");
-            lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);   
-            return;
-        }
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String ngayBD = sdf.format(dateNhap.getDate());
-        String ngayKT = sdf.format(dateKetThuc.getDate());
-
-        km = new ChuongTrinhKhuyenMaiDTO(0,ngayBD,ngayKT);
-        xacNhan=true;
-        dispose();
-        
+            return;              
+          }
+          
+          int manv = Integer.parseInt(txtManv.getText());
+          int makh = Integer.parseInt(txtMakh.getText());
+          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+          String ngaynhap = sdf.format(dateNhap.getDate());
+          
+          HoaDonDAO data = new HoaDonDAO();
+          if(!data.ktraMaNV(manv))
+          {
+             JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
+            lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaimanv,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;              
+          }
+          
+          
+          hd = new HoaDonDTO(0,ngaynhap,manv,makh,0);
+          xacNhan = true;
+          dispose();
     }//GEN-LAST:event_btnThemActionPerformed
 
-    
-    public boolean xacNhanInsert()
+    public boolean xacNhanNhap()
     {
         return xacNhan;
     }
-    
-    public ChuongTrinhKhuyenMaiDTO getCTKM()
+
+    public HoaDonDTO getHoaDon()
     {
-        return km;
+        return hd;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -221,13 +242,15 @@ public class insertCTKM extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnThem;
-    private com.toedter.calendar.JDateChooser dateKetThuc;
     private com.toedter.calendar.JDateChooser dateNhap;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField txtMakh;
+    private javax.swing.JTextField txtManv;
     // End of variables declaration//GEN-END:variables
 }

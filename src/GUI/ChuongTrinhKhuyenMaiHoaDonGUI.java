@@ -4,16 +4,14 @@
  */
 package GUI;
 
-import BUS.SanPhamBUS;
-import DAO.SanPhamDAO;
-import DTO.SanPhamDTO;
-import GUI_Input.ChiTietSanPham;
-import GUI_Input.SuaSanPham;
-import GUI_Input.ThemSanPham;
+import BUS.ChuongTrinhKhuyenMaiHoaDonBUS;
+import DTO.ChuongTrinhKhuyenMaiHoaDonDTO;
+import GUI_Input.ChiTietCTKMHD;
+import GUI_Input.SuaCTKMHD;
+import GUI_Input.ThemCTKMHD;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,28 +19,27 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
  * @author Vinh
  */
-public class SanPhamGUI extends javax.swing.JPanel {
-    private SanPhamBUS sanPhamBUS = new SanPhamBUS();
+public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
+
     /**
-     * Creates new form listNCC
+     * Creates new form ChuongTrinhKhuyenMaiHoaDonGUI
      */
+    private ChuongTrinhKhuyenMaiHoaDonBUS ctkmhdBUS = new ChuongTrinhKhuyenMaiHoaDonBUS();
     DefaultTableModel model = new DefaultTableModel();
-    
-    public SanPhamGUI() {
+    public ChuongTrinhKhuyenMaiHoaDonGUI() {
         initComponents();
         setSizeIcon();
-
+        
         // Gán model cho bảng
-        tbSanPham.setModel(model);
+        tbCTKMHD.setModel(model);
 
         // Đặt tên cột
-        String[] header = {"Mã SP", "Tên SP", "Đơn Giá", "Đơn Vị Tính", "Chất Liệu", "Mã Loại", "Mô Tả"};
+        String[] header = {"Mã CTKMHD", "Mã CTKM", "Tổng tiền hóa đơn", "Phần trăm giảm giá"};
         model.setColumnIdentifiers(header);
 
         // Tạo renderer có padding và căn giữa
@@ -51,21 +48,19 @@ public class SanPhamGUI extends javax.swing.JPanel {
         renderer.setVerticalAlignment(JLabel.CENTER);
         
         // Gán renderer cho tất cả các cột
-        for (int i = 0; i < tbSanPham.getColumnCount(); i++) {
-            tbSanPham.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        for (int i = 0; i < tbCTKMHD.getColumnCount(); i++) {
+            tbCTKMHD.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
 
         // Cấu hình thêm cho bảng
-        tbSanPham.setRowHeight(30);
-        tbSanPham.setFocusable(false);
-        tbSanPham.setAutoCreateRowSorter(true);
-        tbSanPham.setDefaultEditor(Object.class, null);
-        tbSanPham.setShowVerticalLines(false);
+        tbCTKMHD.setRowHeight(30);
+        tbCTKMHD.setFocusable(false);
+        tbCTKMHD.setAutoCreateRowSorter(true);
+        tbCTKMHD.setDefaultEditor(Object.class, null);
+        tbCTKMHD.setShowVerticalLines(false);
 
         // Load dữ liệu
-        
-        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
-
+        this.loadDataTable(ctkmhdBUS.layTatCaCTKMHD());
     }
 
     /**
@@ -89,10 +84,9 @@ public class SanPhamGUI extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbSanPham = new javax.swing.JTable();
+        tbCTKMHD = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setLayout(new java.awt.BorderLayout(12, 0));
+        setLayout(new java.awt.BorderLayout());
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
@@ -154,7 +148,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sản phẩm", "Tên sản phẩm", "Giá thấp nhất", "Giá cao nhất", "Chất liệu" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã CTKM", "Mã CTKMHD", "Tổng tiền thấp nhất", "Tổng tiền lớn nhất", "Phần trăm gg thấp nhất", "Phần trăm gg lớn nhất" }));
         cbbSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSearchActionPerformed(evt);
@@ -191,7 +185,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,158 +221,164 @@ public class SanPhamGUI extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        tbSanPham.setModel(new javax.swing.table.DefaultTableModel(
+        tbCTKMHD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã", "Tên", "Giá", "Đơn vị tính", "Chất liệu", "Mã loại", "Mô tả"
+                "Mã CTKMHD", "Mã CTKM", "Tổng tiền hóa đơn", "Phần trăm giảm giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbSanPham.setShowGrid(true);
-        jScrollPane1.setViewportView(tbSanPham);
+        tbCTKMHD.setShowGrid(true);
+        jScrollPane1.setViewportView(tbCTKMHD);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
+        ThemCTKMHD dialog = new ThemCTKMHD(jframe, true);
+        dialog.setVisible(true);
+        if(dialog.isXacNhanThem()) {
+            this.loadDataTable(ChuongTrinhKhuyenMaiHoaDonBUS.getDs());
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbbSearchActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int row = tbCTKMHD.getSelectedRow();
+        if(row == -1 ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
         }
         else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            String tenSP = model.getValueAt(row, 1).toString();
+            int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
+            SuaCTKMHD dialog = new SuaCTKMHD(jframe, true, maCTKMHD);
+            dialog.setVisible(true);
+            if(dialog.isXacNhanSua()) {
+                this.loadDataTable(ChuongTrinhKhuyenMaiHoaDonBUS.getDs());
+            }
+        }
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int row = tbCTKMHD.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
+        }
+        else {
+            int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa sản phẩm \"" + tenSP + "\""+ " có mã SP: \"" + maSP + "\" ?",
+                "Bạn có chắc muốn xóa chương trình khuyến mãi hóa đơn có mã:  \"" + maCTKMHD + "\" ?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Xóa sản phẩm
-                sanPhamBUS.xoaSanPham(maSP);
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
+                ctkmhdBUS.xoaCTKMHD(maCTKMHD);
+                this.loadDataTable(ChuongTrinhKhuyenMaiHoaDonBUS.getDs());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
-            dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-            }
-        }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-        ThemSanPham dialog = new ThemSanPham(frame, true);
-        dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
-            this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
-        // TODO add your handling code here:
-        int row = tbSanPham.getSelectedRow();
+        int row = tbCTKMHD.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
         }
         else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            ChiTietSanPham dialog = new ChiTietSanPham(frame, true, maSP);
+            int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
+            ChiTietCTKMHD dialog = new ChiTietCTKMHD(jframe, true, maCTKMHD);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
-        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
+        this.loadDataTable(ctkmhdBUS.layTatCaCTKMHD());
+        
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbSearchActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
         if(!value.isEmpty()) {
+            int vl;
+            try {
+                vl = Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+                        return;
+            }
             switch (key) {
-                case "Mã sản phẩm":
-                    try {
-                        SanPhamDTO sp = sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value));
-                        if(sp != null) {
-                            ds.add(sp);
-                        } else {
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
+                case "Mã CTKMHD":
+                    ChuongTrinhKhuyenMaiHoaDonDTO ct = ctkmhdBUS.layCTKMHDTheoMa(vl);
+                    if (ct != null) {
+                        ds.add(ct);
+                    }  
                     break;
-                case "Tên sản phẩm":
-                    ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
+                case "Mã CTKM":
+                    ds = ctkmhdBUS.timKiemTheoMaCTKM(vl);
                     break;
-                case "Giá thấp nhất":
-                    try {
-                        ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
+                case "Tổng tiền thấp nhất":
+                    ds = ctkmhdBUS.timKiemTheoTongTienThapNhat(vl);
                     break;
-                case "Giá cao nhất":
-                    try {
-                        ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
+                case "Tổng tiền lớn nhất":
+                    ds = ctkmhdBUS.timKiemTheoTongTienCaoNhat(vl);
                     break;
-                case "Chất liệu":
-                    ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
+                case "Phần trăm gg thấp nhất":
+                    ds = ctkmhdBUS.timKiemTheoPTGGThapNhat(vl);
+                    break;
+                case "Phần trăm gg lớn nhất":
+                    ds = ctkmhdBUS.timKiemTheoPTGGCaoNhat(vl);
                     break;
             }
         }
         this.loadDataTable(ds);
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
     private void setSizeIcon() {
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
         Image img = originalIcon.getImage();
         Image newImg = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH); // Đổi kích thước icon
         btnDetail.setIcon(new ImageIcon(newImg)); // Đặt icon mới
-        
-        
     }
     
+    private void loadDataTable (ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds) {
+        model.setRowCount(0);
+        if(ds != null) {
+            for(ChuongTrinhKhuyenMaiHoaDonDTO ct : ds) {
+                Vector row = new Vector();
+                row.add(ct.getMaCTKMHD());
+                row.add(ct.getMaCTKM());
+                row.add(ct.getSoTienHD());
+                row.add(ct.getPhanTramGiamGia());
+
+                model.addRow(row);
+            }
+        }
+        tbCTKMHD.setModel(model);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -392,31 +392,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbSanPham;
+    private javax.swing.JTable tbCTKMHD;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
-
-    private void loadDataTable(ArrayList<SanPhamDTO> ds) {
-        model.setRowCount(0);
-        if(ds != null) {
-            for(SanPhamDTO sp : ds) {
-                Vector row = new Vector();
-                row.add(sp.getMaSP());
-                row.add(sp.getTenSP());
-                row.add(sp.getDonGia());
-                row.add(sp.getDonViTinh());
-                row.add(sp.getChatLieu());
-                row.add(sp.getMaLoai());
-                row.add(sp.getMoTa());
-
-                model.addRow(row);
-            }
-        }
-        tbSanPham.setModel(model);
-    }
 }
-
-
-
-
-

@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class NhanVienBUS {
+
     public static ArrayList<NhanVienDTO> dsnv;
 
-    public NhanVienBUS() {
-    }
+    public NhanVienBUS() {}
     public void docDSNV()
     {
         NhanVienDAO data = new NhanVienDAO();
@@ -89,5 +89,21 @@ public class NhanVienBUS {
             }
         }
         return kq;
+    }
+    
+    public boolean ktraMa(int ma)
+    {
+        if(dsnv == null)
+        {
+            docDSNV();
+        }
+        for(NhanVienDTO ct : dsnv)
+        {
+            if(ct.getMa() == ma)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

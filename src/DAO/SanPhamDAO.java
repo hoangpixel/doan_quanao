@@ -15,15 +15,17 @@ import javax.swing.JOptionPane;
  * @author Vinh
  */
 public class SanPhamDAO {
-
-    public void themSanPham(SanPhamDTO sp) {
+    
+    // Trả về mã sản phẩm mới được tạo tự động
+    public int themSanPham(SanPhamDTO sp) {
         // Câu lệnh thêm sản phẩm
         String query = "insert into sanpham (TENSP, DONGIA, DONVITINH, CHATLIEU, MOTA, MALOAI) values (?, ?, ?, ?, ?, ?)";
         Connection conn = null;
+        int maSP = -1;
         try {
             
             conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
+            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             
             st.setString(1, sp.getTenSP());
             st.setInt(2, sp.getDonGia());
@@ -32,17 +34,27 @@ public class SanPhamDAO {
             st.setString(5, sp.getMoTa());
             st.setInt(6, sp.getMaLoai());
             
-            st.executeUpdate();
+            int row = st.executeUpdate();
+            
+            if(row > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if(rs.next()) {
+                    maSP = rs.getInt(1);
+                }
+                rs.close();
+            }
             
             st.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi khi thêm: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+
         }
         finally {
             // Đóng kết nối
             DBConnect.closeConnection(conn);
         }
+        return maSP;
     }
     
     public void suaSanPham(SanPhamDTO sp) {
@@ -63,9 +75,12 @@ public class SanPhamDAO {
             st.setInt(6, sp.getMaLoai());
             st.setInt(7, sp.getMaSP());  // Điều kiện WHERE
             
+            st.executeUpdate();
+            
             st.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi khi sửa: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+
         }
         finally {
             DBConnect.closeConnection(conn);
@@ -76,6 +91,7 @@ public class SanPhamDAO {
         String query = "delete from sanpham where MASP = ?";
         Connection conn = null;
         try {
+            conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             st.setInt(1, maSP);
             
@@ -88,7 +104,8 @@ public class SanPhamDAO {
             st.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi khi xóa: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -100,6 +117,7 @@ public class SanPhamDAO {
         Connection conn = null;
         
         try {
+            conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             st.setInt(1, maSP);
             
@@ -117,8 +135,8 @@ public class SanPhamDAO {
             st.close();
             rs.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi truy vấn sản phẩm: " + e.getMessage(),
-                "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -128,7 +146,7 @@ public class SanPhamDAO {
     
     public ArrayList<SanPhamDTO> layTatCaSanPham() {
         ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "selct * from sanpham";
+        String query = "select * from sanpham";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -148,9 +166,11 @@ public class SanPhamDAO {
                 dssp.add(sp);
                 
             }
+            rs.close();
+            st.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi truy vấn sản phẩm: " + e.getMessage(),
-                "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -158,37 +178,135 @@ public class SanPhamDAO {
         return dssp;
     }
     
-    public boolean kiemTraTonTai(int maSP) {
-        String query = "select * from sanpham where MASP = ?";
+    // Hàm tìm kiếm các sản phẩm theo tên (gần đúng)
+    public ArrayList<SanPhamDTO> laySanPhamTheoTen(String tenSP) {
+        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
+        String query = "select * from sanpham where LOWER(TENSP) LIKE LOWER(?)";
         Connection conn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
         try {
             conn = DBConnect.getConnection();
-            st = conn.prepareStatement(query);
-            st.setInt(1, maSP);
-            rs = st.executeQuery();
+            PreparedStatement st = conn.prepareStatement(query);
             
-            if(rs.next()) {
-                return true;
+            st.setString(1, "%" + tenSP + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                SanPhamDTO sp = new SanPhamDTO();
+                sp.setMaSP(rs.getInt("MASP"));
+                sp.setTenSP(rs.getString("TENSP"));
+                sp.setDonGia(rs.getInt("DONGIA"));
+                sp.setDonViTinh(rs.getString("DONVITINH"));
+                sp.setChatLieu(rs.getString("CHATLIEU"));
+                sp.setMoTa(rs.getString("MOTA"));
+                sp.setMaLoai(rs.getInt("MALOAI"));
+                
+                dssp.add(sp);
             }
+            
+            rs.close();
+            st.close();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                st.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } finally{
             DBConnect.closeConnection(conn);
         }
-        return false;
+        return dssp;
     }
+    
+    public ArrayList<SanPhamDTO> laySanPhamTheoGiaThapNhat (int giaThapNhat) {
+        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
+        String query = "select * from sanpham where DONGIA >= ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, giaThapNhat);
+            
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                SanPhamDTO sp = new SanPhamDTO();
+                sp.setMaSP(rs.getInt("MASP"));
+                sp.setTenSP(rs.getString("TENSP"));
+                sp.setDonGia(rs.getInt("DONGIA"));
+                sp.setDonViTinh(rs.getString("DONVITINH"));
+                sp.setChatLieu(rs.getString("CHATLIEU"));
+                sp.setMoTa(rs.getString("MOTA"));
+                sp.setMaLoai(rs.getInt("MALOAI"));
+                
+                dssp.add(sp);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        
+        return dssp;
+    }
+    
+    public ArrayList<SanPhamDTO> laySanPhamTheoGiaCaoNhat (int giaCaoNhat) {
+        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
+        String query = "select * from sanpham where DONGIA <= ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, giaCaoNhat);
+            
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                SanPhamDTO sp = new SanPhamDTO();
+                sp.setMaSP(rs.getInt("MASP"));
+                sp.setTenSP(rs.getString("TENSP"));
+                sp.setDonGia(rs.getInt("DONGIA"));
+                sp.setDonViTinh(rs.getString("DONVITINH"));
+                sp.setChatLieu(rs.getString("CHATLIEU"));
+                sp.setMoTa(rs.getString("MOTA"));
+                sp.setMaLoai(rs.getInt("MALOAI"));
+                
+                dssp.add(sp);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        
+        return dssp;
+    }
+    
+    public ArrayList<SanPhamDTO> laySanPhamTheoChatLieu(String chatLieu) {
+        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
+        String query = "select * from sanpham where LOWER(CHATLIEU) LIKE LOWER(?)";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            
+            st.setString(1, "%" + chatLieu + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                SanPhamDTO sp = new SanPhamDTO();
+                sp.setMaSP(rs.getInt("MASP"));
+                sp.setTenSP(rs.getString("TENSP"));
+                sp.setDonGia(rs.getInt("DONGIA"));
+                sp.setDonViTinh(rs.getString("DONVITINH"));
+                sp.setChatLieu(rs.getString("CHATLIEU"));
+                sp.setMoTa(rs.getString("MOTA"));
+                sp.setMaLoai(rs.getInt("MALOAI"));
+                
+                dssp.add(sp);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally{
+            DBConnect.closeConnection(conn);
+        }
+        return dssp;
+    }
+    
+    
     
 }   

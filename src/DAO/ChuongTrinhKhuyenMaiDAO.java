@@ -9,9 +9,9 @@ import java.sql.*;
  */
 public class ChuongTrinhKhuyenMaiDAO {
     String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
-    Connection con;
-    Statement st;
-    ResultSet rs;
+    Connection con=null;
+    Statement st=null;
+    ResultSet rs=null;
 
     public ChuongTrinhKhuyenMaiDAO() {
         if(con==null)
@@ -89,5 +89,13 @@ public class ChuongTrinhKhuyenMaiDAO {
     }
             
     
-    
+    public void ktraMa(int ma)
+    {
+        try {
+            String qry = "select * from ctkm where MACTKM='" + ma + "'";
+            st = con.createStatement();
+            st.executeUpdate(qry);
+        } catch (Exception e) {
+        }
+    }
 }

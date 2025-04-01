@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <Properties>
-    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-        <EmptyBorder bottom="10" left="10" right="10" top="10"/>
-      </Border>
-    </Property>
-  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -18,12 +11,10 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-65,0,0,4,80"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,91,0,0,4,61"/>
   </AuxValues>
 
-  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout">
-    <Property name="horizontalGap" type="int" value="12"/>
-  </Layout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Constraints>
@@ -48,7 +39,7 @@
                   <Component id="btnExcel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="146" max="32767" attributes="0"/>
+                  <EmptySpace pref="78" max="32767" attributes="0"/>
                   <Component id="cbbSearch" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtSearch" min="-2" pref="243" max="-2" attributes="0"/>
@@ -60,13 +51,13 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="btnRefresh" max="32767" attributes="0"/>
-                              <Component id="btnExcel" max="32767" attributes="0"/>
+                              <Component id="btnRefresh" alignment="1" max="32767" attributes="0"/>
+                              <Component id="btnExcel" alignment="1" max="32767" attributes="0"/>
                               <Component id="btnUpdate" alignment="1" max="32767" attributes="0"/>
                               <Component id="btnAdd" alignment="1" max="32767" attributes="0"/>
                               <Component id="btnDelete" alignment="0" max="32767" attributes="0"/>
@@ -182,12 +173,13 @@
         <Component class="javax.swing.JComboBox" name="cbbSearch">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="M&#xe3; s&#x1ea3;n ph&#x1ea9;m"/>
-                <StringItem index="1" value="T&#xea;n s&#x1ea3;n ph&#x1ea9;m"/>
-                <StringItem index="2" value="Gi&#xe1; th&#x1ea5;p nh&#x1ea5;t"/>
-                <StringItem index="3" value="Gi&#xe1; cao nh&#x1ea5;t"/>
-                <StringItem index="4" value="Ch&#x1ea5;t li&#x1ec7;u"/>
+              <StringArray count="6">
+                <StringItem index="0" value="M&#xe3; CTKM"/>
+                <StringItem index="1" value="M&#xe3; CTKMHD"/>
+                <StringItem index="2" value="T&#x1ed5;ng ti&#x1ec1;n th&#x1ea5;p nh&#x1ea5;t"/>
+                <StringItem index="3" value="T&#x1ed5;ng ti&#x1ec1;n l&#x1edb;n nh&#x1ea5;t"/>
+                <StringItem index="4" value="Ph&#x1ea7;n tr&#x103;m gg th&#x1ea5;p nh&#x1ea5;t"/>
+                <StringItem index="5" value="Ph&#x1ea7;n tr&#x103;m gg l&#x1edb;n nh&#x1ea5;t"/>
               </StringArray>
             </Property>
           </Properties>
@@ -241,17 +233,14 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tbSanPham">
+            <Component class="javax.swing.JTable" name="tbCTKMHD">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="0">
-                    <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
-                    <Column editable="false" title="T&#xea;n" type="java.lang.Object"/>
-                    <Column editable="false" title="Gi&#xe1;" type="java.lang.Object"/>
-                    <Column editable="false" title="&#x110;&#x1a1;n v&#x1ecb; t&#xed;nh" type="java.lang.Object"/>
-                    <Column editable="false" title="Ch&#x1ea5;t li&#x1ec7;u" type="java.lang.Object"/>
-                    <Column editable="false" title="M&#xe3; lo&#x1ea1;i" type="java.lang.Object"/>
-                    <Column editable="false" title="M&#xf4; t&#x1ea3;" type="java.lang.Object"/>
+                  <Table columnCount="4" rowCount="0">
+                    <Column editable="false" title="M&#xe3; CTKMHD" type="java.lang.Object"/>
+                    <Column editable="false" title="M&#xe3; CTKM" type="java.lang.Object"/>
+                    <Column editable="false" title="T&#x1ed5;ng ti&#x1ec1;n h&#xf3;a &#x111;&#x1a1;n" type="java.lang.Object"/>
+                    <Column editable="false" title="Ph&#x1ea7;n tr&#x103;m gi&#x1ea3;m gi&#xe1;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="showGrid" type="boolean" value="true"/>
