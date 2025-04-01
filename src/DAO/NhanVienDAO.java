@@ -77,7 +77,7 @@ public class NhanVienDAO {
         }
     }
     
-    public void xoa(String ma) {
+    public void xoa(int ma) {
         try {
             String qry = "Delete from nhanvien where MANV = '" + ma + "'";
             st = conn.createStatement();
