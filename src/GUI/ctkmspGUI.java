@@ -176,7 +176,7 @@ public class ctkmspGUI extends javax.swing.JPanel {
         });
 
         cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã CTKM", "Tìm theo mã SP", "Tìm theo PTGG", "Tìm theo PTGG tăng dần", "Tìm theo PTGG giảm dần" }));
+        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã CTKMSP", "Tìm theo mã CTKM", "Tìm theo mã SP", "Tìm theo PTGG", "Tìm theo PTGG tăng dần", "Tìm theo PTGG giảm dần" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -318,7 +318,7 @@ public class ctkmspGUI extends javax.swing.JPanel {
         int i = tbCTKMSP.getSelectedRow();
         if(i<0)
         {
-           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật");
            lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
            JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
            return;
@@ -349,15 +349,48 @@ public class ctkmspGUI extends javax.swing.JPanel {
     private void tbCTKMSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTKMSPMouseClicked
 
     }//GEN-LAST:event_tbCTKMSPMouseClicked
-
+    public void updateTB(ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> dsctkmsp)
+    {
+        model.setRowCount(0);
+        for(ChuongTrinhKhuyenMaiSanPhamDTO ct :dsctkmsp)
+        {
+            Vector row = new Vector();
+            row.add(ct.getMactkmsp());
+            row.add(ct.getMactkm());
+            row.add(ct.getMasp());
+            row.add(ct.getPtgg());
+            model.addRow(row);
+        }
+        tbCTKMSP.setModel(model);
+    }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
+        
+        String tim = txtSearch.getText().trim();
+        if(tim.isEmpty())
+        {
+            docSQL();
+            return;
+        }
+        int i =cbTim.getSelectedIndex();
+        ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+        ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> dsctkmsp = bus.timKiemThuong(tim, i);
+        updateTB(dsctkmsp);
+        
+        if(dsctkmsp.isEmpty())
+        {
+            String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);     
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+   
     /**
      * @param args the command line arguments
      */

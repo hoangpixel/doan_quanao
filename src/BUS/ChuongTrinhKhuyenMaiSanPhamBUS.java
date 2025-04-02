@@ -37,5 +37,54 @@ public class ChuongTrinhKhuyenMaiSanPhamBUS {
         data.capnhat(ct);
     }
     
+  
     
+    public ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> timKiemThuong(String tim,int index)
+    {
+        if(ds == null)
+        {
+            docDSCTKMSP();
+        }
+        
+        ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> kq = new ArrayList<>();
+        for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ds)
+        {
+            switch(index)
+            {
+                case 0:
+                {
+                    if(tim.contains(String.valueOf(ct.getMactkmsp())))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+                case 1:
+                {
+                    if(tim.contains(String.valueOf(ct.getMactkm())))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    if(tim.contains(String.valueOf(ct.getMasp())))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    if(tim.contains(String.valueOf(ct.getPtgg())))
+                    {
+                        kq.add(ct);
+                    }
+                    break;
+                }
+            }
+        }
+        return kq;
+    }
 }

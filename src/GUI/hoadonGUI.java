@@ -294,21 +294,96 @@ public class hoadonGUI extends javax.swing.JPanel {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:      
 
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        deleteHoaDon dialog = new deleteHoaDon(topFrame, true);
+        dialog.setVisible(true);
         
+        int i = tbHoadon.getSelectedRow();
+        if(i<0)
+        {
+            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;           
+        }
+        if(dialog.xacNhanXoa())
+        {
+            int ma = (int) tbHoadon.getValueAt(i, 0);
+            HoaDonBUS bus = new HoaDonBUS();
+            bus.xoa(ma);
+            model.removeRow(i);
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-
+        // TODO add your handling code here
+        
+        int i=tbHoadon.getSelectedRow();
+        int mahd = (int) tbHoadon.getValueAt(i,0);
+        String ngaylap = tbHoadon.getValueAt(i, 1).toString();
+        int manv = (int) tbHoadon.getValueAt(i, 2);
+        int makh = (int) tbHoadon.getValueAt(i, 3);
+        int tongtien = (int) tbHoadon.getValueAt(i, 4);
+        
+        HoaDonDTO hdct = new HoaDonDTO(mahd, ngaylap, manv, makh, tongtien);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        updateHoaDon dialog = new updateHoaDon(topFrame,true,hdct);
+        dialog.setVisible(true);
+        
+        if(dialog.xacNhanCapNhat())
+        {
+            HoaDonBUS bus = new HoaDonBUS();
+            HoaDonDTO hddata = dialog.getHD();
+            bus.capnhat(hddata);
+            
+            model.setValueAt(hddata.getNgaylap(), i, 1);
+            model.setValueAt(hddata.getManv(), i, 2);
+            model.setValueAt(hddata.getMakh(), i, 3);
+            model.setValueAt(hddata.getTongtien(), i, 4);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbHoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoadonMouseClicked
 
     }//GEN-LAST:event_tbHoadonMouseClicked
 
+    
+    public void updateTB(ArrayList<HoaDonDTO> dskq)
+    {
+        model.setRowCount(0);
+        for(HoaDonDTO hd : dskq)
+        {
+            Vector row = new Vector();
+            row.add(hd.getMahd());
+            row.add(hd.getNgaylap());
+            row.add(hd.getManv());
+            row.add(hd.getMakh());
+            row.add(hd.getTongtien());
+            model.addRow(row);
+        }
+        tbHoadon.setModel(model);
+    }
+    
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-
+            String tim = txtSearch.getText().trim();
+            if(tim.isEmpty())
+            {
+                docSQL();
+                return;
+            }
+            int i = cbTim.getSelectedIndex();
+            HoaDonBUS bus =new HoaDonBUS();
+            ArrayList<HoaDonDTO> ds = bus.timKiemThuong(tim, i);
+            updateTB(ds);
+            
+        if(ds.isEmpty())
+        {
+            String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);     
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     

@@ -70,40 +70,32 @@ public class HoaDonDAO {
             } catch (Exception e) {
             }
         }
-
-    public boolean ktraMaNV(int manv) {
-        try {
-            String qry = "SELECT COUNT(*) FROM nhanvien WHERE MANV = " + manv;
-            System.out.println("Truy vấn kiểm tra MANV: " + qry); // In truy vấn để kiểm tra
-            st = con.createStatement();
-            rs = st.executeQuery(qry);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println("Số dòng tìm thấy cho MANV " + manv + ": " + count);
-                return count > 0;
-            } else {
-                System.out.println("Không có kết quả trả về từ truy vấn.");
-                return false;
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi khi kiểm tra MANV: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
         
-        public boolean ktraMaKH(int makh)
+        public void xoa(int ma)
         {
             try {
-                String qry = "select count(*) from khachhang where makh='" + makh + "'";
+                
+                String qry = "Delete from hoadon where MAHD = " + ma;
                 st = con.createStatement();
-                rs = st.executeQuery(qry);
-                if(rs.next())
-                {
-                    return rs.getInt(1)>0;
-                }
+                st.executeUpdate(qry);
+                
             } catch (Exception e) {
             }
-            return false;
         }
+        
+        public void capnhat(HoaDonDTO hd)
+        {
+            try {
+                
+                String qry = "Update hoadon Set ";
+                qry += " " + "NGAYLAP='" + hd.getNgaylap() + "'";
+                qry += ",MANV='" + hd.getManv() + "'";
+                qry += ",MAKH='" + hd.getMakh() + "'";
+                qry += " Where MAHD='" + hd.getMahd() +"'";
+                st = con.createStatement();
+                st.executeUpdate(qry);
+            } catch (Exception e) {
+            }
+        }
+        
 }

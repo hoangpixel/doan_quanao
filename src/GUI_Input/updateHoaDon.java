@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import DTO.HoaDonDTO;
+import BUS.NhanVienBUS;
 /**
  *
  * @author mhoang
@@ -20,8 +22,25 @@ public class updateHoaDon extends javax.swing.JDialog {
     /**
      * Creates new form updateCTKM
      */
-
-
+    public boolean xacNhan = false;
+    public HoaDonDTO hd;
+    public updateHoaDon(java.awt.Frame parent, boolean model,HoaDonDTO data)
+    {
+        super(parent,model);
+        initComponents();
+        setLocationRelativeTo(this);
+        
+        txtMahd.setText(String.valueOf(data.getMahd()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            java.util.Date nhap = sdf.parse(data.getNgaylap());
+            dateNhap.setDate(nhap);
+        } catch (Exception e) {
+        }
+        txtManv.setText(String.valueOf(data.getManv()));
+        txtMakh.setText(String.valueOf(data.getMakh()));
+        txtTongtien.setText(String.valueOf(data.getTongtien()));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,7 +56,7 @@ public class updateHoaDon extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtCTKM = new javax.swing.JTextField();
+        txtMahd = new javax.swing.JTextField();
         dateNhap = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -80,9 +99,9 @@ public class updateHoaDon extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Ngày lập : ");
 
-        txtCTKM.setEditable(false);
-        txtCTKM.setBackground(new java.awt.Color(255, 255, 204));
-        txtCTKM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMahd.setEditable(false);
+        txtMahd.setBackground(new java.awt.Color(255, 255, 204));
+        txtMahd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mã khách hàng : ");
@@ -114,7 +133,7 @@ public class updateHoaDon extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCTKM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMahd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtManv, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTongtien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMakh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -128,7 +147,7 @@ public class updateHoaDon extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMahd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25)
                         .addComponent(jLabel4))
                     .addComponent(dateNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -215,16 +234,50 @@ public class updateHoaDon extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-
+        xacNhan = false;
+        dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-
+        int mahd = Integer.parseInt(txtMahd.getText());
+        if(dateNhap.getDate()==null || txtManv.getText().isEmpty() || txtMakh.getText().isEmpty() || txtTongtien.getText().isEmpty())
+        {
+            JLabel lbTBnull = new JLabel("Không được để trống!");
+            lbTBnull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;            
+        }
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String ngayNhap = sdf.format(dateNhap.getDate());
+        int manv = Integer.parseInt(txtManv.getText());
+        int makh = Integer.parseInt(txtMakh.getText());
+        int tongtien = Integer.parseInt(txtTongtien.getText());
+        NhanVienBUS busNV = new NhanVienBUS();
+        if(!busNV.ktraMaNV(manv))
+        {
+            JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
+            lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaimanv,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
+        
+        hd = new HoaDonDTO(mahd, ngayNhap, manv, makh, tongtien);
+        xacNhan = true;
+        dispose();
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
 
+    public boolean xacNhanCapNhat()
+    {
+        return xacNhan;
+    }
     
+    public HoaDonDTO getHD()
+    {
+        return hd;
+    }
 
     /**
      * @param args the command line arguments
@@ -243,7 +296,7 @@ public class updateHoaDon extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField txtCTKM;
+    private javax.swing.JTextField txtMahd;
     private javax.swing.JTextField txtMakh;
     private javax.swing.JTextField txtManv;
     private javax.swing.JTextField txtTongtien;

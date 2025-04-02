@@ -105,7 +105,7 @@
                   <EmptySpace pref="64" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="dateNhap" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
-                      <Component id="txtCTKM" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
+                      <Component id="txtMahd" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
                       <Component id="txtManv" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
                       <Component id="txtTongtien" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
                       <Component id="txtMakh" alignment="1" min="-2" pref="199" max="-2" attributes="0"/>
@@ -122,7 +122,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCTKM" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtMahd" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
@@ -174,7 +174,7 @@
             <Property name="text" type="java.lang.String" value="Ng&#xe0;y l&#x1ead;p : "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCTKM">
+        <Component class="javax.swing.JTextField" name="txtMahd">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
