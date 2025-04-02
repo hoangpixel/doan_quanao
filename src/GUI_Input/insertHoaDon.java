@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import DTO.HoaDonDTO;
 import BUS.HoaDonBUS;
 import DAO.HoaDonDAO;
+import BUS.NhanVienBUS;
 /**
  *
  * @author mhoang
@@ -210,13 +211,13 @@ public HoaDonDTO hd;
           SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
           String ngaynhap = sdf.format(dateNhap.getDate());
           
-          HoaDonDAO data = new HoaDonDAO();
-          if(!data.ktraMaNV(manv))
+          NhanVienBUS busNV = new NhanVienBUS();
+          if(!busNV.ktraMaNV(manv))
           {
-             JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
+            JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
             lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbSaimanv,"Thông báo",JOptionPane.ERROR_MESSAGE);
-            return;              
+            return;                
           }
           
           

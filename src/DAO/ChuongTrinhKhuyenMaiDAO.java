@@ -89,13 +89,19 @@ public class ChuongTrinhKhuyenMaiDAO {
     }
             
     
-    public void ktraMa(int ma)
+    public boolean ktraMa(int ma)
     {
         try {
-            String qry = "select * from ctkm where MACTKM='" + ma + "'";
+            String qry = "select count(*) from ctkm where mactkm=" + ma;
             st = con.createStatement();
-            st.executeUpdate(qry);
+            rs = st.executeQuery(qry);
+            if(rs.next());
+            {
+                int d = rs.getInt(1);
+                return d > 0;
+            }
         } catch (Exception e) {
         }
+        return false;
     }
 }

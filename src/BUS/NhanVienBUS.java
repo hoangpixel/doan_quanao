@@ -91,19 +91,9 @@ public class NhanVienBUS {
         return kq;
     }
     
-    public boolean ktraMa(int ma)
+    public boolean ktraMaNV(int ma)
     {
-        if(dsnv == null)
-        {
-            docDSNV();
-        }
-        for(NhanVienDTO ct : dsnv)
-        {
-            if(ct.getMa() == ma)
-            {
-                return true;
-            }
-        }
-        return false;
+        NhanVienDAO data = new NhanVienDAO();
+        return data.ktraMaNV(ma);
     }
 }

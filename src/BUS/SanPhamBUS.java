@@ -77,4 +77,10 @@ public class SanPhamBUS {
         return new SanPhamDAO().laySanPhamTheoChatLieu(chatLieu);
     }
     
+    public boolean ktraMaSP(int ma)
+    {
+        SanPhamDAO data = new SanPhamDAO();
+        return data.ktraMaSP(ma);
+    }
+    
 }

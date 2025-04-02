@@ -201,21 +201,36 @@ public class insertCTKMSP extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, lbTBnull,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;            
         }
+        int ptgg = Integer.parseInt(txtPTGG.getText());
         ChuongTrinhKhuyenMaiBUS busCTKM = new ChuongTrinhKhuyenMaiBUS();
         SanPhamBUS busSP = new SanPhamBUS();
         int mactkm = Integer.parseInt(txtCTKM.getText());
         int masp = Integer.parseInt(txtMASP.getText());
-        int ptgg = Integer.parseInt(txtPTGG.getText());
         
        
             if(!busCTKM.ktraMa(mactkm))
             {
-             JLabel lbSaictkm = new JLabel("Mã CTKM hoặc MASP không tồn tại!");
+             JLabel lbSaictkm = new JLabel("Mã CTKM : " + txtCTKM.getText() + " không tồn tại!");
             lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
             JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;                
             }
+            
+            if(!busSP.ktraMaSP(masp))
+            {
+              JLabel lbSaictkm = new JLabel("Mã SP : " + txtMASP.getText() + " không tồn tại!");
+            lbSaictkm.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaictkm,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;                 
+            }
                   
+         if(ptgg < 0 || ptgg > 100)
+        {
+            JLabel lbTBptgg = new JLabel("Phần trăm giảm giá phải trên 0 và dưới 100!");
+            lbTBptgg.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBptgg,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;              
+        }           
         km = new ChuongTrinhKhuyenMaiSanPhamDTO(0,mactkm,masp,ptgg);
         xacNhan = true;
         dispose();

@@ -105,4 +105,20 @@ public class NhanVienDAO {
             JOptionPane.showMessageDialog(null, "Lỗi sửa nhân viên!");
         }
     }
+    
+    public boolean ktraMaNV(int ma)
+    {
+        try {
+            String qry = "select count(*) from nhanvien where MANV=" + ma;
+            st = conn.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next())
+            {
+                int d=rs.getInt(1);
+                return d>0;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

@@ -308,5 +308,26 @@ public class SanPhamDAO {
     }
     
     
-    
+    // hoàng thêm vô
+public boolean ktraMaSP(int ma) {
+    Connection con = null;
+    PreparedStatement st = null;
+    ResultSet rs = null;
+    try {
+        con = DBConnect.getConnection();
+        String qry = "SELECT COUNT(*) FROM sanpham WHERE MASP = ?";
+        st = con.prepareStatement(qry);
+        st.setInt(1, ma);
+        rs = st.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        DBConnect.closeConnection(con);
+    }
+    return false;
+}
+
 }   
