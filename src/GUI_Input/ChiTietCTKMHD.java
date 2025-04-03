@@ -72,9 +72,15 @@ public class ChiTietCTKMHD extends javax.swing.JDialog {
 
         jLabel2.setText("Mã CTKM");
 
+        txtMaCTKM.setEditable(false);
+
         jLabel3.setText("Tổng tiền hóa đơn");
 
+        txtTTHD.setEditable(false);
+
         jLabel5.setText("Phần trăm giảm giá");
+
+        txtPTGG.setEditable(false);
 
         btnHuyBo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHuyBo.setText("Hủy bỏ");
@@ -85,6 +91,8 @@ public class ChiTietCTKMHD extends javax.swing.JDialog {
         });
 
         jLabel4.setText("Mã CTKMHD");
+
+        txtMaCTKMHD.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

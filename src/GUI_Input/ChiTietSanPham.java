@@ -86,6 +86,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
 
         jLabel2.setText("Tên sản phẩm");
 
+        txtTenSanPham.setEditable(false);
         txtTenSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTenSanPhamActionPerformed(evt);
@@ -94,6 +95,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
 
         jLabel3.setText("Đơn giá");
 
+        txtDonGia.setEditable(false);
         txtDonGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDonGiaActionPerformed(evt);
@@ -106,12 +108,15 @@ public class ChiTietSanPham extends javax.swing.JDialog {
 
         jLabel6.setText("Chất liệu");
 
+        txtChatLieu.setEditable(false);
+
         jLabel7.setText("Loại sản phẩm");
 
         cbbLoaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel8.setText("Mô tả");
 
+        txtMoTa.setEditable(false);
         txtMoTa.setColumns(20);
         txtMoTa.setLineWrap(true);
         txtMoTa.setRows(5);
@@ -189,7 +194,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)

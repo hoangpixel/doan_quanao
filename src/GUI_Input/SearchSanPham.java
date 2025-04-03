@@ -103,7 +103,7 @@ public class SearchSanPham extends javax.swing.JDialog {
 
         jLabel9.setText("Loại sản phẩm");
 
-        cbbLoaiSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none" }));
+        cbbLoaiSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả" }));
 
         btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         btnTimKiem.setText("Tìm kiếm");

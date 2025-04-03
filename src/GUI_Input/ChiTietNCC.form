@@ -131,6 +131,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTenNCC">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -138,6 +141,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSDT">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -145,6 +151,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtDiaChi">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnHuyBo">
           <Properties>
@@ -163,6 +172,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtMaNCC">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

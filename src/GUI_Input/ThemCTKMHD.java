@@ -7,7 +7,10 @@ package GUI_Input;
 import BUS.ChuongTrinhKhuyenMaiBUS;
 import BUS.ChuongTrinhKhuyenMaiHoaDonBUS;
 import DTO.ChuongTrinhKhuyenMaiHoaDonDTO;
+import MSForm.msfMaCTKM;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -44,6 +47,7 @@ public class ThemCTKMHD extends javax.swing.JDialog {
         txtPTGG = new javax.swing.JTextField();
         btnXacNhanThem = new javax.swing.JButton();
         btnHuyBo = new javax.swing.JButton();
+        btnChonMaCTKM = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -91,6 +95,13 @@ public class ThemCTKMHD extends javax.swing.JDialog {
             }
         });
 
+        btnChonMaCTKM.setText("...");
+        btnChonMaCTKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonMaCTKMActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,7 +124,9 @@ public class ThemCTKMHD extends javax.swing.JDialog {
                             .addComponent(txtMaCTKM, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                             .addComponent(txtPTGG)
                             .addComponent(txtTTHD))))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnChonMaCTKM)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +134,8 @@ public class ThemCTKMHD extends javax.swing.JDialog {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMaCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMaCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChonMaCTKM))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,11 +210,23 @@ public class ThemCTKMHD extends javax.swing.JDialog {
         this.setLocationRelativeTo(getParent());
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnChonMaCTKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonMaCTKMActionPerformed
+        // TODO add your handling code here:
+        
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            msfMaCTKM dialog = new msfMaCTKM(frame, true);
+            dialog.setVisible(true);
+            if(dialog.isXacNhan()) {
+                txtMaCTKM.setText(String.valueOf(dialog.getMaCTKM()));
+            }
+    }//GEN-LAST:event_btnChonMaCTKMActionPerformed
+
     public boolean isXacNhanThem() {
         return xacNhanThem;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonMaCTKM;
     private javax.swing.JButton btnHuyBo;
     private javax.swing.JButton btnXacNhanThem;
     private javax.swing.JLabel jLabel1;

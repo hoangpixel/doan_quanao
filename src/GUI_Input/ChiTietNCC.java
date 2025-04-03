@@ -72,9 +72,15 @@ public class ChiTietNCC extends javax.swing.JDialog {
 
         jLabel2.setText("Tên nhà cung cấp");
 
+        txtTenNCC.setEditable(false);
+
         jLabel3.setText("SĐT nhà cung cấp");
 
+        txtSDT.setEditable(false);
+
         jLabel5.setText("Địa chỉ");
+
+        txtDiaChi.setEditable(false);
 
         btnHuyBo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHuyBo.setText("Hủy bỏ");
@@ -85,6 +91,8 @@ public class ChiTietNCC extends javax.swing.JDialog {
         });
 
         jLabel4.setText("Mã nhà cung cấp");
+
+        txtMaNCC.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
