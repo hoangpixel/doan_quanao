@@ -16,6 +16,7 @@ import DTO.HoaDonDTO;
 import GUI_Input.insertHoaDon;
 import GUI_Input.deleteHoaDon;
 import GUI_Input.updateHoaDon;
+import GUI_Input.detailHD_promax;
 /**
  *
  * @author mhoang
@@ -93,11 +94,12 @@ public class hoadonGUI extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnExcel = new javax.swing.JButton();
+        btnDetail = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        btnExcel1 = new javax.swing.JButton();
         cbTim = new javax.swing.JComboBox<>();
+        btnSearch = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbHoadon = new javax.swing.JTable();
 
@@ -145,13 +147,18 @@ public class hoadonGUI extends javax.swing.JPanel {
             }
         });
 
-        btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
-        btnExcel.setToolTipText("");
-        btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
+        btnDetail.setText("CHI TIẾT");
+        btnDetail.setToolTipText("");
+        btnDetail.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -166,7 +173,21 @@ public class hoadonGUI extends javax.swing.JPanel {
             }
         });
 
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnExcel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExcel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
+        btnExcel1.setText("XUẤT EXCEL");
+        btnExcel1.setToolTipText("");
+        btnExcel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExcel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnExcel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcel1ActionPerformed(evt);
+            }
+        });
+
+        cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã hóa đơn", "Tìm theo ngày lập", "Tìm theo mã nhân viên", "Tìm theo mã khách hàng", "Tìm theo tổng tiền", "Tìm theo tổng tiền tăng dần", "Tìm theo tổng tiền giảm dần" }));
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -176,8 +197,7 @@ public class hoadonGUI extends javax.swing.JPanel {
             }
         });
 
-        cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã hóa đơn", "Tìm theo ngày lập", "Tìm theo mã nhân viên", "Tìm theo mã khách hàng", "Tìm theo tổng tiền", "Tìm theo tổng tiền tăng dần", "Tìm theo tổng tiền giảm dần" }));
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -191,13 +211,15 @@ public class hoadonGUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnXoa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExcel)
+                .addComponent(btnDetail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExcel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRefresh)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
                 .addContainerGap())
@@ -206,25 +228,26 @@ public class hoadonGUI extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnXoa))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnRefresh)
+                        .addComponent(btnExcel1)
+                        .addComponent(btnDetail)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnXoa))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnExcel)
-                                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnRefresh))
-                                .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                                    .addComponent(btnUpdate)
+                                    .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSearch)
-                            .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         tbHoadon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -242,7 +265,7 @@ public class hoadonGUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 975, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -251,8 +274,8 @@ public class hoadonGUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -364,33 +387,61 @@ public class hoadonGUI extends javax.swing.JPanel {
         tbHoadon.setModel(model);
     }
     
+    
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        docSQL();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+        // TODO add your handling code here:
+        
+        int i=tbHoadon.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbMadetail = new JLabel("Vui lòng chọn mã để xem");
+           lbMadetail.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbMadetail,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;           
+        }
+        
+        int mahd = (int) tbHoadon.getValueAt(i, 0);
+        String ngaylap = tbHoadon.getValueAt(i, 1).toString();
+        int manv = (int) tbHoadon.getValueAt(i, 2);
+        int makg = (int) tbHoadon.getValueAt(i, 3);
+        int tongtien = (int) tbHoadon.getValueAt(i, 4);
+        
+        HoaDonDTO data = new HoaDonDTO(mahd, ngaylap, manv, makg, tongtien);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        detailHD_promax dialog = new detailHD_promax(topFrame,true,data);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnDetailActionPerformed
+
+    private void btnExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcel1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcel1ActionPerformed
+
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-            String tim = txtSearch.getText().trim();
-            if(tim.isEmpty())
-            {
-                docSQL();
-                return;
-            }
-            int i = cbTim.getSelectedIndex();
-            HoaDonBUS bus =new HoaDonBUS();
-            ArrayList<HoaDonDTO> ds = bus.timKiemThuong(tim, i);
-            updateTB(ds);
-            
-        if(ds.isEmpty())
+        
+        int i = cbTim.getSelectedIndex();
+        String tim = txtSearch.getText().trim();
+//        if(tim.isEmpty())
+//        {
+//            docSQL();
+//            return;
+//        }
+        HoaDonBUS bus = new HoaDonBUS();
+        ArrayList<HoaDonDTO> kq = bus.timKiemThuong(tim, i);
+        updateTB(kq);
+        if(kq.isEmpty())
         {
             String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
             JLabel lbNull = new JLabel(mess);
             lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);     
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);                
         }
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,7 +449,8 @@ public class hoadonGUI extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnDetail;
+    private javax.swing.JButton btnExcel1;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnThem;
