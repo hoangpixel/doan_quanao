@@ -62,19 +62,47 @@ public class SanPhamBUS {
     }
     
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoTen (String tenSP) {
-        return new SanPhamDAO().laySanPhamTheoTen(tenSP);
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        if(tenSP != null && !tenSP.isEmpty()) {
+            for(int i = 0; i < dssp.size(); i++) {
+                if(dssp.get(i).getTenSP().toLowerCase().contains(tenSP)){
+                    ds.add(dssp.get(i));
+                }
+            }
+        }
+        return ds;
     }
     
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoGiaThapNhat (int giaThapNhat) {
-        return new SanPhamDAO().laySanPhamTheoGiaThapNhat(giaThapNhat);
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        for(int i = 0; i < dssp.size(); i++) {
+            if(dssp.get(i).getDonGia() >= giaThapNhat) {
+                ds.add(dssp.get(i));
+            }
+        }
+        return ds;
     }
     
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoGiCaoNhat (int giaCaoNhat) {
-        return new SanPhamDAO().laySanPhamTheoGiaCaoNhat(giaCaoNhat);
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        for(int i = 0; i < dssp.size(); i++) {
+            if(dssp.get(i).getDonGia() <= giaCaoNhat) {
+                ds.add(dssp.get(i));
+            }
+        }
+        return ds;
     }
     
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoChatLieu (String chatLieu) {
-        return new SanPhamDAO().laySanPhamTheoChatLieu(chatLieu);
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        if(chatLieu != null && !chatLieu.isEmpty()) {
+            for(int i = 0; i < dssp.size(); i++) {
+                if(dssp.get(i).getChatLieu().toLowerCase().contains(chatLieu)){
+                    ds.add(dssp.get(i));
+                }
+            }
+        }
+        return ds;
     }
     
     public boolean ktraMaSP(int ma)

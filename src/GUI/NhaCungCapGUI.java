@@ -335,8 +335,8 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                     ds = nhaCungCapBUS.timKiemNCCTheoDiaChi(value);
                     break;
             }
+            this.loadDataTable(ds);
         }
-        this.loadDataTable(ds);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed

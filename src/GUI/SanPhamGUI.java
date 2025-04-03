@@ -91,7 +91,6 @@ public class SanPhamGUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSanPham = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setLayout(new java.awt.BorderLayout(12, 0));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -191,7 +190,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,7 +335,6 @@ public class SanPhamGUI extends javax.swing.JPanel {
                         SanPhamDTO sp = sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value));
                         if(sp != null) {
                             ds.add(sp);
-                        } else {
                         }
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
@@ -366,8 +364,9 @@ public class SanPhamGUI extends javax.swing.JPanel {
                     ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
                     break;
             }
+            this.loadDataTable(ds);
         }
-        this.loadDataTable(ds);
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void setSizeIcon() {

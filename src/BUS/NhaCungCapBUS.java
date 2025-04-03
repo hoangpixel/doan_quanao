@@ -60,15 +60,40 @@ public class NhaCungCapBUS {
     }
     
     public ArrayList<NhaCungCapDTO> timKiemNCCTheoTen(String tenNCC) {
-        return new NhaCungCapDAO().timKiemNCCTheoTen(tenNCC);
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        if(tenNCC != null && !tenNCC.isEmpty()) {
+            for(int i = 0; i < dsncc.size(); i++) {
+                if(dsncc.get(i).getTenNCC().toLowerCase().contains(tenNCC.toLowerCase())){
+                    ds.add(dsncc.get(i));
+                }
+            }
+        }
+        return ds;
     }
     
     public ArrayList<NhaCungCapDTO> timKiemNCCTheoSDT (String sdt) {
-        return new NhaCungCapDAO().timKiemNCCTheoSDT(sdt);
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        if(sdt != null && !sdt.isEmpty()) {
+            for(int i = 0; i < dsncc.size(); i++) {
+                if(dsncc.get(i).getSdtNCC().contains(sdt)){
+                    ds.add(dsncc.get(i));
+                }
+            }
+        }
+        
+        return ds;
     }
     
     public ArrayList<NhaCungCapDTO> timKiemNCCTheoDiaChi (String diaChi) {
-        return new NhaCungCapDAO().timKiemNCCTheoDiaChi(diaChi);
+        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        if(diaChi != null && !diaChi.isEmpty()) {
+            for(int i = 0; i < dsncc.size(); i++) {
+                if(dsncc.get(i).getDiaChi().toLowerCase().contains(diaChi)){
+                    ds.add(dsncc.get(i));
+                }
+            }
+        }
+        return ds;
     }
 
     

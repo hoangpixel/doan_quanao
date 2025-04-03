@@ -59,23 +59,53 @@ public class ChuongTrinhKhuyenMaiHoaDonBUS {
     }
     
     public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> timKiemTheoMaCTKM (int maCTKM) {
-        return new ChuongTrinhKhuyenMaiHoaDonDAO().timKiemTheoMaCTKM(maCTKM);
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> list = new ArrayList<>();
+        for(int i = 0; i < ds.size(); i++) {
+            if(ds.get(i).getMaCTKM() == maCTKM) {
+                list.add(ds.get(i));
+            }
+        }
+        return list;
     }
     
     public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> timKiemTheoTongTienThapNhat (int tongtien) {
-        return new ChuongTrinhKhuyenMaiHoaDonDAO().timKiemTheoTongTienThapNhat(tongtien);
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> list = new ArrayList<>();
+        for(int i = 0; i < ds.size(); i++) {
+            if(ds.get(i).getSoTienHD() >= tongtien) {
+                list.add(ds.get(i));
+            }
+        }
+        return list;
     }
     
     public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> timKiemTheoTongTienCaoNhat (int tongtien) {
-        return new ChuongTrinhKhuyenMaiHoaDonDAO().timKiemTheoTongTienCaoNhat(tongtien);
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> list = new ArrayList<>();
+        for(int i = 0; i < ds.size(); i++) {
+            if(ds.get(i).getSoTienHD() <= tongtien) {
+                list.add(ds.get(i));
+            }
+        }
+        return list;
     }
     
     public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> timKiemTheoPTGGThapNhat (int ptgg) {
-        return new ChuongTrinhKhuyenMaiHoaDonDAO().timKiemTheoPTGGThapNhat(ptgg);
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> list = new ArrayList<>();
+        for(int i = 0; i < ds.size(); i++) {
+            if(ds.get(i).getPhanTramGiamGia() >= ptgg) {
+                list.add(ds.get(i));
+            }
+        }
+        return list;
     }
     
     public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> timKiemTheoPTGGCaoNhat (int ptgg) {
-        return new ChuongTrinhKhuyenMaiHoaDonDAO().timKiemTheoPTGGCaoNhat(ptgg);
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> list = new ArrayList<>();
+        for(int i = 0; i < ds.size(); i++) {
+            if(ds.get(i).getPhanTramGiamGia() <= ptgg) {
+                list.add(ds.get(i));
+            }
+        }
+        return list;
     }
     
     

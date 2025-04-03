@@ -128,6 +128,8 @@ public class ChiTietSanPham extends javax.swing.JDialog {
 
         jLabel4.setText("Mã sản phẩm");
 
+        txtMaSanPham.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(

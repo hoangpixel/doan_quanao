@@ -349,8 +349,9 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
                     ds = ctkmhdBUS.timKiemTheoPTGGCaoNhat(vl);
                     break;
             }
+            this.loadDataTable(ds);
         }
-        this.loadDataTable(ds);
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed

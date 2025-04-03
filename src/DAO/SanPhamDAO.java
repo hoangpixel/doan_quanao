@@ -178,156 +178,27 @@ public class SanPhamDAO {
         return dssp;
     }
     
-    // Hàm tìm kiếm các sản phẩm theo tên (gần đúng)
-    public ArrayList<SanPhamDTO> laySanPhamTheoTen(String tenSP) {
-        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "select * from sanpham where LOWER(TENSP) LIKE LOWER(?)";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            
-            st.setString(1, "%" + tenSP + "%");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                SanPhamDTO sp = new SanPhamDTO();
-                sp.setMaSP(rs.getInt("MASP"));
-                sp.setTenSP(rs.getString("TENSP"));
-                sp.setDonGia(rs.getInt("DONGIA"));
-                sp.setDonViTinh(rs.getString("DONVITINH"));
-                sp.setChatLieu(rs.getString("CHATLIEU"));
-                sp.setMoTa(rs.getString("MOTA"));
-                sp.setMaLoai(rs.getInt("MALOAI"));
-                
-                dssp.add(sp);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (Exception e) {
-        } finally{
-            DBConnect.closeConnection(conn);
-        }
-        return dssp;
-    }
-    
-    public ArrayList<SanPhamDTO> laySanPhamTheoGiaThapNhat (int giaThapNhat) {
-        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "select * from sanpham where DONGIA >= ?";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, giaThapNhat);
-            
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                SanPhamDTO sp = new SanPhamDTO();
-                sp.setMaSP(rs.getInt("MASP"));
-                sp.setTenSP(rs.getString("TENSP"));
-                sp.setDonGia(rs.getInt("DONGIA"));
-                sp.setDonViTinh(rs.getString("DONVITINH"));
-                sp.setChatLieu(rs.getString("CHATLIEU"));
-                sp.setMoTa(rs.getString("MOTA"));
-                sp.setMaLoai(rs.getInt("MALOAI"));
-                
-                dssp.add(sp);
-            }
-            rs.close();
-            st.close();
-        } catch (Exception e) {
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        
-        return dssp;
-    }
-    
-    public ArrayList<SanPhamDTO> laySanPhamTheoGiaCaoNhat (int giaCaoNhat) {
-        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "select * from sanpham where DONGIA <= ?";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, giaCaoNhat);
-            
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                SanPhamDTO sp = new SanPhamDTO();
-                sp.setMaSP(rs.getInt("MASP"));
-                sp.setTenSP(rs.getString("TENSP"));
-                sp.setDonGia(rs.getInt("DONGIA"));
-                sp.setDonViTinh(rs.getString("DONVITINH"));
-                sp.setChatLieu(rs.getString("CHATLIEU"));
-                sp.setMoTa(rs.getString("MOTA"));
-                sp.setMaLoai(rs.getInt("MALOAI"));
-                
-                dssp.add(sp);
-            }
-            rs.close();
-            st.close();
-        } catch (Exception e) {
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        
-        return dssp;
-    }
-    
-    public ArrayList<SanPhamDTO> laySanPhamTheoChatLieu(String chatLieu) {
-        ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "select * from sanpham where LOWER(CHATLIEU) LIKE LOWER(?)";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            
-            st.setString(1, "%" + chatLieu + "%");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                SanPhamDTO sp = new SanPhamDTO();
-                sp.setMaSP(rs.getInt("MASP"));
-                sp.setTenSP(rs.getString("TENSP"));
-                sp.setDonGia(rs.getInt("DONGIA"));
-                sp.setDonViTinh(rs.getString("DONVITINH"));
-                sp.setChatLieu(rs.getString("CHATLIEU"));
-                sp.setMoTa(rs.getString("MOTA"));
-                sp.setMaLoai(rs.getInt("MALOAI"));
-                
-                dssp.add(sp);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (Exception e) {
-        } finally{
-            DBConnect.closeConnection(conn);
-        }
-        return dssp;
-    }
-    
     
     // hoàng thêm vô
-public boolean ktraMaSP(int ma) {
-    Connection con = null;
-    PreparedStatement st = null;
-    ResultSet rs = null;
-    try {
-        con = DBConnect.getConnection();
-        String qry = "SELECT COUNT(*) FROM sanpham WHERE MASP = ?";
-        st = con.prepareStatement(qry);
-        st.setInt(1, ma);
-        rs = st.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
+    public boolean ktraMaSP(int ma) {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnect.getConnection();
+            String qry = "SELECT COUNT(*) FROM sanpham WHERE MASP = ?";
+            st = con.prepareStatement(qry);
+            st.setInt(1, ma);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBConnect.closeConnection(con);
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        DBConnect.closeConnection(con);
+        return false;
     }
-    return false;
-}
 
 }   
