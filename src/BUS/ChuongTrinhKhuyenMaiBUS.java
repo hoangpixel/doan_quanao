@@ -18,7 +18,7 @@ public class ChuongTrinhKhuyenMaiBUS {
     {
         ChuongTrinhKhuyenMaiDAO data = new ChuongTrinhKhuyenMaiDAO();
         data.them(ct);
-//        ds.add(ct);
+        ds.add(ct);
 
     }
     

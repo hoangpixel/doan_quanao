@@ -3,35 +3,25 @@ package DAO;
 import DTO.ChuongTrinhKhuyenMaiDTO;
 import java.util.ArrayList;
 import java.sql.*;
+import config.DBConnect;
 /**
  *
  * @author mhoang
  */
 public class ChuongTrinhKhuyenMaiDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
     Connection con=null;
     Statement st=null;
     ResultSet rs=null;
 
-    public ChuongTrinhKhuyenMaiDAO() {
-        if(con==null)
-        {
-            try {
-                
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                
-            } catch (Exception e) {
-            }
-        }
-    }
-    
+
     public ArrayList<ChuongTrinhKhuyenMaiDTO> docDSCTKM()
     {
         ArrayList ds = new ArrayList<ChuongTrinhKhuyenMaiDTO>();
         try {
+
             String qry = "select * from ctkm";
-            st = con.createStatement();
+            con = DBConnect.getConnection();
+            st = con.createStatement();            
             rs = st.executeQuery(qry);
             while(rs.next())
             {
@@ -55,6 +45,7 @@ public class ChuongTrinhKhuyenMaiDAO {
             qry = qry + "'" + ct.getNgayBD() + "',";
             qry = qry + "'" + ct.getNgayKT() + "'";
             qry = qry + ")";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
         } catch (Exception e) {
@@ -66,6 +57,7 @@ public class ChuongTrinhKhuyenMaiDAO {
         try {
             
             String qry = "Delete from ctkm where mactkm = '" + ma + "'";
+            con = DBConnect.getConnection();          
             st = con.createStatement();
             st.executeUpdate(qry);
             
@@ -82,6 +74,7 @@ public class ChuongTrinhKhuyenMaiDAO {
         qry = qry + " " + "NGAYBD=" + "'" + ct.getNgayBD() + "'";
         qry = qry + ",NGAYKT=" + "'" + ct.getNgayKT() + "'";
         qry = qry + " " + " where MACTKM='" + ct.getMaCTKM() + "'";
+            con = DBConnect.getConnection();       
             st = con.createStatement();
             st.executeUpdate(qry);            
         } catch (Exception e) {
@@ -93,6 +86,7 @@ public class ChuongTrinhKhuyenMaiDAO {
     {
         try {
             String qry = "select count(*) from ctkm where mactkm=" + ma;
+            con = DBConnect.getConnection();            
             st = con.createStatement();
             rs = st.executeQuery(qry);
             if(rs.next());
