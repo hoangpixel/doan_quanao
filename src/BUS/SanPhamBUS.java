@@ -61,6 +61,8 @@ public class SanPhamBUS {
         return dssp;
     }
     
+    
+    
     public ArrayList<SanPhamDTO> timKiemSanPhamTheoTen (String tenSP) {
         ArrayList<SanPhamDTO> ds = new ArrayList<>();
         if(tenSP != null && !tenSP.isEmpty()) {
@@ -109,6 +111,43 @@ public class SanPhamBUS {
     {
         SanPhamDAO data = new SanPhamDAO();
         return data.ktraMaSP(ma);
+    }
+    
+    // Tìm kiếm nâng cao 
+    public ArrayList<SanPhamDTO> timKiemNangCao(int maSP, String tenSP, int giaMin, int giaMax, String chatLieu, int loaiSP) {
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        for(SanPhamDTO sanPhamDTO: dssp) {
+            boolean match = true;
+            if(maSP != -1 && sanPhamDTO.getMaSP() != maSP) {
+                match = false;
+            }
+            
+            if(!tenSP.isEmpty() && !sanPhamDTO.getTenSP().toLowerCase().contains(tenSP.toLowerCase())) {
+                match = false;
+            }
+            
+            if(giaMin != -1 && sanPhamDTO.getDonGia() <= giaMin) {
+                match = false;
+            }
+            
+            if(giaMax != -1 && sanPhamDTO.getDonGia() >= giaMax) {
+                match = false;
+            }
+            
+            if(!chatLieu.isEmpty() && !sanPhamDTO.getChatLieu().toLowerCase().contains(chatLieu.toLowerCase())) {
+                match = false;
+            }
+            
+            if(loaiSP != -1 && sanPhamDTO.getMaLoai() != loaiSP) {
+                match = false;
+            }
+            
+            if(match) {
+                ds.add(sanPhamDTO);
+            }
+        }
+        
+        return ds;
     }
     
 }

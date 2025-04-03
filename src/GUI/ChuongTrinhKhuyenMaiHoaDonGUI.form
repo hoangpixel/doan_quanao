@@ -39,7 +39,7 @@
                   <Component id="btnExcel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="78" max="32767" attributes="0"/>
+                  <EmptySpace pref="95" max="32767" attributes="0"/>
                   <Component id="cbbSearch" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtSearch" min="-2" pref="243" max="-2" attributes="0"/>
@@ -134,7 +134,7 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/detail.png"/>
+              <Image iconType="3" name="/img/detailIcon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CHI TI&#x1ebe;T"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>

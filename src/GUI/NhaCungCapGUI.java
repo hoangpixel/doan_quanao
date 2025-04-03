@@ -33,7 +33,6 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     DefaultTableModel model = new DefaultTableModel();
     public NhaCungCapGUI() {
         initComponents();
-        this.setSizeIcon();
         
         // Gán model cho bảng
         tbNCC.setModel(model);
@@ -123,7 +122,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         });
 
         btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detail.png"))); // NOI18N
+        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
         btnDetail.setText("CHI TIẾT");
         btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -181,7 +180,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,14 +372,5 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             }
             tbNCC.setModel(model);
         }
-    }
-    
-    private void setSizeIcon() {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
-        Image img = originalIcon.getImage();
-        Image newImg = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH); // Đổi kích thước icon
-        btnDetail.setIcon(new ImageIcon(newImg)); // Đặt icon mới
-        
-        
     }
 }

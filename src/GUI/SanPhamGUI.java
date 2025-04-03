@@ -8,6 +8,7 @@ import BUS.SanPhamBUS;
 import DAO.SanPhamDAO;
 import DTO.SanPhamDTO;
 import GUI_Input.ChiTietSanPham;
+import GUI_Input.SearchSanPham;
 import GUI_Input.SuaSanPham;
 import GUI_Input.ThemSanPham;
 import java.awt.Image;
@@ -36,7 +37,6 @@ public class SanPhamGUI extends javax.swing.JPanel {
     
     public SanPhamGUI() {
         initComponents();
-        setSizeIcon();
 
         // Gán model cho bảng
         tbSanPham.setModel(model);
@@ -87,6 +87,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
         cbbSearch = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
+        btnFilter = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSanPham = new javax.swing.JTable();
@@ -127,7 +128,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
         });
 
         btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detail.png"))); // NOI18N
+        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
         btnDetail.setText("CHI TIẾT");
         btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -173,6 +174,13 @@ public class SanPhamGUI extends javax.swing.JPanel {
             }
         });
 
+        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/filter.png"))); // NOI18N
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,7 +198,9 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,10 +224,12 @@ public class SanPhamGUI extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnFilter, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27))))
         );
 
@@ -369,14 +381,15 @@ public class SanPhamGUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void setSizeIcon() {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/img/detail.png"));
-        Image img = originalIcon.getImage();
-        Image newImg = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH); // Đổi kích thước icon
-        btnDetail.setIcon(new ImageIcon(newImg)); // Đặt icon mới
-        
-        
-    }
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
+        SearchSanPham dialog = new SearchSanPham(frame, true);
+        dialog.setVisible(true);
+        if(dialog.isTimKiem()) {
+            this.loadDataTable(dialog.getDs());
+        }
+    }//GEN-LAST:event_btnFilterActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -384,6 +397,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
@@ -395,7 +409,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDataTable(ArrayList<SanPhamDTO> ds) {
+    public void loadDataTable(ArrayList<SanPhamDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
             for(SanPhamDTO sp : ds) {
