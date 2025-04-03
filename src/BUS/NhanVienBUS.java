@@ -14,86 +14,132 @@ import java.util.ArrayList;
  */
 public class NhanVienBUS {
 
-    public static ArrayList<NhanVienDTO> dsnv;
-
-    public NhanVienBUS() {}
-    public void docDSNV()
-    {
-        NhanVienDAO data = new NhanVienDAO();
-            dsnv = data.docDSNV();
-    }
+    private static ArrayList<NhanVienDTO> dsnv;
     
-    public void them(NhanVienDTO nv)
-    {
-        NhanVienDAO data = new NhanVienDAO();
-        data.them(nv);
-    }
-    
-    public void xoa(int ma)
-    {
-        NhanVienDAO data = new NhanVienDAO();
-        data.xoa(ma);
-    }
-    
-    public void sua(NhanVienDTO nv)
-    {
-        NhanVienDAO data = new NhanVienDAO();
-        data.sua(nv);
-    }
-    
-    public ArrayList<NhanVienDTO> timKiemThuong(String tim,int index)
-    {
-        if(dsnv == null)
-        {
-            docDSNV();
+    public void them(NhanVienDTO nv) {
+        if(dsnv == null) {
+            dsnv = new ArrayList<>();
         }
-        
-        ArrayList<NhanVienDTO> kq = new ArrayList<>();
-        if(index == 1 || index == 2)
-        {
-            String regex = "^\\d{2}/\\d{2}\\d{4}$";
-            if(!tim.matches(regex))
-            {
-                return kq;
+        nv.setMa(new NhanVienDAO().them(nv));
+        dsnv.add(nv);
+    }
+    
+    public void sua(NhanVienDTO nv) {
+        new NhanVienDAO().sua(nv);
+        for(NhanVienDTO nv1 : dsnv) {
+            if(nv1.getMa() == nv.getMa()) {
+                nv1.setHo(nv.getHo());
+                nv1.setTen(nv.getTen());
+                nv1.setLuong(nv.getLuong());
+                nv1.setSDT(nv.getSDT());
+                nv1.setDiaChi(nv.getDiaChi());
+                nv1.setEmail(nv.getEmail());
+                break;
             }
         }
-        for(NhanVienDTO nv : dsnv)
-        {
+    }
+    
+    public void xoa(int manv) {
+        new NhanVienDAO().xoa(manv);
+        dsnv.removeIf(n -> n.getMa() == manv);
+    }
+    
+    public NhanVienDTO layNhanVienTheoMa(int manv) {
+        return new NhanVienDAO().layNhanVienTheoMa(manv);
+    }
+    
+    public ArrayList<NhanVienDTO> layTatCaNhanVien () {
+        if(dsnv == null) {
+            dsnv = new NhanVienDAO().layTatCaNhanVien();
+        }
+        return dsnv;
+    }
+    
+    public void refreshDanhSach () {
+        dsnv = new NhanVienDAO().layTatCaNhanVien();
+    }
 
-            switch (index)
-            {
-                case 0:
-                {
-                    if(String.valueOf(nv.getMa()).contains(tim))
-                    {
-                        kq.add(nv);
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    if(nv.getHo().contains(tim))
-                    {
-                        kq.add(nv);
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    if(nv.getTen().contains(tim))
-                    {
-                        kq.add(nv);
-                    }
+    public static ArrayList<NhanVienDTO> getDSNV() {
+        return dsnv;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoMaNhanVien(int manv) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        if (dsnv != null) {
+            for(NhanVienDTO nv : dsnv) {
+                if(nv.getMa() == manv) {
+                    ds.add(nv);
                     break;
                 }
             }
         }
-        return kq;
+        return ds;
     }
     
-    public boolean ktraMaNV(int ma)
+    public ArrayList<NhanVienDTO> timKiemTheoHoTen(String hoten) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        if (hoten != null && !hoten.isEmpty()) {
+           for (NhanVienDTO nv : dsnv) {
+            String hoTenDayDu = nv.getHo().toLowerCase() + " " + nv.getTen().toLowerCase();
+                if (hoTenDayDu.contains(hoten.toLowerCase()) || 
+                    nv.getHo().toLowerCase().contains(hoten.toLowerCase())
+                    || nv.getTen().toLowerCase().contains(hoten.toLowerCase())) {
+                        ds.add(nv);
+                }
+            }
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoMucLuong(int mucluong) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        for(NhanVienDTO nv : dsnv) {
+            if(nv.getLuong() >= mucluong) {
+                ds.add(nv);
+            }
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoSDT(String sdt) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        if (sdt != null && !sdt.isEmpty()) {
+           for (NhanVienDTO nv : dsnv) {
+                if (nv.getSDT().toLowerCase().contains(sdt.toLowerCase())) {
+                    ds.add(nv);
+                }
+            }
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoDiaChi(String diachi) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        if (diachi != null && !diachi.isEmpty()) {
+           for (NhanVienDTO nv : dsnv) {
+                if (nv.getDiaChi().toLowerCase().contains(diachi.toLowerCase())) {
+                    ds.add(nv);
+                }   
+            }
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoEmail(String email) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        if (email != null && !email.isEmpty()) {
+           for (NhanVienDTO nv : dsnv) {
+                if (nv.getEmail().toLowerCase().contains(email.toLowerCase())) {
+                    ds.add(nv);
+                }
+            }
+        }
+        return ds;
+    }
+    
+    public boolean ktraMaNV(int manv)
     {
-        NhanVienDAO data = new NhanVienDAO();
-        return data.ktraMaNV(ma);
+        NhanVienDTO nv = layNhanVienTheoMa(manv);
+        return nv != null;
     }
 }
