@@ -103,7 +103,7 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
         btnXacNhan = new javax.swing.JButton();
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã", "Theo họ", "Theo tên", "Theo lương", "Theo sdt", "Theo địa chỉ", "Theo email", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã", "Theo họ", "Theo tên", "Theo lương", "Theo sdt", "Theo địa chỉ", "Theo email" }));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -121,7 +121,7 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -225,10 +225,6 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchActionPerformed
-
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
         xacNhan = false;
@@ -249,6 +245,104 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
         dispose();
         
     }//GEN-LAST:event_btnXacNhanActionPerformed
+
+    public void updateTB(ArrayList<NhanVienDTO> kqnv)
+    {
+        model.setRowCount(0);
+        for(NhanVienDTO nv : kqnv)
+        {
+            Vector row = new Vector();
+            row.add(nv.getMa());
+            row.add(nv.getHo());
+            row.add(nv.getTen());
+            row.add(nv.getLuong());
+            row.add(nv.getSDT());
+            row.add(nv.getDiaChi());
+            row.add(nv.getEmail());
+            model.addRow(row);
+        }
+        tbNhanVien.setModel(model);
+    }
+    
+    
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        String tim = txtSearch.getText().trim();
+        int i = jComboBox1.getSelectedIndex();
+        ArrayList<NhanVienDTO> kq = new ArrayList<>();
+        for(NhanVienDTO nv : kq)
+        {
+            switch(i)
+            {
+                case 0:
+                {
+                    if(tim.contains(String.valueOf(nv.getMa())))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 1:
+                {
+                    if(tim.contains(nv.getHo()))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    if(tim.contains(nv.getTen()))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    if(tim.contains(String.valueOf(nv.getLuong())))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 4:
+                {
+                    if(tim.contains(nv.getSDT()))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 5:
+                {
+                    if(tim.contains(nv.getDiaChi()))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+                case 6:
+                {
+                    if(tim.contains(nv.getEmail()))
+                    {
+                        kq.add(nv);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        updateTB(kq);
+        
+        if(kq.isEmpty())
+        {
+            String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);                
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     public int getMANV()
     {
