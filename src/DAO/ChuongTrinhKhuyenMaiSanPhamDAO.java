@@ -6,6 +6,7 @@ package DAO;
 import java.util.ArrayList;
 import java.sql.*;
 import DTO.ChuongTrinhKhuyenMaiSanPhamDTO;
+import config.DBConnect;
 /**
  *
  * @author mhoang
@@ -14,24 +15,14 @@ public class ChuongTrinhKhuyenMaiSanPhamDAO {
     Connection con=null;
     Statement st=null;
     ResultSet rs=null;
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
-    public ChuongTrinhKhuyenMaiSanPhamDAO()
-    {
-        if(con==null)
-        {
-            try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url,user,pass);               
-            } catch (Exception e) {
-            }
-        }
-    }
+
     
     public ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> docDSCTKMSP()
     {
         ArrayList ds = new ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO>();
         try {
         String qry = "select * from ctkmsp";
+        con = DBConnect.getConnection();      
         st = con.createStatement();
         rs = st.executeQuery(qry);
         while(rs.next())
@@ -56,6 +47,7 @@ public class ChuongTrinhKhuyenMaiSanPhamDAO {
             qry = qry + "'" + ct.getMasp() + "',";
             qry = qry + "'" + ct.getPtgg() + "'";
             qry = qry + ")";
+            con = DBConnect.getConnection();
             st=con.createStatement();
             st.executeUpdate(qry);
         } catch (Exception e) {
@@ -66,6 +58,7 @@ public class ChuongTrinhKhuyenMaiSanPhamDAO {
     {
         try {
             String qry = "Delete from ctkmsp where MACTKMSP = '" + maXoa + "'";
+            con = DBConnect.getConnection();
             st=con.createStatement();
             st.executeUpdate(qry);
         } catch (Exception e) {
@@ -80,7 +73,7 @@ public void capnhat(ChuongTrinhKhuyenMaiSanPhamDTO ct)
                      "MASP = " + ct.getMasp() + ", " +
                      "PTGG = " + ct.getPtgg() + 
                      " WHERE MACTKMSP = " + ct.getMactkmsp();
-        
+        con = DBConnect.getConnection();
         st = con.createStatement();
         st.executeUpdate(qry);
     } catch (Exception e) {

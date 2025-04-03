@@ -6,34 +6,23 @@ package DAO;
 import java.sql.*;
 import DTO.HoaDonDTO;
 import java.util.ArrayList;
+import config.DBConnect;
 /**
  *
  * @author mhoang
  */
 public class HoaDonDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/java_quanao";
     Connection con=null;
     Statement st=null;
     ResultSet rs=null;
-        public HoaDonDAO() {
-        if(con==null)
-        {
-            try {
-                
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                
-            } catch (Exception e) {
-            }
-        }
-    }
-        
+
         public ArrayList<HoaDonDTO> docDSHD()
         {
             ArrayList ds = new ArrayList<HoaDonDTO>();
             try {
                 
                 String qry = "select * from hoadon";
+                con = DBConnect.getConnection();
                 st = con.createStatement();
                 rs = st.executeQuery(qry);
                 while(rs.next())
@@ -63,7 +52,7 @@ public class HoaDonDAO {
             qry += "'" + hd.getMakh() + "',";
             qry += "'" + hd.getTongtien() + "'";
             qry += ")";
-            
+            con = DBConnect.getConnection();            
             st = con.createStatement();
             st.execute(qry);
                 
@@ -76,6 +65,7 @@ public class HoaDonDAO {
             try {
                 
                 String qry = "Delete from hoadon where MAHD = " + ma;
+                con = DBConnect.getConnection();
                 st = con.createStatement();
                 st.executeUpdate(qry);
                 
@@ -92,6 +82,7 @@ public class HoaDonDAO {
                 qry += ",MANV='" + hd.getManv() + "'";
                 qry += ",MAKH='" + hd.getMakh() + "'";
                 qry += " Where MAHD='" + hd.getMahd() +"'";
+                con = DBConnect.getConnection();
                 st = con.createStatement();
                 st.executeUpdate(qry);
             } catch (Exception e) {

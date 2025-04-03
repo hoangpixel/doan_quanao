@@ -23,6 +23,7 @@ public class HoaDonBUS {
     {
         HoaDonDAO data = new HoaDonDAO();
         data.them(hd);
+        ds.add(hd);
     }
     
     public void capnhat(HoaDonDTO hd)

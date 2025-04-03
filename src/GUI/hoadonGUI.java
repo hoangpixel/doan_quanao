@@ -187,10 +187,11 @@ public class hoadonGUI extends javax.swing.JPanel {
         });
 
         cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã hóa đơn", "Tìm theo ngày lập", "Tìm theo mã nhân viên", "Tìm theo mã khách hàng", "Tìm theo tổng tiền", "Tìm theo tổng tiền tăng dần", "Tìm theo tổng tiền giảm dần" }));
+        cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã hóa đơn", "Tìm theo ngày lập", "Tìm theo mã nhân viên", "Tìm theo mã khách hàng", "Tìm theo tổng tiền" }));
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
+        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);

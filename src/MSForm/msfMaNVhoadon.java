@@ -109,6 +109,7 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
+        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);

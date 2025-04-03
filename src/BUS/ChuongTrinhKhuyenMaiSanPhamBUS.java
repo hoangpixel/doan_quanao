@@ -22,7 +22,7 @@ public class ChuongTrinhKhuyenMaiSanPhamBUS {
     {
         ChuongTrinhKhuyenMaiSanPhamDAO data = new ChuongTrinhKhuyenMaiSanPhamDAO();
         data.them(ct);
-//        ds.add(ct);
+        ds.add(ct);
     }
     
     public void xoa(int maXoa)
