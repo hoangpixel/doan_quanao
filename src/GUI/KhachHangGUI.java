@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package GUI;
 
 /**
@@ -204,68 +201,24 @@ public class KhachHangGUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-        ThemSanPham dialog = new ThemSanPham(frame, true);
-        dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
-            this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-        }
+ 
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
-            dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-            }
-        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            String tenSP = model.getValueAt(row, 1).toString();
-            int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa sản phẩm \"" + tenSP + "\""+ " có mã SP: \"" + maSP + "\" ?",
-                "Xác nhận xóa",
-                JOptionPane.YES_NO_OPTION);
 
-            if (choice == JOptionPane.YES_OPTION) {
-                // Xóa sản phẩm
-                sanPhamBUS.xoaSanPham(maSP);
-                this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
-            }
-        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
-            ChiTietSanPham dialog = new ChiTietSanPham(frame, true, maSP);
-            dialog.setVisible(true);
-        }
+
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(sanPhamBUS.layTatCaSanPham());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
@@ -274,47 +227,7 @@ public class KhachHangGUI extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<SanPhamDTO> ds = new ArrayList<>();
-        String key = cbbSearch.getSelectedItem().toString();
-        String value = txtSearch.getText();
-        if(!value.isEmpty()) {
-            switch (key) {
-                case "Mã sản phẩm":
-                try {
-                    SanPhamDTO sp = sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value));
-                    if(sp != null) {
-                        ds.add(sp);
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Tên sản phẩm":
-                ds = sanPhamBUS.timKiemSanPhamTheoTen(value);
-                break;
-                case "Giá thấp nhất":
-                try {
-                    ds = sanPhamBUS.timKiemSanPhamTheoGiaThapNhat(Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Giá cao nhất":
-                try {
-                    ds = sanPhamBUS.timKiemSanPhamTheoGiCaoNhat(Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                    return;
-                }
-                break;
-                case "Chất liệu":
-                ds = sanPhamBUS.timKiemSanPhamTheoChatLieu(value);
-                break;
-            }
-            this.loadDataTable(ds);
-        }
+
 
     }//GEN-LAST:event_btnSearchActionPerformed
 

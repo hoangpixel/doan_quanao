@@ -40,11 +40,11 @@ public class NhanVienGUI extends javax.swing.JPanel {
     {
         model.setRowCount(0);
         NhanVienBUS bus = new NhanVienBUS();
-        if(NhanVienBUS.dsnv == null)
+        if(NhanVienBUS.getDSNV() == null)
         {
-            bus.docDSNV();
+            bus.layTatCaNhanVien();
         }
-        for(NhanVienDTO nv : NhanVienBUS.dsnv)
+        for(NhanVienDTO nv : NhanVienBUS.getDSNV())
         {
             Vector row = new Vector();
             row.add(nv.getMa());
@@ -258,9 +258,9 @@ public class NhanVienGUI extends javax.swing.JPanel {
             NhanVienDTO nv = dialog.getNhanVien();
             NhanVienBUS bus = new NhanVienBUS();
             bus.them(nv);
-            bus.docDSNV();
+            bus.layTatCaNhanVien();
             model.setRowCount(0);
-            for(NhanVienDTO nv1 : NhanVienBUS.dsnv)
+            for(NhanVienDTO nv1 : NhanVienBUS.getDSNV())
             {
                 Vector row = new Vector();
                 row.add(nv1.getMa());
@@ -370,41 +370,41 @@ public class NhanVienGUI extends javax.swing.JPanel {
     }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        String tim = txtSearch.getText().trim();
-        if(tim.isEmpty())
-        {
-            docSQL();
-            return;
-        }
-        int i = cbTim.getSelectedIndex();
-        NhanVienBUS bus = new NhanVienBUS();
-        ArrayList<NhanVienDTO> kq = bus.timKiemThuong(tim, i);
-        updateTB(kq);
-        
-        String mess ="";
-        if(kq.isEmpty())
-        {
-            mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
-        if(i == 1 || i == 2)
-        {
-            
-            String regex = "^\\d{2}/\\d{2}\\/d{4}$";
-            if(!tim.matches(regex))
-            {
-            mess = "Vui lòng nhập đúng định dạng (dd/MM/yyyy)";          
-            }
-        }
-            JLabel lbNull = new JLabel(mess);
-            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
-        }
-        
+//        String tim = txtSearch.getText().trim();
+//        if(tim.isEmpty())
+//        {
+//            docSQL();
+//            return;
+//        }
+//        int i = cbTim.getSelectedIndex();
+//        NhanVienBUS bus = new NhanVienBUS();
+//        ArrayList<NhanVienDTO> kq = bus.timKiemThuong(tim, i);
+//        updateTB(kq);
+//        
+//        String mess ="";
+//        if(kq.isEmpty())
+//        {
+//            mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+//        if(i == 1 || i == 2)
+//        {
+//            
+//            String regex = "^\\d{2}/\\d{2}\\/d{4}$";
+//            if(!tim.matches(regex))
+//            {
+//            mess = "Vui lòng nhập đúng định dạng (dd/MM/yyyy)";          
+//            }
+//        }
+//            JLabel lbNull = new JLabel(mess);
+//            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+//            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+//        }
+//        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        NhanVienBUS.dsnv = null;
+
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 

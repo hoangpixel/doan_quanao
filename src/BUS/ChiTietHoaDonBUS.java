@@ -18,7 +18,7 @@ public class ChiTietHoaDonBUS {
     public void docDSCTHD()
     {
         ChiTietHoaDonDAO data = new ChiTietHoaDonDAO();
-            dscthd = data.docDSCTHD();
+//            dscthd = data.docDSCTHD();
     }
     
     public void them(ChiTietHoaDonDTO cthd)
@@ -30,7 +30,7 @@ public class ChiTietHoaDonBUS {
     public void xoa(int mahd, int masp)
     {
         ChiTietHoaDonDAO data = new ChiTietHoaDonDAO();
-        data.xoa(mahd, masp);
+//        data.xoa(mahd, masp);
     }
     
     public void sua(ChiTietHoaDonDTO cthd)

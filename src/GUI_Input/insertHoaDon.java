@@ -10,7 +10,10 @@ import javax.swing.JOptionPane;
 import DTO.HoaDonDTO;
 import BUS.HoaDonBUS;
 import DAO.HoaDonDAO;
+import MSForm.msfMaNVhoadon;
 import BUS.NhanVienBUS;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author mhoang
@@ -92,6 +95,11 @@ public HoaDonDTO hd;
 
         btnMaNV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMaNV.setText("...");
+        btnMaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaNVActionPerformed(evt);
+            }
+        });
 
         btnMaKH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMaKH.setText("...");
@@ -241,6 +249,21 @@ public HoaDonDTO hd;
           xacNhan = true;
           dispose();
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaNVActionPerformed
+        // TODO add your handling code here:
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        msfMaNVhoadon msfDialog = new msfMaNVhoadon(topFrame, true);
+        msfDialog.setVisible(true);
+        
+        
+        if(msfDialog.xacNhanChon())
+        {
+            int manv = msfDialog.getMANV();
+            txtManv.setText(String.valueOf(manv));
+        }
+    }//GEN-LAST:event_btnMaNVActionPerformed
 
     public boolean xacNhanNhap()
     {
