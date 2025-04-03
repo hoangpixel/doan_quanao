@@ -4,121 +4,329 @@
  */
 package DAO;
 import DTO.NhanVienDTO;
+import config.DBConnect;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
  * @author suvie
  */
 public class NhanVienDAO {
-    String user = "root";
-    String password = "";
-    String url;
-    Connection conn = null;
-    Statement st = null;
-    ResultSet rs = null;
-    
-    public NhanVienDAO() {
-        this.url = "jdbc:mysql://localhost:3306/java_quanao";
-        if(conn == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(url, user, password);
-            }
-            catch(ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "Lỗi kết nối database!");
-            }
-            catch(SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Lỗi kết nối database!");
-            }
-        }
-    }
-    public ArrayList<NhanVienDTO> docDSNV() {
-        ArrayList dsnv = new ArrayList <NhanVienDTO>();
+    // Thêm nhân viên trả về mã nhân viên
+    public int them(NhanVienDTO nv) {
+        String query = "insert into nhanvien (HO, TEN, LUONG, SDT, DIACHI, EMAIL) values (?, ?, ?, ?, ?, ?)";
+        Connection conn = null;
+        int manv = -1;
         try {
-            String qry = "select * from nhanvien";
-            st = conn.createStatement();
-            rs = st.executeQuery(qry);
-            while(rs.next()) {
-                NhanVienDTO nv = new NhanVienDTO();
-                nv.setMa(rs.getInt(1));
-                nv.setHo(rs.getString(2));
-                nv.setTen(rs.getString(3));
-                nv.setLuong(rs.getInt(4));
-                nv.setSDT(rs.getString(5));
-                nv.setDiaChi(rs.getString(6));
-                nv.setEmail(rs.getString(7));
-                dsnv.add(nv);
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, nv.getHo());
+            st.setString(2, nv.getTen());
+            st.setInt(3, nv.getLuong());
+            st.setString(4, nv.getSDT());
+            st.setString(5, nv.getDiaChi());
+            st.setString(6, nv.getEmail());
+            
+            int row = st.executeUpdate();
+            if(row > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if(rs.next()) {
+                    manv = rs.getInt(1);
+                }
+                rs.close();
             }
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+
+        } finally {
+            DBConnect.closeConnection(conn);
         }
-        catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi đọc thông tin nhân viên!");
-        }
-        return dsnv;
-    }
-    
-    public void them(NhanVienDTO nv) {
-        try {
-            String qry = "Insert into nhanvien values(";
-            qry = qry + "'" + nv.getMa() + "'";
-            qry = qry + "," + "'" + nv.getHo() + "'";
-            qry = qry + "," + "'" + nv.getTen() + "'";
-            qry = qry + "," + "'" + nv.getLuong() + "'";
-            qry = qry + "," + "'" + nv.getSDT() + "'";
-            qry = qry + "," + "'" + nv.getDiaChi() + "'";
-            qry = qry + "," + "'" + nv.getEmail() + "'";
-            qry = qry + ")";
-            st = conn.createStatement();
-            st.executeUpdate(qry);
-        }
-        catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi đọc thông tin nhân viên!");
-        }
-    }
-    
-    public void xoa(int ma) {
-        try {
-            String qry = "Delete from nhanvien where MANV = '" + ma + "'";
-            st = conn.createStatement();
-            st.executeUpdate(qry);
-        }
-        catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi xóa nhân viên!");
-        }
+        return manv;
     }
     
     public void sua(NhanVienDTO nv) {
+        String query = """
+                       update nhanvien
+                       set HO = ?, TEN = ?, LUONG = ?, SDT = ?, DIACHI = ?, EMAIL = ?
+                       where MANV = ?
+                       """;
+        Connection conn = null;
         try {
-            String qry = "Update nhanvien Set";
-            qry = qry + " " + "HO=" + "'" + nv.getHo() + "'";
-            qry = qry + ",TEN=" + "'" + nv.getTen() + "'";
-            qry = qry + ",LUONG=" + "'" + nv.getLuong() + "'";
-            qry = qry + ",SDT=" + "'" + nv.getSDT() + "'";
-            qry = qry + ",DIACHI=" + "'" + nv.getDiaChi() + "'";
-            qry = qry + ",EMAIL=" + "'" + nv.getEmail() + "'";
-            qry = qry + " " + " where MANV='" + nv.getMa() + "'";
-            st = conn.createStatement();
-            st.executeUpdate(qry);
-        }
-        catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi sửa nhân viên!");
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, nv.getHo());
+            st.setString(2, nv.getTen());
+            st.setInt(3, nv.getLuong());
+            st.setString(4, nv.getSDT());
+            st.setString(5, nv.getDiaChi());
+            st.setString(6, nv.getEmail());
+            st.setInt(7, nv.getMa());     // Điều kiện của where
+            st.executeUpdate();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
         }
     }
     
-    public boolean ktraMaNV(int ma)
-    {
+    public void xoa(int manv) {
+        String query = "delete from nhanvien where MANV = ?";
+        Connection conn = null;
         try {
-            String qry = "select count(*) from nhanvien where MANV=" + ma;
-            st = conn.createStatement();
-            rs = st.executeQuery(qry);
-            if(rs.next())
-            {
-                int d=rs.getInt(1);
-                return d>0;
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, manv);
+            int rows = st.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(null, "Đã xóa nhân viên thành công!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên để xóa.");
             }
+            st.close();
         } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
         }
-        return false;
+    }
+    
+    public NhanVienDTO layNhanVienTheoMa (int manv) {
+        String query = "select * from nhanvien where MANV = ?";
+        Connection conn = null;
+        NhanVienDTO nv = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, manv);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return nv;
+    }
+    
+    public ArrayList<NhanVienDTO> layTatCaNhanVien () {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoMaNhanVien(int manv) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien where MANV = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, manv);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoHoTen(String hoten) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        // Kiểm tra nếu hoten null hoặc chuỗi rỗng thì return danh sách rỗng
+        if (hoten == null || hoten.trim().isEmpty()) {
+            return ds;
+        }
+
+        String query = "select * from nhanvien where HO LIKE ? or TEN LIKE ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + hoten + "%");
+            st.setString(2, "%" + hoten + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    } 
+    
+    public ArrayList<NhanVienDTO> timKiemTheoMucLuong(int mucluong) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien where LUONG >= ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, mucluong);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    } 
+    
+    public ArrayList<NhanVienDTO> timKiemTheoSDT(String sdt) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien where SDT = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, sdt);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoDiaChi(String diachi) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien where DIACHI LIKE ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + diachi + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
+    public ArrayList<NhanVienDTO> timKiemTheoEmail(String email) {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien where EMAIL = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
     }
 }
