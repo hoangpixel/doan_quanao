@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package GUI_Input;
-
+import BUS.HoaDonBUS;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import DTO.HoaDonDTO;
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author mhoang
@@ -13,6 +19,7 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
     /**
      * Creates new form timKiemNangCaoHoadon
      */
+    public ArrayList<HoaDonDTO> ds;
     public boolean xacNhan=false;
     public timKiemNangCaoHoadon(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -55,16 +62,16 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
 
         setTitle("Tìm kiếm nâng cao");
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Mã HD : ");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Ngày bắt đầu : ");
+        jLabel3.setText("Từ ngày này : ");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Ngày kết thúc : ");
+        jLabel4.setText("Đến ngày kia : ");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mã NV :");
@@ -132,11 +139,12 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTienMin, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtTienMin)
+                                .addGap(22, 22, 22))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -198,6 +206,11 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
         btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHuy.setText("Hủy");
@@ -258,14 +271,68 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        xacNhan = false;
+       xacNhan = false;
        dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    public boolean ktraDinhDang(String date)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(date);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String ngaybd="",ngaykt="";
+        if(dateNhap.getDate() != null)
+        {
+            ngaybd = sdf.format(dateNhap.getDate());
+        }
+        
+        if(dateKetThuc.getDate() != null)
+        {
+            ngaykt = sdf.format(dateKetThuc.getDate());
+        }
+        if((!ngaybd.isEmpty() && !ktraDinhDang(ngaybd)) || (!ngaykt.isEmpty() && !ktraDinhDang(ngaykt)))
+        {
+            JLabel lbTBloi = new JLabel("Vui lòng nhập đúng định dạng!");
+            lbTBloi.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBloi,"Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
+            return;            
+        }
+        
+        int mahd = txtMahd.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtMahd.getText());
+        int manv = txtManv.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtManv.getText());
+        int makh = txtMakh.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtMakh.getText());
+        int tienMin = txtTienMin.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMin.getText());
+        int tienMax = txtTienMax.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMax.getText());
+
+        HoaDonBUS bus = new HoaDonBUS();
+        ds = bus.timKiemNangCao(mahd, ngaybd, ngaykt, manv, makh, tienMin, tienMax);
+       xacNhan = true;
+       dispose();
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
+    public boolean xacNhanTim()
+    {
+        return xacNhan;
+    }
+    
+    public ArrayList<HoaDonDTO> getDS()
+    {
+        return ds;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

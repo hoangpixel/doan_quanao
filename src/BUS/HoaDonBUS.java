@@ -5,7 +5,9 @@
 package BUS;
 import DAO.HoaDonDAO;
 import DTO.HoaDonDTO;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 /**
  *
  * @author mhoang
@@ -91,6 +93,75 @@ public class HoaDonBUS {
                     break;
                 }
             }
+        }
+        return kq;
+    }
+    
+    
+    public ArrayList<HoaDonDTO> timKiemNangCao(int mahd,String ngaybd,String ngaykt,int manv,int makh,int tienMin,int tienMax)
+    {
+        ArrayList<HoaDonDTO> kq = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date timBD=null;
+        Date timKT=null;
+        Date bd=null;
+        try {
+                if(!ngaybd.isEmpty())
+                {
+                    timBD = sdf.parse(ngaybd);
+                }
+                if(!ngaykt.isEmpty())
+                {
+                    timKT = sdf.parse(ngaykt);
+                }
+        } catch (Exception e) {
+        }
+        for(HoaDonDTO hd : ds)
+        {
+            boolean dk = false;
+            try {
+            bd = sdf.parse(hd.getNgaylap());
+            if(mahd!=-1 && hd.getMahd()!=mahd )
+            {
+                dk = true;
+            }
+
+            if(timBD!=null && bd.before(timBD))
+            {
+                dk = true;
+            }
+            
+            if(timKT!=null && bd.after(timKT))
+            {
+                dk = true;
+            }
+            
+            if(manv!=-1 && hd.getManv()!=manv)
+            {
+                dk=true;
+            }
+            
+            if(makh!=-1 && hd.getMakh()!=makh)
+            {
+                dk = true;
+            }
+            
+            if(tienMin!=-1 && hd.getTongtien() <= tienMin)
+            {
+                dk = true;
+            }
+            
+            if(tienMax!=-1 && hd.getTongtien() >= tienMax)
+            {
+                dk=true;
+            }
+        if(!dk)
+        {
+            kq.add(hd);
+        }
+            } catch (Exception e) {
+            }
+            
         }
         return kq;
     }

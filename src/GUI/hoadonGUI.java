@@ -463,6 +463,20 @@ public class hoadonGUI extends javax.swing.JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         timKiemNangCaoHoadon dialog = new timKiemNangCaoHoadon(topFrame, true);
         dialog.setVisible(true);
+        
+        if(dialog.xacNhanTim())
+        {
+            ArrayList<HoaDonDTO> kq = dialog.getDS();
+            updateTB(kq);
+            
+            if(kq.isEmpty())
+            {
+            String mess = "Không tìm thấy kết quả trong dữ liệu";
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);                      
+            }
+        }
     }//GEN-LAST:event_btnLocActionPerformed
 
     /**
