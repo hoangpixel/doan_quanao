@@ -17,7 +17,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author mhoang
  */
-public class msfMaNVhoadon extends javax.swing.JDialog {
+public class msfMaNV extends javax.swing.JDialog {
 
     /**
      * Creates new form msfMaNVhoadon
@@ -25,7 +25,7 @@ public class msfMaNVhoadon extends javax.swing.JDialog {
     public boolean xacNhan = false;
     public int getMa;
     DefaultTableModel model = new DefaultTableModel();
-    public msfMaNVhoadon(java.awt.Frame parent, boolean modal) {
+    public msfMaNV(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(this);

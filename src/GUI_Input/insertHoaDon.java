@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import DTO.HoaDonDTO;
 import BUS.HoaDonBUS;
 import DAO.HoaDonDAO;
-import MSForm.msfMaNVhoadon;
+import MSForm.msfMaNV;
 import BUS.NhanVienBUS;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -254,7 +254,7 @@ public HoaDonDTO hd;
         // TODO add your handling code here:
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        msfMaNVhoadon msfDialog = new msfMaNVhoadon(topFrame, true);
+        msfMaNV msfDialog = new msfMaNV(topFrame, true);
         msfDialog.setVisible(true);
         
         

@@ -255,11 +255,12 @@ public class hoadonGUI extends javax.swing.JPanel {
                                     .addComponent(btnUpdate)
                                     .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSearch)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLoc))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLoc, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSearch)
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(25, 25, 25)))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
@@ -415,7 +416,7 @@ public class hoadonGUI extends javax.swing.JPanel {
         {
            JLabel lbMadetail = new JLabel("Vui lòng chọn mã để xem");
            lbMadetail.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbMadetail,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, lbMadetail,"Chọn mã xem",JOptionPane.ERROR_MESSAGE);
            return;           
         }
         

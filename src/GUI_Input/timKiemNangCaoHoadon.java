@@ -11,6 +11,10 @@ import java.awt.Font;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import MSForm.msfMaHD;
+import MSForm.msfMaNV;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author mhoang
@@ -54,8 +58,8 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
         txtTienMax = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtMakh = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnMaHD = new javax.swing.JButton();
+        btnMaNV = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnSearch = new javax.swing.JButton();
@@ -100,13 +104,23 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
 
         txtMakh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("...");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaHD.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnMaHD.setText("...");
+        btnMaHD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaHDActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("...");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaNV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnMaNV.setText("...");
+        btnMaNV.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaNVActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setText("...");
@@ -132,13 +146,13 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtMahd, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -174,7 +188,7 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtMahd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnMaHD))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -187,7 +201,7 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtManv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2))
+                                .addComponent(btnMaNV))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(23, 23, 23)
@@ -328,6 +342,32 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void btnMaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHDActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        msfMaHD dialog = new msfMaHD(topFrame, true);
+        dialog.setVisible(true);
+        
+        if(dialog.xacNhanTim())
+        {
+            int ma = dialog.getMaHD();
+            txtMahd.setText(String.valueOf(ma));
+        }
+    }//GEN-LAST:event_btnMaHDActionPerformed
+
+    private void btnMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaNVActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        msfMaNV dialog = new msfMaNV(topFrame, true);
+        dialog.setVisible(true);
+        
+        if(dialog.xacNhanChon())
+        {
+            int ma = dialog.getMANV();
+            txtManv.setText(String.valueOf(ma));
+        }
+    }//GEN-LAST:event_btnMaNVActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -344,11 +384,11 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnMaHD;
+    private javax.swing.JButton btnMaNV;
     private javax.swing.JButton btnSearch;
     private com.toedter.calendar.JDateChooser dateKetThuc;
     private com.toedter.calendar.JDateChooser dateNhap;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
