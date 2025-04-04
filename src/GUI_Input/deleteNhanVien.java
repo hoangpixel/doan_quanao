@@ -3,9 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
+
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author mhoang
+ * @author suvie
  */
 public class deleteNhanVien extends javax.swing.JDialog {
 
@@ -113,8 +118,11 @@ public class deleteNhanVien extends javax.swing.JDialog {
 
     private void btnCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoActionPerformed
         // TODO add your handling code here:
-        xacNhan = true;
-        dispose();
+            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            xacNhan = true;
+            dispose();
     }//GEN-LAST:event_btnCoActionPerformed
 
     public boolean xacNhanXoa()
