@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import DTO.HoaDonDTO;
 import java.awt.Font;
+import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 /**
@@ -275,59 +276,56 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
        dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
-    public boolean ktraDinhDang(String date)
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(date);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+//    public boolean ktraDinhDang(Date ktra)
+//    {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        sdf.setLenient(false);
+//        try {
+//            sdf.parse(ktra);
+//            return true;
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
     
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String ngaybd="",ngaykt="";
-        if(dateNhap.getDate() != null)
-        {
-            ngaybd = sdf.format(dateNhap.getDate());
-        }
-        
-        if(dateKetThuc.getDate() != null)
-        {
-            ngaykt = sdf.format(dateKetThuc.getDate());
-        }
-        if((!ngaybd.isEmpty() && !ktraDinhDang(ngaybd)) || (!ngaykt.isEmpty() && !ktraDinhDang(ngaykt)))
-        {
-            JLabel lbTBloi = new JLabel("Vui lòng nhập đúng định dạng!");
-            lbTBloi.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbTBloi,"Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
-            return;            
-        }
-        
+        try {
+        Date bd = dateNhap.getDate();
+        Date kt = dateKetThuc.getDate();
         int mahd = txtMahd.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtMahd.getText());
         int manv = txtManv.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtManv.getText());
         int makh = txtMakh.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtMakh.getText());
         int tienMin = txtTienMin.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMin.getText());
         int tienMax = txtTienMax.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMax.getText());
-
         
-        if(mahd==-1 || manv == -1 || makh == -1 || tienMin == -1 || tienMax == -1)
+        if(bd!=null && kt!=null && bd.after(kt))
         {
-            JLabel lbTBloi = new JLabel("Vui lòng nhập thông tin để tìm kiếm!");
+            JLabel lbTBloi = new JLabel("Vui lòng nhập đúng định dạng ngày!");
             lbTBloi.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbTBloi,"Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
-            return;             
+            JOptionPane.showMessageDialog(this, lbTBloi,"Lỗi định dạng ngày",JOptionPane.ERROR_MESSAGE);
+            return;            
+        }
+       
+        if(mahd == -1 && manv == -1 && makh == -1 && tienMin == -1 && tienMax == -1 && bd == null && kt == null)
+        {
+            JLabel lbTBloinu = new JLabel("Vui lòng nhập thông tin để tìm kiếm!");
+            lbTBloinu.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBloinu,"Lỗi định dạng tìm kiếm",JOptionPane.ERROR_MESSAGE);   
+            return;
         }
         
         
         HoaDonBUS bus = new HoaDonBUS();
-        ds = bus.timKiemNangCao(mahd, ngaybd, ngaykt, manv, makh, tienMin, tienMax);
-       xacNhan = true;
-       dispose();
+        ds = bus.timKiemNangCao(mahd, bd, kt, manv, makh, tienMin, tienMax);
+        xacNhan = true;
+        dispose();
+        } catch (NumberFormatException e) {
+            JLabel lbTBloinull = new JLabel("Vui lòng nhập số hợp lệ!");
+            lbTBloinull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBloinull,"Lỗi định dạng tìm kiếm",JOptionPane.ERROR_MESSAGE);          
+        }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**

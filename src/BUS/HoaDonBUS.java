@@ -98,24 +98,12 @@ public class HoaDonBUS {
     }
     
     
-    public ArrayList<HoaDonDTO> timKiemNangCao(int mahd,String ngaybd,String ngaykt,int manv,int makh,int tienMin,int tienMax)
+    public ArrayList<HoaDonDTO> timKiemNangCao(int mahd,Date ngaybd,Date ngaykt,int manv,int makh,int tienMin,int tienMax)
     {
         ArrayList<HoaDonDTO> kq = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date timBD=null;
-        Date timKT=null;
         Date bd=null;
-        try {
-                if(!ngaybd.isEmpty())
-                {
-                    timBD = sdf.parse(ngaybd);
-                }
-                if(!ngaykt.isEmpty())
-                {
-                    timKT = sdf.parse(ngaykt);
-                }
-        } catch (Exception e) {
-        }
+
         for(HoaDonDTO hd : ds)
         {
             boolean dk = false;
@@ -126,12 +114,12 @@ public class HoaDonBUS {
                 dk = true;
             }
 
-            if(timBD!=null && bd.before(timBD))
+            if(ngaybd!=null && bd.before(ngaybd))
             {
                 dk = true;
             }
             
-            if(timKT!=null && bd.after(timKT))
+            if(ngaykt!=null && bd.after(ngaykt))
             {
                 dk = true;
             }
