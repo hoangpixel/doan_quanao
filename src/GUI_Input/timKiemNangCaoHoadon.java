@@ -314,6 +314,16 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
         int tienMin = txtTienMin.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMin.getText());
         int tienMax = txtTienMax.getText().trim().isEmpty() ? -1 : Integer.parseInt(txtTienMax.getText());
 
+        
+        if(mahd==-1 || manv == -1 || makh == -1 || tienMin == -1 || tienMax == -1)
+        {
+            JLabel lbTBloi = new JLabel("Vui lòng nhập thông tin để tìm kiếm!");
+            lbTBloi.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbTBloi,"Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
+            return;             
+        }
+        
+        
         HoaDonBUS bus = new HoaDonBUS();
         ds = bus.timKiemNangCao(mahd, ngaybd, ngaykt, manv, makh, tienMin, tienMax);
        xacNhan = true;
