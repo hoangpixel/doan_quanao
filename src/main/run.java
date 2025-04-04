@@ -3,8 +3,8 @@ package main;
 import GUI.ChuongTrinhKhuyenMaiHoaDonGUI;
 import GUI.NhaCungCapGUI;
 import GUI.SanPhamGUI;
-import GUI.ctkmspGUI;
-import GUI.ctkmGUI;
+import GUI.ChuongTrinhKhuyenMaiSanPhamGUI;
+import GUI.ChuongTrinhKhuyenMaiGUI;
 import GUI.hoadonGUI;
 import GUI.navleft;
 import java.awt.*;
@@ -63,9 +63,9 @@ public class run extends JFrame {
 
 
         // Thêm các panel cần hiển thị
-        ctkmGUI ctkmPanel = new ctkmGUI();
+        ChuongTrinhKhuyenMaiGUI ctkmPanel = new ChuongTrinhKhuyenMaiGUI();
         contentPanel.add(ctkmPanel, "CTKM");
-        ctkmspGUI ctkmspPanel = new ctkmspGUI();
+        ChuongTrinhKhuyenMaiSanPhamGUI ctkmspPanel = new ChuongTrinhKhuyenMaiSanPhamGUI();
         contentPanel.add(ctkmspPanel,"CTKMSP");
         // panel sản phẩm
         SanPhamGUI sanPhamPanel = new SanPhamGUI();

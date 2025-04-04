@@ -17,21 +17,21 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.util.ArrayList;
 import GUI_Input.detailCTKM;
+import GUI_Click.ctkmGUI_Click;
 /**
  *
  * @author mhoang
  */
-public class ctkmGUI extends javax.swing.JPanel {
+public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form listCTKM
      */
     DefaultTableModel model = new DefaultTableModel();
-
     
-    public ctkmGUI() {
+    public ChuongTrinhKhuyenMaiGUI() {
         initComponents();
-        headerTable();
+        headerTable(); 
         docSQL();
     }
     
@@ -60,7 +60,14 @@ public class ctkmGUI extends javax.swing.JPanel {
         header.add("Mã chi tiết khuyến mãi");
         header.add("Ngày bắt đầu");
         header.add("Ngày kết thúc");
-        model = new DefaultTableModel(header,0);
+        model = new DefaultTableModel(header,0)
+                {
+                    @Override
+                    public boolean isCellEditable(int row,int column)
+                {
+                    return false;
+                }
+                };
         tbCTKM.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -364,7 +371,25 @@ public class ctkmGUI extends javax.swing.JPanel {
 
     private void tbCTKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTKMMouseClicked
 
+        
+        if(evt.getClickCount()==2)
+        {
+            if(tbCTKM.isEditing())
+            {
+                tbCTKM.getCellEditor().stopCellEditing();
+            }
+            int i = tbCTKM.getSelectedRow();
+            int ma = (int) tbCTKM.getValueAt(i, 0);
+            
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            ctkmGUI_Click dialog = new ctkmGUI_Click(topFrame, true,ma);
+            dialog.setVisible(true);
+        }
+        
+        
     }//GEN-LAST:event_tbCTKMMouseClicked
+    
+
     public void updateTB(ArrayList<ChuongTrinhKhuyenMaiDTO> dskq)
     {
         model.setRowCount(0);

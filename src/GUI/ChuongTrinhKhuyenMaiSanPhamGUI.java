@@ -22,7 +22,7 @@ import GUI_Input.updateCTKMSP;
  *
  * @author mhoang
  */
-public class ctkmspGUI extends javax.swing.JPanel {
+public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form listCTKM
@@ -31,7 +31,7 @@ public class ctkmspGUI extends javax.swing.JPanel {
 
     
 //  
-    public ctkmspGUI() {
+    public ChuongTrinhKhuyenMaiSanPhamGUI() {
         initComponents();
         headerTable();
         docSQL();

@@ -87,4 +87,17 @@ public class ChuongTrinhKhuyenMaiSanPhamBUS {
         }
         return kq;
     }
+    
+    public ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> layDsTheoMaCTKM(int ma)
+    {
+        ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> kq = new ArrayList<>();
+        for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ds)
+        {
+            if(ma == ct.getMactkm())
+            {
+                kq.add(ct);
+            }
+        }
+        return kq;
+    }
 }
