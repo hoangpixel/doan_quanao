@@ -60,7 +60,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
         // Load dữ liệu
         
-        this.loadDataTable(cthdbus.layTatCaNhanVien());
+        this.loadDataTable(cthdbus.layTatCaCTHD());
     }
 
     /**
@@ -269,14 +269,14 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
             int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
             int masp = Integer.parseInt(model.getValueAt(row, 1).toString());
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa chi tiết hóa đơn có mã hóa đơn và mã sản phẩm: \"" + mahd + "\" ?",
-                "Xác nhận xóa",
-                JOptionPane.YES_NO_OPTION);
+            "Bạn có chắc muốn xóa chi tiết hóa đơn với:\nMã hóa đơn: " + mahd + "\nMã sản phẩm: " + masp + " ?",
+            "Xác nhận xóa",
+            JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
-                // Xóa sản phẩm
-                nvbus.xoa(manv);
-                this.loadDataTable(NhanVienBUS.getDSNV());
+                // Xóa chi tiết hóa đơn
+                cthdbus.xoa(mahd, masp);
+                this.loadDataTable(ChiTietHoaDonBUS.getDSCTHD());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -289,15 +289,16 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         }
         else {
             int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
+            int masp = Integer.parseInt(model.getValueAt(row, 1).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
-            ThongTinChiTietHoaDon dialog = new ThongTinChiTietHoaDon(frame, true, mahd);
+            ThongTinChiTietHoaDon dialog = new ThongTinChiTietHoaDon(frame, true, mahd, masp);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(cthdbus.layTatCaNhanVien());
+        this.loadDataTable(cthdbus.layTatCaCTHD());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -308,49 +309,35 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         if(!value.isEmpty()) {
             switch (key) {
                 case "Mã hóa đơn":
-                    try {
-                        ChiTietHoaDonDTO cthd = cthdbus.layNhanVienTheoMa(Integer.parseInt(value));
-                        if (nv != null) {
-                            ds.add(nv);
-                        }
-                        
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
-                    }
+                    ds = cthdbus.timKiemTheoMaHoaDon(Integer.parseInt(value));
                     break;
-                case "Họ tên":
-                    ds = nvbus.timKiemTheoHoTen(value);
+                case "Mã sản phẩm":
+                    ds = cthdbus.timKiemTheoMaSanPham(Integer.parseInt(value));
                     break;
-                case "Lương":
-                    ds = nvbus.timKiemTheoMucLuong(Integer.parseInt(value));
+                case "Số lượng":
+                    ds = cthdbus.timKiemTheoSoLuong(Integer.parseInt(value));
                     break;
-                case "Số điện thoại":
-                    ds = nvbus.timKiemTheoSDT(value);
+                case "Đơn giá":
+                    ds = cthdbus.timKiemTheoDonGia(Integer.parseInt(value));
                     break;
-                case "Địa chỉ":
-                    ds = nvbus.timKiemTheoDiaChi(value);
-                    break;
-                case "Email":
-                    ds = nvbus.timKiemTheoEmail(value);
+                case "Thành tiền":
+                    ds = cthdbus.timKiemTheoThanhTien(Integer.parseInt(value));
                     break;
             }
             this.loadDataTable(ds);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void loadDataTable(ArrayList<NhanVienDTO> ds) {
+    private void loadDataTable(ArrayList<ChiTietHoaDonDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
-            for(NhanVienDTO nv : ds) {
+            for(ChiTietHoaDonDTO cthd : ds) {
                 Vector row = new Vector();
-                row.add(nv.getMa());
-                row.add(nv.getHo());
-                row.add(nv.getTen());
-                row.add(nv.getLuong());
-                row.add(nv.getSDT());
-                row.add(nv.getDiaChi());
-                row.add(nv.getEmail());
+                row.add(cthd.getMaHoaDon());
+                row.add(cthd.getMaSanPham());
+                row.add(cthd.getSoLuong());
+                row.add(cthd.getDonGia());
+                row.add(cthd.getDonGia() * cthd.getSoLuong());
                 model.addRow(row);
             }
             tbCTHD.setModel(model);
