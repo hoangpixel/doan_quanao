@@ -4,21 +4,21 @@
  */
 package GUI_Input;
 
-import BUS.NhaCungCapBUS;
-import DTO.NhaCungCapDTO;
+import BUS.QuanBUS;
+import DTO.QuanDTO;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Vinh
+ * @author suvie
  */
-public class ThemNCC extends javax.swing.JDialog {
+public class ThemQuan extends javax.swing.JDialog {
 
     private boolean xacNhanThem = false;
     /**
-     * Creates new form ThemNCC
+     * Creates new form ThemQuan
      */
-    public ThemNCC(java.awt.Frame parent, boolean modal) {
+    public ThemQuan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -36,11 +36,7 @@ public class ThemNCC extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtTenNCC = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtSDT = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtDiaChi = new javax.swing.JTextField();
+        txtTenQuan = new javax.swing.JTextField();
         btnXacNhanThem = new javax.swing.JButton();
         btnHuyBo = new javax.swing.JButton();
 
@@ -53,7 +49,7 @@ public class ThemNCC extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("THÊM NHÀ CUNG CẤP");
+        jLabel1.setText("THÊM QUẦN");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,11 +68,10 @@ public class ThemNCC extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jLabel2.setText("Tên nhà cung cấp");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Tên quần");
 
-        jLabel3.setText("SĐT nhà cung cấp");
-
-        jLabel5.setText("Địa chỉ");
+        txtTenQuan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnXacNhanThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXacNhanThem.setText("Xác nhận");
@@ -102,17 +97,11 @@ public class ThemNCC extends javax.swing.JDialog {
                 .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTenNCC, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                            .addComponent(txtDiaChi)
-                            .addComponent(txtSDT))
+                        .addComponent(txtTenQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
@@ -125,16 +114,8 @@ public class ThemNCC extends javax.swing.JDialog {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                    .addComponent(txtTenQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,21 +128,13 @@ public class ThemNCC extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
-        NhaCungCapDTO ncc = new NhaCungCapDTO();
-        
-        ncc.setTenNCC(txtTenNCC.getText());
-        try {
-            int sdt = Integer.parseInt(txtSDT.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại hợp lệ!");
-            txtSDT.requestFocus();
-            txtSDT.selectAll();
+        if(!kiemTraHopLe())
             return;
-        }
-        ncc.setSdtNCC(txtSDT.getText());
-        ncc.setDiaChi(txtDiaChi.getText());
-        new NhaCungCapBUS().themNCC(ncc);
+        QuanDTO q = new QuanDTO();
+        q.setTenQuan(txtTenQuan.getText());
+        new QuanBUS().them(q);
         xacNhanThem = true;
+        JOptionPane.showMessageDialog(this, "Thêm quần thành công!");
         dispose();
 
     }//GEN-LAST:event_btnXacNhanThemActionPerformed
@@ -177,18 +150,22 @@ public class ThemNCC extends javax.swing.JDialog {
     public boolean isXacNhanThem() {
         return xacNhanThem;
     }
+    
+    private boolean kiemTraHopLe() {
+        if(txtTenQuan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            return false;
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuyBo;
     private javax.swing.JButton btnXacNhanThem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtSDT;
-    private javax.swing.JTextField txtTenNCC;
+    private javax.swing.JTextField txtTenQuan;
     // End of variables declaration//GEN-END:variables
 }

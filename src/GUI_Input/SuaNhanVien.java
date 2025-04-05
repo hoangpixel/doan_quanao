@@ -12,18 +12,18 @@ import javax.swing.JOptionPane;
  *
  * @author suvie
  */
-public class updateNhanVien extends javax.swing.JDialog {
+public class SuaNhanVien extends javax.swing.JDialog {
 
     /**
-     * Creates new form SuaNCC
+     * Creates new form SuaNhanVien
      */
     private boolean xacNhanSua = false;
     private int manv;
-    public updateNhanVien(java.awt.Frame parent, boolean modal, int maNCC) {
+    public SuaNhanVien(java.awt.Frame parent, boolean modal, int manv) {
         super(parent, modal);
         this.manv = manv;
         initComponents();
-        loadNV(manv);
+        loadNhanVien(manv);
     }
 
     /**
@@ -197,6 +197,8 @@ public class updateNhanVien extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        if(!kiemTraHopLe())
+            return;
         NhanVienDTO nv = new NhanVienDTO();
         nv.setMa(manv);
         nv.setHo(txtHo.getText());
@@ -208,6 +210,7 @@ public class updateNhanVien extends javax.swing.JDialog {
         
         new NhanVienBUS().sua(nv);
         xacNhanSua = true;
+        JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhân viên thành công!");
         dispose();
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
@@ -223,7 +226,7 @@ public class updateNhanVien extends javax.swing.JDialog {
         return xacNhanSua;
     }
     
-    public void loadNV(int manv) {
+    public void loadNhanVien(int manv) {
         NhanVienDTO nv = new NhanVienBUS().layNhanVienTheoMa(manv);
         txtHo.setText(nv.getHo());
         txtTen.setText(nv.getTen());
@@ -231,6 +234,23 @@ public class updateNhanVien extends javax.swing.JDialog {
         txtSDT.setText(nv.getSDT());
         txtDiaChi.setText(nv.getDiaChi());
         txtEmail.setText(nv.getEmail());
+    }
+    
+    private boolean kiemTraHopLe() {
+        if(txtHo.getText().isEmpty() || txtTen.getText().isEmpty() || txtLuong.getText().isEmpty()
+           || txtSDT.getText().isEmpty() || txtDiaChi.getText().isEmpty() || txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            return false;
+        }
+        
+        try {
+            Integer.parseInt(txtLuong.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lương phải là số hợp lệ!");
+            return false;
+        }
+
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

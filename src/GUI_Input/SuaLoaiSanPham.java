@@ -4,26 +4,26 @@
  */
 package GUI_Input;
 
-import BUS.NhaCungCapBUS;
-import DTO.NhaCungCapDTO;
+import BUS.LoaiSanPhamBUS;
+import DTO.LoaiSanPhamDTO;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Vinh
+ * @author suvie
  */
-public class SuaNCC extends javax.swing.JDialog {
+public class SuaLoaiSanPham extends javax.swing.JDialog {
 
     /**
-     * Creates new form SuaNCC
+     * Creates new form SuaLoaiSanPham
      */
     private boolean xacNhanSua = false;
-    private int maNCC;
-    public SuaNCC(java.awt.Frame parent, boolean modal, int maNCC) {
+    private int malsp;
+    public SuaLoaiSanPham(java.awt.Frame parent, boolean modal, int malsp) {
         super(parent, modal);
-        this.maNCC = maNCC;
+        this.malsp = malsp;
         initComponents();
-        loadNCC(maNCC);
+        loadLoaiSanPham(malsp);
     }
 
     /**
@@ -39,11 +39,7 @@ public class SuaNCC extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtTenNCC = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtSDT = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtDiaChi = new javax.swing.JTextField();
+        txtTenLoai = new javax.swing.JTextField();
         btnXacNhan = new javax.swing.JButton();
         btnHuyBo = new javax.swing.JButton();
 
@@ -56,7 +52,7 @@ public class SuaNCC extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("CHỈNH SỬA NHÀ CUNG CẤP");
+        jLabel1.setText("CHỈNH SỬA LOẠI SẢN PHẨM");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,11 +69,10 @@ public class SuaNCC extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jLabel2.setText("Tên nhà cung cấp");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Tên loại");
 
-        jLabel3.setText("SĐT nhà cung cấp");
-
-        jLabel5.setText("Địa chỉ");
+        txtTenLoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXacNhan.setText("Xác nhận");
@@ -103,20 +98,14 @@ public class SuaNCC extends javax.swing.JDialog {
                 .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTenNCC, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                            .addComponent(txtDiaChi)
-                            .addComponent(txtSDT))
+                        .addComponent(txtTenLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(79, 79, 79))))
         );
@@ -126,16 +115,8 @@ public class SuaNCC extends javax.swing.JDialog {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                    .addComponent(txtTenLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -148,22 +129,14 @@ public class SuaNCC extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        NhaCungCapDTO nhaCungCapDTO = new NhaCungCapDTO();
-        nhaCungCapDTO.setMaNCC(maNCC);
-        nhaCungCapDTO.setTenNCC(txtTenNCC.getText());
-        try {
-            int sdt = Integer.parseInt(txtSDT.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại hợp lệ!");
-            txtSDT.requestFocus();
-            txtSDT.selectAll();
+        if(!kiemTraHopLe())
             return;
-        }
-        nhaCungCapDTO.setSdtNCC(txtSDT.getText());
-        nhaCungCapDTO.setDiaChi(txtDiaChi.getText());
-        
-        new NhaCungCapBUS().suaNCC(nhaCungCapDTO);
+        LoaiSanPhamDTO lsp = new LoaiSanPhamDTO();
+        lsp.setMaLoai(malsp);
+        lsp.setTenLoai(txtTenLoai.getText());
+        new LoaiSanPhamBUS().sua(lsp);
         xacNhanSua = true;
+        JOptionPane.showMessageDialog(this, "Cập nhật thông tin loại sản phẩm thành công!");
         dispose();
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
@@ -179,11 +152,17 @@ public class SuaNCC extends javax.swing.JDialog {
         return xacNhanSua;
     }
     
-    public void loadNCC(int maNCC) {
-        NhaCungCapDTO nhaCungCapDTO = new NhaCungCapBUS().layNCCTheoMa(maNCC);
-        txtTenNCC.setText(nhaCungCapDTO.getTenNCC());
-        txtSDT.setText(nhaCungCapDTO.getSdtNCC());
-        txtDiaChi.setText(nhaCungCapDTO.getDiaChi());
+    public void loadLoaiSanPham(int malsp) {
+        LoaiSanPhamDTO lsp = new LoaiSanPhamBUS().layLSPTheoMa(malsp);
+        txtTenLoai.setText(lsp.getTenLoai());
+    }
+    
+    private boolean kiemTraHopLe() {
+        if(txtTenLoai.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            return false;
+        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -191,12 +170,8 @@ public class SuaNCC extends javax.swing.JDialog {
     private javax.swing.JButton btnXacNhan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtSDT;
-    private javax.swing.JTextField txtTenNCC;
+    private javax.swing.JTextField txtTenLoai;
     // End of variables declaration//GEN-END:variables
 }

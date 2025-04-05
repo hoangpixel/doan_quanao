@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
  *
  * @author suvie
  */
-public class insertNhanVien extends javax.swing.JDialog {
+public class ThemNhanVien extends javax.swing.JDialog {
 
     private boolean xacNhanThem = false;
     /**
-     * Creates new form ThemNCC
+     * Creates new form ThemNhanVien
      */
-    public insertNhanVien(java.awt.Frame parent, boolean modal) {
+    public ThemNhanVien(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -194,6 +194,9 @@ public class insertNhanVien extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
+        if(!kiemTraHopLe())
+            return;
+        
         NhanVienDTO nv = new NhanVienDTO();
         nv.setHo(txtHo.getText());
         nv.setTen(txtTen.getText());
@@ -201,8 +204,10 @@ public class insertNhanVien extends javax.swing.JDialog {
         nv.setSDT(txtSDT.getText());
         nv.setDiaChi(txtDiaChi.getText());
         nv.setEmail(txtEmail.getText());
+        
         new NhanVienBUS().them(nv);
         xacNhanThem = true;
+        JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
         dispose();
 
     }//GEN-LAST:event_btnXacNhanThemActionPerformed
@@ -217,6 +222,23 @@ public class insertNhanVien extends javax.swing.JDialog {
 
     public boolean isXacNhanThem() {
         return xacNhanThem;
+    }
+    
+    private boolean kiemTraHopLe() {
+        if(txtHo.getText().isEmpty() || txtTen.getText().isEmpty() || txtLuong.getText().isEmpty()
+           || txtSDT.getText().isEmpty() || txtDiaChi.getText().isEmpty() || txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            return false;
+        }
+        
+        try {
+            Integer.parseInt(txtLuong.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lương phải là số hợp lệ!");
+            return false;
+        }
+
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
