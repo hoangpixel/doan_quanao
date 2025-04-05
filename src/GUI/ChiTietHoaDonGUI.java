@@ -4,11 +4,11 @@
  */
 package GUI;
 
-import BUS.NhanVienBUS;
-import DTO.NhanVienDTO;
-import GUI_Input.detailNhanVien;
-import GUI_Input.updateNhanVien;
-import GUI_Input.insertNhanVien;
+import BUS.ChiTietHoaDonBUS;
+import DTO.ChiTietHoaDonDTO;
+import GUI_Input.ThongTinChiTietHoaDon;
+import GUI_Input.SuaChiTietHoaDon;
+import GUI_Input.ThemChiTietHoaDon;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -22,23 +22,23 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Vinh
+ * @author suvie
  */
-public class NhanVienGUI extends javax.swing.JPanel {
+public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
     /**
-     * Creates new form NhaCungCapGUI
+     * Creates new form ChiTietHoaDonGUI
      */
-    private NhanVienBUS nvbus = new NhanVienBUS();
+    private ChiTietHoaDonBUS cthdbus = new ChiTietHoaDonBUS();
     DefaultTableModel model = new DefaultTableModel();
-    public NhanVienGUI() {
+    public ChiTietHoaDonGUI() {
         initComponents();
         
         // Gán model cho bảng
-        tbNV.setModel(model);
+        tbCTHD.setModel(model);
         
         // Đặt tên cột
-        String[] header = {"Mã nhân viên", "Họ", "Tên", "Lương", "Số điện thoại", "Địa chỉ", "Email"};
+        String[] header = {"Mã hóa đơn", "Mã sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"};
         model.setColumnIdentifiers(header);
         
         // Tạo renderer có padding và căn giữa
@@ -47,20 +47,20 @@ public class NhanVienGUI extends javax.swing.JPanel {
         renderer.setVerticalAlignment(JLabel.CENTER);
         
         // Gán renderer cho tất cả các cột
-        for (int i = 0; i < tbNV.getColumnCount(); i++) {
-            tbNV.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        for (int i = 0; i < tbCTHD.getColumnCount(); i++) {
+            tbCTHD.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
 
         // Cấu hình thêm cho bảng
-        tbNV.setRowHeight(30);
-        tbNV.setFocusable(false);
-        tbNV.setAutoCreateRowSorter(true);
-        tbNV.setDefaultEditor(Object.class, null);
-        tbNV.setShowVerticalLines(false);
+        tbCTHD.setRowHeight(30);
+        tbCTHD.setFocusable(false);
+        tbCTHD.setAutoCreateRowSorter(true);
+        tbCTHD.setDefaultEditor(Object.class, null);
+        tbCTHD.setShowVerticalLines(false);
 
         // Load dữ liệu
         
-        this.loadDataTable(nvbus.layTatCaNhanVien());
+        this.loadDataTable(cthdbus.layTatCaNhanVien());
     }
 
     /**
@@ -84,7 +84,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbNV = new javax.swing.JTable();
+        tbCTHD = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -148,7 +148,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã nhân viên", "Họ tên", "Lương", "Số điện thoại", "Địa chỉ", "Email" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã hóa đơn", "Mã sản phẩm", "Số lượng", "Đơn giá", "Thành tiền" }));
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -174,7 +174,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,24 +210,24 @@ public class NhanVienGUI extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        tbNV.setModel(new javax.swing.table.DefaultTableModel(
+        tbCTHD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã nhân viên", "Họ", "Tên", "Lương", "Số điện thoại", "Địa chỉ", "Email"
+                "Mã hóa đơn", "Mã sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbNV.setShowGrid(true);
-        jScrollPane1.setViewportView(tbNV);
+        tbCTHD.setShowGrid(true);
+        jScrollPane1.setViewportView(tbCTHD);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -235,42 +235,41 @@ public class NhanVienGUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-        insertNhanVien dialog = new insertNhanVien(frame, true);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
+        ThemChiTietHoaDon dialog = new ThemChiTietHoaDon(frame, true);
         dialog.setVisible(true);
         if(dialog.isXacNhanThem()) {
-            this.loadDataTable(NhanVienBUS.getDSNV());
+            this.loadDataTable(ChiTietHoaDonBUS.getDSCTHD());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbNV.getSelectedRow();
+        int row = tbCTHD.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chi tiết hóa đơn!");
         }
         else {
-            int manv = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-            updateNhanVien dialog = new updateNhanVien(frame, true, manv);
+            int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
+            int masp = Integer.parseInt(model.getValueAt(row, 1).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
+            SuaChiTietHoaDon dialog = new SuaChiTietHoaDon(frame, true, mahd, masp);
             dialog.setVisible(true);
             if(dialog.isXacNhanSua()) {
-                this.loadDataTable(NhanVienBUS.getDSNV());
+                this.loadDataTable(ChiTietHoaDonBUS.getDSCTHD());
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tbNV.getSelectedRow();
+        int row = tbCTHD.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chi tiết hóa đơn!");
         }
         else {
-            int manv = Integer.parseInt(model.getValueAt(row, 0).toString());
-            String ho = model.getValueAt(row, 1).toString();
-            String ten = model.getValueAt(row, 2).toString();
-            String hoten = ho + " " + ten;
+            int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
+            int masp = Integer.parseInt(model.getValueAt(row, 1).toString());
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa nhân viên \"" + hoten + "\""+ " có mã NCC: \"" + manv + "\" ?",
+                "Bạn có chắc muốn xóa chi tiết hóa đơn có mã hóa đơn và mã sản phẩm: \"" + mahd + "\" ?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION);
 
@@ -284,33 +283,33 @@ public class NhanVienGUI extends javax.swing.JPanel {
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        int row = tbNV.getSelectedRow();
+        int row = tbCTHD.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một chi tiết hóa đơn!");
         }
         else {
-            int manv = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-            detailNhanVien dialog = new detailNhanVien(frame, true, manv);
+            int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
+            ThongTinChiTietHoaDon dialog = new ThongTinChiTietHoaDon(frame, true, mahd);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(nvbus.layTatCaNhanVien());
+        this.loadDataTable(cthdbus.layTatCaNhanVien());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
         if(!value.isEmpty()) {
             switch (key) {
-                case "Mã nhân viên":
+                case "Mã hóa đơn":
                     try {
-                        NhanVienDTO nv = nvbus.layNhanVienTheoMa(Integer.parseInt(value));
+                        ChiTietHoaDonDTO cthd = cthdbus.layNhanVienTheoMa(Integer.parseInt(value));
                         if (nv != null) {
                             ds.add(nv);
                         }
@@ -340,23 +339,6 @@ public class NhanVienGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnDetail;
-    private javax.swing.JButton btnExcel;
-    private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbbSearch;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbNV;
-    private javax.swing.JTextField txtSearch;
-    // End of variables declaration//GEN-END:variables
-
     private void loadDataTable(ArrayList<NhanVienDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
@@ -371,7 +353,24 @@ public class NhanVienGUI extends javax.swing.JPanel {
                 row.add(nv.getEmail());
                 model.addRow(row);
             }
-            tbNV.setModel(model);
+            tbCTHD.setModel(model);
         }
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDetail;
+    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbbSearch;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbCTHD;
+    private javax.swing.JTextField txtSearch;
+    // End of variables declaration//GEN-END:variables
+ 
 }

@@ -4,11 +4,11 @@
  */
 package GUI;
 
-import BUS.NhaCungCapBUS;
-import DTO.NhaCungCapDTO;
-import GUI_Input.ChiTietNCC;
-import GUI_Input.SuaNCC;
-import GUI_Input.ThemNCC;
+import BUS.AoBUS;
+import DTO.AoDTO;
+import GUI_Input.ThongTinAo;
+import GUI_Input.SuaAo;
+import GUI_Input.ThemAo;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -22,23 +22,23 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Vinh
+ * @author suvie
  */
-public class NhaCungCapGUI extends javax.swing.JPanel {
+public class AoGUI extends javax.swing.JPanel {
 
     /**
-     * Creates new form NhaCungCapGUI
+     * Creates new form AoGUI
      */
-    private NhaCungCapBUS nhaCungCapBUS = new NhaCungCapBUS();
+    private AoBUS aobus = new AoBUS();
     DefaultTableModel model = new DefaultTableModel();
-    public NhaCungCapGUI() {
+    public AoGUI() {
         initComponents();
         
         // Gán model cho bảng
-        tbNCC.setModel(model);
+        tbA.setModel(model);
         
         // Đặt tên cột
-        String[] header = {"Mã NCC", "Tên NCC", "Số điện thoại", "Địa chỉ"};
+        String[] header = {"Mã loại", "Tên áo"};
         model.setColumnIdentifiers(header);
         
         // Tạo renderer có padding và căn giữa
@@ -47,20 +47,20 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         renderer.setVerticalAlignment(JLabel.CENTER);
         
         // Gán renderer cho tất cả các cột
-        for (int i = 0; i < tbNCC.getColumnCount(); i++) {
-            tbNCC.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        for (int i = 0; i < tbA.getColumnCount(); i++) {
+            tbA.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
 
         // Cấu hình thêm cho bảng
-        tbNCC.setRowHeight(30);
-        tbNCC.setFocusable(false);
-        tbNCC.setAutoCreateRowSorter(true);
-        tbNCC.setDefaultEditor(Object.class, null);
-        tbNCC.setShowVerticalLines(false);
+        tbA.setRowHeight(30);
+        tbA.setFocusable(false);
+        tbA.setAutoCreateRowSorter(true);
+        tbA.setDefaultEditor(Object.class, null);
+        tbA.setShowVerticalLines(false);
 
         // Load dữ liệu
         
-        this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
+        this.loadDataTable(aobus.layTatCaAo());
     }
 
     /**
@@ -84,7 +84,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbNCC = new javax.swing.JTable();
+        tbA = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -148,18 +148,12 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã NCC", "Tên NCC", "SĐT NCC", "Địa chỉ" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại", "Tên áo" }));
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
-            }
-        });
-
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
             }
         });
 
@@ -180,7 +174,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,24 +210,24 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        tbNCC.setModel(new javax.swing.table.DefaultTableModel(
+        tbA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã NCC", "Tên NCC", "Số điện thoại", "Địa chỉ"
+                "Mã loại", "Tên áo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbNCC.setShowGrid(true);
-        jScrollPane1.setViewportView(tbNCC);
+        tbA.setShowGrid(true);
+        jScrollPane1.setViewportView(tbA);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -241,82 +235,82 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-        ThemNCC dialog = new ThemNCC(frame, true);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(AoGUI.this);
+        ThemAo dialog = new ThemAo(frame, true);
         dialog.setVisible(true);
         if(dialog.isXacNhanThem()) {
-            this.loadDataTable(NhaCungCapBUS.getDsncc());
+            this.loadDataTable(AoBUS.getDSA());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbNCC.getSelectedRow();
+        int row = tbA.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một áo!");
         }
         else {
-            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-            SuaNCC dialog = new SuaNCC(frame, true, maNCC);
+            int malsp = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(AoGUI.this);
+            SuaAo dialog = new SuaAo(frame, true, malsp);
             dialog.setVisible(true);
             if(dialog.isXacNhanSua()) {
-                this.loadDataTable(NhaCungCapBUS.getDsncc());
+                this.loadDataTable(AoBUS.getDSA());
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tbNCC.getSelectedRow();
+        int row = tbA.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một áo!");
         }
         else {
-            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
-            String tenNCC = model.getValueAt(row, 1).toString();
+            int malsp = Integer.parseInt(model.getValueAt(row, 0).toString());
+            String tenao = model.getValueAt(row, 1).toString();
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa nhà cung cấp \"" + tenNCC + "\""+ " có mã NCC: \"" + maNCC + "\" ?",
+                "Bạn có chắc muốn xóa áo \"" + tenao + "\""+ " có mã loại: \"" + malsp + "\" ?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
-                // Xóa sản phẩm
-                nhaCungCapBUS.xoaNCC(maNCC);
-                this.loadDataTable(NhaCungCapBUS.getDsncc());
+                // Xóa áo
+                aobus.xoa(malsp);
+                this.loadDataTable(AoBUS.getDSA());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        int row = tbNCC.getSelectedRow();
+        int row = tbA.getSelectedRow();
         if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một áo!");
         }
         else {
-            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-            ChiTietNCC dialog = new ChiTietNCC(frame, true, maNCC);
+            int malsp = Integer.parseInt(model.getValueAt(row, 0).toString());
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(AoGUI.this);
+            ThongTinAo dialog = new ThongTinAo(frame, true, malsp);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
+        this.loadDataTable(aobus.layTatCaAo());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
+        ArrayList<AoDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
         if(!value.isEmpty()) {
             switch (key) {
-                case "Mã NCC":
+                case "Mã loại":
                     try {
-                        NhaCungCapDTO ncc = nhaCungCapBUS.layNCCTheoMa(Integer.parseInt(value));
-                        if (ncc != null) {
-                            ds.add(ncc);
+                        AoDTO a = aobus.layAoTheoMa(Integer.parseInt(value));
+                        if (a != null) {
+                            ds.add(a);
                         }
                         
                     } catch (NumberFormatException e) {
@@ -324,24 +318,26 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                         return;
                     }
                     break;
-                case "Tên NCC":
-                    ds = nhaCungCapBUS.timKiemNCCTheoTen(value);
-                    break;
-                case "SĐT NCC":
-                    ds = nhaCungCapBUS.timKiemNCCTheoSDT(value);
-                    break;
-                case "Địa chỉ":
-                    ds = nhaCungCapBUS.timKiemNCCTheoDiaChi(value);
+                case "Tên áo":
+                    ds = aobus.timKiemTheoTen(value);
                     break;
             }
             this.loadDataTable(ds);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
-
+    private void loadDataTable(ArrayList<AoDTO> ds) {
+        model.setRowCount(0);
+        if(ds != null) {
+            for(AoDTO a : ds) {
+                Vector row = new Vector();
+                row.add(a.getMaLoai());
+                row.add(a.getTenAo());
+                model.addRow(row);
+            }
+            tbA.setModel(model);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -355,22 +351,8 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbNCC;
+    private javax.swing.JTable tbA;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDataTable(ArrayList<NhaCungCapDTO> ds) {
-        model.setRowCount(0);
-        if(ds != null) {
-            for(NhaCungCapDTO ncc : ds) {
-                Vector row = new Vector();
-                row.add(ncc.getMaNCC());
-                row.add(ncc.getTenNCC());
-                row.add(ncc.getSdtNCC());
-                row.add(ncc.getDiaChi());
-                model.addRow(row);
-            }
-            tbNCC.setModel(model);
-        }
-    }
 }

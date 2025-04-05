@@ -6,9 +6,9 @@ package GUI;
 
 import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
-import GUI_Input.detailNhanVien;
-import GUI_Input.updateNhanVien;
-import GUI_Input.insertNhanVien;
+import GUI_Input.ThongTinNhanVien;
+import GUI_Input.SuaNhanVien;
+import GUI_Input.ThemNhanVien;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -22,12 +22,12 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Vinh
+ * @author suvie
  */
 public class NhanVienGUI extends javax.swing.JPanel {
 
     /**
-     * Creates new form NhaCungCapGUI
+     * Creates new form NhanVienGUI
      */
     private NhanVienBUS nvbus = new NhanVienBUS();
     DefaultTableModel model = new DefaultTableModel();
@@ -236,7 +236,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-        insertNhanVien dialog = new insertNhanVien(frame, true);
+        ThemNhanVien dialog = new ThemNhanVien(frame, true);
         dialog.setVisible(true);
         if(dialog.isXacNhanThem()) {
             this.loadDataTable(NhanVienBUS.getDSNV());
@@ -251,7 +251,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         else {
             int manv = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-            updateNhanVien dialog = new updateNhanVien(frame, true, manv);
+            SuaNhanVien dialog = new SuaNhanVien(frame, true, manv);
             dialog.setVisible(true);
             if(dialog.isXacNhanSua()) {
                 this.loadDataTable(NhanVienBUS.getDSNV());
@@ -291,7 +291,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         else {
             int manv = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhanVienGUI.this);
-            detailNhanVien dialog = new detailNhanVien(frame, true, manv);
+            ThongTinNhanVien dialog = new ThongTinNhanVien(frame, true, manv);
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
@@ -340,23 +340,6 @@ public class NhanVienGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnDetail;
-    private javax.swing.JButton btnExcel;
-    private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbbSearch;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbNV;
-    private javax.swing.JTextField txtSearch;
-    // End of variables declaration//GEN-END:variables
-
     private void loadDataTable(ArrayList<NhanVienDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
@@ -374,4 +357,21 @@ public class NhanVienGUI extends javax.swing.JPanel {
             tbNV.setModel(model);
         }
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDetail;
+    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbbSearch;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbNV;
+    private javax.swing.JTextField txtSearch;
+    // End of variables declaration//GEN-END:variables
+ 
 }
