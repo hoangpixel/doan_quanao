@@ -152,7 +152,7 @@ public class KhachHangGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã KH", "Họ KH", "Tên KH", "Địa chỉ" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã KH", "Họ KH", "Tên KH", "Địa chỉ", "SĐT" }));
         cbbSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSearchActionPerformed(evt);
