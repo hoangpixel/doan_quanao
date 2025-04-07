@@ -4,6 +4,7 @@
  */
 package DAO;
 import DTO.KhachHangDTO;
+import config.DBConnect;
 import java.util.ArrayList;
 import java.sql.*;
 /**
@@ -11,38 +12,26 @@ import java.sql.*;
  * @author laptop
  */
 public class KhachHangDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/doan_quanao";
-    Connection con;
-    Statement st;
-    ResultSet rs;
-
-    public KhachHangDAO() {
-        if(con==null)
-        {
-            try {
-                
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                
-            } catch (Exception e) {
-            }
-        }
-    }
+    Connection con=null;
+    Statement st=null;
+    ResultSet rs=null;
 public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     {
         ArrayList ds = new ArrayList<KhachHangDTO>();
         try {
             String qry = "select * from khachhang";
-            st = con.createStatement();
+            con = DBConnect.getConnection();
+            st = con.createStatement();            
             rs = st.executeQuery(qry);
             while(rs.next())
             {
                 KhachHangDTO kh = new KhachHangDTO();
                 kh.setMaKH(rs.getInt(1));
                 kh.setHoKH(rs.getString(2));
-                kh.setSDT(rs.getString(3));
-                kh.setDiaChi(rs.getString(4));
-                kh.seteMail(rs.getString(5));
+                kh.setTenKH(rs.getString(3));
+                kh.setSDT(rs.getString(4));
+                kh.setDiaChi(rs.getString(5));
+                kh.seteMail(rs.getString(6));
                 ds.add(kh);
             }
         } catch (Exception e) {
@@ -57,11 +46,12 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
         try {
             String qry = "Insert into khachhang (HOKH,TENKH,SDT,DIACHI,EMAIL) values (";
             qry = qry + "'" + kh.getHoKH() + "',";
-            qry = qry + "'" + kh.getTenKH() + "'";
+            qry = qry + "'" + kh.getTenKH() + "',";
             qry = qry + "'" + kh.getSDT() + "',";
             qry = qry + "'" + kh.getDiaChi() + "',";
-            qry = qry + "'" + kh.geteMail() + "',";
+            qry = qry + "'" + kh.geteMail() + "'";
             qry = qry + ")";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
         } catch (Exception e) {
@@ -72,7 +62,8 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     {
         try {
             
-            String qry = "Delete from khachhang where MAKH = '" + ma + "'";
+            String qry = "Delete from khachhang where makh = '" + ma + "'";
+            con = DBConnect.getConnection();  
             st = con.createStatement();
             st.executeUpdate(qry);
             
@@ -92,8 +83,9 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
         qry = qry + ",DIACHI=" + "'" + kh.getDiaChi() + "'";
         qry = qry + ",EMAIL=" + "'" + kh.geteMail() + "'";
         qry = qry + " " + " where MAKH='" + kh.getMaKH() + "'";
-            st = con.createStatement();
-            st.executeUpdate(qry);            
+        con = DBConnect.getConnection(); 
+        st = con.createStatement();
+        st.executeUpdate(qry);            
         } catch (Exception e) {
         }
     }

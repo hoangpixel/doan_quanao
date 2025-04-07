@@ -52,6 +52,8 @@ public class navleft extends javax.swing.JPanel {
         btnHoaDon = new javax.swing.JButton();
         btnCTKMHD = new javax.swing.JButton();
         btnNCC = new javax.swing.JButton();
+        btnKH = new javax.swing.JButton();
+        btnPhieuNhap = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -96,6 +98,24 @@ public class navleft extends javax.swing.JPanel {
         btnNCC.setText("Nhà cung cấp");
         btnNCC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        btnKH.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnKH.setText("Khách hàng");
+        btnKH.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKHActionPerformed(evt);
+            }
+        });
+
+        btnPhieuNhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnPhieuNhap.setText("Phiếu nhập");
+        btnPhieuNhap.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPhieuNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPhieuNhapActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -109,7 +129,9 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCTKMHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPhieuNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -129,7 +151,11 @@ public class navleft extends javax.swing.JPanel {
                 .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTKMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnKH, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
@@ -184,6 +210,14 @@ public class navleft extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnKHActionPerformed
+
+    private void btnPhieuNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhieuNhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPhieuNhapActionPerformed
+
    
 
     
@@ -197,7 +231,9 @@ public class navleft extends javax.swing.JPanel {
     public javax.swing.JButton btnCTKMSP;
     public javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnHome;
+    public javax.swing.JButton btnKH;
     public javax.swing.JButton btnNCC;
+    public javax.swing.JButton btnPhieuNhap;
     public javax.swing.JButton btnSanPham;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

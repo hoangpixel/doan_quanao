@@ -38,23 +38,23 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="btnHuy" min="-2" pref="205" max="-2" attributes="0"/>
                                   <EmptySpace pref="71" max="32767" attributes="0"/>
-                                  <Component id="btnThem" min="-2" pref="205" max="-2" attributes="0"/>
+                                  <Component id="btnSua" min="-2" pref="205" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel2" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
-                                          <Component id="jLabel5" alignment="1" min="-2" pref="98" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel2" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
+                                      <Component id="jLabel5" alignment="1" min="-2" pref="98" max="-2" attributes="0"/>
                                       <Component id="jLabel3" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
+                                      <Component id="jLabel7" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="tTenKH" alignment="0" max="32767" attributes="0"/>
                                       <Component id="tSDT" alignment="0" pref="333" max="32767" attributes="0"/>
-                                      <Component id="tHoKH" alignment="0" pref="333" max="32767" attributes="0"/>
+                                      <Component id="tMaKH" alignment="0" pref="333" max="32767" attributes="0"/>
                                       <Component id="tDiaChi" alignment="0" pref="333" max="32767" attributes="0"/>
                                       <Component id="tEmail" alignment="0" pref="333" max="32767" attributes="0"/>
+                                      <Component id="tHoKH" alignment="0" pref="333" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -70,12 +70,17 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jLabel1" min="-2" pref="50" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel7" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="tMaKH" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="tHoKH" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="tTenKH" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
@@ -98,7 +103,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnHuy" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
-                  <Component id="btnThem" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
+                  <Component id="btnSua" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
           </Group>
@@ -112,7 +117,7 @@
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="TH&#xca;M KH&#xc1;CH H&#xc0;NG"/>
+        <Property name="text" type="java.lang.String" value="S&#x1eec;A KH&#xc1;CH H&#xc0;NG"/>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
@@ -168,7 +173,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="tHoKH">
+    <Component class="javax.swing.JTextField" name="tMaKH">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tTenKH">
     </Component>
@@ -178,16 +186,26 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tEmail">
     </Component>
-    <Component class="javax.swing.JButton" name="btnThem">
+    <Component class="javax.swing.JButton" name="btnSua">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+        <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="M&#xe3; KH:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tHoKH">
     </Component>
   </SubComponents>
 </Form>

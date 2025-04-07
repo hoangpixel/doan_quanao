@@ -5,6 +5,8 @@ import GUI.NhaCungCapGUI;
 import GUI.SanPhamGUI;
 import GUI.ChuongTrinhKhuyenMaiSanPhamGUI;
 import GUI.ChuongTrinhKhuyenMaiGUI;
+import GUI.KhachHangGUI;
+import GUI.PhieuNhapGUI;
 import GUI.hoadonGUI;
 import GUI.navleft;
 import java.awt.*;
@@ -60,8 +62,16 @@ public class run extends JFrame {
         cardLayout.show(contentPanel, "CTKMHD");
         nav.highlightButton(nav.btnCTKMHD);
         });
-
-
+        
+        nav.btnKH.addActionListener(e -> {
+        cardLayout.show(contentPanel, "khachhang");
+        nav.highlightButton(nav.btnKH);
+        });
+        
+        nav.btnPhieuNhap.addActionListener(e -> {
+        cardLayout.show(contentPanel, "phieunhap");
+        nav.highlightButton(nav.btnPhieuNhap);
+        });
         // Thêm các panel cần hiển thị
         ChuongTrinhKhuyenMaiGUI ctkmPanel = new ChuongTrinhKhuyenMaiGUI();
         contentPanel.add(ctkmPanel, "CTKM");
@@ -81,8 +91,14 @@ public class run extends JFrame {
         ChuongTrinhKhuyenMaiHoaDonGUI ctkmhdgui = new ChuongTrinhKhuyenMaiHoaDonGUI();
         contentPanel.add(ctkmhdgui,"CTKMHD");
         add(contentPanel, BorderLayout.CENTER);
-        
-
+        // panel KhachHang
+        KhachHangGUI khgui = new KhachHangGUI();
+        contentPanel.add(khgui,"khachhang");
+        add(contentPanel,BorderLayout.CENTER);
+        // panel PhieuNhap
+        PhieuNhapGUI pn = new PhieuNhapGUI();
+        contentPanel.add(pn,"phieunhap");
+        add(contentPanel,BorderLayout.CENTER);
         // Bắt sự kiện các nút trong navleft
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));
         nav.btnCTKMSP.addActionListener(e -> cardLayout.show(contentPanel, "CTKMSP"));
@@ -90,6 +106,8 @@ public class run extends JFrame {
         nav.btnNCC.addActionListener(e -> cardLayout.show(contentPanel, "NhaCungCap"));
         nav.btnHoaDon.addActionListener(e -> cardLayout.show(contentPanel, "hoadon"));
         nav.btnCTKMHD.addActionListener(e -> cardLayout.show(contentPanel, "CTKMHD"));
+        nav.btnKH.addActionListener(e -> cardLayout.show(contentPanel, "khachhang"));
+        nav.btnPhieuNhap.addActionListener(e -> cardLayout.show(contentPanel,"phieunhap" ));
     }
 
     public static void main(String[] args) {
