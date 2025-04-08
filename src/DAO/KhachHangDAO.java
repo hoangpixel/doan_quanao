@@ -89,4 +89,26 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
         } catch (Exception e) {
         }
     }
+    
+    public boolean ktraMaKH(int makh)
+    {
+        try {
+            
+            String qry = "SELECT COUNT(*) FROM khachhang where makh=" + makh;
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next())
+            {
+                int d = rs.getInt(1);
+                if(d>0)
+                {
+                    return true;
+                }
+            }
+            
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

@@ -133,6 +133,7 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 

@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import DTO.HoaDonDTO;
-import BUS.HoaDonBUS;
-import DAO.HoaDonDAO;
+import BUS.KhachHangBUS;
 import MSForm.msfMaNV;
+import MSForm.msfMaKH;
 import BUS.NhanVienBUS;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -95,6 +95,7 @@ public HoaDonDTO hd;
 
         btnMaNV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMaNV.setText("...");
+        btnMaNV.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMaNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMaNVActionPerformed(evt);
@@ -103,6 +104,12 @@ public HoaDonDTO hd;
 
         btnMaKH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMaKH.setText("...");
+        btnMaKH.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaKHActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -243,7 +250,14 @@ public HoaDonDTO hd;
             JOptionPane.showMessageDialog(this, lbSaimanv,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;                
           }
-          
+          KhachHangBUS busKH = new KhachHangBUS();
+          if(!busKH.ktraMaKH(makh))
+          {
+            JLabel lbSaimakh = new JLabel("Mã KH : " + txtMakh.getText() + " không có trong hệ thống!");
+            lbSaimakh.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbSaimakh,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;  
+          }
           
           hd = new HoaDonDTO(0,ngaynhap,manv,makh,0);
           xacNhan = true;
@@ -252,6 +266,7 @@ public HoaDonDTO hd;
 
     private void btnMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaNVActionPerformed
         // TODO add your handling code here:
+        
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaNV msfDialog = new msfMaNV(topFrame, true);
@@ -264,6 +279,19 @@ public HoaDonDTO hd;
             txtManv.setText(String.valueOf(manv));
         }
     }//GEN-LAST:event_btnMaNVActionPerformed
+
+    private void btnMaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaKHActionPerformed
+        // TODO add your handling code here:
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        msfMaKH dialog = new msfMaKH(topFrame, true);
+        dialog.setVisible(true);
+        
+        if(dialog.xacNhanTim())
+        {
+            txtMakh.setText(String.valueOf(dialog.getMaKh()));
+        }
+    }//GEN-LAST:event_btnMaKHActionPerformed
 
     public boolean xacNhanNhap()
     {

@@ -71,4 +71,10 @@ public class KhachHangBUS {
         }
         return kq;
     }
+    
+    public boolean ktraMaKH(int makh)
+    {
+        KhachHangDAO data = new KhachHangDAO();
+        return data.ktraMaKH(makh);
+    }
 }
