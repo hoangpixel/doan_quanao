@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author mhoang
  */
-public class ctkmGUI_Click extends javax.swing.JDialog {
+public class ctkmspGUI_Click extends javax.swing.JDialog {
 
     /**
      * Creates new form msfMaNVhoadon
@@ -25,7 +25,7 @@ public class ctkmGUI_Click extends javax.swing.JDialog {
     ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> kq;
     int mactkm;
     DefaultTableModel model = new DefaultTableModel();
-    public ctkmGUI_Click(java.awt.Frame parent, boolean modal,int mactkm) {
+    public ctkmspGUI_Click(java.awt.Frame parent, boolean modal,int mactkm) {
         super(parent, modal);
         this.mactkm = mactkm;
         initComponents();
@@ -304,6 +304,11 @@ public class ctkmGUI_Click extends javax.swing.JDialog {
 
     }//GEN-LAST:event_tbCTKMSPMouseClicked
 
+    public ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> getDsctkmsp()
+    {
+        return kq;
+    }
+    
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
         model.setRowCount(0);

@@ -17,7 +17,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.util.ArrayList;
 import GUI_Input.detailCTKM;
-import GUI_Click.ctkmGUI_Click;
+import GUI_Click.ctkmspGUI_Click;
+import GUI_Click.ctkmhdGUI_Click;
+import GUI_Click.guiHienThictkm;
 /**
  *
  * @author mhoang
@@ -371,20 +373,54 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
 
     private void tbCTKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTKMMouseClicked
 
-        
-        if(evt.getClickCount()==2)
+
+        if(evt.getClickCount() == 2)
         {
             if(tbCTKM.isEditing())
             {
                 tbCTKM.getCellEditor().stopCellEditing();
             }
+
             int i = tbCTKM.getSelectedRow();
             int ma = (int) tbCTKM.getValueAt(i, 0);
-            
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            ctkmGUI_Click dialog = new ctkmGUI_Click(topFrame, true,ma);
-            dialog.setVisible(true);
+
+            JFrame topFrame1 = (JFrame) SwingUtilities.getWindowAncestor(this);
+            guiHienThictkm dialog1 = new guiHienThictkm(topFrame1, true);
+            dialog1.setVisible(true);
+
+            String mess = "";
+            if(dialog1.xacNhanCTKMSP)
+            {
+                ctkmspGUI_Click dialogSP = new ctkmspGUI_Click(topFrame1, true, ma);
+                if(dialogSP.getDsctkmsp() != null && !dialogSP.getDsctkmsp().isEmpty())
+                {
+                    dialogSP.setVisible(true);
+                }else
+                {
+                    mess = "Danh sách CTKMSP không có dữ liệu!";
+                JLabel lb = new JLabel(mess);
+                lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            if(dialog1.xacNhanCTKMHD)
+            {
+                ctkmhdGUI_Click dialogHD = new ctkmhdGUI_Click(topFrame1, true, ma);
+                if(dialogHD.getDsctkmhd() != null && !dialogHD.getDsctkmhd().isEmpty())
+                {
+                    dialogHD.setVisible(true);
+                }else
+                {
+                mess = "Danh sách CTKMHD không có dữ liệu!"; 
+                JLabel lb = new JLabel(mess);
+                lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
         }
+
         
         
     }//GEN-LAST:event_tbCTKMMouseClicked

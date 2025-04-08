@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Vinh
  */
 public class ChuongTrinhKhuyenMaiHoaDonBUS {
-    private static ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds;
+    public static ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds;
     
     public void themCTKMHD (ChuongTrinhKhuyenMaiHoaDonDTO ctkmhd) {
         if(ds == null)
@@ -108,5 +108,16 @@ public class ChuongTrinhKhuyenMaiHoaDonBUS {
         return list;
     }
     
-    
+    public ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> layTheoMaCTKMHD(int ma)
+    {
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> kq =new ArrayList<>();
+        for(ChuongTrinhKhuyenMaiHoaDonDTO ct : ds)
+        {
+            if(ct.getMaCTKM() == ma)
+            {
+                kq.add(ct);
+            }
+        }
+        return kq;
+    }
 }
