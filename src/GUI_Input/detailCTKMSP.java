@@ -18,6 +18,10 @@ public class detailCTKMSP extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(this);
         
+        txtMactkmsp.setText(String.valueOf(data.getMactkmsp()));
+        txtMactkm.setText(String.valueOf(data.getMactkm()));
+        txtMasp.setText(String.valueOf(data.getMasp()));
+        txtPtgg.setText(String.valueOf(data.getPtgg()));
 
     }
 

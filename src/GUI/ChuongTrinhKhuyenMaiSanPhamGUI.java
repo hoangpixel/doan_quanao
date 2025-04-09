@@ -18,6 +18,7 @@ import BUS.ChuongTrinhKhuyenMaiSanPhamBUS;
 import GUI_Input.insertCTKMSP;
 import GUI_Input.deleteCTKMSP;
 import GUI_Input.updateCTKMSP;
+import GUI_Input.detailCTKMSP;
 /**
  *
  * @author mhoang
@@ -97,6 +98,7 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         cbTim = new javax.swing.JComboBox<>();
+        btnDetail = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCTKMSP = new javax.swing.JTable();
 
@@ -178,6 +180,19 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
         cbTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã CTKMSP", "Tìm theo mã CTKM", "Tìm theo mã SP", "Tìm theo PTGG", "Tìm theo PTGG tăng dần", "Tìm theo PTGG giảm dần" }));
 
+        btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
+        btnDetail.setText("CHI TIẾT");
+        btnDetail.setToolTipText("");
+        btnDetail.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -190,13 +205,15 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnXoa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDetail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
                 .addContainerGap())
@@ -215,7 +232,8 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnExcel)
                                     .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnRefresh))
+                                    .addComponent(btnRefresh)
+                                    .addComponent(btnDetail))
                                 .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
@@ -223,7 +241,7 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
                             .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSearch)
                             .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         tbCTKMSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -251,7 +269,7 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -390,6 +408,22 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+        // TODO add your handling code here:
+        int i = tbCTKMSP.getSelectedRow();
+        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
+        int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
+        int masp = (int) tbCTKMSP.getValueAt(i, 2);
+        int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        ChuongTrinhKhuyenMaiSanPhamDTO data = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp, mactkm, masp, ptgg);
+        detailCTKMSP dialog  = new detailCTKMSP(topFrame, true, data);
+        dialog.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnDetailActionPerformed
+
    
     /**
      * @param args the command line arguments
@@ -397,6 +431,7 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;

@@ -37,7 +37,7 @@
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="643" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="633" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -62,13 +62,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnDetail" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnExcel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="68" max="32767" attributes="0"/>
-                  <Component id="cbTim" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                  <Component id="cbTim" min="-2" pref="176" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtSearch" min="-2" pref="199" max="-2" attributes="0"/>
+                  <Component id="txtSearch" min="-2" pref="160" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -91,6 +93,7 @@
                                       <Component id="btnExcel" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnUpdate" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnRefresh" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnDetail" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="btnThem" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -105,7 +108,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -245,6 +248,26 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDetail">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/detailIcon.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="CHI TI&#x1ebe;T"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDetailActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
