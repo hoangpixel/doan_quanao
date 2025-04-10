@@ -67,7 +67,8 @@ public class NhanVienDAO {
             st.setInt(7, nv.getMa());     // Điều kiện của where
             st.executeUpdate();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -87,7 +88,8 @@ public class NhanVienDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -114,7 +116,8 @@ public class NhanVienDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -143,7 +146,8 @@ public class NhanVienDAO {
             
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }

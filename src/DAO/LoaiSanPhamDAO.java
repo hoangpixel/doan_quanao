@@ -57,7 +57,8 @@ public class LoaiSanPhamDAO {
             st.setInt(2, lsp.getMaLoai());     // Điều kiện của where
             st.executeUpdate();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -77,7 +78,8 @@ public class LoaiSanPhamDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy loại sản phẩm để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -99,7 +101,8 @@ public class LoaiSanPhamDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -123,7 +126,8 @@ public class LoaiSanPhamDAO {
             
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }

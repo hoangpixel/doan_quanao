@@ -57,7 +57,8 @@ public class QuanDAO {
             st.setInt(2, q.getMaLoai());     // Điều kiện của where
             st.executeUpdate();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -77,7 +78,8 @@ public class QuanDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy quần để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -99,7 +101,8 @@ public class QuanDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -123,7 +126,8 @@ public class QuanDAO {
             
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }

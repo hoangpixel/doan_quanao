@@ -57,7 +57,8 @@ public class AoDAO {
             st.setInt(2, a.getMaLoai());     // Điều kiện của where
             st.executeUpdate();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -77,7 +78,8 @@ public class AoDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy áo để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -99,7 +101,8 @@ public class AoDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -123,7 +126,8 @@ public class AoDAO {
             
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }

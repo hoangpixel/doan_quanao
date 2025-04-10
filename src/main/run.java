@@ -133,11 +133,11 @@ public class run extends JFrame {
         add(contentPanel,BorderLayout.CENTER);
         // panel Ao
         AoGUI aogui = new AoGUI();
-        contentPanel.add(lspgui, "ao");
+        contentPanel.add(aogui, "ao");
         add(contentPanel,BorderLayout.CENTER);
         // panel Quan
         QuanGUI quangui = new QuanGUI();
-        contentPanel.add(lspgui, "quan");
+        contentPanel.add(quangui, "quan");
         add(contentPanel,BorderLayout.CENTER);
         // Bắt sự kiện các nút trong navleft
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));

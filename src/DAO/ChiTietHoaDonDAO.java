@@ -64,7 +64,8 @@ public class ChiTietHoaDonDAO {
             st.setInt(5, cthd.getMaSanPham()); // Điều kiện của where
             st.executeUpdate();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -85,7 +86,8 @@ public class ChiTietHoaDonDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -105,7 +107,8 @@ public class ChiTietHoaDonDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -125,7 +128,8 @@ public class ChiTietHoaDonDAO {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
             }
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -150,7 +154,8 @@ public class ChiTietHoaDonDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -176,7 +181,8 @@ public class ChiTietHoaDonDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -202,7 +208,8 @@ public class ChiTietHoaDonDAO {
             }
             rs.close();
             st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -228,71 +235,10 @@ public class ChiTietHoaDonDAO {
             
             rs.close();
             st.close();
-        } catch (Exception e) {
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
-    }
-    //Lấy tổng tiền của một hóa đơn
-    public int layTongTienHoaDon(int mahd) {
-        int tongtien = 0;
-        String query = "SELECT SUM(THANHTIEN) FROM cthd WHERE MAHD = ?";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, mahd);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                tongtien = rs.getInt(1);
-            }
-            rs.close();
-            st.close();
-        } catch (Exception e) {
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return tongtien;
-    }
-    //Lấy danh sách chi tiết hóa đơn theo khoảng thời gian
-    public ArrayList<ChiTietHoaDonDTO> layChiTietHoaDonTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
-        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
-        String query = "SELECT cthd.* FROM cthd JOIN hoadon ON cthd.MAHD = hoadon.MAHD WHERE hoadon.NGAYLAP BETWEEN ? AND ?";
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement st = conn.prepareStatement(query)) {
-            st.setDate(1, new java.sql.Date(ngayBatDau.getTime()));
-            st.setDate(2, new java.sql.Date(ngayKetThuc.getTime()));
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
-                cthd.setMaHoaDon(rs.getInt("MAHD"));
-                cthd.setMaSanPham(rs.getInt("MASP"));
-                cthd.setSoLuong(rs.getInt("SL"));
-                cthd.setDonGia(rs.getInt("DONGIA"));
-                ds.add(cthd);
-            }
         } catch (SQLException e) {
             Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return ds;
-    }
-    //Lấy danh sách các sản phẩm bán chạy nhất
-    public ArrayList<Object[]> laySanPhamBanChayNhat(int limit) {
-        ArrayList<Object[]> ds = new ArrayList<>();
-        String query = "SELECT MASP, SUM(SL) AS TongSoLuong FROM cthd GROUP BY MASP ORDER BY TongSoLuong DESC LIMIT ?";
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement st = conn.prepareStatement(query)) {
-            st.setInt(1, limit);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Object[] row = new Object[2];
-                row[0] = rs.getInt("MASP");
-                row[1] = rs.getInt("TongSoLuong");
-                ds.add(row);
-            }
-            } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
         }
         return ds;
     }
