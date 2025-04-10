@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_Input;
+
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mhoang
@@ -117,6 +122,9 @@ public class deleteCTKM extends javax.swing.JDialog {
         // TODO add your handling code here:
         xacNhan = true;
         dispose();
+                            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCoActionPerformed
 
     public boolean xacNhanXoa()

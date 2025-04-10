@@ -14,6 +14,8 @@ public class ChuongTrinhKhuyenMaiBUS {
             ds = data.docDSCTKM();
     }
     
+    
+    
     public void them(ChuongTrinhKhuyenMaiDTO ct)
     {
         ChuongTrinhKhuyenMaiDAO data = new ChuongTrinhKhuyenMaiDAO();

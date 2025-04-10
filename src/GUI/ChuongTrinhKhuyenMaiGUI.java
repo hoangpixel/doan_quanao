@@ -20,6 +20,7 @@ import GUI_Input.detailCTKM;
 import GUI_Click.ctkmspGUI_Click;
 import GUI_Click.ctkmhdGUI_Click;
 import GUI_Click.guiHienThictkm;
+import GUI_Input.xuLyExcelctkm;
 /**
  *
  * @author mhoang
@@ -153,11 +154,16 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
 
         btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setToolTipText("");
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -215,7 +221,7 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,9 +336,6 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
             ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
             bus.xoa(ma);
             model.removeRow(i);
-            JLabel lb = new JLabel("Xóa thành công!");
-            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
         
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -483,6 +486,25 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
         
     }//GEN-LAST:event_btnDetailActionPerformed
+
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        ChuongTrinhKhuyenMaiGUI gui = new ChuongTrinhKhuyenMaiGUI();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        xuLyExcelctkm dialog = new xuLyExcelctkm(topFrame, true,getDataForExport(),gui);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+
+    public ArrayList<ChuongTrinhKhuyenMaiDTO> getDataForExport() {
+        ChuongTrinhKhuyenMaiBUS bus = new ChuongTrinhKhuyenMaiBUS();
+        if(ChuongTrinhKhuyenMaiBUS.ds == null)
+        {
+            bus.docDSCTKM();
+        }
+        return ChuongTrinhKhuyenMaiBUS.ds != null ? ChuongTrinhKhuyenMaiBUS.ds : new ArrayList<>();
+    }
+
 
     /**
      * @param args the command line arguments
