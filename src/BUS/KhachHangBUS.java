@@ -48,20 +48,27 @@ public class KhachHangBUS {
                     break;
                 }
                 case 1: {
-                    // Tìm kiếm theo tên khách hàng
-                    if (kh.getTenKH().toLowerCase().contains(tim.toLowerCase())) {
+                    // Tìm kiếm theo họ khách hàng
+                    if(kh.getHoKH().toLowerCase().contains(tim.toLowerCase())) {
                         kq.add(kh);
                     }
                     break;
                 }
                 case 2: {
+                    //  Tìm kiếm theo tên khách hàng
+                    if (kh.getTenKH().toLowerCase().contains(tim.toLowerCase())) {
+                        kq.add(kh);
+                    }
+                    break;
+                }
+                case 3: {
                     // Tìm kiếm theo địa chỉ
                     if (kh.getDiaChi().toLowerCase().contains(tim.toLowerCase())) {
                         kq.add(kh);
                     }
                     break;
                 }
-                case 3: {
+                case 4: {
                     // Tìm kiếm theo số điện thoại
                     if (kh.getSDT().contains(tim)) {
                         kq.add(kh);

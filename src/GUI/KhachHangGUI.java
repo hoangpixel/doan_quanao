@@ -1,35 +1,38 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package GUI;
-
+import java.awt.Font;
+import javax.swing.*;
+import java.util.Vector;
+import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import borderRadius.roundedBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import DTO.KhachHangDTO;
 import BUS.KhachHangBUS;
-import GUI_Input.XoaKH;
 import GUI_Input.ThemKhachHang;
+import GUI_Input.XoaKH;
 import GUI_Input.SuaKhachHang;
-import java.awt.Font;
-import java.util.Vector;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import java.util.ArrayList;
-
 /**
  *
- * @author laptop
+ * @author mhoang
  */
 public class KhachHangGUI extends javax.swing.JPanel {
 
     /**
-     * Creates new form KhachHangGUI
+     * Creates new form listCTKM
      */
     DefaultTableModel model = new DefaultTableModel();
+
     
+//  
     public KhachHangGUI() {
-        initComponents();
+         initComponents();
         headerTable();
         docDB();
     }
@@ -91,32 +94,55 @@ public class KhachHangGUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnThem = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
         btnExcel = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        cbbSearch = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        cbbSearch = new javax.swing.JComboBox<>();
+        btnDetail = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKH = new javax.swing.JTable();
 
-        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
-        btnAdd.setText("THÊM");
-        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jPanel2.setBorder(new roundedBorder(15)
+        );
+
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
+        btnThem.setText("THÊM");
+        btnThem.setToolTipText("");
+        btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnThem.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemMouseClicked(evt);
+            }
+        });
+
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/deleteIcon.png"))); // NOI18N
+        btnXoa.setText("XÓA");
+        btnXoa.setToolTipText("");
+        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnXoa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnXoaActionPerformed(evt);
             }
         });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editIcon.png"))); // NOI18N
         btnUpdate.setText("SỬA");
+        btnUpdate.setToolTipText("");
+        btnUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -125,25 +151,19 @@ public class KhachHangGUI extends javax.swing.JPanel {
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/deleteIcon.png"))); // NOI18N
-        btnDelete.setText("XÓA");
-        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
+        btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setToolTipText("");
+        btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
         btnRefresh.setText("REFRESH");
+        btnRefresh.setToolTipText("");
+        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -152,13 +172,9 @@ public class KhachHangGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã KH", "Họ KH", "Tên KH", "Địa chỉ", "SĐT" }));
-        cbbSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSearchActionPerformed(evt);
-            }
-        });
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,66 +182,79 @@ public class KhachHangGUI extends javax.swing.JPanel {
             }
         });
 
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+        cbbSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã KH", "Tên KH", "Họ KH", "Địa chỉ", "SĐT" }));
+
+        btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
+        btnDetail.setText("CHI TIẾT");
+        btnDetail.setToolTipText("");
+        btnDetail.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
+                btnDetailActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpdate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXoa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDetail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
-                .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
-                .addGap(27, 27, 27))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnXoa))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnExcel)
+                                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnRefresh)
+                                    .addComponent(btnDetail))
+                                .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch)
+                            .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        tblKH.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
+        tblKH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKHMouseClicked(evt);
             }
-        ));
-        tblKH.getTableHeader().setReorderingAllowed(false);
+        });
         jScrollPane1.setViewportView(tblKH);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -233,23 +262,29 @@ public class KhachHangGUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    
+    
+    
+    // Gọi thư mục inputCTKM.java để điền info
+    private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
+
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         ThemKhachHang dialog = new ThemKhachHang(topFrame, true);
         dialog.setVisible(true);
@@ -273,10 +308,37 @@ public class KhachHangGUI extends javax.swing.JPanel {
             }
             tblKH.setModel(model);
         }
-    }//GEN-LAST:event_btnAddActionPerformed
+        
+    }//GEN-LAST:event_btnThemMouseClicked
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+       int i = tblKH.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;
+        }
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        XoaKH dialog = new XoaKH(topFrame,true);
+        dialog.setVisible(true);
+        if(dialog.xacNhanXoa())
+        {
+            int ma = (int) tblKH.getValueAt(i, 0);
+            KhachHangBUS khbus = new KhachHangBUS();
+            khbus.xoaKH(ma);
+            model.removeRow(i);
+            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int i = tblKH.getSelectedRow();
+
+         int i = tblKH.getSelectedRow();
         if(i<0)
         {
            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật");
@@ -311,44 +373,27 @@ public class KhachHangGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int i = tblKH.getSelectedRow();
-        if(i<0)
-        {
-           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
-           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
-           return;
-        }
-        
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        XoaKH dialog = new XoaKH(topFrame,true);
-        dialog.setVisible(true);
-        if(dialog.xacNhanXoa())
-        {
-            int ma = (int) tblKH.getValueAt(i, 0);
-            KhachHangBUS khbus = new KhachHangBUS();
-            khbus.xoaKH(ma);
-            model.removeRow(i);
-            JLabel lb = new JLabel("Xóa thành công!");
-            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void tblKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKHMouseClicked
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
-        KhachHangBUS.ds=null;
-        docDB();
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
-    private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbbSearchActionPerformed
-    
+    }//GEN-LAST:event_tblKHMouseClicked
+    public void updateTB(ArrayList<KhachHangDTO> dskq)
+    {
+        model.setRowCount(0);
+        for(KhachHangDTO kh : dskq)
+        {
+            Vector row = new Vector();
+            row.add(kh.getMaKH());
+            row.add(kh.getHoKH());
+            row.add(kh.getTenKH());
+            row.add(kh.getSDT());
+            row.add(kh.getDiaChi());
+            row.add(kh.geteMail());
+            model.addRow(row);
+        }
+        tblKH.setModel(model);
+    }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-        String search = txtSearch.getText().trim();
+    String search = txtSearch.getText().trim();
         if(search.isEmpty())
         {
             docDB();
@@ -369,38 +414,45 @@ public class KhachHangGUI extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
-    public void updateTB(ArrayList<KhachHangDTO> dskq)
-    {
-        model.setRowCount(0);
-        for(KhachHangDTO kh : dskq)
-        {
-            Vector row = new Vector();
-            row.add(kh.getMaKH());
-            row.add(kh.getHoKH());
-            row.add(kh.getTenKH());
-            row.add(kh.getSDT());
-            row.add(kh.getDiaChi());
-            row.add(kh.geteMail());
-            model.addRow(row);
-        }
-        tblKH.setModel(model);
-    }
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        docDB();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+//        // TODO add your handling code here:
+//        int i = tbCTKMSP.getSelectedRow();
+//        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
+//        int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
+//        int masp = (int) tbCTKMSP.getValueAt(i, 2);
+//        int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
+//        
+//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//        ChuongTrinhKhuyenMaiSanPhamDTO data = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp, mactkm, masp, ptgg);
+//        detailCTKMSP dialog  = new detailCTKMSP(topFrame, true, data);
+//        dialog.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnDetailActionPerformed
+
+   
+    /**
+     * @param args the command line arguments
+     */
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnThem;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbbSearch;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblKH;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
-}
+}   
