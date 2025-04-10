@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC };
+    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
