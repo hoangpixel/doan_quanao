@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham };
+    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -44,6 +44,7 @@ public class navleft extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnLoaiSanPham1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnCTKM = new javax.swing.JButton();
         btnCTKMSP = new javax.swing.JButton();
@@ -56,9 +57,15 @@ public class navleft extends javax.swing.JPanel {
         btnPhieuNhap = new javax.swing.JButton();
         btnLoaiSanPham = new javax.swing.JButton();
         btnNhanVien = new javax.swing.JButton();
+        btnAo = new javax.swing.JButton();
+        btnQuan = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+
+        btnLoaiSanPham1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnLoaiSanPham1.setText("Loại sản phẩm");
+        btnLoaiSanPham1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -126,6 +133,14 @@ public class navleft extends javax.swing.JPanel {
         btnNhanVien.setText("Nhân viên");
         btnNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        btnAo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnAo.setText("Áo");
+        btnAo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        btnQuan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnQuan.setText("Quần");
+        btnQuan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,7 +158,9 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPhieuNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnQuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -171,7 +188,11 @@ public class navleft extends javax.swing.JPanel {
                 .addComponent(btnNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
@@ -221,8 +242,7 @@ public class navleft extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -242,6 +262,7 @@ public class navleft extends javax.swing.JPanel {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnAo;
     public javax.swing.JButton btnCTKM;
     public javax.swing.JButton btnCTKMHD;
     public javax.swing.JButton btnCTKMSP;
@@ -249,9 +270,11 @@ public class navleft extends javax.swing.JPanel {
     private javax.swing.JButton btnHome;
     public javax.swing.JButton btnKH;
     public javax.swing.JButton btnLoaiSanPham;
+    public javax.swing.JButton btnLoaiSanPham1;
     public javax.swing.JButton btnNCC;
     public javax.swing.JButton btnNhanVien;
     public javax.swing.JButton btnPhieuNhap;
+    public javax.swing.JButton btnQuan;
     public javax.swing.JButton btnSanPham;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
