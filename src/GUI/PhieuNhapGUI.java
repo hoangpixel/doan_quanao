@@ -24,14 +24,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Vinh
  */
-public class NhaCungCapGUI extends javax.swing.JPanel {
+public class PhieuNhapGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form NhaCungCapGUI
      */
     private NhaCungCapBUS nhaCungCapBUS = new NhaCungCapBUS();
     DefaultTableModel model = new DefaultTableModel();
-    public NhaCungCapGUI() {
+    public PhieuNhapGUI() {
         initComponents();
         
         // Gán model cho bảng
@@ -241,28 +241,11 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-        ThemNCC dialog = new ThemNCC(frame, true);
-        dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
-            this.loadDataTable(NhaCungCapBUS.getDsncc());
-        }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tbNCC.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
-        }
-        else {
-            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-            SuaNCC dialog = new SuaNCC(frame, true, maNCC);
-            dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
-                this.loadDataTable(NhaCungCapBUS.getDsncc());
-            }
-        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -288,16 +271,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        int row = tbNCC.getSelectedRow();
-        if(row == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
-            int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
-            ChiTietNCC dialog = new ChiTietNCC(frame, true, maNCC);
-            dialog.setVisible(true);
-        }
+
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
