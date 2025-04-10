@@ -21,6 +21,7 @@ public class KhachHangBUS {
     public void themKH(KhachHangDTO kh){
         KhachHangDAO data = new KhachHangDAO();
         data.them(kh);
+        ds.add(kh);
     }
     
     public void xoaKH(int ma){
