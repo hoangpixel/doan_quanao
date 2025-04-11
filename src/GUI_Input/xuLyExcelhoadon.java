@@ -202,12 +202,15 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                     bus.docDSHD(); // Đọc lại từ cơ sở dữ liệu
 
                     // Kiểm tra và thêm dữ liệu vào cơ sở dữ liệu
-                    int successCount = 0;
+                    int insertCount = 0;
+                    int updateCount = 0;
                     int skipCount = 0;
+
                     for (HoaDonDTO ct : excelData) {
                         // Kiểm tra mã CTKMSP đã tồn tại chưa
                         if (bus.ktraMaHD(ct.getMahd())) {
-                            skipCount++;
+                                bus.capnhat(ct);
+                            updateCount++;
                             continue; // Bỏ qua bản ghi trùng lặp
                         }
 
@@ -219,7 +222,7 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
 
                         try {
                             bus.them(ct); // Thêm vào cơ sở dữ liệu và ChuongTrinhKhuyenMaiSanPhamBUS.ds
-                            successCount++;
+                            insertCount++;
                         } catch (Exception e) {
                             skipCount++;
                             JOptionPane.showMessageDialog(this, "Lỗi khi thêm bản ghi Mã HD " + ct.getMahd() + ": " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -239,9 +242,11 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
 
                     // Hiển thị thông báo
                     String message = "Đọc file Excel thành công!\n" +
-                            "Số bản ghi đọc được: " + excelData.size() + "\n" +
-                            "Số bản ghi thêm vào cơ sở dữ liệu: " + successCount + "\n" +
-                            "Số bản ghi bỏ qua (trùng mã hoặc không hợp lệ): " + skipCount;
+                            "Tổng số dòng đọc: " + excelData.size() + "\n" +
+                            "Thêm mới: " + insertCount + "\n" +
+                            "Cập nhật: " + updateCount + "\n" +
+                            "Bỏ qua (không hợp lệ): " + skipCount;
+
                     JLabel lb = new JLabel(message);
                     lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
                     JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);

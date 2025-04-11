@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
+import borderRadius.roundedBorder;
 /**
  *
  * @author Vinh
@@ -87,6 +87,8 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         tbNCC = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBorder(new roundedBorder(15));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N

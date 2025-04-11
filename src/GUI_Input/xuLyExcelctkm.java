@@ -203,10 +203,12 @@ public class xuLyExcelctkm extends javax.swing.JDialog {
                 // Kiểm tra và thêm dữ liệu vào cơ sở dữ liệu
                 int successCount = 0;
                 int skipCount = 0;
+                int updateCount = 0;
                 for (ChuongTrinhKhuyenMaiDTO ct : excelData) {
                     // Kiểm tra mã CTKM đã tồn tại chưa
                     if (bus.ktraMa(ct.getMaCTKM())) {
-                        skipCount++;
+                        updateCount++;
+                        bus.sua(ct);
                         continue; // Bỏ qua bản ghi trùng lặp
                     }
                     bus.them(ct); // Thêm vào cơ sở dữ liệu và ChuongTrinhKhuyenMaiBUS.ds
@@ -214,9 +216,17 @@ public class xuLyExcelctkm extends javax.swing.JDialog {
                 }
 
                 // Làm mới dskq và cập nhật JTable
-                dskq.clear();
-                dskq.addAll(excelData);
-                gui.updateTB(dskq);
+                    // Làm mới dskq và cập nhật JTable
+                    dskq.clear();
+                    bus.docDSCTKM();
+                    if(ChuongTrinhKhuyenMaiBUS.ds !=null)
+                    {
+                        dskq.addAll(ChuongTrinhKhuyenMaiBUS.ds);
+                    }
+                    gui.updateTB(dskq);
+                    // Đồng bộ ChuongTrinhKhuyenMaiSanPhamBUS.ds với dskq
+                    ChuongTrinhKhuyenMaiBUS.ds.clear();
+                    ChuongTrinhKhuyenMaiBUS.ds.addAll(dskq);
 
                 // Hiển thị thông báo
 //                String message = "Đọc file Excel thành công!\n" +

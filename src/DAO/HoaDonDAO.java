@@ -81,6 +81,7 @@ public class HoaDonDAO {
                 qry += " " + "NGAYLAP='" + hd.getNgaylap() + "'";
                 qry += ",MANV='" + hd.getManv() + "'";
                 qry += ",MAKH='" + hd.getMakh() + "'";
+                qry += ",TONGTIEN='" + hd.getTongtien() + "'";
                 qry += " Where MAHD='" + hd.getMahd() +"'";
                 con = DBConnect.getConnection();
                 st = con.createStatement();

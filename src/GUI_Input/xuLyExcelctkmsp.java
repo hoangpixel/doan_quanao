@@ -200,11 +200,13 @@ public class xuLyExcelctkmsp extends javax.swing.JDialog {
                     // Kiểm tra và thêm dữ liệu vào cơ sở dữ liệu
                     int successCount = 0;
                     int skipCount = 0;
+                    int updateCount =0;
                     for (ChuongTrinhKhuyenMaiSanPhamDTO ct : excelData) {
                         // Kiểm tra mã CTKMSP đã tồn tại chưa
                         if (bus.ktraMa(ct.getMactkmsp())) {
-                            skipCount++;
-                            continue; // Bỏ qua bản ghi trùng lặp
+                            updateCount++;
+                            bus.capnhat(ct);
+                               continue; // Bỏ qua bản ghi trùng lặp
                         }
 
                         // Kiểm tra dữ liệu hợp lệ
