@@ -60,7 +60,7 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
     public void headerTable()
     {
         Vector header = new Vector();
-        header.add("Mã chi tiết khuyến mãi");
+        header.add("Mã CTKM");
         header.add("Ngày bắt đầu");
         header.add("Ngày kết thúc");
         model = new DefaultTableModel(header,0)

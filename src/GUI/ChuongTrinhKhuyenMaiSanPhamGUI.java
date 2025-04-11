@@ -19,6 +19,7 @@ import GUI_Input.insertCTKMSP;
 import GUI_Input.deleteCTKMSP;
 import GUI_Input.updateCTKMSP;
 import GUI_Input.detailCTKMSP;
+import GUI_Input.xuLyExcelctkmsp;
 /**
  *
  * @author mhoang
@@ -42,9 +43,9 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
     public void headerTable()
     {
         Vector header = new Vector();
-        header.add("Mã chương trình khuyến mãi sản phẩm");
-        header.add("Mã chương trình khuyến mãi");
-        header.add("Mã sản phẩm");
+        header.add("Mã CTKMSP");
+        header.add("Mã CTKM");
+        header.add("Mã SP");
         header.add("Phần trăm giảm giá");
         model = new DefaultTableModel(header,0);
         tbCTKMSP.setModel(model);
@@ -148,11 +149,16 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
 
         btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setToolTipText("");
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -210,7 +216,7 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addComponent(cbTim, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -424,6 +430,24 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnDetailActionPerformed
 
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        ChuongTrinhKhuyenMaiSanPhamGUI gui = new ChuongTrinhKhuyenMaiSanPhamGUI();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        xuLyExcelctkmsp dialog = new xuLyExcelctkmsp(topFrame, true, getDs(), gui);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    
+    public ArrayList<ChuongTrinhKhuyenMaiSanPhamDTO> getDs()
+    {
+        ChuongTrinhKhuyenMaiSanPhamBUS bus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+        if(ChuongTrinhKhuyenMaiSanPhamBUS.ds == null)
+        {
+            bus.docDSCTKMSP();
+        }
+        return ChuongTrinhKhuyenMaiSanPhamBUS.ds != null ? ChuongTrinhKhuyenMaiSanPhamBUS.ds : new ArrayList<>();
+    }
    
     /**
      * @param args the command line arguments

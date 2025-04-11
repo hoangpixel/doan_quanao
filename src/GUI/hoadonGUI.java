@@ -18,6 +18,7 @@ import GUI_Input.deleteHoaDon;
 import GUI_Input.updateHoaDon;
 import GUI_Input.detailHD_promax;
 import GUI_Input.timKiemNangCaoHoadon;
+import GUI_Input.xuLyExcelhoadon;
 /**
  *
  * @author mhoang
@@ -177,7 +178,7 @@ public class hoadonGUI extends javax.swing.JPanel {
 
         btnExcel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel1.setText("XUẤT EXCEL");
+        btnExcel1.setText("EXCEL");
         btnExcel1.setToolTipText("");
         btnExcel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -331,10 +332,6 @@ public class hoadonGUI extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:      
-
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        deleteHoaDon dialog = new deleteHoaDon(topFrame, true);
-        dialog.setVisible(true);
         
         int i = tbHoadon.getSelectedRow();
         if(i<0)
@@ -344,6 +341,9 @@ public class hoadonGUI extends javax.swing.JPanel {
            JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
            return;           
         }
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        deleteHoaDon dialog = new deleteHoaDon(topFrame, true);
+        dialog.setVisible(true);
         if(dialog.xacNhanXoa())
         {
             int ma = (int) tbHoadon.getValueAt(i, 0);
@@ -357,6 +357,13 @@ public class hoadonGUI extends javax.swing.JPanel {
         // TODO add your handling code here
         
         int i=tbHoadon.getSelectedRow();
+        if(i<0)
+        {
+            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật!");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần cập nhật",JOptionPane.ERROR_MESSAGE);
+           return;           
+        }
         int mahd = (int) tbHoadon.getValueAt(i,0);
         String ngaylap = tbHoadon.getValueAt(i, 1).toString();
         int manv = (int) tbHoadon.getValueAt(i, 2);
@@ -432,10 +439,6 @@ public class hoadonGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnDetailActionPerformed
 
-    private void btnExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcel1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExcel1ActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         
@@ -480,6 +483,23 @@ public class hoadonGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLocActionPerformed
 
+    private void btnExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcel1ActionPerformed
+        // TODO add your handling code here:
+        hoadonGUI gui = new hoadonGUI();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        xuLyExcelhoadon dialog =  new xuLyExcelhoadon(topFrame, true, getDS(), gui);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcel1ActionPerformed
+
+    public ArrayList<HoaDonDTO> getDS()
+    {
+        HoaDonBUS bus = new HoaDonBUS();
+        if(HoaDonBUS.ds == null)
+        {
+            bus.docDSHD();
+        }
+        return HoaDonBUS.ds!=null?HoaDonBUS.ds:new ArrayList<>();
+    }
     /**
      * @param args the command line arguments
      */

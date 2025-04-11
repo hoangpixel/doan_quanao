@@ -80,6 +80,65 @@ public void capnhat(ChuongTrinhKhuyenMaiSanPhamDTO ct)
     }
 }
 
+    public boolean ktraMa(int ma)
+    {
+        try {
+            String qry = "select count(*) from ctkmsp where mactkmsp = " + ma;
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next())
+            {
+                int d = rs.getInt(1);
+                if(d>0)
+                {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-
+    
+    public boolean ktraHopLe(ChuongTrinhKhuyenMaiSanPhamDTO ct)
+    {
+        if(ct.getPtgg() <0 || ct.getPtgg() >100)
+        {
+            return false;
+        }
+        try {
+            String qry = "select count(*) from sanpham where masp = " + ct.getMasp();
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next())
+            {
+                int d=rs.getInt(1);
+                if(d==0)
+                {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            
+        }
+        try {
+            String qry = "select count(*) from ctkm where mactkm = "+ ct.getMactkm();
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next())
+            {
+                int d= rs.getInt(1);
+                if(d==0)
+                {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return true;
+    }
 }

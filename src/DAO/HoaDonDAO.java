@@ -89,4 +89,65 @@ public class HoaDonDAO {
             }
         }
         
+        
+        public boolean ktraMaHD(int ma)
+        {
+            try {
+                String qry = "select count(*) from hoadon where mahd = " + ma;
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d=rs.getInt(1);
+                    if(d>0)
+                    {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+            }
+            return false;
+        }
+        
+        public boolean ktraHopLe(HoaDonDTO ct)
+        {
+            if(ct.getTongtien() < 0)
+            {
+                return false;
+            }
+            
+            try {
+                String qry = "select count(*) from nhanvien where manv = " + ct.getManv();
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d= rs.getInt(1);
+                    if(d==0)
+                    {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
+            try {
+                String qry = "select count(*) from khachhang where makh = " + ct.getMakh();
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d = rs.getInt(1);
+                    if(d==0)
+                    {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+            }
+            return true;
+        }
 }

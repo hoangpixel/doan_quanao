@@ -100,4 +100,15 @@ public class ChuongTrinhKhuyenMaiSanPhamBUS {
         }
         return kq;
     }
+    public boolean ktraMa(int ma)
+    {
+        ChuongTrinhKhuyenMaiSanPhamDAO data = new ChuongTrinhKhuyenMaiSanPhamDAO();
+        return data.ktraMa(ma);
+    }
+    
+    public boolean ktraHopLe(ChuongTrinhKhuyenMaiSanPhamDTO ct)
+    {
+        ChuongTrinhKhuyenMaiSanPhamDAO data = new ChuongTrinhKhuyenMaiSanPhamDAO();
+        return data.ktraHopLe(ct);
+    }
 }

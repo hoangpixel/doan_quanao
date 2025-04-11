@@ -153,5 +153,16 @@ public class HoaDonBUS {
         }
         return kq;
     }
+    
+    public boolean ktraMaHD(int ma)
+    {
+        HoaDonDAO data = new HoaDonDAO();
+        return data.ktraMaHD(ma);
+    }
+    public boolean ktraHopLe(HoaDonDTO ct)
+    {
+        HoaDonDAO data = new HoaDonDAO();
+        return data.ktraHopLe(ct);
+    }
 }
     
