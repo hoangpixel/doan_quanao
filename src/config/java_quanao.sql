@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 17, 2025 lúc 09:56 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Apr 17, 2025 at 10:06 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `doan_java`
+-- Database: `java_quanao`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ao`
+-- Table structure for table `ao`
 --
 
 CREATE TABLE `ao` (
@@ -35,7 +35,7 @@ CREATE TABLE `ao` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cthd`
+-- Table structure for table `cthd`
 --
 
 CREATE TABLE `cthd` (
@@ -49,7 +49,7 @@ CREATE TABLE `cthd` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ctkm`
+-- Table structure for table `ctkm`
 --
 
 CREATE TABLE `ctkm` (
@@ -59,7 +59,7 @@ CREATE TABLE `ctkm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `ctkm`
+-- Dumping data for table `ctkm`
 --
 
 INSERT INTO `ctkm` (`MACTKM`, `NGAYBD`, `NGAYKT`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `ctkm` (`MACTKM`, `NGAYBD`, `NGAYKT`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ctkmhd`
+-- Table structure for table `ctkmhd`
 --
 
 CREATE TABLE `ctkmhd` (
@@ -95,7 +95,7 @@ CREATE TABLE `ctkmhd` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ctkmsp`
+-- Table structure for table `ctkmsp`
 --
 
 CREATE TABLE `ctkmsp` (
@@ -108,7 +108,7 @@ CREATE TABLE `ctkmsp` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ctpn`
+-- Table structure for table `ctpn`
 --
 
 CREATE TABLE `ctpn` (
@@ -122,7 +122,7 @@ CREATE TABLE `ctpn` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hoadon`
+-- Table structure for table `hoadon`
 --
 
 CREATE TABLE `hoadon` (
@@ -133,10 +133,26 @@ CREATE TABLE `hoadon` (
   `TONGTIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`MAHD`, `NGAYLAP`, `MANV`, `MAKH`, `TONGTIEN`) VALUES
+(1, '01/04/2025', 1, 19, 0),
+(2, '05/04/2025', 6, 3, 0),
+(3, '13/04/2025', 10, 17, 0),
+(4, '02/04/2025', 5, 19, 0),
+(5, '30/04/2025', 2, 5, 0),
+(6, '07/04/2025', 9, 20, 0),
+(7, '01/04/2025', 4, 18, 0),
+(8, '05/04/2025', 3, 19, 0),
+(9, '04/04/2025', 2, 20, 0),
+(10, '05/04/2025', 10, 3, 0);
+
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khachhang`
+-- Table structure for table `khachhang`
 --
 
 CREATE TABLE `khachhang` (
@@ -149,7 +165,7 @@ CREATE TABLE `khachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `khachhang`
+-- Dumping data for table `khachhang`
 --
 
 INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`) VALUES
@@ -177,7 +193,7 @@ INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`) VALU
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `loaisp`
+-- Table structure for table `loaisp`
 --
 
 CREATE TABLE `loaisp` (
@@ -186,7 +202,7 @@ CREATE TABLE `loaisp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `loaisp`
+-- Dumping data for table `loaisp`
 --
 
 INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`) VALUES
@@ -204,7 +220,7 @@ INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ncc`
+-- Table structure for table `ncc`
 --
 
 CREATE TABLE `ncc` (
@@ -215,7 +231,7 @@ CREATE TABLE `ncc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `ncc`
+-- Dumping data for table `ncc`
 --
 
 INSERT INTO `ncc` (`MANCC`, `TENNCC`, `SDTNCC`, `DIACHI`) VALUES
@@ -233,7 +249,7 @@ INSERT INTO `ncc` (`MANCC`, `TENNCC`, `SDTNCC`, `DIACHI`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhanvien`
+-- Table structure for table `nhanvien`
 --
 
 CREATE TABLE `nhanvien` (
@@ -247,7 +263,7 @@ CREATE TABLE `nhanvien` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `nhanvien`
+-- Dumping data for table `nhanvien`
 --
 
 INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) VALUES
@@ -265,7 +281,7 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phienbansp`
+-- Table structure for table `phienbansp`
 --
 
 CREATE TABLE `phienbansp` (
@@ -278,7 +294,7 @@ CREATE TABLE `phienbansp` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phieunhap`
+-- Table structure for table `phieunhap`
 --
 
 CREATE TABLE `phieunhap` (
@@ -290,7 +306,7 @@ CREATE TABLE `phieunhap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phieunhap`
+-- Dumping data for table `phieunhap`
 --
 
 INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`) VALUES
@@ -308,7 +324,7 @@ INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `quan`
+-- Table structure for table `quan`
 --
 
 CREATE TABLE `quan` (
@@ -319,7 +335,7 @@ CREATE TABLE `quan` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `sanpham`
+-- Table structure for table `sanpham`
 --
 
 CREATE TABLE `sanpham` (
@@ -333,37 +349,37 @@ CREATE TABLE `sanpham` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `ao`
+-- Indexes for table `ao`
 --
 ALTER TABLE `ao`
   ADD PRIMARY KEY (`MALOAI`,`TENAO`);
 
 --
--- Chỉ mục cho bảng `cthd`
+-- Indexes for table `cthd`
 --
 ALTER TABLE `cthd`
   ADD PRIMARY KEY (`MAHD`),
   ADD KEY `MASP` (`MASP`);
 
 --
--- Chỉ mục cho bảng `ctkm`
+-- Indexes for table `ctkm`
 --
 ALTER TABLE `ctkm`
   ADD PRIMARY KEY (`MACTKM`);
 
 --
--- Chỉ mục cho bảng `ctkmhd`
+-- Indexes for table `ctkmhd`
 --
 ALTER TABLE `ctkmhd`
   ADD PRIMARY KEY (`MACTKMHD`,`MACTKM`),
   ADD KEY `MACTKM` (`MACTKM`);
 
 --
--- Chỉ mục cho bảng `ctkmsp`
+-- Indexes for table `ctkmsp`
 --
 ALTER TABLE `ctkmsp`
   ADD PRIMARY KEY (`MACTKMSP`,`MACTKM`),
@@ -371,14 +387,14 @@ ALTER TABLE `ctkmsp`
   ADD KEY `MASP` (`MASP`);
 
 --
--- Chỉ mục cho bảng `ctpn`
+-- Indexes for table `ctpn`
 --
 ALTER TABLE `ctpn`
   ADD PRIMARY KEY (`MACTPN`),
   ADD KEY `MASP` (`MASP`);
 
 --
--- Chỉ mục cho bảng `hoadon`
+-- Indexes for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD PRIMARY KEY (`MAHD`,`NGAYLAP`),
@@ -386,37 +402,37 @@ ALTER TABLE `hoadon`
   ADD KEY `MAKH` (`MAKH`);
 
 --
--- Chỉ mục cho bảng `khachhang`
+-- Indexes for table `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD PRIMARY KEY (`MAKH`);
 
 --
--- Chỉ mục cho bảng `loaisp`
+-- Indexes for table `loaisp`
 --
 ALTER TABLE `loaisp`
   ADD PRIMARY KEY (`MALOAI`);
 
 --
--- Chỉ mục cho bảng `ncc`
+-- Indexes for table `ncc`
 --
 ALTER TABLE `ncc`
   ADD PRIMARY KEY (`MANCC`);
 
 --
--- Chỉ mục cho bảng `nhanvien`
+-- Indexes for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`MANV`);
 
 --
--- Chỉ mục cho bảng `phienbansp`
+-- Indexes for table `phienbansp`
 --
 ALTER TABLE `phienbansp`
   ADD PRIMARY KEY (`MASP`);
 
 --
--- Chỉ mục cho bảng `phieunhap`
+-- Indexes for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   ADD PRIMARY KEY (`MAPN`),
@@ -424,150 +440,150 @@ ALTER TABLE `phieunhap`
   ADD KEY `phieunhap_ibfk_2` (`MANCC`);
 
 --
--- Chỉ mục cho bảng `quan`
+-- Indexes for table `quan`
 --
 ALTER TABLE `quan`
   ADD PRIMARY KEY (`MALOAI`,`TENQUAN`);
 
 --
--- Chỉ mục cho bảng `sanpham`
+-- Indexes for table `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD PRIMARY KEY (`MASP`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `cthd`
+-- AUTO_INCREMENT for table `cthd`
 --
 ALTER TABLE `cthd`
   MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `ctkm`
+-- AUTO_INCREMENT for table `ctkm`
 --
 ALTER TABLE `ctkm`
   MODIFY `MACTKM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT cho bảng `ctkmhd`
+-- AUTO_INCREMENT for table `ctkmhd`
 --
 ALTER TABLE `ctkmhd`
   MODIFY `MACTKMHD` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `ctkmsp`
+-- AUTO_INCREMENT for table `ctkmsp`
 --
 ALTER TABLE `ctkmsp`
   MODIFY `MACTKMSP` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `ctpn`
+-- AUTO_INCREMENT for table `ctpn`
 --
 ALTER TABLE `ctpn`
   MODIFY `MACTPN` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `hoadon`
+-- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `khachhang`
+-- AUTO_INCREMENT for table `khachhang`
 --
 ALTER TABLE `khachhang`
   MODIFY `MAKH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT cho bảng `loaisp`
+-- AUTO_INCREMENT for table `loaisp`
 --
 ALTER TABLE `loaisp`
   MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `ncc`
+-- AUTO_INCREMENT for table `ncc`
 --
 ALTER TABLE `ncc`
   MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `nhanvien`
+-- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   MODIFY `MANV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `phieunhap`
+-- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `sanpham`
+-- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
   MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `ao`
+-- Constraints for table `ao`
 --
 ALTER TABLE `ao`
   ADD CONSTRAINT `ao_ibfk_1` FOREIGN KEY (`MALOAI`) REFERENCES `loaisp` (`MALOAI`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `cthd`
+-- Constraints for table `cthd`
 --
 ALTER TABLE `cthd`
   ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Các ràng buộc cho bảng `ctkmhd`
+-- Constraints for table `ctkmhd`
 --
 ALTER TABLE `ctkmhd`
   ADD CONSTRAINT `ctkmhd_ibfk_1` FOREIGN KEY (`MACTKM`) REFERENCES `ctkm` (`MACTKM`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `ctkmsp`
+-- Constraints for table `ctkmsp`
 --
 ALTER TABLE `ctkmsp`
   ADD CONSTRAINT `ctkmsp_ibfk_1` FOREIGN KEY (`MACTKM`) REFERENCES `ctkm` (`MACTKM`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ctkmsp_ibfk_2` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `ctpn`
+-- Constraints for table `ctpn`
 --
 ALTER TABLE `ctpn`
   ADD CONSTRAINT `ctpn_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `hoadon`
+-- Constraints for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hoadon_ibfk_3` FOREIGN KEY (`MAKH`) REFERENCES `khachhang` (`MAKH`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Các ràng buộc cho bảng `phienbansp`
+-- Constraints for table `phienbansp`
 --
 ALTER TABLE `phienbansp`
   ADD CONSTRAINT `phienbansp_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `phieunhap`
+-- Constraints for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `phieunhap_ibfk_2` FOREIGN KEY (`MANCC`) REFERENCES `ncc` (`MANCC`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Các ràng buộc cho bảng `quan`
+-- Constraints for table `quan`
 --
 ALTER TABLE `quan`
   ADD CONSTRAINT `quan_ibfk_1` FOREIGN KEY (`MALOAI`) REFERENCES `loaisp` (`MALOAI`);
