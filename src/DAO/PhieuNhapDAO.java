@@ -4,6 +4,7 @@
  */
 package DAO;
 import DTO.PhieuNhapDTO;
+import config.DBConnect;
 import java.util.ArrayList;
 import java.sql.*;
 /**
@@ -11,28 +12,16 @@ import java.sql.*;
  * @author laptop
  */
 public class PhieuNhapDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/doan_quanao";
-    Connection con;
-    Statement st;
-    ResultSet rs;
+    Connection con=null;
+    Statement st=null;
+    ResultSet rs=null;
 
-    public PhieuNhapDAO() {
-        if(con==null)
-        {
-            try {
-                
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                
-            } catch (Exception e) {
-            }
-        }
-    }
 public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     {
         ArrayList ds = new ArrayList<PhieuNhapDTO>();
         try {
             String qry = "select * from phieunhap";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             rs = st.executeQuery(qry);
             while(rs.next())
@@ -49,20 +38,25 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         }
         return ds;
     }
-    
-    
-    
+        
     public void them(PhieuNhapDTO pn)
     {
         try {
-            String qry = "Insert into phieunhap (TONGTIEN,NGAYNHAP) values (";
-            qry = qry + "'" + pn.getTongTien() + "',";
+            String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP) values (";
+            qry = qry + pn.getMaNV() + ",";
+            qry = qry + pn.getMaNCC() + ",";
+            qry = qry + pn.getTongTien() + ",";
             qry = qry + "'" + pn.getNgayNhap() + "'";
-            qry = qry + ")";
+            qry = qry + ")";          
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
+            
+            System.out.println("Thêm phiếu nhập thành công");
         } catch (Exception e) {
-        }
+            System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
+            e.printStackTrace();
+        } 
     }
     
     public void xoa(int ma)
@@ -70,6 +64,7 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         try {
             
             String qry = "Delete from phieunhap where MAPN = '" + ma + "'";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
             
@@ -86,9 +81,42 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         qry = qry + " " + "TONGTIEN=" + "'" + pn.getTongTien() + "'";
         qry = qry + ",NGAYNHAP=" + "'" + pn.getNgayNhap() + "'";
         qry = qry + " " + " where MAPN='" + pn.getMaPN() + "'";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);            
         } catch (Exception e) {
         }
+    }
+    public boolean ktraMaNV(int ma)
+    {
+        try {
+            String qry = "select count(*) from nhanvien where manv=" + ma;
+            con = DBConnect.getConnection();            
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next());
+            {
+                int d = rs.getInt(1);
+                return d > 0;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+    public boolean ktraMaNCC(int ma)
+    {
+        try {
+            String qry = "select count(*) from ncc where mancc=" + ma;
+            con = DBConnect.getConnection();            
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next());
+            {
+                int d = rs.getInt(1);
+                return d > 0;
+            }
+        } catch (Exception e) {
+        }
+        return false;
     }
 }

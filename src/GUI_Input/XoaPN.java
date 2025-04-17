@@ -8,12 +8,12 @@ package GUI_Input;
  *
  * @author laptop
  */
-public class XoaKH extends javax.swing.JDialog {
+public class XoaPN extends javax.swing.JDialog {
     public boolean xacNhan = false;
     /**
      * Creates new form XoaKH
      */
-    public XoaKH(java.awt.Frame parent, boolean modal) {
+    public XoaPN(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
@@ -36,7 +36,7 @@ public class XoaKH extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("  Bạn có chắc muốn xóa khách hàng này?");
+        jLabel1.setText("  Bạn có chắc muốn xóa phiếu nhập này?");
 
         btnKhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnKhong.setText("Không");

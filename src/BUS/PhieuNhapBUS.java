@@ -24,6 +24,7 @@ public class PhieuNhapBUS {
     public void them(PhieuNhapDTO pn){
         PhieuNhapDAO data = new PhieuNhapDAO();
         data.them(pn);
+        ds.add(pn);
     }
     
     public void xoa(int ma){
@@ -34,5 +35,17 @@ public class PhieuNhapBUS {
     public void sua(PhieuNhapDTO pn){
         PhieuNhapDAO data = new PhieuNhapDAO();
         data.sua(pn);
+    }
+    
+    public boolean ktraMaNV(int ma)
+    {
+        PhieuNhapDAO data = new PhieuNhapDAO();
+        return data.ktraMaNV(ma);
+    }
+    
+    public boolean ktraMaNCC(int ma)
+    {
+        PhieuNhapDAO data = new PhieuNhapDAO();
+        return data.ktraMaNCC(ma);
     }
 }

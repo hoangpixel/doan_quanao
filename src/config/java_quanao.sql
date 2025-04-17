@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 17, 2025 lúc 09:31 AM
+-- Thời gian đã tạo: Th4 17, 2025 lúc 09:56 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `java_quanao`
+-- Cơ sở dữ liệu: `doan_java`
 --
 
 -- --------------------------------------------------------
@@ -148,6 +148,32 @@ CREATE TABLE `khachhang` (
   `EMAIL` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `khachhang`
+--
+
+INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`) VALUES
+(1, 'Smith', 'John', '0932456781', '123 Main St, Springfield, IL', 'john.smith@example.com'),
+(2, 'Johnson', 'Emily', '0943678210', '456 Elm St, Austin, TX', 'emily.johnson@example.com'),
+(3, 'Williams', 'Michael', '0965843212', '789 Oak Ave, Denver, CO', 'michael.williams@example.com'),
+(4, 'Brown', 'Sarah', '0912457693', '321 Pine Rd, Portland, OR', 'sarah.brown@example.com'),
+(5, 'Jones', 'David', '0982345611', '654 Cedar St, Miami, FL', 'david.jones@example.com'),
+(6, 'Garcia', 'Laura', '0901123456', '987 Birch Blvd, Seattle, WA', 'laura.garcia@example.com'),
+(7, 'Miller', 'James', '0934567890', '159 Maple Ln, Boston, MA', 'james.miller@example.com'),
+(8, 'Davis', 'Olivia', '0978563412', '753 Cherry Dr, Chicago, IL', 'olivia.davis@example.com'),
+(9, 'Rodriguez', 'Robert', '0911765432', '852 Willow St, Atlanta, GA', 'robert.rodriguez@example.com'),
+(10, 'Martinez', 'Sophia', '0965432187', '951 Aspen Way, Dallas, TX', 'sophia.martinez@example.com'),
+(11, 'Hernandez', 'Daniel', '0956743128', '135 Hickory St, Phoenix, AZ', 'daniel.hernandez@example.com'),
+(12, 'Lopez', 'Grace', '0943210987', '246 Palm Blvd, Charlotte, NC', 'grace.lopez@example.com'),
+(13, 'Gonzalez', 'William', '0901234567', '369 Cypress Rd, San Diego, CA', 'william.gonzalez@example.com'),
+(14, 'Wilson', 'Chloe', '0919238475', '147 Redwood Ave, Tampa, FL', 'chloe.wilson@example.com'),
+(15, 'Anderson', 'Benjamin', '0978123456', '258 Spruce St, Las Vegas, NV', 'benjamin.anderson@example.com'),
+(16, 'Thomas', 'Lily', '0932187654', '369 Magnolia Ln, Salt Lake City, UT', 'lily.thomas@example.com'),
+(17, 'Taylor', 'Christopher', '0982345678', '147 Poplar St, Baltimore, MD', 'chris.taylor@example.com'),
+(18, 'Moore', 'Zoe', '0956784321', '753 Oakwood Dr, Cincinnati, OH', 'zoe.moore@example.com'),
+(19, 'Jackson', 'Nathan', '0921435678', '951 River Rd, Kansas City, MO', 'nathan.jackson@example.com'),
+(20, 'Martin', 'Ella', '0945654321', '852 Sunset Blvd, Orlando, FL', 'ella.martin@example.com');
+
 -- --------------------------------------------------------
 
 --
@@ -158,6 +184,22 @@ CREATE TABLE `loaisp` (
   `MALOAI` int(11) NOT NULL,
   `TENLOAI` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `loaisp`
+--
+
+INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`) VALUES
+(1, 'Áo thun'),
+(2, 'Áo sơ mi'),
+(3, 'Quần jean'),
+(4, 'Váy'),
+(5, 'Áo khoác'),
+(6, 'Hoodie'),
+(7, 'Đầm dạ hội'),
+(8, 'Quần short'),
+(9, 'Đồ thể thao'),
+(10, 'Phụ kiện');
 
 -- --------------------------------------------------------
 
@@ -171,6 +213,22 @@ CREATE TABLE `ncc` (
   `SDTNCC` varchar(11) NOT NULL,
   `DIACHI` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `ncc`
+--
+
+INSERT INTO `ncc` (`MANCC`, `TENNCC`, `SDTNCC`, `DIACHI`) VALUES
+(1, 'Công ty May Mặc Bình Minh', '0912345678', '12 Nguyễn Trãi, Q.1, TP.HCM'),
+(2, 'Thời Trang Hoàng Gia', '0987654321', '45 Lê Lợi, Q.3, TP.HCM'),
+(3, 'Vải Sợi Phú Cường', '0901122334', '78 Hai Bà Trưng, Q.5, TP.HCM'),
+(4, 'Quần Áo Trẻ Em Sao Mai', '0933445566', '23 Lý Thường Kiệt, Hà Nội'),
+(5, 'Công ty TNHH VinaWear', '0977889900', '90 Trần Hưng Đạo, Đà Nẵng'),
+(6, 'Dệt May Thành Công', '0944112233', '56 Nguyễn Văn Cừ, Q.Ninh Kiều, Cần Thơ'),
+(7, 'FashionHub Việt Nam', '0922334455', '66 Phạm Văn Đồng, TP. Hải Phòng'),
+(8, 'Đồng Phục Ánh Dương', '0966554433', '88 Pasteur, Q.1, TP.HCM'),
+(9, 'Công ty TNHH BlueStyle', '0932111222', '33 Cách Mạng Tháng 8, TP. Vũng Tàu'),
+(10, 'Thời Trang Hàn Quốc KStyle', '0988111222', '99 Lạc Long Quân, TP. Huế');
 
 -- --------------------------------------------------------
 
@@ -230,6 +288,22 @@ CREATE TABLE `phieunhap` (
   `TONGTIEN` int(15) NOT NULL,
   `NGAYNHAP` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `phieunhap`
+--
+
+INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`) VALUES
+(1, 2, 3, 4320000, '15/03/2025'),
+(2, 1, 4, 6850000, '22/01/2025'),
+(3, 3, 2, 7895000, '07/02/2025'),
+(4, 4, 5, 2345000, '10/12/2024'),
+(5, 5, 1, 9100000, '02/03/2025'),
+(6, 2, 2, 5600000, '11/04/2025'),
+(7, 3, 3, 7400000, '08/01/2025'),
+(8, 4, 4, 3100000, '20/02/2025'),
+(9, 1, 5, 8450000, '14/03/2025'),
+(10, 5, 1, 6550000, '17/04/2025');
 
 -- --------------------------------------------------------
 
@@ -405,19 +479,19 @@ ALTER TABLE `hoadon`
 -- AUTO_INCREMENT cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `MAKH` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAKH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `loaisp`
 --
 ALTER TABLE `loaisp`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `ncc`
 --
 ALTER TABLE `ncc`
-  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `nhanvien`
@@ -429,7 +503,7 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT cho bảng `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `sanpham`
