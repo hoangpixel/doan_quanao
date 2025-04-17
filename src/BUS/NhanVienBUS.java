@@ -7,7 +7,8 @@ package BUS;
 import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 import java.util.ArrayList;
-
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 /**
  *
  * @author suvie
@@ -15,6 +16,87 @@ import java.util.ArrayList;
 public class NhanVienBUS {
 
     private static ArrayList<NhanVienDTO> dsnv;
+    
+    public boolean kiemTraMaNhanVien(int manv) {
+        NhanVienDTO nv = layNhanVienTheoMa(manv);
+        return nv != null;
+    }
+    
+    public boolean kiemTraHopLe(NhanVienDTO nv) {
+        if (nv == null) {
+            JOptionPane.showMessageDialog(null, "Dữ liệu nhân viên không được null!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Họ
+        if (nv.getHo() == null || nv.getHo().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Họ nhân viên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!Pattern.matches("^[A-Za-zÀ-ỹ\\s-]+$", nv.getHo().trim())) {
+            JOptionPane.showMessageDialog(null, "Họ nhân viên chỉ được chứa chữ cái, dấu cách hoặc dấu gạch ngang!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Tên
+        if (nv.getTen() == null || nv.getTen().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tên nhân viên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!Pattern.matches("^[A-Za-zÀ-ỹ\\s-]+$", nv.getTen().trim())) {
+            JOptionPane.showMessageDialog(null, "Tên nhân viên chỉ được chứa chữ cái, dấu cách hoặc dấu gạch ngang!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Lương
+        if (nv.getLuong() < 1_000_000) {
+            JOptionPane.showMessageDialog(null, "Lương phải lớn hơn hoặc bằng " + String.format("%,d", 1_000_000) + "!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Số điện thoại
+        if (nv.getSDT() == null || nv.getSDT().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!Pattern.matches("^0[0-9]{9}$", nv.getSDT().trim())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số và bắt đầu bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Địa chỉ
+        if (nv.getDiaChi() == null || nv.getDiaChi().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate Email
+        if (nv.getEmail() == null || nv.getEmail().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Email không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!Pattern.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", nv.getEmail().trim())) {
+            JOptionPane.showMessageDialog(null, "Email không đúng định dạng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Check for duplicate email (excluding current employee for updates)
+        for (NhanVienDTO existingNv : docDSNV()) {
+            if (existingNv.getEmail().equalsIgnoreCase(nv.getEmail().trim()) && existingNv.getMa() != nv.getMa()) {
+                JOptionPane.showMessageDialog(null, "Email đã được sử dụng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    public ArrayList<NhanVienDTO> docDSNV() {
+        if(dsnv == null) {
+            dsnv = new NhanVienDAO().docDSNV();
+        }
+        return dsnv;
+    }
     
     public void them(NhanVienDTO nv) {
         if(dsnv == null) {
@@ -46,17 +128,6 @@ public class NhanVienBUS {
     
     public NhanVienDTO layNhanVienTheoMa(int manv) {
         return new NhanVienDAO().layNhanVienTheoMa(manv);
-    }
-    
-    public ArrayList<NhanVienDTO> layTatCaNhanVien () {
-        if(dsnv == null) {
-            dsnv = new NhanVienDAO().layTatCaNhanVien();
-        }
-        return dsnv;
-    }
-    
-    public void refreshDanhSach () {
-        dsnv = new NhanVienDAO().layTatCaNhanVien();
     }
 
     public static ArrayList<NhanVienDTO> getDSNV() {
@@ -135,11 +206,5 @@ public class NhanVienBUS {
             }
         }
         return ds;
-    }
-    
-    public boolean ktraMaNV(int manv)
-    {
-        NhanVienDTO nv = layNhanVienTheoMa(manv);
-        return nv != null;
     }
 }

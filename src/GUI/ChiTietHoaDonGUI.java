@@ -61,7 +61,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
         // Load dữ liệu
         
-        this.loadDataTable(cthdbus.layTatCaCTHD());
+        this.loadDataTable(cthdbus.docDSCTHD());
     }
 
     /**
@@ -90,6 +90,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(new roundedBorder(15));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1149, 89));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
@@ -301,7 +302,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(cthdbus.layTatCaCTHD());
+        this.loadDataTable(cthdbus.docDSCTHD());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed

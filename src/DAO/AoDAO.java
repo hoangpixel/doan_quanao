@@ -15,7 +15,32 @@ import javax.swing.JOptionPane;
  * @author suvie
  */
 public class AoDAO {
-    // Thêm áo trả về mã loại
+    
+    public ArrayList<AoDTO> docDSA() {
+        ArrayList<AoDTO> ds = new ArrayList<>();
+        String query = "select * from ao";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                AoDTO a = new AoDTO();
+                a.setMaLoai(rs.getInt("MALOAI"));
+                a.setTenAo(rs.getString("TENAO"));
+                ds.add(a);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
     public int them(AoDTO a) {
         String query = "insert into ao (TENAO) values (?)";
         Connection conn = null;
@@ -54,7 +79,7 @@ public class AoDAO {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, a.getTenAo());
-            st.setInt(2, a.getMaLoai());     // Điều kiện của where
+            st.setInt(2, a.getMaLoai());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -85,7 +110,7 @@ public class AoDAO {
         }
     }
     
-    public AoDTO layAoTheoMa (int maao) {
+    public AoDTO layAoTheoMa(int maao) {
         String query = "select * from ao where MALOAI = ?";
         Connection conn = null;
         AoDTO a = null;
@@ -109,28 +134,5 @@ public class AoDAO {
         return a;
     }
     
-    public ArrayList<AoDTO> layTatCaAo () {
-        ArrayList<AoDTO> ds = new ArrayList<>();
-        String query = "select * from ao";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                AoDTO a = new AoDTO();
-                a.setMaLoai(rs.getInt("MALOAI"));
-                a.setTenAo(rs.getString("TENAO"));
-                ds.add(a);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
-    }
+    
 }

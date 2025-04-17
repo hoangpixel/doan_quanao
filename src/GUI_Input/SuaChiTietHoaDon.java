@@ -172,7 +172,7 @@ public class SuaChiTietHoaDon extends javax.swing.JDialog {
     }
     
     public void loadChiTietHoaDon(int mahd, int masp) {
-        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoCaHaiMa(mahd, masp);
+        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoHaiMa(mahd, masp);
         txtSoLuong.setText(String.valueOf(cthd.getSoLuong()));
         txtDonGia.setText(String.valueOf(cthd.getDonGia()));
     }

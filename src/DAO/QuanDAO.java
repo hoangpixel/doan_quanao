@@ -15,7 +15,32 @@ import javax.swing.JOptionPane;
  * @author suvie
  */
 public class QuanDAO {
-    // Thêm quần trả về mã loại
+    
+    public ArrayList<QuanDTO> docDSQ() {
+        ArrayList<QuanDTO> ds = new ArrayList<>();
+        String query = "select * from quan";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                QuanDTO q = new QuanDTO();
+                q.setMaLoai(rs.getInt("MALOAI"));
+                q.setTenQuan(rs.getString("TENQUAN"));
+                ds.add(q);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
     public int them(QuanDTO a) {
         String query = "insert into quan (TENQUAN) values (?)";
         Connection conn = null;
@@ -54,11 +79,11 @@ public class QuanDAO {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1,q.getTenQuan());
-            st.setInt(2, q.getMaLoai());     // Điều kiện của where
+            st.setInt(2, q.getMaLoai());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -79,20 +104,20 @@ public class QuanDAO {
             }
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
     }
     
-    public QuanDTO layQuanTheoMa (int maquan) {
+    public QuanDTO layQuanTheoMa(int maloai) {
         String query = "select * from quan where MALOAI = ?";
         Connection conn = null;
         QuanDTO q = null;
         try {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, maquan);
+            st.setInt(1, maloai);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {                
                 q = new QuanDTO();
@@ -102,35 +127,10 @@ public class QuanDAO {
             rs.close();
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
         return q;
-    }
-    
-    public ArrayList<QuanDTO> layTatCaQuan () {
-        ArrayList<QuanDTO> ds = new ArrayList<>();
-        String query = "select * from quan";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                QuanDTO q = new QuanDTO();
-                q.setMaLoai(rs.getInt("MALOAI"));
-                q.setTenQuan(rs.getString("TENQUAN"));
-                ds.add(q);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
     }
 }

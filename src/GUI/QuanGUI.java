@@ -60,7 +60,7 @@ public class QuanGUI extends javax.swing.JPanel {
 
         // Load dữ liệu
         
-        this.loadDataTable(quanbus.layTatCaQuan());
+        this.loadDataTable(quanbus.docDSQ());
     }
 
     /**
@@ -298,7 +298,7 @@ public class QuanGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(quanbus.layTatCaQuan());
+        this.loadDataTable(quanbus.docDSQ());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed

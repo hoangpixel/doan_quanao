@@ -31,6 +31,7 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
      */
     private LoaiSanPhamBUS lspbus = new LoaiSanPhamBUS();
     DefaultTableModel model = new DefaultTableModel();
+    
     public LoaiSanPhamGUI() {
         initComponents();
         
@@ -60,7 +61,7 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
 
         // Load dữ liệu
         
-        this.loadDataTable(lspbus.layTatCaLSP());
+        this.loadDataTable(lspbus.docDSLSP());
     }
 
     /**
@@ -275,7 +276,6 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
                 JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
-                // Xóa sản phẩm
                 lspbus.xoa(malsp);
                 this.loadDataTable(LoaiSanPhamBUS.getDSLSP());
             }
@@ -298,7 +298,7 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(lspbus.layTatCaLSP());
+        this.loadDataTable(lspbus.docDSLSP());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed

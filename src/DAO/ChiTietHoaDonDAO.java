@@ -15,7 +15,34 @@ import javax.swing.JOptionPane;
  * @author suvie
  */
 public class ChiTietHoaDonDAO {
-    // Thêm chi tiết hóa đơn trả về mã hóa đơn
+    
+    public ArrayList<ChiTietHoaDonDTO> docDSCTHD() {
+        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
+        String query = "select * from cthd";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
+                cthd.setMaHoaDon(rs.getInt("MAHD"));
+                cthd.setMaSanPham(rs.getInt("MASP"));
+                cthd.setSoLuong(rs.getInt("SL"));
+                cthd.setDonGia(rs.getInt("DONGIA"));
+                ds.add(cthd);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
     public int them(ChiTietHoaDonDTO cthd) {
         String query = "insert into cthd (MASP, SL, DONGIA, THANHTIEN) values (?, ?, ?, ?)";
         Connection conn = null;
@@ -61,7 +88,7 @@ public class ChiTietHoaDonDAO {
             st.setInt(2, cthd.getDonGia());
             st.setInt(3, thanhtien);
             st.setInt(4, cthd.getMaHoaDon()); 
-            st.setInt(5, cthd.getMaSanPham()); // Điều kiện của where
+            st.setInt(5, cthd.getMaSanPham());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -92,104 +119,8 @@ public class ChiTietHoaDonDAO {
             DBConnect.closeConnection(conn);
         }
     }
-    
-    public void xoaTheoMaHoaDon(int mahd) {
-        String query = "delete from cthd where MAHD = ?";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, mahd);
-            int rows = st.executeUpdate();
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(null, "Đã xóa " + rows + " chi tiết hóa đơn thành công!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
-            }
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-    }
-    
-    public void xoaTheoMaSanPham(int masp) {
-        String query = "delete from cthd where MASP = ?";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, masp);
-            int rows = st.executeUpdate();
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(null, "Đã xóa " + rows + " chi tiết hóa đơn thành công!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
-            }
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-    }
-    
-    public ArrayList<ChiTietHoaDonDTO> layChiTietHoaDonTheoMaHoaDon (int mahd) {
-        String query = "select * from cthd where MAHD = ?";
-        Connection conn = null;
-        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, mahd);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
-                cthd.setMaHoaDon(rs.getInt("MAHD"));
-                cthd.setMaSanPham(rs.getInt("MASP"));
-                cthd.setSoLuong(rs.getInt("SL"));
-                cthd.setDonGia(rs.getInt("DONGIA"));
-                ds.add(cthd);
-            }
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
-    }
-    
-    public ArrayList<ChiTietHoaDonDTO> layChiTietHoaDonTheoMaSanPham (int masp) {
-        String query = "select * from cthd where MASP = ?";
-        Connection conn = null;
-        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, masp);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
-                cthd.setMaHoaDon(rs.getInt("MAHD"));
-                cthd.setMaSanPham(rs.getInt("MASP"));
-                cthd.setSoLuong(rs.getInt("SL"));
-                cthd.setDonGia(rs.getInt("DONGIA"));
-                ds.add(cthd);
-            }
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
-    }
-    
-    public ChiTietHoaDonDTO layChiTietHoaDonTheoCaHaiMa (int mahd, int masp) {
+   
+    public ChiTietHoaDonDTO layChiTietHoaDonTheoHaiMa(int mahd, int masp) {
         String query = "select * from cthd where MAHD = ? AND MASP = ?";
         Connection conn = null;
         ChiTietHoaDonDTO cthd = null;
@@ -214,32 +145,5 @@ public class ChiTietHoaDonDAO {
             DBConnect.closeConnection(conn);
         }
         return cthd;
-    }
-    
-    public ArrayList<ChiTietHoaDonDTO> layTatCaCTHD () {
-        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
-        String query = "select * from cthd";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
-                cthd.setMaHoaDon(rs.getInt("MAHD"));
-                cthd.setMaSanPham(rs.getInt("MASP"));
-                cthd.setSoLuong(rs.getInt("SL"));
-                cthd.setDonGia(rs.getInt("DONGIA"));
-                ds.add(cthd);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
-    }
+    }  
 }

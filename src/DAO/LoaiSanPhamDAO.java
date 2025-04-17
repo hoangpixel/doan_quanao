@@ -15,7 +15,32 @@ import javax.swing.JOptionPane;
  * @author suvie
  */
 public class LoaiSanPhamDAO {
-    // Thêm loại sản phẩm trả về mã loại
+    
+    public ArrayList<LoaiSanPhamDTO> docDSLSP() {
+        ArrayList<LoaiSanPhamDTO> ds = new ArrayList<>();
+        String query = "select * from loaisp";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                LoaiSanPhamDTO lsp = new LoaiSanPhamDTO();
+                lsp.setMaLoai(rs.getInt("MALOAI"));
+                lsp.setTenLoai(rs.getString("TENLOAI"));
+                ds.add(lsp);
+            }
+            
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(LoaiSanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
     public int them(LoaiSanPhamDTO lsp) {
         String query = "insert into loaisp (TENLOAI) values (?)";
         Connection conn = null;
@@ -54,11 +79,11 @@ public class LoaiSanPhamDAO {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, lsp.getTenLoai());
-            st.setInt(2, lsp.getMaLoai());     // Điều kiện của where
+            st.setInt(2, lsp.getMaLoai());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(LoaiSanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
@@ -79,20 +104,20 @@ public class LoaiSanPhamDAO {
             }
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(LoaiSanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
     }
     
-    public LoaiSanPhamDTO layLSPTheoMa (int maCTKMHD) {
+    public LoaiSanPhamDTO layLSPTheoMaLoai(int maloai) {
         String query = "select * from loaisp where MALOAI = ?";
         Connection conn = null;
         LoaiSanPhamDTO lsp = null;
         try {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, maCTKMHD);
+            st.setInt(1, maloai);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {                
                 lsp = new LoaiSanPhamDTO();
@@ -102,35 +127,10 @@ public class LoaiSanPhamDAO {
             rs.close();
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(LoaiSanPhamDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBConnect.closeConnection(conn);
         }
         return lsp;
-    }
-    
-    public ArrayList<LoaiSanPhamDTO> layTatCaLSP () {
-        ArrayList<LoaiSanPhamDTO> ds = new ArrayList<>();
-        String query = "select * from loaisp";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                LoaiSanPhamDTO lsp = new LoaiSanPhamDTO();
-                lsp.setMaLoai(rs.getInt("MALOAI"));
-                lsp.setTenLoai(rs.getString("TENLOAI"));
-                ds.add(lsp);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
     }
 }

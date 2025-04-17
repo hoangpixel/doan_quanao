@@ -180,7 +180,7 @@ public class ThongTinChiTietHoaDon extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void loadChiTietHoaDon() {
-        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoCaHaiMa(mahd, masp);
+        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoHaiMa(mahd, masp);
         DecimalFormat df = new DecimalFormat("#,###");
         txtMaHoaDon.setText(String.valueOf(cthd.getMaHoaDon()));
         txtMaSanPham.setText(String.valueOf(cthd.getMaSanPham()));

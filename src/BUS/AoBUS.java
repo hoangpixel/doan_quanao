@@ -11,7 +11,20 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class AoBUS {
+    
     private static ArrayList<AoDTO> dsa;
+    
+    public boolean kiemTraMaLoai(int maloai) {
+        AoDTO a = layAoTheoMa(maloai);
+        return a != null;
+    }
+    
+     public ArrayList<AoDTO> docDSA() {
+        if(dsa == null) {
+            dsa = new AoDAO().docDSA();
+        }
+        return dsa;
+    }
     
     public void them(AoDTO a) {
         if(dsa == null) {
@@ -38,17 +51,6 @@ public class AoBUS {
     
     public AoDTO layAoTheoMa(int malsp) {
         return new AoDAO().layAoTheoMa(malsp);
-    }
-    
-    public ArrayList<AoDTO> layTatCaAo() {
-        if(dsa == null) {
-            dsa = new AoDAO().layTatCaAo();
-        }
-        return dsa;
-    }
-    
-    public void refreshDanhSach() {
-        dsa = new AoDAO().layTatCaAo();
     }
 
     public static ArrayList<AoDTO> getDSA() {
@@ -78,11 +80,5 @@ public class AoBUS {
             }
         }
         return ds;
-    }
-    
-    public boolean ktraMaLoai(int malsp)
-    {
-        AoDTO a = layAoTheoMa(malsp);
-        return a != null;
     }
 }

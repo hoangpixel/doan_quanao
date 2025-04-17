@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class ChiTietHoaDonBUS {
+    
     private static ArrayList<ChiTietHoaDonDTO> dscthd;
     
     public boolean kiemTraMaDuyNhat(int mahd, int masp)
@@ -22,6 +23,13 @@ public class ChiTietHoaDonBUS {
             }
         }
         return true;
+    }
+    
+    public ArrayList<ChiTietHoaDonDTO> docDSCTHD() {
+        if(dscthd == null) {
+            dscthd = new ChiTietHoaDonDAO().docDSCTHD();
+        }
+        return dscthd;
     }
     
     public void them(ChiTietHoaDonDTO cthd) {
@@ -48,27 +56,12 @@ public class ChiTietHoaDonBUS {
         dscthd.removeIf(n -> n.getMaHoaDon() == mahd && n.getMaSanPham() == masp);
     }
     
-    public ArrayList<ChiTietHoaDonDTO> layChiTietHoaDonTheoMaHoaDon(int mahd) {
-        return new ChiTietHoaDonDAO().layChiTietHoaDonTheoMaHoaDon(mahd);
-    }
-    
-    public ArrayList<ChiTietHoaDonDTO> layChiTietHoaDonTheoMaSanPham(int masp) {
-        return new ChiTietHoaDonDAO().layChiTietHoaDonTheoMaSanPham(masp);
-    }
-    
-    public ChiTietHoaDonDTO layChiTietHoaDonTheoCaHaiMa(int mahd, int masp) {
-        return new ChiTietHoaDonDAO().layChiTietHoaDonTheoCaHaiMa(mahd, masp);
-    }
-    
-    public ArrayList<ChiTietHoaDonDTO> layTatCaCTHD() {
-        if(dscthd == null) {
-            dscthd = new ChiTietHoaDonDAO().layTatCaCTHD();
-        }
-        return dscthd;
+    public ChiTietHoaDonDTO layChiTietHoaDonTheoHaiMa(int mahd, int masp) {
+        return new ChiTietHoaDonDAO().layChiTietHoaDonTheoHaiMa(mahd, masp);
     }
     
     public void refreshDanhSach() {
-        dscthd = new ChiTietHoaDonDAO().layTatCaCTHD();
+        dscthd = new ChiTietHoaDonDAO().docDSCTHD();
     }
 
     public static ArrayList<ChiTietHoaDonDTO> getDSCTHD() {

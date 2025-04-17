@@ -255,7 +255,7 @@ public class updateHoaDon extends javax.swing.JDialog {
         int makh = Integer.parseInt(txtMakh.getText());
         int tongtien = Integer.parseInt(txtTongtien.getText());
         NhanVienBUS busNV = new NhanVienBUS();
-        if(!busNV.ktraMaNV(manv))
+        if(!busNV.kiemTraMaNhanVien(manv))
         {
             JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
             lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));

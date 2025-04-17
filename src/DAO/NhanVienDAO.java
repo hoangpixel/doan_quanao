@@ -15,7 +15,36 @@ import javax.swing.JOptionPane;
  * @author suvie
  */
 public class NhanVienDAO {
-    // Thêm nhân viên trả về mã nhân viên
+    
+    public ArrayList<NhanVienDTO> docDSNV() {
+        ArrayList<NhanVienDTO> ds = new ArrayList<>();
+        String query = "select * from nhanvien";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMa(rs.getInt("MANV"));
+                nv.setHo(rs.getString("HO"));
+                nv.setTen(rs.getString("TEN"));
+                nv.setLuong(rs.getInt("LUONG"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DIACHI"));
+                nv.setEmail(rs.getString("EMAIL"));
+                ds.add(nv);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
+    
     public int them(NhanVienDTO nv) {
         String query = "insert into nhanvien (HO, TEN, LUONG, SDT, DIACHI, EMAIL) values (?, ?, ?, ?, ?, ?)";
         Connection conn = null;
@@ -64,7 +93,7 @@ public class NhanVienDAO {
             st.setString(4, nv.getSDT());
             st.setString(5, nv.getDiaChi());
             st.setString(6, nv.getEmail());
-            st.setInt(7, nv.getMa());     // Điều kiện của where
+            st.setInt(7, nv.getMa());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -95,7 +124,7 @@ public class NhanVienDAO {
         }
     }
     
-    public NhanVienDTO layNhanVienTheoMa (int manv) {
+    public NhanVienDTO layNhanVienTheoMa(int manv) {
         String query = "select * from nhanvien where MANV = ?";
         Connection conn = null;
         NhanVienDTO nv = null;
@@ -122,35 +151,5 @@ public class NhanVienDAO {
             DBConnect.closeConnection(conn);
         }
         return nv;
-    }
-    
-    public ArrayList<NhanVienDTO> layTatCaNhanVien () {
-        ArrayList<NhanVienDTO> ds = new ArrayList<>();
-        String query = "select * from nhanvien";
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
-                NhanVienDTO nv = new NhanVienDTO();
-                nv.setMa(rs.getInt("MANV"));
-                nv.setHo(rs.getString("HO"));
-                nv.setTen(rs.getString("TEN"));
-                nv.setLuong(rs.getInt("LUONG"));
-                nv.setSDT(rs.getString("SDT"));
-                nv.setDiaChi(rs.getString("DIACHI"));
-                nv.setEmail(rs.getString("EMAIL"));
-                ds.add(nv);
-            }
-            
-            rs.close();
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return ds;
     }
 }

@@ -37,7 +37,7 @@ public class msfMaNV extends javax.swing.JDialog {
     {
         model.setRowCount(0);
         NhanVienBUS bus = new NhanVienBUS();
-        bus.layTatCaNhanVien();     
+        bus.docDSNV();     
         for(NhanVienDTO nv : NhanVienBUS.getDSNV())
         {
             Vector row = new Vector();

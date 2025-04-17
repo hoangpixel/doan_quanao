@@ -13,7 +13,21 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class QuanBUS {
+    
     private static ArrayList<QuanDTO> dsq;
+    
+    public boolean kiemTraMaLoai(int maloai) {
+        QuanDTO q = layQuanTheoMa(maloai);
+        return q != null;
+    }
+    
+    public ArrayList<QuanDTO> docDSQ() {
+        if(dsq == null) {
+            dsq = new QuanDAO().docDSQ();
+        }
+        return dsq;
+    }
+    
     
     public void them(QuanDTO q) {
         if(dsq == null) {
@@ -33,24 +47,13 @@ public class QuanBUS {
         }
     }
     
-    public void xoa(int malsp) {
-        new QuanDAO().xoa(malsp);
-        dsq.removeIf(n -> n.getMaLoai() == malsp);
+    public void xoa(int maloai) {
+        new QuanDAO().xoa(maloai);
+        dsq.removeIf(n -> n.getMaLoai() == maloai);
     }
     
     public QuanDTO layQuanTheoMa(int malsp) {
         return new QuanDAO().layQuanTheoMa(malsp);
-    }
-    
-    public ArrayList<QuanDTO> layTatCaQuan() {
-        if(dsq == null) {
-            dsq = new QuanDAO().layTatCaQuan();
-        }
-        return dsq;
-    }
-    
-    public void refreshDanhSach() {
-        dsq = new QuanDAO().layTatCaQuan();
     }
 
     public static ArrayList<QuanDTO> getDSQ() {
@@ -80,11 +83,5 @@ public class QuanBUS {
             }
         }
         return ds;
-    }
-    
-    public boolean ktraMaLoai(int malsp)
-    {
-        QuanDTO q = layQuanTheoMa(malsp);
-        return q != null;
     }
 }

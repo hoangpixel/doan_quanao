@@ -10,6 +10,8 @@ import GUI_Input.ThongTinNhanVien;
 import GUI_Input.SuaNhanVien;
 import GUI_Input.ThemNhanVien;
 import java.awt.Image;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.ImageIcon;
@@ -19,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import borderRadius.roundedBorder;
 /**
  *
@@ -59,8 +63,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         tbNV.setShowVerticalLines(false);
 
         // Load dữ liệu
-        
-        this.loadDataTable(nvbus.layTatCaNhanVien());
+        this.loadDataTable(nvbus.docDSNV());
     }
 
     /**
@@ -138,6 +141,11 @@ public class NhanVienGUI extends javax.swing.JPanel {
         btnExcel.setText("XUẤT EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -272,12 +280,11 @@ public class NhanVienGUI extends javax.swing.JPanel {
             String ten = model.getValueAt(row, 2).toString();
             String hoten = ho + " " + ten;
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa nhân viên \"" + hoten + "\""+ " có mã NCC: \"" + manv + "\" ?",
+                "Bạn có chắc muốn xóa nhân viên \"" + hoten + "\""+ " có mã nhân viên: \"" + manv + "\" ?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
-                // Xóa sản phẩm
                 nvbus.xoa(manv);
                 this.loadDataTable(NhanVienBUS.getDSNV());
             }
@@ -300,7 +307,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(nvbus.layTatCaNhanVien());
+        this.loadDataTable(nvbus.docDSNV());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -341,6 +348,63 @@ public class NhanVienGUI extends javax.swing.JPanel {
             this.loadDataTable(ds);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("DanhSachNhanVien");
+
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"Mã nhân viên", "Họ", "Tên", "Lương", "Số điện thoại", "Địa chỉ", "Email"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                // Optional: Style the header
+                CellStyle headerStyle = workbook.createCellStyle();
+                Font font = workbook.createFont();
+                font.setBold(true);
+                headerStyle.setFont(font);
+                headerStyle.setAlignment(HorizontalAlignment.CENTER);
+                cell.setCellStyle(headerStyle);
+            }
+
+            // Populate data
+            ArrayList<NhanVienDTO> ds = nvbus.docDSNV();
+            if (ds == null || ds.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu để xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int rowNum = 1;
+            for (NhanVienDTO nv : ds) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(nv.getMa());
+                row.createCell(1).setCellValue(nv.getHo());
+                row.createCell(2).setCellValue(nv.getTen());
+                row.createCell(3).setCellValue(nv.getLuong());
+                row.createCell(4).setCellValue(nv.getSDT());
+                row.createCell(5).setCellValue(nv.getDiaChi());
+                row.createCell(6).setCellValue(nv.getEmail());
+            }
+
+            // Auto-size columns
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Save the file
+            String filePath = "DanhSachNhanVien.xlsx";
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+            }
+
+            JOptionPane.showMessageDialog(null, "Xuất file Excel thành công tại: " + filePath, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi xuất file Excel: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnExcelActionPerformed
 
     private void loadDataTable(ArrayList<NhanVienDTO> ds) {
         model.setRowCount(0);

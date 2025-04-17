@@ -13,7 +13,20 @@ import java.util.ArrayList;
  * @author suvie
  */
 public class LoaiSanPhamBUS {
+    
     private static ArrayList<LoaiSanPhamDTO> dslsp;
+    
+    public boolean kiemTraMaLoai(int malsp) {
+        LoaiSanPhamDTO lsp = layLSPTheoMa(malsp);
+        return lsp != null;
+    }
+    
+    public ArrayList<LoaiSanPhamDTO> docDSLSP() {
+        if(dslsp == null) {
+            dslsp = new LoaiSanPhamDAO().docDSLSP();
+        }
+        return dslsp;
+    }
     
     public void them(LoaiSanPhamDTO lsp) {
         if(dslsp == null) {
@@ -39,20 +52,9 @@ public class LoaiSanPhamBUS {
     }
     
     public LoaiSanPhamDTO layLSPTheoMa(int malsp) {
-        return new LoaiSanPhamDAO().layLSPTheoMa(malsp);
+        return new LoaiSanPhamDAO().layLSPTheoMaLoai(malsp);
     }
     
-    public ArrayList<LoaiSanPhamDTO> layTatCaLSP() {
-        if(dslsp == null) {
-            dslsp = new LoaiSanPhamDAO().layTatCaLSP();
-        }
-        return dslsp;
-    }
-    
-    public void refreshDanhSach() {
-        dslsp = new LoaiSanPhamDAO().layTatCaLSP();
-    }
-
     public static ArrayList<LoaiSanPhamDTO> getDSLSP() {
         return dslsp;
     }
@@ -80,11 +82,5 @@ public class LoaiSanPhamBUS {
             }
         }
         return ds;
-    }
-    
-    public boolean ktraMaLoai(int malsp)
-    {
-        LoaiSanPhamDTO lsp = layLSPTheoMa(malsp);
-        return lsp != null;
     }
 }

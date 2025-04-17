@@ -243,7 +243,7 @@ public HoaDonDTO hd;
           String ngaynhap = sdf.format(dateNhap.getDate());
           
           NhanVienBUS busNV = new NhanVienBUS();
-          if(!busNV.ktraMaNV(manv))
+          if(!busNV.kiemTraMaNhanVien(manv))
           {
             JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
             lbSaimanv.setFont(new Font("Segoe UI",Font.BOLD,16));
