@@ -7,7 +7,7 @@ package GUI_Input;
 import BUS.QuanBUS;
 import DTO.QuanDTO;
 import javax.swing.JOptionPane;
-
+import MSForm.msfMaLoai;
 /**
  *
  * @author suvie
@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 public class ThemQuan extends javax.swing.JDialog {
 
     private boolean xacNhanThem = false;
+    private int selectedMaLoai = -1; // Store the selected maLoai
+
     /**
      * Creates new form ThemQuan
      */
@@ -39,6 +41,9 @@ public class ThemQuan extends javax.swing.JDialog {
         txtTenQuan = new javax.swing.JTextField();
         btnXacNhanThem = new javax.swing.JButton();
         btnHuyBo = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtMaLoai = new javax.swing.JTextField();
+        btnChonMaLoai = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -89,6 +94,19 @@ public class ThemQuan extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Mã loại :");
+
+        txtMaLoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnChonMaLoai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChonMaLoai.setText("...");
+        btnChonMaLoai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonMaLoaiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -96,26 +114,37 @@ public class ThemQuan extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTenQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                         .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86))))
+                        .addGap(86, 86, 86))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtMaLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnChonMaLoai))
+                            .addComponent(txtTenQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap(7, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChonMaLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTenQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHuyBo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXacNhanThem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -128,15 +157,16 @@ public class ThemQuan extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXacNhanThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanThemActionPerformed
-        if(!kiemTraHopLe())
+        if (!kiemTraHopLe()) {
             return;
+        }
         QuanDTO q = new QuanDTO();
         q.setTenQuan(txtTenQuan.getText());
+        q.setMaLoai(selectedMaLoai); // Set the selected maLoai
         new QuanBUS().them(q);
         xacNhanThem = true;
         JOptionPane.showMessageDialog(this, "Thêm quần thành công!");
         dispose();
-
     }//GEN-LAST:event_btnXacNhanThemActionPerformed
 
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
@@ -147,25 +177,42 @@ public class ThemQuan extends javax.swing.JDialog {
         this.setLocationRelativeTo(getParent());
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnChonMaLoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonMaLoaiActionPerformed
+        // TODO add your handling code here:
+        msfMaLoai dialog = new msfMaLoai((java.awt.Frame) this.getParent(), true);
+        dialog.setVisible(true);
+        if (dialog.xacNhanChon()) {
+            selectedMaLoai = dialog.getMALOAI();
+            txtMaLoai.setText(String.valueOf(selectedMaLoai));
+        }
+    }//GEN-LAST:event_btnChonMaLoaiActionPerformed
+
     public boolean isXacNhanThem() {
         return xacNhanThem;
     }
     
     private boolean kiemTraHopLe() {
-        if(txtTenQuan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+        if (txtTenQuan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên quần!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (selectedMaLoai == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn mã loại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonMaLoai;
     private javax.swing.JButton btnHuyBo;
     private javax.swing.JButton btnXacNhanThem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txtMaLoai;
     private javax.swing.JTextField txtTenQuan;
     // End of variables declaration//GEN-END:variables
 }
