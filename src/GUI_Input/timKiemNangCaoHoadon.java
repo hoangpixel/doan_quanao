@@ -74,10 +74,10 @@ public class timKiemNangCaoHoadon extends javax.swing.JDialog {
         jLabel2.setText("Mã HD : ");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Từ ngày này : ");
+        jLabel3.setText("Từ ngày : ");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Đến ngày kia : ");
+        jLabel4.setText("Đến ngày : ");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mã NV :");

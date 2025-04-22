@@ -100,58 +100,56 @@ public class HoaDonBUS {
     
     public ArrayList<HoaDonDTO> timKiemNangCao(int mahd,Date ngaybd,Date ngaykt,int manv,int makh,int tienMin,int tienMax)
     {
-        ArrayList<HoaDonDTO> kq = new ArrayList<>();
+        ArrayList<HoaDonDTO> dskq = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date bd=null;
-
-        for(HoaDonDTO hd : ds)
+        for(HoaDonDTO ct : ds)
         {
             boolean dk = false;
-            try {
-            bd = sdf.parse(hd.getNgaylap());
-            if(mahd!=-1 && hd.getMahd()!=mahd )
-            {
-                dk = true;
-            }
 
-            if(ngaybd!=null && bd.before(ngaybd))
-            {
-                dk = true;
-            }
-            
-            if(ngaykt!=null && bd.after(ngaykt))
-            {
-                dk = true;
-            }
-            
-            if(manv!=-1 && hd.getManv()!=manv)
-            {
-                dk=true;
-            }
-            
-            if(makh!=-1 && hd.getMakh()!=makh)
-            {
-                dk = true;
-            }
-            
-            if(tienMin!=-1 && hd.getTongtien() <= tienMin)
-            {
-                dk = true;
-            }
-            
-            if(tienMax!=-1 && hd.getTongtien() >= tienMax)
-            {
-                dk=true;
-            }
-        if(!dk)
-        {
-            kq.add(hd);
-        }
+            try {
+                Date bd = sdf.parse(ct.getNgaylap());
+                if(mahd != -1 && mahd == ct.getMahd())
+                {
+                    dk = true;
+                }
+                
+                if(ngaybd != null && !bd.before(ngaybd))
+                {
+                    dk = true;
+                }
+                
+                if(ngaykt !=null && !bd.after(ngaykt))
+                {
+                    dk = true;
+                }
+                
+                if(manv != -1  && manv == ct.getManv())
+                {
+                    dk=true;
+                }
+                
+                if(makh != -1 && makh == ct.getMakh())
+                {
+                    dk=true;
+                }
+                
+                if(tienMin != -1 && tienMin >= ct.getTongtien())
+                {
+                    dk=true;
+                }
+                if(tienMax !=-1 && tienMax <= ct.getTongtien())
+                {
+                    dk=true;
+                }
+                
+                if(dk)
+                {
+                    dskq.add(ct);
+                }
             } catch (Exception e) {
             }
-            
         }
-        return kq;
+        return dskq;
     }
     
     public boolean ktraMaHD(int ma)
