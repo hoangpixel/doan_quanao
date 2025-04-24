@@ -118,68 +118,29 @@ public class ChiTietHoaDonDAO {
         return soluong;
     }
     
-    public int them(ChiTietHoaDonDTO cthd) {
-        if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), cthd.getSoLuong())) {
-            return -1; // Return -1 to indicate failure due to insufficient stock
-        }
-        String query = "insert into cthd (MASP, SL, DONGIA, THANHTIEN) values (?, ?, ?, ?)";
-        Connection conn = null;
-        int mahd = -1;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            st.setInt(1, cthd.getMaSanPham());
-            st.setInt(2, cthd.getSoLuong());
-            st.setInt(3, cthd.getDonGia());
-            st.setInt(4, cthd.getSoLuong() * cthd.getDonGia());
-            
-            int row = st.executeUpdate();
-            if(row > 0) {
-                ResultSet rs = st.getGeneratedKeys();
-                if(rs.next()) {
-                    mahd = rs.getInt(1);
-                }
-                rs.close();
-            }
-            st.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
-
-        } finally {
-            DBConnect.closeConnection(conn);
-        }
-        return mahd;
-    }
-    
-    public boolean sua(ChiTietHoaDonDTO cthd, int oldSoLuong) {
-        int quantityDiff = cthd.getSoLuong() - oldSoLuong;
-        if (quantityDiff > 0) {
-            // Check if there is enough stock for the increased quantity
-            if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), quantityDiff)) {
-                return false;
-            }
-        } else if (quantityDiff < 0) {
-            // Increase stock if the new quantity is less than the old quantity
-            tangSoLuongTonKho(cthd.getMaSanPham(), -quantityDiff);
-        }
-
-        String query = """
-                       update cthd
-                       set SL = ?, DONGIA = ?, THANHTIEN = ?
-                       where MAHD = ? AND MASP = ?
-                       """;
+    public boolean capNhatTongTienHoaDon(int mahd) {
+        String querySum = "SELECT SUM(THANHTIEN) AS TONGTIEN FROM cthd WHERE MAHD = ?";
+        String queryUpdate = "UPDATE hoadon SET TONGTIEN = ? WHERE MAHD = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query);
-            int thanhtien = cthd.getSoLuong() * cthd.getDonGia();
-            st.setInt(1, cthd.getSoLuong());
-            st.setInt(2, cthd.getDonGia());
-            st.setInt(3, thanhtien);
-            st.setInt(4, cthd.getMaHoaDon());
-            st.setInt(5, cthd.getMaSanPham());
-            int rows = st.executeUpdate();
-            st.close();
+            // Tính tổng THANHTIEN
+            PreparedStatement stSum = conn.prepareStatement(querySum);
+            stSum.setInt(1, mahd);
+            ResultSet rs = stSum.executeQuery();
+            int tongTien = 0;
+            if (rs.next()) {
+                tongTien = rs.getInt("TONGTIEN");
+            }
+            rs.close();
+            stSum.close();
+
+            // Cập nhật TONGTIEN trong bảng hoadon
+            PreparedStatement stUpdate = conn.prepareStatement(queryUpdate);
+            stUpdate.setInt(1, tongTien);
+            stUpdate.setInt(2, mahd);
+            int rows = stUpdate.executeUpdate();
+            stUpdate.close();
             return rows > 0;
         } catch (SQLException e) {
             Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -189,30 +150,183 @@ public class ChiTietHoaDonDAO {
         }
     }
     
-    public void xoa(int mahd, int masp) {
-        int soLuong = laySoLuongHienTai(mahd, masp);
-        if (soLuong > 0) {
-            tangSoLuongTonKho(masp, soLuong);
-        }
+    public int them(ChiTietHoaDonDTO cthd) {
+        Connection conn = null;
+        int mahd = -1;
+        try {
+            conn = DBConnect.getConnection();
+            conn.setAutoCommit(false); // Bắt đầu transaction
 
-        String query = "delete from cthd where MAHD = ? AND MASP = ?";
+            // Kiểm tra và cập nhật số lượng tồn kho
+            if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), cthd.getSoLuong())) {
+                conn.rollback();
+                return -1; // Thất bại do không đủ tồn kho
+            }
+
+            // Thêm chi tiết hóa đơn
+            String query = "INSERT INTO cthd (MAHD, MASP, SL, DONGIA, THANHTIEN) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, cthd.getMaHoaDon());
+            st.setInt(2, cthd.getMaSanPham());
+            st.setInt(3, cthd.getSoLuong());
+            st.setInt(4, cthd.getDonGia());
+            st.setInt(5, cthd.getSoLuong() * cthd.getDonGia());
+            
+            int row = st.executeUpdate();
+            if (row > 0) {
+                mahd = cthd.getMaHoaDon();
+                // Cập nhật tổng tiền hóa đơn
+                if (!capNhatTongTienHoaDon(mahd)) {
+                    conn.rollback();
+                    return -1; // Thất bại do không cập nhật được tổng tiền
+                }
+                conn.commit(); // Commit transaction
+            } else {
+                conn.rollback();
+            }
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return -1;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    DBConnect.closeConnection(conn);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        return mahd;
+    }
+    
+    public boolean sua(ChiTietHoaDonDTO cthd, int oldSoLuong) {
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
+            conn.setAutoCommit(false); // Bắt đầu transaction
+
+            int quantityDiff = cthd.getSoLuong() - oldSoLuong;
+            if (quantityDiff > 0) {
+                // Kiểm tra số lượng tồn kho nếu tăng số lượng
+                if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), quantityDiff)) {
+                    conn.rollback();
+                    return false;
+                }
+            } else if (quantityDiff < 0) {
+                // Tăng tồn kho nếu giảm số lượng
+                tangSoLuongTonKho(cthd.getMaSanPham(), -quantityDiff);
+            }
+
+            // Cập nhật chi tiết hóa đơn
+            String query = """
+                           UPDATE cthd
+                           SET SL = ?, DONGIA = ?, THANHTIEN = ?
+                           WHERE MAHD = ? AND MASP = ?
+                           """;
+            PreparedStatement st = conn.prepareStatement(query);
+            int thanhtien = cthd.getSoLuong() * cthd.getDonGia();
+            st.setInt(1, cthd.getSoLuong());
+            st.setInt(2, cthd.getDonGia());
+            st.setInt(3, thanhtien);
+            st.setInt(4, cthd.getMaHoaDon());
+            st.setInt(5, cthd.getMaSanPham());
+            int rows = st.executeUpdate();
+            
+            if (rows > 0) {
+                // Cập nhật tổng tiền hóa đơn
+                if (!capNhatTongTienHoaDon(cthd.getMaHoaDon())) {
+                    conn.rollback();
+                    return false;
+                }
+                conn.commit(); // Commit transaction
+            } else {
+                conn.rollback();
+                return false;
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    DBConnect.closeConnection(conn);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }
+    
+    public void xoa(int mahd, int masp) {
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            conn.setAutoCommit(false); // Bắt đầu transaction
+
+            // Lấy số lượng hiện tại để hoàn lại tồn kho
+            int soLuong = laySoLuongHienTai(mahd, masp);
+            if (soLuong > 0) {
+                tangSoLuongTonKho(masp, soLuong);
+            }
+
+            // Xóa chi tiết hóa đơn
+            String query = "DELETE FROM cthd WHERE MAHD = ? AND MASP = ?";
             PreparedStatement st = conn.prepareStatement(query);
             st.setInt(1, mahd);
             st.setInt(2, masp);
             int rows = st.executeUpdate();
+            
             if (rows > 0) {
-                JOptionPane.showMessageDialog(null, "Đã xóa chi tiết hóa đơn thành công!");
+                // Cập nhật tổng tiền hóa đơn
+                if (!capNhatTongTienHoaDon(mahd)) {
+                    conn.rollback();
+                    JOptionPane.showMessageDialog(null, "Lỗi khi cập nhật tổng tiền hóa đơn!");
+                } else {
+                    conn.commit(); // Commit transaction
+                    JOptionPane.showMessageDialog(null, "Đã xóa chi tiết hóa đơn thành công!");
+                }
             } else {
+                conn.rollback();
                 JOptionPane.showMessageDialog(null, "Không tìm thấy chi tiết hóa đơn để xóa.");
             }
             st.close();
         } catch (SQLException e) {
             Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
-            DBConnect.closeConnection(conn);
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    DBConnect.closeConnection(conn);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
     }
    
