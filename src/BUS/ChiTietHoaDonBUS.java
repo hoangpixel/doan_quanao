@@ -32,23 +32,35 @@ public class ChiTietHoaDonBUS {
         return dscthd;
     }
     
-    public void them(ChiTietHoaDonDTO cthd) {
-        if(dscthd == null) {
+    public boolean them(ChiTietHoaDonDTO cthd) {
+        if (dscthd == null) {
             dscthd = new ArrayList<>();
         }
-        cthd.setMaHoaDon(new ChiTietHoaDonDAO().them(cthd));
+        int generatedMaHD = new ChiTietHoaDonDAO().them(cthd);
+        if (generatedMaHD == -1) {
+            return false; // Stock insufficient
+        }
+        cthd.setMaHoaDon(generatedMaHD);
         dscthd.add(cthd);
+        return true;
     }
     
-    public void sua(ChiTietHoaDonDTO cthd) {
-        new ChiTietHoaDonDAO().sua(cthd);
-        for(ChiTietHoaDonDTO cthd1 : dscthd) {
-            if(cthd1.getMaHoaDon() == cthd.getMaHoaDon() && cthd1.getMaSanPham() == cthd.getMaSanPham()) {
-                cthd1.setSoLuong(cthd.getSoLuong());
-                cthd1.setDonGia(cthd.getDonGia());
-                break;
+    public boolean sua(ChiTietHoaDonDTO cthd) {
+        // Get the original quantity
+        int oldSoLuong = new ChiTietHoaDonDAO().laySoLuongHienTai(cthd.getMaHoaDon(), cthd.getMaSanPham());
+        // Update database and stock
+        boolean success = new ChiTietHoaDonDAO().sua(cthd, oldSoLuong);
+        if (success) {
+            // Update in-memory list
+            for (ChiTietHoaDonDTO cthd1 : dscthd) {
+                if (cthd1.getMaHoaDon() == cthd.getMaHoaDon() && cthd1.getMaSanPham() == cthd.getMaSanPham()) {
+                    cthd1.setSoLuong(cthd.getSoLuong());
+                    cthd1.setDonGia(cthd.getDonGia());
+                    break;
+                }
             }
         }
+        return success;
     }
     
     public void xoa(int mahd, int masp) {

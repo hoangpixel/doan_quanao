@@ -43,7 +43,85 @@ public class ChiTietHoaDonDAO {
         return ds;
     }
     
+    public boolean capNhatSoLuongTonKho(int masp, int soluong) {
+        String queryCheck = "SELECT SLSP FROM phienbansp WHERE MASP = ?";
+        String queryUpdate = "UPDATE phienbansp SET SLSP = SLSP - ? WHERE MASP = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(queryCheck);
+            st.setInt(1, masp);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int currentStock = rs.getInt("SLSP");
+                if (currentStock < soluong) {
+                    JOptionPane.showMessageDialog(null, "Số lượng tồn kho không đủ! Chỉ còn " + currentStock + " sản phẩm.");
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Không tìm thấy phiên bản sản phẩm với MASP = " + masp);
+                return false;
+            }
+            rs.close();
+            st.close();
+            PreparedStatement stUpdate = conn.prepareStatement(queryUpdate);
+            stUpdate.setInt(1, soluong);
+            stUpdate.setInt(2, masp);
+            int rows = stUpdate.executeUpdate();
+            stUpdate.close();
+            return rows > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+    }
+
+    public void tangSoLuongTonKho(int masp, int soluong) {
+        String queryUpdate = "UPDATE phienbansp SET SLSP = SLSP + ? WHERE MASP = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(queryUpdate);
+            st.setInt(1, soluong);
+            st.setInt(2, masp);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+    }
+
+    public int laySoLuongHienTai(int mahd, int masp) {
+        String query = "SELECT SL FROM cthd WHERE MAHD = ? AND MASP = ?";
+        Connection conn = null;
+        int soluong = 0;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, mahd);
+            st.setInt(2, masp);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                soluong = rs.getInt("SL");
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return soluong;
+    }
+    
     public int them(ChiTietHoaDonDTO cthd) {
+        if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), cthd.getSoLuong())) {
+            return -1; // Return -1 to indicate failure due to insufficient stock
+        }
         String query = "insert into cthd (MASP, SL, DONGIA, THANHTIEN) values (?, ?, ?, ?)";
         Connection conn = null;
         int mahd = -1;
@@ -73,7 +151,18 @@ public class ChiTietHoaDonDAO {
         return mahd;
     }
     
-    public void sua(ChiTietHoaDonDTO cthd) {
+    public boolean sua(ChiTietHoaDonDTO cthd, int oldSoLuong) {
+        int quantityDiff = cthd.getSoLuong() - oldSoLuong;
+        if (quantityDiff > 0) {
+            // Check if there is enough stock for the increased quantity
+            if (!capNhatSoLuongTonKho(cthd.getMaSanPham(), quantityDiff)) {
+                return false;
+            }
+        } else if (quantityDiff < 0) {
+            // Increase stock if the new quantity is less than the old quantity
+            tangSoLuongTonKho(cthd.getMaSanPham(), -quantityDiff);
+        }
+
         String query = """
                        update cthd
                        set SL = ?, DONGIA = ?, THANHTIEN = ?
@@ -87,18 +176,25 @@ public class ChiTietHoaDonDAO {
             st.setInt(1, cthd.getSoLuong());
             st.setInt(2, cthd.getDonGia());
             st.setInt(3, thanhtien);
-            st.setInt(4, cthd.getMaHoaDon()); 
+            st.setInt(4, cthd.getMaHoaDon());
             st.setInt(5, cthd.getMaSanPham());
-            st.executeUpdate();
+            int rows = st.executeUpdate();
             st.close();
+            return rows > 0;
         } catch (SQLException e) {
             Logger.getLogger(ChiTietHoaDonDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         } finally {
             DBConnect.closeConnection(conn);
         }
     }
     
     public void xoa(int mahd, int masp) {
+        int soLuong = laySoLuongHienTai(mahd, masp);
+        if (soLuong > 0) {
+            tangSoLuongTonKho(masp, soLuong);
+        }
+
         String query = "delete from cthd where MAHD = ? AND MASP = ?";
         Connection conn = null;
         try {
@@ -145,5 +241,5 @@ public class ChiTietHoaDonDAO {
             DBConnect.closeConnection(conn);
         }
         return cthd;
-    }  
+    }
 }
