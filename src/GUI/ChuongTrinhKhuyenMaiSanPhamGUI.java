@@ -417,6 +417,13 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
         int i = tbCTKMSP.getSelectedRow();
+                if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã để xem chi tiết",JOptionPane.ERROR_MESSAGE);
+           return;            
+        }
         int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
         int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
         int masp = (int) tbCTKMSP.getValueAt(i, 2);

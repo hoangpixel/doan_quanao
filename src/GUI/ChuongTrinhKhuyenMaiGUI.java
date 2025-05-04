@@ -478,6 +478,13 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         int i = tbCTKM.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã để xem chi tiết",JOptionPane.ERROR_MESSAGE);
+           return;            
+        }
         int mactkm = (int) tbCTKM.getValueAt(i, 0);
         String bd = tbCTKM.getValueAt(i, 1).toString();
         String kt = tbCTKM.getValueAt(i, 2).toString();

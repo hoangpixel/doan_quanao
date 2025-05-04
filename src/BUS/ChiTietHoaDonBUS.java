@@ -146,4 +146,17 @@ public class ChiTietHoaDonBUS {
         }
         return ds;
     }
+
+    public ArrayList<ChiTietHoaDonDTO> layDScthdTheoMAHD(int mahd)
+    {
+        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
+        for(ChiTietHoaDonDTO ct : dscthd)
+        {
+            if(ct.getMaHoaDon() == mahd)
+            {
+                ds.add(ct);
+            }
+        }
+        return ds;
+    }
 }

@@ -19,6 +19,7 @@ import GUI_Input.updateHoaDon;
 import GUI_Input.detailHD_promax;
 import GUI_Input.timKiemNangCaoHoadon;
 import GUI_Input.xuLyExcelhoadon;
+import GUI_Click.cthdGUI_Click;
 /**
  *
  * @author mhoang
@@ -49,9 +50,15 @@ public class hoadonGUI extends javax.swing.JPanel {
         header.add("Mã nhân viên");
         header.add("Mã khách hàng");
         header.add("Tổng tiền");
-        model = new DefaultTableModel(header,0);
+        model = new DefaultTableModel(header,0)
+                {
+                    @Override
+                    public boolean isCellEditable(int row,int column)
+                {
+                    return false;
+                }
+                };
         tbHoadon.setModel(model);
-
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -389,7 +396,27 @@ public class hoadonGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbHoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoadonMouseClicked
-
+        if(evt.getClickCount() == 2)
+        {
+            if(tbHoadon.isEditing())
+            {
+                tbHoadon.getCellEditor().stopCellEditing();
+            }
+            int i = tbHoadon.getSelectedRow();
+            int ma = (int) tbHoadon.getValueAt(i, 0);
+            
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            cthdGUI_Click dialog = new cthdGUI_Click(topFrame, true, ma);
+            
+            if(dialog.getDSCTHD() == null || dialog.getDSCTHD().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "Không có dữ liệu chi tiết hóa đơn trong mã này","Lỗi không có mã",JOptionPane.ERROR_MESSAGE);
+                return;
+            }else
+            {
+                dialog.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_tbHoadonMouseClicked
 
     
@@ -421,10 +448,10 @@ public class hoadonGUI extends javax.swing.JPanel {
         int i=tbHoadon.getSelectedRow();
         if(i<0)
         {
-           JLabel lbMadetail = new JLabel("Vui lòng chọn mã để xem");
-           lbMadetail.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbMadetail,"Chọn mã xem",JOptionPane.ERROR_MESSAGE);
-           return;           
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã để xem chi tiết",JOptionPane.ERROR_MESSAGE);
+           return;            
         }
         
         int mahd = (int) tbHoadon.getValueAt(i, 0);
