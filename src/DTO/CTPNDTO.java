@@ -11,6 +11,7 @@ package DTO;
 public class CTPNDTO {
     private int maPN;
     private int maSP;
+    private int maPB;
     private int soLuong;
     private int donGia;
     private int thanhTien;
@@ -18,9 +19,10 @@ public class CTPNDTO {
     public CTPNDTO() {
     }
 
-    public CTPNDTO(int maPN, int maSP, int soLuong, int donGia, int thanhTien) {
+    public CTPNDTO(int maPN, int maSP, int maPB, int soLuong, int donGia, int thanhTien) {
         this.maPN = maPN;
         this.maSP = maSP;
+        this.maPB = maPB;
         this.soLuong = soLuong;
         this.donGia = donGia;
         this.thanhTien = thanhTien;
@@ -45,7 +47,10 @@ public class CTPNDTO {
     public int getThanhTien() {
         return thanhTien;
     }
-
+    
+    public int getMaPB(){
+        return maPB;
+    }
     public void setMaPN(int maPN) {
         this.maPN = maPN;
     }
@@ -66,5 +71,7 @@ public class CTPNDTO {
         this.thanhTien = thanhTien;
     }
     
-    
+    public void setMaPB (int maPB){
+        this.maPB = maPB;
+    }
 }

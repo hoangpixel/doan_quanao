@@ -18,6 +18,7 @@ import BUS.PhieuNhapBUS;
 import GUI_Input.SuaPhieuNhap;
 import GUI_Input.ThemPhieuNhap;
 import GUI_Input.XoaPN;
+import GUI_Input.ChiTietPhieuNhap;
 /**
  *
  * @author mhoang
@@ -296,9 +297,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
         if(dialog.xacNhanThem())
         {
-            PhieuNhapDTO phieunhap = dialog.getPN();
             PhieuNhapBUS pnbus = new PhieuNhapBUS();
-            pnbus.them(phieunhap);
             pnbus.docDSPN();
             model.setRowCount(0);
             for(PhieuNhapDTO pn : PhieuNhapBUS.ds)
@@ -407,17 +406,25 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
-//        // TODO add your handling code here:
-//        int i = tbCTKMSP.getSelectedRow();
-//        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
-//        int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
-//        int masp = (int) tbCTKMSP.getValueAt(i, 2);
-//        int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
-//        
-//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        ChuongTrinhKhuyenMaiSanPhamDTO data = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp, mactkm, masp, ptgg);
-//        detailCTKMSP dialog  = new detailCTKMSP(topFrame, true, data);
-//        dialog.setVisible(true);
+        // TODO add your handling code here:
+        int i = tblPN.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;            
+        }
+        int ma = (int) tblPN.getValueAt(i, 0);
+        int manv = (int) tblPN.getValueAt(i, 1);
+        int mancc = (int) tblPN.getValueAt(i, 2);
+        int tongtien = (int) tblPN.getValueAt(i,3);
+        String ngayNhap = tblPN.getValueAt(i, 4).toString();
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap);
+        ChiTietPhieuNhap dialog  = new ChiTietPhieuNhap(topFrame, true, pn);
+        dialog.setVisible(true);
         
         
     }//GEN-LAST:event_btnDetailActionPerformed

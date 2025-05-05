@@ -6,33 +6,21 @@ package DAO;
 import DTO.CTPNDTO;
 import java.util.ArrayList;
 import java.sql.*;
+import config.DBConnect;
 /**
  *
  * @author laptop
  */
 public class CTPNDAO {
-    String user="root",pass="",url="jdbc:mysql://localhost:3306/doan_quanao";
     Connection con;
     Statement st;
     ResultSet rs;
-
-    public CTPNDAO() {
-        if(con==null)
-        {
-            try {
-                
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(url,user,pass);
-                
-            } catch (Exception e) {
-            }
-        }
-    }
 public ArrayList<CTPNDTO> DSCTPNDAOs()
     {
         ArrayList ds = new ArrayList<CTPNDTO>();
         try {
             String qry = "select * from ctpn";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             rs = st.executeQuery(qry);
             while(rs.next())
@@ -40,9 +28,10 @@ public ArrayList<CTPNDTO> DSCTPNDAOs()
                 CTPNDTO ctpn = new CTPNDTO();
                 ctpn.setMaPN(rs.getInt(1));
                 ctpn.setMaSP(rs.getInt(2));
-                ctpn.setSoLuong(rs.getInt(3));
-                ctpn.setDonGia(rs.getInt(4));
-                ctpn.setThanhTien(rs.getInt(5));
+                ctpn.setMaPB(rs.getInt(3));
+                ctpn.setSoLuong(rs.getInt(4));
+                ctpn.setDonGia(rs.getInt(5));
+                ctpn.setThanhTien(rs.getInt(6));
                 ds.add(ctpn);
             }
         } catch (Exception e) {
@@ -52,33 +41,57 @@ public ArrayList<CTPNDTO> DSCTPNDAOs()
     
     
     
-    public void them(CTPNDTO ctpn)
+    public boolean them(CTPNDTO ctpn)
     {
         try {
-            String qry = "Insert into ctpn (SOLUONG,DONGIA,THANHTIEN) values (";
+            String qry = "Insert into ctpn (MAPN,MASP,MAPB,SOLUONG,DONGIA,THANHTIEN) values (";
+            qry = qry + "'" + ctpn.getMaPN() + "',";
+            qry = qry + "'" + ctpn.getMaSP() + "',";
+            qry = qry + "'" + ctpn.getMaPB() + "',";
             qry = qry + "'" + ctpn.getSoLuong() + "',";
             qry = qry + "'" + ctpn.getDonGia() + "',";
             qry = qry + "'" + ctpn.getThanhTien() + "'";
             qry = qry + ")";
+            con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
+            return true;
         } catch (Exception e) {
+            return false;
         }
     }
     
     
-    public void sua(CTPNDTO ctpn)
+    public boolean sua(CTPNDTO ctpn)
     {
         try {
             
         String qry = "Update ctpn Set ";
-        qry = qry + " " + "SOLUONG=" + "'" + ctpn.getSoLuong() + "'";
+        qry = qry + " " + "MASP=" + "'" + ctpn.getMaSP() + "'";
+        qry = qry + ",MAPB=" + "'" + ctpn.getMaPB() + "'";
+        qry = qry + ",SOLUONG=" + "'" + ctpn.getSoLuong() + "'";
         qry = qry + ",DONGIA=" + "'" + ctpn.getDonGia() + "'";
         qry = qry + ",THANHTIEN=" + "'" + ctpn.getThanhTien() + "'";
         qry = qry + " " + " where MAPN='" + ctpn.getMaPN() + "'";
-            st = con.createStatement();
-            st.executeUpdate(qry);            
+        con = DBConnect.getConnection();
+        st = con.createStatement();
+        st.executeUpdate(qry);            
+            return true;
         } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public boolean xoa(int maPN, int maSP)
+    {
+        try {
+            String qry = "Delete from ctpn where MAPN = '" + maPN + "' AND MASP = '" + maSP + "'";
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            st.executeUpdate(qry);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

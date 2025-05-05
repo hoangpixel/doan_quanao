@@ -39,7 +39,7 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         return ds;
     }
         
-    public void them(PhieuNhapDTO pn)
+    public boolean them(PhieuNhapDTO pn)
     {
         try {
             String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP) values (";
@@ -53,38 +53,41 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
             st.executeUpdate(qry);
             
             System.out.println("Thêm phiếu nhập thành công");
+            return true;
         } catch (Exception e) {
             System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
             e.printStackTrace();
+            return false;
         } 
     }
     
-    public void xoa(int ma)
+    public boolean xoa(int ma)
     {
         try {
-            
             String qry = "Delete from phieunhap where MAPN = '" + ma + "'";
             con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
-            
+            return true;
         } catch (Exception e) {
+            return false;
         }
     }
     
     
-    public void sua(PhieuNhapDTO pn)
+    public boolean sua(PhieuNhapDTO pn)
     {
         try {
-            
-        String qry = "Update phieunhap Set ";
-        qry = qry + " " + "TONGTIEN=" + "'" + pn.getTongTien() + "'";
-        qry = qry + ",NGAYNHAP=" + "'" + pn.getNgayNhap() + "'";
-        qry = qry + " " + " where MAPN='" + pn.getMaPN() + "'";
+            String qry = "Update phieunhap Set ";
+            qry = qry + " " + "TONGTIEN=" + "'" + pn.getTongTien() + "'";
+            qry = qry + ",NGAYNHAP=" + "'" + pn.getNgayNhap() + "'";
+            qry = qry + " " + " where MAPN='" + pn.getMaPN() + "'";
             con = DBConnect.getConnection();
             st = con.createStatement();
-            st.executeUpdate(qry);            
+            st.executeUpdate(qry);
+            return true;
         } catch (Exception e) {
+            return false;
         }
     }
     public boolean ktraMaNV(int ma)
@@ -118,5 +121,20 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         } catch (Exception e) {
         }
         return false;
+    }
+    public int getAI(){
+        int result = 0;
+        try {
+            String qry = "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES " +
+                     "WHERE TABLE_SCHEMA = 'java_quanao' AND TABLE_NAME = 'phieunhap'";
+        con = DBConnect.getConnection();
+        st = con.createStatement();
+        rs = st.executeQuery(qry);
+        if (rs.next()) {
+            result = rs.getInt("AUTO_INCREMENT");
+        }
+        } catch (Exception e) {
+        }
+        return result;
     }
 }
