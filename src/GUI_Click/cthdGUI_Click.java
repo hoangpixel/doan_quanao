@@ -2,31 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package MSForm;
+package GUI_Click;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import DTO.SanPhamDTO;
-import BUS.SanPhamBUS;
-/**
- *
- * @author mhoang
- */
-public class msfMaSP extends javax.swing.JDialog {
+import javax.swing.JOptionPane;
+import DTO.ChiTietHoaDonDTO;
+import DTO.HoaDonDTO;
+import BUS.HoaDonBUS;
+import BUS.ChiTietHoaDonBUS;
+
+public class cthdGUI_Click extends javax.swing.JDialog {
 
     /**
      * Creates new form msfMaNVhoadon
      */
+    int mahd;
+    ArrayList<ChiTietHoaDonDTO> dscthd = new ArrayList<>();
     DefaultTableModel model = new DefaultTableModel();
-    public boolean xacNhan=false;
-    public int getMaSP;
-    public msfMaSP(java.awt.Frame parent,boolean modal)
+    public cthdGUI_Click(java.awt.Frame parent,boolean modal, int mahd)
     {
+        this.mahd=mahd;
         super(parent,modal);
         initComponents();
         setLocationRelativeTo(this);
@@ -39,16 +39,13 @@ public class msfMaSP extends javax.swing.JDialog {
 
     public void headerTable()
     {
-        Vector header = new Vector();
-        header.add("Mã SP");
-        header.add("Tên SP");
-        header.add("Đơn giá");
-        header.add("Đơn vị tính");
-        header.add("Chất liệu");
-        header.add("Mã loại");
-        header.add("Mã mô tả");
 
-        
+        Vector header = new Vector();
+        header.add("Mã HD");
+        header.add("Mã SP");
+        header.add("Số lượng");
+        header.add("Đơn giá");
+        header.add("Thành tiền");
         model = new DefaultTableModel(header,0)
                 {
                     @Override
@@ -57,39 +54,49 @@ public class msfMaSP extends javax.swing.JDialog {
                     return false;
                 }
                 };
-        tbSanPham.setModel(model);      
+              
+        tbCTHD.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         // Căn nội dung ra chính giữa
-        for (int i = 0; i < tbSanPham.getColumnCount(); i++) {
-        tbSanPham.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int i = 0; i < tbCTHD.getColumnCount(); i++) {
+        tbCTHD.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 }
 
         //căn header ra center
-        JTableHeader headerTB = tbSanPham.getTableHeader();
+        JTableHeader headerTB = tbCTHD.getTableHeader();
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
-        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));    }
+    
+    public void updateTB(ArrayList<ChiTietHoaDonDTO> dskq)
+    {
+       model.setRowCount(0);
+       for(ChiTietHoaDonDTO ct : dskq)
+       {
+           Vector row = new Vector();
+           row.add(ct.getMaHoaDon());
+           row.add(ct.getMaSanPham());
+           row.add(ct.getSoLuong());
+           row.add(ct.getDonGia());
+           row.add(ct.getThanhTien());
+           model.addRow(row);
+       }
+       tbCTHD.setModel(model);
     }
     
     public void docSQL()
     {
-        model.setRowCount(0);
-        for(SanPhamDTO ct : SanPhamBUS.getDanhSachSanPham())
+        ChiTietHoaDonBUS bus = new ChiTietHoaDonBUS();
+        if(ChiTietHoaDonBUS.getDSCTHD() == null)
         {
-            Vector row = new Vector();
-            row.add(ct.getMaSP());
-            row.add(ct.getTenSP());
-            row.add(ct.getDonGia());
-            row.add(ct.getDonViTinh());
-            row.add(ct.getChatLieu());
-            row.add(ct.getMaLoai());
-            row.add(ct.getMoTa());
-            model.addRow(row);
+            updateTB(bus.docDSCTHD());
         }
-        tbSanPham.setModel(model);
+        dscthd = bus.layDScthdTheoMAHD(mahd);
+        updateTB(dscthd);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,12 +113,14 @@ public class msfMaSP extends javax.swing.JDialog {
         btnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbSanPham = new javax.swing.JTable();
+        tbCTHD = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnHuy = new javax.swing.JButton();
 
+        setTitle("Thông tin CTKMSP theo mã CTKM");
+
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã SP", "Theo tên SP", "Theo đơn giá min", "Theo đơn giá max", "Theo đơn vị tính", "Theo chất liệu", "Theo loại" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã SP", "Theo đơn giá min", "Theo đơn giá max" }));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -162,13 +171,13 @@ public class msfMaSP extends javax.swing.JDialog {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tbSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbCTHD.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbCTHD.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbSanPhamMouseClicked(evt);
+                tbCTHDMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbSanPham);
+        jScrollPane1.setViewportView(tbCTHD);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -198,7 +207,7 @@ public class msfMaSP extends javax.swing.JDialog {
         );
 
         btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnHuy.setText("Hủy");
+        btnHuy.setText("Thoát");
         btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,40 +249,17 @@ public class msfMaSP extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        xacNhan = false;
         dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
 
-public void updateTB(ArrayList<SanPhamDTO> dssp)
-{
-        model.setRowCount(0);
-        for(SanPhamDTO ct : dssp)
-        {
-            Vector row = new Vector();
-            row.add(ct.getMaSP());
-            row.add(ct.getTenSP());
-            row.add(ct.getDonGia());
-            row.add(ct.getDonViTinh());
-            row.add(ct.getChatLieu());
-            row.add(ct.getMaLoai());
-            row.add(ct.getMoTa());
-            model.addRow(row);
-        }
-        tbSanPham.setModel(model);
-}
     
-    public void showLoiSo()
-    {
-        JLabel loiSo = new JLabel("Vui lòng nhập đúng định dạng");
-        loiSo.setFont(new Font("Segoe UI",Font.BOLD,16));
-        JOptionPane.showMessageDialog(this, loiSo,"Sai định dạng",JOptionPane.ERROR_MESSAGE);
-    }
-
+    
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-        String tim = txtSearch.getText().trim();
-        if(tim.isEmpty())
+
+         int i = jComboBox1.getSelectedIndex();
+         String tim = txtSearch.getText().trim();
+                 if(tim.isEmpty())
         {
             String messTim = "Vui lòng nhập dữ liệu muốn tìm kiếm!";
             JLabel lbNull = new JLabel(messTim);
@@ -281,24 +267,24 @@ public void updateTB(ArrayList<SanPhamDTO> dssp)
             JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int i = jComboBox1.getSelectedIndex();
-
-        ArrayList<SanPhamDTO> dskq = new ArrayList<>();
-        for(SanPhamDTO ct : SanPhamBUS.getDanhSachSanPham())
+         ArrayList<ChiTietHoaDonDTO> dskq = new ArrayList<>();
+         try {
+                    for(ChiTietHoaDonDTO ct : dscthd)
         {
             switch(i)
             {
                 case 0:
                 {
-                    if(String.valueOf(ct.getMaSP()).contains(tim))
+                    if(String.valueOf(ct.getMaSanPham()).contains(tim))
                     {
-                        dskq.add(ct);
+                        dskq.add(ct);                   
                     }
                     break;
                 }
                 case 1:
                 {
-                    if(ct.getTenSP().toLowerCase().contains(tim.toLowerCase()))
+                    float giaMin = Float.parseFloat(tim);
+                    if(ct.getDonGia() <= giaMin)
                     {
                         dskq.add(ct);
                     }
@@ -306,51 +292,8 @@ public void updateTB(ArrayList<SanPhamDTO> dssp)
                 }
                 case 2:
                 {
-                    try {
-                    int giaMin = Integer.parseInt(tim);
-                    if(ct.getDonGia() <= giaMin)
-                    {
-                        dskq.add(ct);
-                    }
-                    break;
-                    } catch (NumberFormatException e) {
-                        showLoiSo();
-                        return;
-                    }
-                }
-                case 3:
-                {
-                    try {
-                    int giaMax = Integer.parseInt(tim);
+                    float giaMax = Float.parseFloat(tim);
                     if(ct.getDonGia() >= giaMax)
-                    {
-                        dskq.add(ct);
-                    }
-                    break; 
-                    } catch (NumberFormatException e) {
-                        showLoiSo();
-                        return;
-                    }
-                }
-                case 4:
-                {
-                    if(ct.getDonViTinh().toLowerCase().contains(tim.toLowerCase()))
-                    {
-                        dskq.add(ct);
-                    }
-                    break;
-                }
-                case 5:
-                {
-                    if(ct.getChatLieu().toLowerCase().contains(tim.toLowerCase()))
-                    {
-                        dskq.add(ct);
-                    }
-                    break;
-                }
-                case 6:
-                {
-                    if(String.valueOf(ct.getMaLoai()).contains(tim))
                     {
                         dskq.add(ct);
                     }
@@ -358,50 +301,36 @@ public void updateTB(ArrayList<SanPhamDTO> dssp)
                 }
             }
         }
-        
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng đơn giá","Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(dskq.isEmpty())
         {
             String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
             JLabel lbNull = new JLabel(mess);
             lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);              
         }
         updateTB(dskq);
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    public ArrayList<ChiTietHoaDonDTO> getDSCTHD()
+    {
+        return dscthd;
+    }
 
     
-    private void tbSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSanPhamMouseClicked
+    private void tbCTHDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTHDMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2)
-        {
-            if(tbSanPham.isEditing())
-            {
-                tbSanPham.getCellEditor().stopCellEditing();
-            }
-            int i = tbSanPham.getSelectedRow();
-            getMaSP = Integer.parseInt(tbSanPham.getValueAt(i, 0).toString());
-            xacNhan = true;
-            dispose();
-        }
-    }//GEN-LAST:event_tbSanPhamMouseClicked
+
+    }//GEN-LAST:event_tbCTHDMouseClicked
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        model.setRowCount(0);
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-public boolean xacNhanTim()
-{
-    return xacNhan;
-}
-
-public int getMaSP()
-{
-    return getMaSP;
-}
-    
     /**
      * @param args the command line arguments
      */
@@ -415,7 +344,7 @@ public int getMaSP()
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbSanPham;
+    private javax.swing.JTable tbCTHD;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
