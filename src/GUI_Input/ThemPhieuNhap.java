@@ -6,8 +6,10 @@ package GUI_Input;
 
 import BUS.PhieuNhapBUS;
 import BUS.CTPNBUS;
+import BUS.PhienBanSanPhamBUS;
 import DTO.CTPNDTO;
 import DTO.PhieuNhapDTO;
+import DTO.PhienBanSanPhamDTO;
 import MSForm.msfMaNV;
 import MSForm.msfMaNCC;
 import MSForm.msfMaSP;
@@ -30,7 +32,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
     public CTPNDTO ctpn;
     public ArrayList<CTPNDTO> dsCTPN = new ArrayList<>();
     public PhieuNhapBUS pnbus = new PhieuNhapBUS();
-    
+    private ArrayList<PhienBanSanPhamDTO> danhSachPhienBan = new ArrayList<>();
     /**
      * Creates new form ThemPhieuNhap
      */
@@ -38,7 +40,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
-        cbxPhienBan.addItem("1");
+        setupMaSPChangeListener();
         tMaPN.setText(String.valueOf(pnbus.getAI()));
         setupAutoCalculation();
     }
@@ -126,7 +128,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
 
         jLabel4.setText("Mã PN:");
 
-        tMaPN.setEditable(false);
+        tMaPN.setFocusable(false);
 
         jLabel5.setText("Mã SP:");
 
@@ -138,7 +140,13 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
 
         jLabel10.setText("Thành tiền:");
 
-        tThanhTien.setEditable(false);
+        tThanhTien.setFocusable(false);
+
+        cbxPhienBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxPhienBanActionPerformed(evt);
+            }
+        });
 
         btnMoreSP.setText("...");
         btnMoreSP.addActionListener(new java.awt.event.ActionListener() {
@@ -184,7 +192,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
 
         jLabel9.setText("Tổng:");
 
-        tTongTien.setEditable(false);
+        tTongTien.setFocusable(false);
 
         jLabel11.setText("Đ");
 
@@ -423,12 +431,6 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
             boolean resultPN = pnBUS.them(pn);
             
             if(resultPN) {
-                // Get the latest MAPN
-                pnBUS.docDSPN();
-                int latestIndex = pnBUS.ds.size() - 1;
-                int actualMapn = pnBUS.ds.get(latestIndex).getMaPN();
-
-                System.out.println("Mã phiếu nhập thực tế: " + actualMapn);
                 
                 // Add all CTPN to database via BUS
                 CTPNBUS ctpnBUS = new CTPNBUS();
@@ -437,7 +439,6 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
                 int count = 1;
 
                 for(CTPNDTO item : dsCTPN) {
-                    item.setMaPN(actualMapn);
                     System.out.println("-- CTPN #" + count + " --");
                     System.out.println("Mã PN: " + item.getMaPN());
                     System.out.println("Mã SP: " + item.getMaSP());
@@ -494,6 +495,18 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnMoreSPActionPerformed
 
+    // Hàm kiểm tra sản phẩm đã tồn tại trong danh sách CTPN chưa
+    private int findExistingProductIndex(int masp, int mapb) {
+        for (int i = 0; i < dsCTPN.size(); i++) {
+            CTPNDTO item = dsCTPN.get(i);
+            if (item.getMaSP() == masp && item.getMaPB() == mapb) {
+                return i; // Trả về vị trí của sản phẩm đã tồn tại
+            }
+        }
+        return -1; // Không tìm thấy
+    }
+
+    // Cập nhật phương thức btnThemCTPNActionPerformed
     private void btnThemCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCTPNActionPerformed
         // Validate inputs
         if(tMaSP.getText().isEmpty() || tSoLuong.getText().isEmpty() || tDonGia.getText().isEmpty()) {
@@ -505,9 +518,20 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         
         try {
             // Get values from input fields
-            int mapn = Integer.parseInt(tMaPN.getText().trim());
             int masp = Integer.parseInt(tMaSP.getText());
-            int mapb = 1; // Set phiên bản to 1 as specified
+            
+            // Lấy mapb từ phiên bản đã chọn trong ComboBox
+            int mapb = 1; // Giá trị mặc định
+            int selectedIndex = cbxPhienBan.getSelectedIndex();
+            
+            if (selectedIndex >= 0 && selectedIndex < danhSachPhienBan.size()) {
+                mapb = danhSachPhienBan.get(selectedIndex).getMaPB();
+                System.out.println("Đã chọn phiên bản: " + cbxPhienBan.getSelectedItem() + ", MaPB=" + mapb);
+            } else {
+                System.out.println("Không có phiên bản được chọn, sử dụng mapb mặc định = 1");
+            }
+            
+            int mapn = Integer.parseInt(tMaPN.getText());
             int soLuong = Integer.parseInt(tSoLuong.getText());
             int donGia = Integer.parseInt(tDonGia.getText());
             int thanhTien = soLuong * donGia;
@@ -515,18 +539,45 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
             // Set thanh tien field
             tThanhTien.setText(String.valueOf(thanhTien));
             
-            // Create CTPN object and add to list (MAPN will be set later)
-            ctpn = new CTPNDTO(0, masp, mapb, soLuong, donGia, thanhTien);
-            dsCTPN.add(ctpn);
+            // Kiểm tra xem sản phẩm đã tồn tại chưa
+            int existingIndex = findExistingProductIndex(masp, mapb);
+            
+            if (existingIndex != -1) {
+                // Sản phẩm đã tồn tại, cập nhật số lượng và thành tiền
+                CTPNDTO existingItem = dsCTPN.get(existingIndex);
+                int newSoLuong = existingItem.getSoLuong() + soLuong;
+                int newThanhTien = existingItem.getThanhTien() + thanhTien;
+                
+                // Cập nhật thông tin
+                existingItem.setSoLuong(newSoLuong);
+                existingItem.setThanhTien(newThanhTien);
+                
+                System.out.println("Cập nhật sản phẩm đã tồn tại:");
+                System.out.println("Mã SP: " + masp);
+                System.out.println("Mã PB: " + mapb);
+                System.out.println("Số lượng mới: " + newSoLuong);
+                System.out.println("Thành tiền mới: " + newThanhTien);
+                
+                JLabel lbTB = new JLabel("Đã cập nhật số lượng sản phẩm trong phiếu nhập!");
+                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Sản phẩm chưa tồn tại, thêm mới
+                ctpn = new CTPNDTO(mapn, masp, mapb, soLuong, donGia, thanhTien);
+                dsCTPN.add(ctpn);
 
-            System.out.println("=== THÊM CTPN VÀO DANH SÁCH ===");
-            System.out.println("Mã SP: " + masp);
-            System.out.println("Phiên bản: " + mapb);
-            System.out.println("Số lượng: " + soLuong);
-            System.out.println("Đơn giá: " + donGia);
-            System.out.println("Thành tiền: " + thanhTien);
-            System.out.println("Tổng số CTPN hiện tại: " + dsCTPN.size());
-            System.out.println("===========================");
+                System.out.println("Thêm sản phẩm mới:");
+                System.out.println("Mã PN: " + ctpn.getMaPN());
+                System.out.println("Mã SP: " + ctpn.getMaSP());
+                System.out.println("Mã PB: " + ctpn.getMaPB());
+                System.out.println("Số lượng: " + ctpn.getSoLuong());
+                System.out.println("Đơn giá: " + ctpn.getDonGia());
+                System.out.println("Thành tiền: " + ctpn.getThanhTien());
+                
+                JLabel lbTB = new JLabel("Đã thêm sản phẩm mới vào phiếu nhập!");
+                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
             
             // Update tong tien
             updateTongTien();
@@ -537,9 +588,6 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
             // Clear input fields
             clearInputFields();
             
-            JLabel lbTB = new JLabel("Đã thêm sản phẩm vào phiếu nhập!");
-            lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
             JLabel lbTBnull = new JLabel("Dữ liệu không hợp lệ!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -570,6 +618,10 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
         JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnXoaCTPNActionPerformed
+
+    private void cbxPhienBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPhienBanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxPhienBanActionPerformed
     public boolean xacNhanThem()
     {                   
         return xacNhan;
@@ -592,10 +644,33 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         String[] headerNames = {"Mã SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
         Object[][] data = new Object[dsCTPN.size()][5];
         
+        PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
+        
         for (int i = 0; i < dsCTPN.size(); i++) {
             CTPNDTO item = dsCTPN.get(i);
             data[i][0] = item.getMaSP();
-            data[i][1] = 1; // Display phiên bản as 1
+            
+            // Lấy thông tin phiên bản cho từng sản phẩm
+            int mapb = item.getMaPB();
+            String pbInfo = String.valueOf(mapb); // Mặc định hiển thị mapb
+            
+            try {
+                // Lấy danh sách phiên bản cho sản phẩm hiện tại
+                ArrayList<PhienBanSanPhamDTO> pbList = pbBUS.getPhienBanByMaSP(item.getMaSP());
+                
+                // Tìm phiên bản phù hợp
+                for (PhienBanSanPhamDTO pb : pbList) {
+                    if (pb.getMaPB() == mapb) {
+                        pbInfo = pb.getSize() + " - " + pb.getMau();
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // Nếu có lỗi, hiển thị mã phiên bản
+                System.out.println("Lỗi khi lấy thông tin phiên bản cho SP " + item.getMaSP() + ": " + e.getMessage());
+            }
+            
+            data[i][1] = pbInfo;
             data[i][2] = item.getSoLuong();
             data[i][3] = item.getDonGia();
             data[i][4] = item.getThanhTien();
@@ -665,6 +740,57 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
                 calculateThanhTien();
             }
         });
+    }
+    private void setupMaSPChangeListener() {
+        tMaSP.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+    
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+    
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+        });
+    }
+    private void updatePhienBanOptions() {
+        try {
+            // Lấy mã sản phẩm từ tMaSP
+            int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
+            
+            // Gọi hàm getPhienBanByMaSP từ PhienBanSanPhamBUS
+            PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
+            
+            // Lưu danh sách phiên bản vào biến của class
+            danhSachPhienBan = pbBUS.getPhienBanByMaSP(masp);
+            
+            // Xóa tất cả các mục trong cbxPhienBan
+            cbxPhienBan.removeAllItems();
+            
+            // Thêm các phiên bản vào cbxPhienBan với định dạng size-màu
+            for (PhienBanSanPhamDTO pb : danhSachPhienBan) {
+                String displayText = pb.getSize() + " - " + pb.getMau();
+                cbxPhienBan.addItem(displayText);
+                System.out.println("Đã thêm phiên bản: " + displayText + ", MaPB=" + pb.getMaPB());
+            }
+            
+            // Nếu không có phiên bản nào, thêm thông báo
+            if (danhSachPhienBan.isEmpty()) {
+                cbxPhienBan.addItem("Không có phiên bản");
+                System.out.println("Ô trống, không có giá trị nào để hiển thị.");
+            }
+        } catch (NumberFormatException e) {
+            // Nếu mã sản phẩm không hợp lệ, xóa nội dung cbxPhienBan
+            cbxPhienBan.removeAllItems();
+            cbxPhienBan.addItem("Không có phiên bản");
+            danhSachPhienBan.clear();
+        }
     }
     /**
      * @param args the command line arguments

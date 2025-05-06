@@ -274,7 +274,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tMaPN">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -310,7 +310,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tThanhTien">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxPhienBan">
@@ -319,6 +319,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxPhienBanActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -409,7 +412,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tTongTien">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel11">

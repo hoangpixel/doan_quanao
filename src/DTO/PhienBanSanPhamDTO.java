@@ -2,6 +2,7 @@
 package DTO;
 
 public class PhienBanSanPhamDTO {
+    private int maPB;
     private int maSP;
     private String size;
     private String mau;
@@ -10,7 +11,8 @@ public class PhienBanSanPhamDTO {
     public PhienBanSanPhamDTO() {
     }
 
-    public PhienBanSanPhamDTO(int maSP, String size, String mau, int soLuong) {
+    public PhienBanSanPhamDTO(int maPB, int maSP, String size, String mau, int soLuong) {
+        this.maPB = maPB;
         this.maSP = maSP;
         this.size = size;
         this.mau = mau;
@@ -48,7 +50,12 @@ public class PhienBanSanPhamDTO {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
-    
+    public int getMaPB(){
+        return maPB;
+    }
+    public void setMaPB(int maPB){
+        this.maPB = maPB;
+    }
     
     
 }
