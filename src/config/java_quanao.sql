@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2025 at 10:06 AM
+-- Generation Time: May 06, 2025 at 11:12 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -286,9 +286,10 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) 
 
 CREATE TABLE `phienbansp` (
   `MASP` int(11) NOT NULL,
-  `SIZE` int(11) NOT NULL,
-  `MAU` int(11) NOT NULL,
-  `SLSP` int(11) NOT NULL
+  `SIZE` varchar(20) NOT NULL,
+  `MAU` varchar(20) NOT NULL,
+  `SLSP` int(11) NOT NULL,
+  `maPBSP` varchar(20) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
