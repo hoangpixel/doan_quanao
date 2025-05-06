@@ -4,8 +4,11 @@
  */
 package GUI_Input;
 
+import BUS.LoaiSanPhamBUS;
 import BUS.SanPhamBUS;
+import DTO.LoaiSanPhamDTO;
 import DTO.SanPhamDTO;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,7 +25,10 @@ public class SuaSanPham extends javax.swing.JDialog {
         super(parent, modal);
         this.maSP = maSP;
         initComponents();
+        loadLoaiSP();
         loadSanPham(maSP);
+        
+        
     }
 
     /**
@@ -204,7 +210,17 @@ public class SuaSanPham extends javax.swing.JDialog {
         
         sanPhamDTO.setDonViTinh(cbbDonViTinh.getSelectedItem().toString());
         sanPhamDTO.setChatLieu(txtChatLieu.getText());
-        sanPhamDTO.setMaLoai(1);
+        
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        ArrayList<LoaiSanPhamDTO> ds = bus.docDSLSP();
+        for(LoaiSanPhamDTO loai : ds) {
+            String loaiSP = cbbLoaiSanPham.getSelectedItem().toString();
+            if(loai.getMaLoai() == Integer.parseInt(loaiSP.substring(0, loaiSP.indexOf(" ")))) {
+                sanPhamDTO.setMaLoai(loai.getMaLoai());
+                break;
+            }
+        }
+        
         sanPhamDTO.setMoTa(txtMoTa.getText());
         new SanPhamBUS().suaSanPham(sanPhamDTO);
         xacNhanSua = true;
@@ -248,7 +264,12 @@ public class SuaSanPham extends javax.swing.JDialog {
         txtDonGia.setText(String.valueOf(sanPhamDTO.getDonGia()));
         cbbDonViTinh.setSelectedItem(sanPhamDTO.getDonViTinh());
         txtChatLieu.setText(sanPhamDTO.getChatLieu());
-        cbbLoaiSanPham.setSelectedItem(1);
+        
+        
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        LoaiSanPhamDTO dto = bus.layLSPTheoMa(sanPhamDTO.getMaLoai());
+        cbbLoaiSanPham.setSelectedItem(dto.getMaLoai() + " - " + dto.getTenLoai());
+        
         txtMoTa.setText(sanPhamDTO.getMoTa());
         
     }
@@ -256,5 +277,15 @@ public class SuaSanPham extends javax.swing.JDialog {
     public boolean isXacNhanSua() {
         return xacNhanSua;
     }
+
+    private void loadLoaiSP() {
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        ArrayList<LoaiSanPhamDTO> ds = bus.docDSLSP();
+        cbbLoaiSanPham.removeAllItems();
+        for(LoaiSanPhamDTO loai : ds) {
+            cbbLoaiSanPham.addItem(String.valueOf(loai.getMaLoai()) + " - " + loai.getTenLoai());
+        }    
+    }
+    
     
 }

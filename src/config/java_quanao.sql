@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 06, 2025 lúc 11:47 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: May 06, 2025 at 11:12 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -296,20 +296,11 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) 
 CREATE TABLE `phienbansp` (
   `MAPB` int(11) NOT NULL,
   `MASP` int(11) NOT NULL,
-  `SIZE` varchar(11) NOT NULL,
-  `MAU` varchar(11) NOT NULL,
-  `SLPB` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `phienbansp`
---
-
-INSERT INTO `phienbansp` (`MAPB`, `MASP`, `SIZE`, `MAU`, `SLPB`) VALUES
-(1, 1, 'M', 'Đỏ', 10),
-(2, 1, 'XXL', 'Xanh', 10),
-(3, 2, 'L', 'Trắng', 10),
-(4, 2, 'XXL', 'Xanh', 10);
+  `SIZE` varchar(20) NOT NULL,
+  `MAU` varchar(20) NOT NULL,
+  `SLSP` int(11) NOT NULL,
+  `maPBSP` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 

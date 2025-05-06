@@ -4,8 +4,11 @@
  */
 package GUI_Input;
 
+import BUS.LoaiSanPhamBUS;
 import BUS.SanPhamBUS;
+import DTO.LoaiSanPhamDTO;
 import DTO.SanPhamDTO;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +25,7 @@ public class ThemSanPham extends javax.swing.JDialog {
     public ThemSanPham(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadLoaiSP();
     }
 
     /**
@@ -203,7 +207,11 @@ public class ThemSanPham extends javax.swing.JDialog {
         sanPhamDTO.setDonViTinh(cbbDonViTinh.getSelectedItem().toString());
         sanPhamDTO.setChatLieu(txtChatLieu.getText());
         // xử lý sau =)))
-        sanPhamDTO.setMaLoai(1);
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        ArrayList<LoaiSanPhamDTO> ds = bus.docDSLSP();
+        String loaiSP = cbbLoaiSanPham.getSelectedItem().toString();
+        sanPhamDTO.setMaLoai(Integer.parseInt(loaiSP.substring(0, loaiSP.indexOf(" "))));
+        
         sanPhamDTO.setMoTa(txtMoTa.getText());
         
         SanPhamBUS sanPhamBUS = new SanPhamBUS();
@@ -247,4 +255,13 @@ public class ThemSanPham extends javax.swing.JDialog {
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtTenSanPham;
     // End of variables declaration//GEN-END:variables
+
+    private void loadLoaiSP() {
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        ArrayList<LoaiSanPhamDTO> ds = bus.docDSLSP();
+        cbbLoaiSanPham.removeAllItems();
+        for(LoaiSanPhamDTO loai : ds) {
+            cbbLoaiSanPham.addItem(String.valueOf(loai.getMaLoai()) + " - " + loai.getTenLoai());
+        }
+    }
 }
