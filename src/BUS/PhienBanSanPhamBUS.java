@@ -32,10 +32,19 @@ public class PhienBanSanPhamBUS {
         }
         return dspb;
     }
-//    public static void main(String[] args) {
-//
-//        PhienBanSanPhamBUS bus = new PhienBanSanPhamBUS();
-//        
-//    System.out.println(bus.getPhienBanByMaSP(1).size());
-//    }
+    public String getPhienBanByMaPB(int mapb){
+        String pb = null;
+        if(ds == null) {
+            docDSPB();
+        }
+        try {
+            for (PhienBanSanPhamDTO p : ds) {
+                if (p.getMaPB()== mapb) {
+                    pb = p.getSize() + " - " + p.getMau();
+                }
+            }
+        } catch (Exception e) {
+        }
+        return pb;
+    }
 }

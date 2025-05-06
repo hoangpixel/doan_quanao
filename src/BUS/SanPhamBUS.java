@@ -149,5 +149,17 @@ public class SanPhamBUS {
         
         return ds;
     }
-    
+    public String getTenSanPhamByMaSP(int masp){
+        ArrayList<SanPhamDTO> ds = new ArrayList<>();
+        String ten = null;
+        if(dssp == null) {
+            dssp = layTatCaSanPham();
+        }
+        for (SanPhamDTO sp : dssp) {
+            if (sp.getMaSP() == masp) {
+                ten = sp.getTenSP();
+            }
+        }
+        return ten;
+    }
 }

@@ -7,9 +7,11 @@ package GUI_Input;
 import BUS.PhieuNhapBUS;
 import BUS.CTPNBUS;
 import BUS.PhienBanSanPhamBUS;
+import BUS.SanPhamBUS;
 import DTO.CTPNDTO;
 import DTO.PhieuNhapDTO;
 import DTO.PhienBanSanPhamDTO;
+import DTO.SanPhamDTO;
 import MSForm.msfMaNV;
 import MSForm.msfMaNCC;
 import MSForm.msfMaSP;
@@ -506,6 +508,12 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
         return -1; // Không tìm thấy
     }
 
+    public String getTenSanPhamByMaSP(int masp) {
+        String tenSP = null;
+        SanPhamBUS spBUS = new SanPhamBUS();
+        tenSP = spBUS.getTenSanPhamByMaSP(masp);
+        return tenSP;
+    }
     // Cập nhật phương thức btnThemCTPNActionPerformed
     private void btnThemCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCTPNActionPerformed
         // Validate inputs
@@ -641,14 +649,15 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
 
     // Helper method to load data to table
     private void loadTableData() {
-        String[] headerNames = {"Mã SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
+        String[] headerNames = {"Tên SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
         Object[][] data = new Object[dsCTPN.size()][5];
         
         PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
         
         for (int i = 0; i < dsCTPN.size(); i++) {
             CTPNDTO item = dsCTPN.get(i);
-            data[i][0] = item.getMaSP();
+            String tenSP = getTenSanPhamByMaSP(item.getMaSP());
+            data[i][0] = tenSP;
             
             // Lấy thông tin phiên bản cho từng sản phẩm
             int mapb = item.getMaPB();

@@ -37,5 +37,5 @@ public class CTPNBUS {
     public boolean xoa(int maPN, int maSP){
         CTPNDAO data = new CTPNDAO();
         return data.xoa(maPN, maSP);
-    }
+    }      
 }

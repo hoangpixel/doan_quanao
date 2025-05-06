@@ -5,19 +5,34 @@
 package GUI_Input;
 
 import BUS.PhieuNhapBUS;
+import BUS.SanPhamBUS;
+import BUS.PhienBanSanPhamBUS;
 import BUS.CTPNBUS;
+import BUS.SanPhamBUS;
 import DTO.CTPNDTO;
 import DTO.PhieuNhapDTO;
-import MSForm.msfMaNV;
-import MSForm.msfMaNCC;
+import DTO.SanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
+import DTO.SanPhamDTO;
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.util.ArrayList;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import javax.swing.table.TableModel;
+import java.io.File;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -79,6 +94,20 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
             e.printStackTrace();
         }
     }
+    
+    private String getTenByMaSP(int maSP){
+        String tenSP = null;
+        SanPhamBUS spbus = new SanPhamBUS();
+        tenSP = spbus.getTenSanPhamByMaSP(maSP);
+        return tenSP;    
+    }
+
+    private String getPhienBanInfo(int maPB){
+        String tenPB = null;
+        PhienBanSanPhamBUS pbspbus = new PhienBanSanPhamBUS();
+        tenPB = pbspbus.getPhienBanByMaPB(maPB);
+        return tenPB;    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,6 +130,7 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         tTongTien = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        btnXuatPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -148,6 +178,14 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
 
         jLabel11.setText("Đ");
 
+        btnXuatPDF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXuatPDF.setText("Xuất file PDF");
+        btnXuatPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,6 +221,10 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnXuatPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,31 +240,302 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tMaNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(tTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11)))
+                        .addComponent(jLabel11))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tMaNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnXuatPDF, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnXuatPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatPDFActionPerformed
+        try {
+            // Hiển thị hộp thoại chọn nơi lưu file
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Lưu file PDF");
+            fileChooser.setSelectedFile(new File("PhieuNhap_" + pn.getMaPN() + ".pdf"));
+            
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+            fileChooser.setFileFilter(filter);
+            
+            int userSelection = fileChooser.showSaveDialog(this);
+            
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                // Đảm bảo đuôi file là .pdf
+                if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+                    fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+                }
+                
+                // Tạo document PDF
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage();
+                document.addPage(page);
+                
+                // Load font hỗ trợ tiếng Việt có dấu
+                PDType0Font font = PDType0Font.load(document, new File("c:/windows/fonts/arial.ttf"));
+                PDType0Font fontBold = PDType0Font.load(document, new File("c:/windows/fonts/arialbd.ttf"));
+                
+                float margin = 50;
+                float yStart = page.getMediaBox().getHeight() - margin;
+                float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
+                float yPosition = yStart;
+                
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+                
+                // Tiêu đề
+                contentStream.beginText();
+                contentStream.setFont(fontBold, 18);
+                float titleWidth = fontBold.getStringWidth("CHI TIẾT PHIẾU NHẬP") / 1000 * 18;
+                float centerX = (page.getMediaBox().getWidth() - titleWidth) / 2;
+                contentStream.newLineAtOffset(centerX, yPosition);
+                contentStream.showText("CHI TIẾT PHIẾU NHẬP");
+                contentStream.endText();
+                yPosition -= 40;
+                
+                // Thông tin phiếu nhập
+                contentStream.beginText();
+                contentStream.setFont(font, 12);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Mã phiếu nhập: " + tMaPN.getText());
+                contentStream.endText();
+                yPosition -= 20;
+                
+                contentStream.beginText();
+                contentStream.setFont(font, 12);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Mã nhân viên: " + tMaNV.getText());
+                contentStream.endText();
+                yPosition -= 20;
+                
+                contentStream.beginText();
+                contentStream.setFont(font, 12);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Mã nhà cung cấp: " + tMaNCC.getText());
+                contentStream.endText();
+                yPosition -= 20;
+                
+                contentStream.beginText();
+                contentStream.setFont(font, 12);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Tổng tiền: " + tTongTien.getText() + " VNĐ");
+                contentStream.endText();
+                yPosition -= 40;
+                
+                // Vẽ bảng chi tiết sản phẩm
+                String[] headers = {"Tên sản phẩm", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
+                float rowHeight = 25f; // Tăng chiều cao dòng để dễ đọc
+                float tableHeight = (dsCTPN.size() + 1) * rowHeight; // +1 cho header
+                
+                // Nếu không đủ chỗ trên trang hiện tại, tạo trang mới
+                if (yPosition - tableHeight < margin) {
+                    contentStream.close();
+                    page = new PDPage();
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    yPosition = yStart;
+                }
+                
+                // Tính chiều rộng của từng cột
+                float[] columnWidths = {tableWidth * 0.35f, tableWidth * 0.25f, tableWidth * 0.1f, tableWidth * 0.15f, tableWidth * 0.15f};
+                
+                // Vẽ khung của toàn bộ bảng
+                contentStream.setLineWidth(0.8f);
+                contentStream.addRect(margin, yPosition - tableHeight, tableWidth, tableHeight);
+                contentStream.stroke();
+                
+                // Vẽ header
+                float nextX = margin;
+                
+                // Nền xám cho header
+                contentStream.setNonStrokingColor(0.85f, 0.85f, 0.85f);
+                contentStream.addRect(margin, yPosition - rowHeight, tableWidth, rowHeight);
+                contentStream.fill();
+                contentStream.setNonStrokingColor(0, 0, 0); // Trở lại màu đen
+                
+                // Đường kẻ phân cách các cột
+                nextX = margin;
+                for (int i = 0; i < columnWidths.length; i++) {
+                    nextX += columnWidths[i];
+                    if (i < columnWidths.length - 1) {
+                        contentStream.moveTo(nextX, yPosition);
+                        contentStream.lineTo(nextX, yPosition - tableHeight);
+                        contentStream.stroke();
+                    }
+                }
+                
+                // Đường kẻ phân cách header và dữ liệu
+                contentStream.moveTo(margin, yPosition - rowHeight);
+                contentStream.lineTo(margin + tableWidth, yPosition - rowHeight);
+                contentStream.stroke();
+                
+                // Vẽ text của header - căn giữa
+                nextX = margin;
+                for (int i = 0; i < headers.length; i++) {
+                    contentStream.beginText();
+                    contentStream.setFont(fontBold, 10);
+                    float textWidth = fontBold.getStringWidth(headers[i]) / 1000 * 10;
+                    float cellWidth = columnWidths[i];
+                    float textX = nextX + (cellWidth - textWidth) / 2;
+                    contentStream.newLineAtOffset(textX, yPosition - rowHeight/2 - 5);
+                    contentStream.showText(headers[i]);
+                    contentStream.endText();
+                    nextX += columnWidths[i];
+                }
+                
+                // Vẽ dữ liệu từ bảng
+                yPosition -= rowHeight;
+                
+                // Vẽ các hàng dữ liệu
+                for (int i = 0; i < dsCTPN.size(); i++) {
+                    CTPNDTO item = dsCTPN.get(i);
+                    
+                    // Vẽ đường kẻ ngang phân cách các dòng dữ liệu (nếu không phải dòng cuối)
+                    if (i < dsCTPN.size() - 1) {
+                        contentStream.moveTo(margin, yPosition - rowHeight);
+                        contentStream.lineTo(margin + tableWidth, yPosition - rowHeight);
+                        contentStream.stroke();
+                    }
+                    
+                    // Vẽ text trong từng ô - với căn lề phù hợp
+                    String[] values = {
+                        getTenByMaSP(item.getMaSP()),
+                        getPhienBanInfo(item.getMaPB()),
+                        String.valueOf(item.getSoLuong()),
+                        String.valueOf(item.getDonGia()),
+                        String.valueOf(item.getThanhTien())
+                    };
+                    
+                    nextX = margin;
+                    for (int j = 0; j < values.length; j++) {
+                        contentStream.beginText();
+                        contentStream.setFont(font, 10);
+                        String text = values[j] != null ? values[j] : "";
+                        float textWidth = font.getStringWidth(text) / 1000 * 10;
+                        float cellWidth = columnWidths[j];
+                        float textX;
+                        
+                        // Căn trái cho tên SP và phiên bản, căn phải cho số liệu
+                        if (j <= 1) {
+                            textX = nextX + 5; // Căn trái với padding 5px
+                        } else {
+                            textX = nextX + cellWidth - textWidth - 5; // Căn phải với padding 5px
+                        }
+                        
+                        contentStream.newLineAtOffset(textX, yPosition - rowHeight/2 - 5);
+                        contentStream.showText(text);
+                        contentStream.endText();
+                        
+                        nextX += columnWidths[j];
+                    }
+                    
+                    yPosition -= rowHeight;
+                    
+                    // Nếu không đủ chỗ cho dòng tiếp theo, tạo trang mới
+                    if (i < dsCTPN.size() - 1 && yPosition - rowHeight < margin) {
+                        contentStream.close();
+                        page = new PDPage();
+                        document.addPage(page);
+                        contentStream = new PDPageContentStream(document, page);
+                        
+                        yPosition = yStart;
+                        
+                        // Vẽ lại header trên trang mới
+                        // Vẽ header với nền xám
+                        contentStream.setNonStrokingColor(0.85f, 0.85f, 0.85f);
+                        contentStream.addRect(margin, yPosition - rowHeight, tableWidth, rowHeight);
+                        contentStream.fill();
+                        contentStream.setNonStrokingColor(0, 0, 0); // Trở lại màu đen
+                        
+                        // Đường kẻ khung header
+                        contentStream.setLineWidth(0.5f);
+                        contentStream.addRect(margin, yPosition - rowHeight, tableWidth, rowHeight);
+                        contentStream.stroke();
+                        
+                        // Đường kẻ phân cách các cột
+                        nextX = margin;
+                        for (int k = 0; k < columnWidths.length; k++) {
+                            nextX += columnWidths[k];
+                            if (k < columnWidths.length - 1) {
+                                contentStream.moveTo(nextX, yPosition);
+                                contentStream.lineTo(nextX, yPosition - rowHeight);
+                                contentStream.stroke();
+                            }
+                        }
+                        
+                // Vẽ text của header
+                nextX = margin;
+                for (int k = 0; k < headers.length; k++) {
+                    contentStream.beginText();
+                    contentStream.setFont(fontBold, 10);
+                    float textWidth = fontBold.getStringWidth(headers[k]) / 1000 * 10;
+                    float cellWidth = columnWidths[k];
+                    float textX = nextX + (cellWidth - textWidth) / 2;
+                    contentStream.newLineAtOffset(textX, yPosition - rowHeight/2 - 5);
+                    contentStream.showText(headers[k]);
+                    contentStream.endText();
+                    nextX += columnWidths[k];
+                }
+                
+                yPosition -= rowHeight;
+            }
+        }
+        
+        // Đóng contentStream
+        contentStream.close();
+        
+        // Lưu document vào file
+        document.save(fileToSave);
+        document.close();
+        
+        // Thông báo thành công
+        JOptionPane.showMessageDialog(this,
+            "Xuất file PDF thành công!", 
+            "Thông báo", 
+            JOptionPane.INFORMATION_MESSAGE);
+        
+        // Mở file PDF
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(fileToSave);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                "Không thể tự động mở file PDF: " + e.getMessage(),
+                "Cảnh báo",
+                JOptionPane.WARNING_MESSAGE);
+        }
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this,
+        "Lỗi khi xuất file PDF: " + e.getMessage(),
+        "Lỗi",
+        JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+}    }//GEN-LAST:event_btnXuatPDFActionPerformed
+
 
     // Helper method to load data to table
     private void loadTableData() {
-        String[] headerNames = {"Mã SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
+        String[] headerNames = {"Tên SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
         Object[][] data = new Object[dsCTPN.size()][5];
         
         for (int i = 0; i < dsCTPN.size(); i++) {
             CTPNDTO item = dsCTPN.get(i);
-            data[i][0] = item.getMaSP();
-            data[i][1] = item.getMaPB(); // Display actual phiên bản
+            String tenSP = getTenByMaSP(item.getMaSP());
+            String phienBan = getPhienBanInfo(item.getMaPB());
+            data[i][0] = tenSP;
+            data[i][1] = phienBan;
             data[i][2] = item.getSoLuong();
             data[i][3] = item.getDonGia();
             data[i][4] = item.getThanhTien();
@@ -235,7 +548,7 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
             }
         });
     }
-
+    
 
     // Helper method to clear input fields
   
@@ -244,6 +557,7 @@ public class ChiTietPhieuNhap extends javax.swing.JDialog {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnXuatPDF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
