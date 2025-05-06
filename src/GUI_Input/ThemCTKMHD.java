@@ -214,11 +214,11 @@ public class ThemCTKMHD extends javax.swing.JDialog {
         // TODO add your handling code here:
         
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            msfMaCTKM dialog = new msfMaCTKM(frame, true);
-            dialog.setVisible(true);
-            if(dialog.isXacNhan()) {
-                txtMaCTKM.setText(String.valueOf(dialog.getMaCTKM()));
-            }
+        msfMaCTKM dialog = new msfMaCTKM(frame, true);
+        dialog.setVisible(true);
+        if(dialog.isXacNhan()) {
+            txtMaCTKM.setText(String.valueOf(dialog.getMaCTKM()));
+        }
     }//GEN-LAST:event_btnChonMaCTKMActionPerformed
 
     public boolean isXacNhanThem() {

@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.Color;
 
 /**
  *
@@ -71,6 +72,9 @@ public class msfMaCTKM extends javax.swing.JDialog {
                 }
             }
         });
+        
+        tuNgay.getDateEditor().setEnabled(false);
+        denNgay.getDateEditor().setEnabled(false);
         
     }
 
