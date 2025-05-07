@@ -136,4 +136,12 @@ public class NhanVienBUS {
         }
         return ds;
     }
+    
+    public ArrayList<Object[]> thongKeLuongTheoQuyNam(int nam) {
+        return new NhanVienDAO().thongKeLuongTheoQuyNam(nam);
+    }
+    
+    public Object[] thongKeTheoDiaChi() {
+        return new NhanVienDAO().thongKeTheoDiaChi();
+    }
 }

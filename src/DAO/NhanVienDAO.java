@@ -152,4 +152,76 @@ public class NhanVienDAO {
         }
         return nv;
     }
+    
+    public Object[] thongKeTheoDiaChi() {
+        Object[] result = new Object[10]; // Adjust size based on unique addresses
+        String query = """
+                       SELECT DIACHI, SUM(LUONG) AS TongLuong
+                       FROM nhanvien
+                       GROUP BY DIACHI
+                       """;
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            int index = 0;
+            while (rs.next() && index < result.length) {
+                result[index] = new Object[] { rs.getString("DIACHI"), rs.getInt("TongLuong") };
+                index++;
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return result;
+    }
+    
+    // Lấy thời gian từ phiếu nhập
+    public ArrayList<Object[]> thongKeLuongTheoQuyNam(int nam) {
+        ArrayList<Object[]> ds = new ArrayList<>();
+        String query = """
+                       SELECT 
+                           CASE 
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 1 THEN 'Quý 1'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 2 THEN 'Quý 2'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 3 THEN 'Quý 3'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 4 THEN 'Quý 4'
+                           END AS Quy,
+                           SUM(LUONG) AS TongLuong
+                       FROM nhanvien
+                       JOIN phieunhap ON nhanvien.MANV = phieunhap.MANV
+                       WHERE YEAR(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = ?
+                       GROUP BY 
+                           CASE 
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 1 THEN 'Quý 1'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 2 THEN 'Quý 2'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 3 THEN 'Quý 3'
+                               WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 4 THEN 'Quý 4'
+                           END
+                       """;
+        Connection conn = null;
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, nam);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Object[] row = new Object[2];
+                row[0] = rs.getString("Quy");
+                row[1] = rs.getInt("TongLuong");
+                ds.add(row);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBConnect.closeConnection(conn);
+        }
+        return ds;
+    }
 }
