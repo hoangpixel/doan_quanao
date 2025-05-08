@@ -18,6 +18,7 @@ import BUS.KhachHangBUS;
 import GUI_Input.ThemKhachHang;
 import GUI_Input.XoaKH;
 import GUI_Input.SuaKhachHang;
+import GUI_Input.ChiTietKhachHang;
 /**
  *
  * @author mhoang
@@ -420,17 +421,27 @@ public class KhachHangGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
-//        // TODO add your handling code here:
-//        int i = tbCTKMSP.getSelectedRow();
-//        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
-//        int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
-//        int masp = (int) tbCTKMSP.getValueAt(i, 2);
-//        int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
-//        
-//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        ChuongTrinhKhuyenMaiSanPhamDTO data = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp, mactkm, masp, ptgg);
-//        detailCTKMSP dialog  = new detailCTKMSP(topFrame, true, data);
-//        dialog.setVisible(true);
+        int i = tblKH.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;            
+        }
+        
+        int ma = (int) tblKH.getValueAt(i, 0);
+        String hokh = tblKH.getValueAt(i, 1).toString();
+        String tenkh = tblKH.getValueAt(i, 2).toString();
+        String sdt = tblKH.getValueAt(i, 3).toString();
+        String diachi = tblKH.getValueAt(i, 4).toString();
+        String email = tblKH.getValueAt(i, 5).toString();
+        
+        KhachHangDTO kh = new KhachHangDTO(ma, hokh, tenkh, sdt, diachi, email);
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        ChiTietKhachHang dialog = new ChiTietKhachHang(topFrame, true, kh);
+        dialog.setVisible(true);
         
         
     }//GEN-LAST:event_btnDetailActionPerformed

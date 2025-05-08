@@ -18,6 +18,7 @@ import BUS.PhieuNhapBUS;
 import GUI_Input.SuaPhieuNhap;
 import GUI_Input.ThemPhieuNhap;
 import GUI_Input.XoaPN;
+import GUI_Input.ChiTietPhieuNhap;
 /**
  *
  * @author mhoang
@@ -120,6 +121,11 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnThemMouseClicked(evt);
+            }
+        });
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
             }
         });
 
@@ -268,10 +274,13 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -296,9 +305,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
         if(dialog.xacNhanThem())
         {
-            PhieuNhapDTO phieunhap = dialog.getPN();
             PhieuNhapBUS pnbus = new PhieuNhapBUS();
-            pnbus.them(phieunhap);
             pnbus.docDSPN();
             model.setRowCount(0);
             for(PhieuNhapDTO pn : PhieuNhapBUS.ds)
@@ -407,20 +414,32 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
-//        // TODO add your handling code here:
-//        int i = tbCTKMSP.getSelectedRow();
-//        int mactkmsp = (int) tbCTKMSP.getValueAt(i, 0);
-//        int mactkm = (int) tbCTKMSP.getValueAt(i, 1);
-//        int masp = (int) tbCTKMSP.getValueAt(i, 2);
-//        int ptgg = (int) tbCTKMSP.getValueAt(i, 3);
-//        
-//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        ChuongTrinhKhuyenMaiSanPhamDTO data = new ChuongTrinhKhuyenMaiSanPhamDTO(mactkmsp, mactkm, masp, ptgg);
-//        detailCTKMSP dialog  = new detailCTKMSP(topFrame, true, data);
-//        dialog.setVisible(true);
+        // TODO add your handling code here:
+        int i = tblPN.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;            
+        }
+        int ma = (int) tblPN.getValueAt(i, 0);
+        int manv = (int) tblPN.getValueAt(i, 1);
+        int mancc = (int) tblPN.getValueAt(i, 2);
+        int tongtien = (int) tblPN.getValueAt(i,3);
+        String ngayNhap = tblPN.getValueAt(i, 4).toString();
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap);
+        ChiTietPhieuNhap dialog  = new ChiTietPhieuNhap(topFrame, true, pn);
+        dialog.setVisible(true);
         
         
     }//GEN-LAST:event_btnDetailActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
 
    
     /**

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2025 at 10:06 AM
+-- Generation Time: May 07, 2025 at 09:24 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -112,12 +112,21 @@ CREATE TABLE `ctkmsp` (
 --
 
 CREATE TABLE `ctpn` (
-  `MACTPN` int(11) NOT NULL,
+  `MAPN` int(11) NOT NULL,
   `MASP` int(11) NOT NULL,
-  `SL` int(11) NOT NULL,
+  `MAPB` int(11) NOT NULL,
+  `SOLUONG` int(11) NOT NULL,
   `DONGIA` int(11) NOT NULL,
-  `THANHTIEN` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+  `THANHTIEN` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ctpn`
+--
+
+INSERT INTO `ctpn` (`MAPN`, `MASP`, `MAPB`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
+(11, 1, 1, 1, 1111, 1111),
+(11, 2, 3, 1, 2222, 2222);
 
 -- --------------------------------------------------------
 
@@ -267,16 +276,26 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) VALUES
-(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'Quận 3, TPHCM', 'sunamvi98@gmail.com'),
-(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Tánh Linh, Bình Thuận', 'nguyenthuh@gmail.com'),
-(3, 'Võ', 'K', 15600000, '0933451567', 'Quận 5, TPHCM', 'vok@gmail.com'),
-(4, 'Hoàng', 'S', 19800000, '0956734234', 'Quận 8, TPHCM', 'hoangs@gmail.com'),
-(5, 'Phan Văn', 'T', 16000000, '0331234567', 'Quận Bình Tân, TPHCM', 'phanvant@gmail.com'),
-(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'Quận 7, TPHCM', 'nguyenthih@gmail.com'),
-(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Đà Lạt, Lâm Đồng', 'vothim@gmail.com'),
-(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TP Thủ Đức, TPHCM', 'tranvana@gmail.com'),
-(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Cần Giuộc, Long An', 'buithul@gmail.com'),
-(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com');
+(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'TPHCM', 'sunamvi98@gmail.com'),
+(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Bình Thuận', 'nguyenthuh@gmail.com'),
+(3, 'Võ', 'K', 15600000, '0933451567', 'TPHCM', 'vok@gmail.com'),
+(4, 'Hoàng', 'S', 19800000, '0956734234', 'TPHCM', 'hoangs@gmail.com'),
+(5, 'Phan Văn', 'T', 16000000, '0331234567', 'TPHCM', 'phanvant@gmail.com'),
+(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'TPHCM', 'nguyenthih@gmail.com'),
+(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Lâm Đồng', 'vothim@gmail.com'),
+(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TPHCM', 'tranvana@gmail.com'),
+(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Long An', 'buithul@gmail.com'),
+(10, 'Lương Văn', 'N', 13900000, '0989845634', 'Bình Thuận', 'luongvann@gmail.com'),
+(11, 'Lê Thị', 'P', 17000000, '0912345678', 'Đồng Nai', 'lethip@gmail.com'),
+(12, 'Trần Quốc', 'V', 21000000, '0923456789', 'TPHCM', 'tranquocv@gmail.com'),
+(13, 'Nguyễn Văn', 'B', 14500000, '0934567890', 'Bình Dương', 'nguyenvanb@gmail.com'),
+(14, 'Phạm Thị', 'Q', 18500000, '0945678901', 'TPHCM', 'phamthiq@gmail.com'),
+(15, 'Đỗ Minh', 'T', 15500000, '0956789012', 'Cần Thơ', 'dominht@gmail.com'),
+(16, 'Hồ Thị', 'Y', 13200000, '0967890123', 'TPHCM', 'hothiy@gmail.com'),
+(17, 'Ngô Văn', 'C', 22000000, '0978901234', 'Hà Nội', 'ngovanc@gmail.com'),
+(18, 'Vũ Thị', 'D', 16500000, '0989012345', 'TPHCM', 'vuthid@gmail.com'),
+(19, 'Bùi Văn', 'E', 19000000, '0990123456', 'Đà Nẵng', 'buivane@gmail.com'),
+(20, 'Lý Thị', 'G', 12500000, '0901234567', 'TPHCM', 'lythig@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -285,10 +304,12 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) 
 --
 
 CREATE TABLE `phienbansp` (
+  `MAPB` int(11) NOT NULL,
   `MASP` int(11) NOT NULL,
-  `SIZE` int(11) NOT NULL,
-  `MAU` int(11) NOT NULL,
-  `SLSP` int(11) NOT NULL
+  `SIZE` varchar(20) NOT NULL,
+  `MAU` varchar(20) NOT NULL,
+  `SLSP` int(11) NOT NULL,
+  `maPBSP` varchar(20) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -319,7 +340,8 @@ INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`) VALUES
 (7, 3, 3, 7400000, '08/01/2025'),
 (8, 4, 4, 3100000, '20/02/2025'),
 (9, 1, 5, 8450000, '14/03/2025'),
-(10, 5, 1, 6550000, '17/04/2025');
+(10, 5, 1, 6550000, '17/04/2025'),
+(11, 1, 1, 3333, '2025-05-06 15:41:03');
 
 -- --------------------------------------------------------
 
@@ -347,6 +369,14 @@ CREATE TABLE `sanpham` (
   `MOTA` varchar(200) NOT NULL,
   `MALOAI` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `sanpham`
+--
+
+INSERT INTO `sanpham` (`MASP`, `TENSP`, `DONGIA`, `DONVITINH`, `CHATLIEU`, `MOTA`, `MALOAI`) VALUES
+(1, 'a', 1000, 'VND', 'vải', 'adfàdàdà', 1),
+(2, 'b', 1000, 'VND', 'vải', 'ádfádfàdà', 2);
 
 --
 -- Indexes for dumped tables
@@ -390,7 +420,8 @@ ALTER TABLE `ctkmsp`
 -- Indexes for table `ctpn`
 --
 ALTER TABLE `ctpn`
-  ADD PRIMARY KEY (`MACTPN`),
+  ADD PRIMARY KEY (`MAPN`,`MASP`,`MAPB`),
+  ADD KEY `MAPB` (`MAPB`),
   ADD KEY `MASP` (`MASP`);
 
 --
@@ -429,7 +460,8 @@ ALTER TABLE `nhanvien`
 -- Indexes for table `phienbansp`
 --
 ALTER TABLE `phienbansp`
-  ADD PRIMARY KEY (`MASP`);
+  ADD PRIMARY KEY (`MAPB`),
+  ADD KEY `phienbansp_ibfk_1` (`MASP`);
 
 --
 -- Indexes for table `phieunhap`
@@ -480,12 +512,6 @@ ALTER TABLE `ctkmsp`
   MODIFY `MACTKMSP` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ctpn`
---
-ALTER TABLE `ctpn`
-  MODIFY `MACTPN` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
@@ -516,16 +542,22 @@ ALTER TABLE `nhanvien`
   MODIFY `MANV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `phienbansp`
+--
+ALTER TABLE `phienbansp`
+  MODIFY `MAPB` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -557,36 +589,11 @@ ALTER TABLE `ctkmsp`
   ADD CONSTRAINT `ctkmsp_ibfk_2` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ctpn`
---
-ALTER TABLE `ctpn`
-  ADD CONSTRAINT `ctpn_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hoadon_ibfk_3` FOREIGN KEY (`MAKH`) REFERENCES `khachhang` (`MAKH`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `phienbansp`
---
-ALTER TABLE `phienbansp`
-  ADD CONSTRAINT `phienbansp_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `phieunhap`
---
-ALTER TABLE `phieunhap`
-  ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `phieunhap_ibfk_2` FOREIGN KEY (`MANCC`) REFERENCES `ncc` (`MANCC`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `quan`
---
-ALTER TABLE `quan`
-  ADD CONSTRAINT `quan_ibfk_1` FOREIGN KEY (`MALOAI`) REFERENCES `loaisp` (`MALOAI`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

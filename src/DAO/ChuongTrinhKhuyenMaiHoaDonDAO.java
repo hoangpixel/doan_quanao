@@ -52,7 +52,7 @@ public class ChuongTrinhKhuyenMaiHoaDonDAO {
         String query = """
                        update ctkmhd
                        set MACTKM = ?, TONGTIENHD = ?, PTGG = ?
-                       where CTKMHD = ?
+                       where MACTKMHD = ?
                        """;
         Connection conn = null;
         try {

@@ -21,20 +21,23 @@ public class PhieuNhapBUS {
         ds = data.DSPhieuNhapDTOs();
     }
     
-    public void them(PhieuNhapDTO pn){
+    public boolean them(PhieuNhapDTO pn){
         PhieuNhapDAO data = new PhieuNhapDAO();
-        data.them(pn);
-        ds.add(pn);
+        boolean result = data.them(pn);
+        if (result) {
+            ds.add(pn);
+        }
+        return result;
     }
     
-    public void xoa(int ma){
+    public boolean xoa(int ma){
         PhieuNhapDAO data = new PhieuNhapDAO();
-        data.xoa(ma);
+        return data.xoa(ma);
     }
     
-    public void sua(PhieuNhapDTO pn){
+    public boolean sua(PhieuNhapDTO pn){
         PhieuNhapDAO data = new PhieuNhapDAO();
-        data.sua(pn);
+        return data.sua(pn);
     }
     
     public boolean ktraMaNV(int ma)
@@ -47,5 +50,9 @@ public class PhieuNhapBUS {
     {
         PhieuNhapDAO data = new PhieuNhapDAO();
         return data.ktraMaNCC(ma);
+    }
+    public int getAI(){
+        PhieuNhapDAO data = new PhieuNhapDAO();
+        return data.getAI();
     }
 }

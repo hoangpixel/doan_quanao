@@ -158,7 +158,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã nhân viên", "Họ tên", "Lương", "Số điện thoại", "Địa chỉ", "Email" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã nhân viên", "Họ tên", "Mức lương", "Số điện thoại", "Địa chỉ", "Email" }));
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +332,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
                 case "Họ tên":
                     ds = nvbus.timKiemTheoHoTen(value);
                     break;
-                case "Lương":
+                case "Mức lương":
                     ds = nvbus.timKiemTheoMucLuong(Integer.parseInt(value));
                     break;
                 case "Số điện thoại":

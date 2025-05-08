@@ -4,7 +4,9 @@
  */
 package GUI_Input;
 
+import BUS.LoaiSanPhamBUS;
 import BUS.SanPhamBUS;
+import DTO.LoaiSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.SanPhamGUI;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class SearchSanPham extends javax.swing.JDialog {
     public SearchSanPham(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadLoaiSP();
     }
 
     /**
@@ -232,8 +235,11 @@ public class SearchSanPham extends javax.swing.JDialog {
         String chatLieu = txtChatLieu.getText().trim();
         
         String loaiSP = String.valueOf(cbbLoaiSP.getSelectedItem());
-        int i = 1;
+        int i = -1;
         // Xử lý lấy mã loại ở đây
+        if(!loaiSP.equals("Tất cả")) {
+            i = Integer.parseInt(loaiSP.substring(0, loaiSP.indexOf(" ")));
+        }
         
         SanPhamBUS bus = new SanPhamBUS();
         ds = bus.timKiemNangCao(maSP, tenSP, giaMin, giaMax, chatLieu, i);
@@ -254,6 +260,14 @@ public class SearchSanPham extends javax.swing.JDialog {
 
     public ArrayList<SanPhamDTO> getDs() {
         return ds;
+    }
+    
+    private void loadLoaiSP() {
+        LoaiSanPhamBUS bus = new LoaiSanPhamBUS();
+        ArrayList<LoaiSanPhamDTO> ds = bus.docDSLSP();
+        for(LoaiSanPhamDTO loai : ds) {
+            cbbLoaiSP.addItem(String.valueOf(loai.getMaLoai()) + " - " + loai.getTenLoai());
+        }    
     }
     
 

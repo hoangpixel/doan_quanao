@@ -1,22 +1,33 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DTO;
 
-public class PhienBanSanPhamDTO {
+/**
+ *
+ * @author Vinh
+ */
+public class PhienBanSanPham {
     private int maPB;
     private int maSP;
     private String size;
     private String mau;
     private int soLuong;
 
-    public PhienBanSanPhamDTO() {
+    public PhienBanSanPham() {
     }
 
-    public PhienBanSanPhamDTO(int maPB, int maSP, String size, String mau, int soLuong) {
+    public PhienBanSanPham(int maPB, int maSP, String size, String mau, int soLuong) {
         this.maPB = maPB;
         this.maSP = maSP;
         this.size = size;
         this.mau = mau;
         this.soLuong = soLuong;
+    }
+
+    public int getMaPB() {
+        return maPB;
     }
 
     public int getMaSP() {
@@ -35,6 +46,10 @@ public class PhienBanSanPhamDTO {
         return soLuong;
     }
 
+    public void setMaPB(int maPB) {
+        this.maPB = maPB;
+    }
+
     public void setMaSP(int maSP) {
         this.maSP = maSP;
     }
@@ -49,12 +64,6 @@ public class PhienBanSanPhamDTO {
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
-    }
-    public int getMaPB(){
-        return maPB;
-    }
-    public void setMaPB(int maPB){
-        this.maPB = maPB;
     }
     
     
