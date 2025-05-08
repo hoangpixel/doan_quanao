@@ -32,6 +32,7 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
                 pn.setMaNCC(rs.getInt(3));
                 pn.setTongTien(rs.getInt(4));
                 pn.setNgayNhap(rs.getString(5));
+                pn.setTrangThai(rs.getInt(6));
                 ds.add(pn);
             }
         } catch (Exception e) {
@@ -42,11 +43,12 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     public boolean them(PhieuNhapDTO pn)
     {
         try {
-            String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP) values (";
+            String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP, TRANGTHAI) values (";
             qry = qry + pn.getMaNV() + ",";
             qry = qry + pn.getMaNCC() + ",";
             qry = qry + pn.getTongTien() + ",";
-            qry = qry + "'" + pn.getNgayNhap() + "'";
+            qry = qry + "'" + pn.getNgayNhap() + "',";
+            qry = qry  + pn.getTrangThai(); 
             qry = qry + ")";          
             con = DBConnect.getConnection();
             st = con.createStatement();
@@ -79,8 +81,11 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     {
         try {
             String qry = "Update phieunhap Set ";
-            qry = qry + " " + "TONGTIEN=" + "'" + pn.getTongTien() + "'";
+            qry = qry + " MANV= " + "'" + pn.getMaNV() + "'";
+            qry = qry + ",MANCC=" + "'" + pn.getMaNCC() + "'";
+            qry = qry + ",TONGTIEN=" + "'" + pn.getTongTien() + "'";
             qry = qry + ",NGAYNHAP=" + "'" + pn.getNgayNhap() + "'";
+            qry = qry + ",TRANGTHAI=" + "'" + pn.getTrangThai() + "'";
             qry = qry + " " + " where MAPN='" + pn.getMaPN() + "'";
             con = DBConnect.getConnection();
             st = con.createStatement();

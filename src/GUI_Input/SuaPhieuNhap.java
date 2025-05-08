@@ -6,10 +6,14 @@ package GUI_Input;
 
 import BUS.PhieuNhapBUS;
 import BUS.CTPNBUS;
+import BUS.PhienBanSanPhamBUS;
+import BUS.SanPhamBUS;
 import DTO.CTPNDTO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import MSForm.msfMaNV;
 import MSForm.msfMaNCC;
+import MSForm.msfMaSP;
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +33,9 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
     public CTPNDTO ctpn;
     public ArrayList<CTPNDTO> dsCTPN = new ArrayList<>();
     public PhieuNhapBUS pnbus = new PhieuNhapBUS();
+    public PhienBanSanPhamBUS pbspbus = new PhienBanSanPhamBUS();
+    public SanPhamBUS spbus = new SanPhamBUS();
+    private ArrayList<PhienBanSanPhamDTO> danhSachPhienBan = new ArrayList<>();
     
     /**
      * Creates new form ThemPhieuNhap
@@ -47,14 +54,14 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
     tMaNV.setText(String.valueOf(pn.getMaNV()));
     tMaNCC.setText(String.valueOf(pn.getMaNCC()));
     tTongTien.setText(String.valueOf(pn.getTongTien()));
+    cbxTrangThai.setSelectedIndex(pn.getTrangThai());
     
     // Thiết lập các control
-    cbxPhienBan.addItem("1");
-    tMaPN.setEditable(false);
     setupAutoCalculation();
     
     // Load chi tiết phiếu nhập
     loadCTPNData(pn.getMaPN());
+    setupMaSPChangeListener();
     }
 
     /**
@@ -95,6 +102,8 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         tTongTien = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        cbxTrangThai = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -205,6 +214,10 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
 
         jLabel11.setText("Đ");
 
+        jLabel12.setText("Trạng thái: ");
+
+        cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chưa xử lí", "Đã xử lí" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,18 +232,26 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 42, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(56, 56, 56)
-                                        .addComponent(btnSuaPN, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 42, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(56, 56, 56)
+                                                .addComponent(btnSuaPN, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(tTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(cbxTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -304,7 +325,11 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tMaNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnMoreMaNCC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(278, 278, 278)
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(cbxTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(198, 198, 198)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,7 +372,15 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private int findExistingProductIndex(int masp, int mapb) {
+        for (int i = 0; i < dsCTPN.size(); i++) {
+            CTPNDTO item = dsCTPN.get(i);
+            if (item.getMaSP() == masp && item.getMaPB() == mapb) {
+                return i; // Trả về vị trí của sản phẩm đã tồn tại
+            }
+        }
+        return -1; // Không tìm thấy
+    }
     private void btnMoreMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoreMaNVActionPerformed
         // TODO add your handling code here:
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -383,12 +416,55 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnSuaPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaPNActionPerformed
-        // Validate inputs
-        // Validate inputs (giữ nguyên code kiểm tra)
-    if(tMaNV.getText().isEmpty() || tMaNCC.getText().isEmpty()) {
-        // Mã xử lý thông báo lỗi hiện tại
+    int kiemtra = cbxTrangThai.getSelectedIndex();
+        if (kiemtra==1) {
+            JLabel lbConfirm = new JLabel("Phiếu nhập này sẽ không thể sửa hay xóa trong tương lai, bạn có chắc muốn thay đổi trạng thái thành đã xử lí chứ?");
+    lbConfirm.setFont(new Font("Segoe UI", Font.BOLD, 16));
+    
+    int option = JOptionPane.showConfirmDialog(
+        this,
+        lbConfirm,
+        "Xác nhận sửa",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+    
+    // Nếu người dùng chọn "Không", thoát khỏi phương thức
+    if (option != JOptionPane.YES_OPTION) {
         return;
     }
+        }
+        // Validate inputs
+        if(tMaNV.getText().isEmpty() || tMaNCC.getText().isEmpty()){
+            JLabel lbTBnull = new JLabel("Không được để trống!");
+            lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Check if employee ID exists
+        if(new PhieuNhapBUS().ktraMaNV(Integer.parseInt(tMaNV.getText())) == false) {
+            JLabel lbTBnull = new JLabel("Mã NV không tồn tại!");
+            lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Check if supplier ID exists
+        if(new PhieuNhapBUS().ktraMaNCC(Integer.parseInt(tMaNCC.getText())) == false) {
+            JLabel lbTBnull = new JLabel("Mã NCC không tồn tại!");
+            lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Check if product list is empty
+        if(dsCTPN.isEmpty()) {
+            JLabel lbTBnull = new JLabel("Chưa có sản phẩm nào trong phiếu nhập!");
+            lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     
     // Các kiểm tra khác giữ nguyên
     
@@ -398,12 +474,16 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
         int manv = Integer.parseInt(tMaNV.getText());
         int mancc = Integer.parseInt(tMaNCC.getText());
         int tongTien = Integer.parseInt(tTongTien.getText());
-        String ngayNhap = pn.getNgayNhap(); // Giữ nguyên ngày nhập
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String ngayNhap = now.format(formatter);
         
         // Cập nhật đối tượng phiếu nhập
         pn.setMaNV(manv);
         pn.setMaNCC(mancc);
         pn.setTongTien(tongTien);
+        pn.setNgayNhap(ngayNhap);
+        pn.setTrangThai(cbxTrangThai.getSelectedIndex());
         
         // Cập nhật vào database
         PhieuNhapBUS pnBUS = new PhieuNhapBUS();
@@ -414,22 +494,8 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
             CTPNBUS ctpnBUS = new CTPNBUS();
             ctpnBUS.docDSPN();
             
-            // 1. Xóa tất cả CTPN hiện có của phiếu nhập này
-            ArrayList<CTPNDTO> oldCTPNs = new ArrayList<>();
-            for (CTPNDTO item : ctpnBUS.ds) {
-                if (item.getMaPN() == mapn) {
-                    oldCTPNs.add(item);
-                }
-            }
-            
-            // Xóa từng CTPN cũ
-            boolean deleteSuccess = true;
-            for (CTPNDTO oldItem : oldCTPNs) {
-                if (!ctpnBUS.xoa(mapn, oldItem.getMaSP())) {
-                    deleteSuccess = false;
-                    System.out.println("Lỗi xóa CTPN: MaPN=" + mapn + ", MaSP=" + oldItem.getMaSP());
-                }
-            }
+            // 1. Xóa tất cả CTPN đang có
+            boolean deleteSuccess = ctpnBUS.xoa(mapn);
             
             // 2. Thêm lại các CTPN trong danh sách hiện tại
             boolean addSuccess = true;
@@ -440,6 +506,13 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
                     addSuccess = false;
                     System.out.println("Lỗi thêm CTPN: MaPN=" + mapn + ", MaSP=" + item.getMaSP());
                 }
+                if (cbxTrangThai.getSelectedIndex()==1) {
+                        if (pbspbus.thayDoiSLPB(item.getSoLuong(),item.getMaPB())==0) {
+                        addSuccess = false;
+                        System.out.println("Lỗi khi thay đổi số lượng pb");
+                    }
+                }
+                
             }
             
             if (deleteSuccess && addSuccess) {
@@ -468,6 +541,16 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
 
     private void btnMoreSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoreSPActionPerformed
         // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        msfMaSP msfDialog = new msfMaSP(topFrame, true);
+        msfDialog.setVisible(true);
+        
+        
+        if(msfDialog.xacNhanTim())
+        {
+            int manv = msfDialog.getMaSP();
+            tMaSP.setText(String.valueOf(manv));
+        }
     }//GEN-LAST:event_btnMoreSPActionPerformed
 
     private void btnThemCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCTPNActionPerformed
@@ -481,9 +564,20 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
         
         try {
             // Get values from input fields
-            int mapn = Integer.parseInt(tMaPN.getText().trim());
             int masp = Integer.parseInt(tMaSP.getText());
-            int mapb = 1; // Set phiên bản to 1 as specified
+            
+            // Lấy mapb từ phiên bản đã chọn trong ComboBox
+            int mapb = 1; // Giá trị mặc định
+            int selectedIndex = cbxPhienBan.getSelectedIndex();
+            
+            if (selectedIndex >= 0 && selectedIndex < danhSachPhienBan.size()) {
+                mapb = danhSachPhienBan.get(selectedIndex).getMaPB();
+                System.out.println("Đã chọn phiên bản: " + cbxPhienBan.getSelectedItem() + ", MaPB=" + mapb);
+            } else {
+                System.out.println("Không có phiên bản được chọn, sử dụng mapb mặc định = 1");
+            }
+            
+            int mapn = Integer.parseInt(tMaPN.getText());
             int soLuong = Integer.parseInt(tSoLuong.getText());
             int donGia = Integer.parseInt(tDonGia.getText());
             int thanhTien = soLuong * donGia;
@@ -491,18 +585,45 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
             // Set thanh tien field
             tThanhTien.setText(String.valueOf(thanhTien));
             
-            // Create CTPN object and add to list (MAPN will be set later)
-            ctpn = new CTPNDTO(0, masp, mapb, soLuong, donGia, thanhTien);
-            dsCTPN.add(ctpn);
+            // Kiểm tra xem sản phẩm đã tồn tại chưa
+            int existingIndex = findExistingProductIndex(masp, mapb);
+            
+            if (existingIndex != -1) {
+                // Sản phẩm đã tồn tại, cập nhật số lượng và thành tiền
+                CTPNDTO existingItem = dsCTPN.get(existingIndex);
+                int newSoLuong = existingItem.getSoLuong() + soLuong;
+                int newThanhTien = existingItem.getThanhTien() + thanhTien;
+                
+                // Cập nhật thông tin
+                existingItem.setSoLuong(newSoLuong);
+                existingItem.setThanhTien(newThanhTien);
+                
+                System.out.println("Cập nhật sản phẩm đã tồn tại:");
+                System.out.println("Mã SP: " + masp);
+                System.out.println("Mã PB: " + mapb);
+                System.out.println("Số lượng mới: " + newSoLuong);
+                System.out.println("Thành tiền mới: " + newThanhTien);
+                
+                JLabel lbTB = new JLabel("Đã cập nhật số lượng sản phẩm trong phiếu nhập!");
+                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Sản phẩm chưa tồn tại, thêm mới
+                ctpn = new CTPNDTO(mapn, masp, mapb, soLuong, donGia, thanhTien);
+                dsCTPN.add(ctpn);
 
-            System.out.println("=== THÊM CTPN VÀO DANH SÁCH ===");
-            System.out.println("Mã SP: " + masp);
-            System.out.println("Phiên bản: " + mapb);
-            System.out.println("Số lượng: " + soLuong);
-            System.out.println("Đơn giá: " + donGia);
-            System.out.println("Thành tiền: " + thanhTien);
-            System.out.println("Tổng số CTPN hiện tại: " + dsCTPN.size());
-            System.out.println("===========================");
+                System.out.println("Thêm sản phẩm mới:");
+                System.out.println("Mã PN: " + ctpn.getMaPN());
+                System.out.println("Mã SP: " + ctpn.getMaSP());
+                System.out.println("Mã PB: " + ctpn.getMaPB());
+                System.out.println("Số lượng: " + ctpn.getSoLuong());
+                System.out.println("Đơn giá: " + ctpn.getDonGia());
+                System.out.println("Thành tiền: " + ctpn.getThanhTien());
+                
+                JLabel lbTB = new JLabel("Đã thêm sản phẩm mới vào phiếu nhập!");
+                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
             
             // Update tong tien
             updateTongTien();
@@ -513,16 +634,30 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
             // Clear input fields
             clearInputFields();
             
-            JLabel lbTB = new JLabel("Đã thêm sản phẩm vào phiếu nhập!");
-            lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
             JLabel lbTBnull = new JLabel("Dữ liệu không hợp lệ!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnThemCTPNActionPerformed
-
+        private void setupMaSPChangeListener() {
+        tMaSP.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+    
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+    
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                updatePhienBanOptions();
+            }
+        });
+    }
     private void btnXoaCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaCTPNActionPerformed
         // Check if a row is selected
         int selectedRow = tbSP.getSelectedRow();
@@ -565,13 +700,13 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
 
     // Helper method to load data to table
     private void loadTableData() {
-        String[] headerNames = {"Mã SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
+        String[] headerNames = {"Tên SP", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
         Object[][] data = new Object[dsCTPN.size()][5];
         
         for (int i = 0; i < dsCTPN.size(); i++) {
             CTPNDTO item = dsCTPN.get(i);
-            data[i][0] = item.getMaSP();
-            data[i][1] = 1; // Display phiên bản as 1
+            data[i][0] = spbus.getTenSanPhamByMaSP(item.getMaSP());
+            data[i][1] = pbspbus.getPhienBanByMaPB(item.getMaPB());
             data[i][2] = item.getSoLuong();
             data[i][3] = item.getDonGia();
             data[i][4] = item.getThanhTien();
@@ -661,6 +796,39 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
         
         System.out.println("Đã load " + dsCTPN.size() + " chi tiết phiếu nhập");
     }
+    private void updatePhienBanOptions() {
+        try {
+            // Lấy mã sản phẩm từ tMaSP
+            int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
+            
+            // Gọi hàm getPhienBanByMaSP từ PhienBanSanPhamBUS
+            PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
+            
+            // Lưu danh sách phiên bản vào biến của class
+            danhSachPhienBan = pbBUS.getPhienBanByMaSP(masp);
+            
+            // Xóa tất cả các mục trong cbxPhienBan
+            cbxPhienBan.removeAllItems();
+            
+            // Thêm các phiên bản vào cbxPhienBan với định dạng size-màu
+            for (PhienBanSanPhamDTO pb : danhSachPhienBan) {
+                String displayText = pb.getSize() + " - " + pb.getMau();
+                cbxPhienBan.addItem(displayText);
+                System.out.println("Đã thêm phiên bản: " + displayText + ", MaPB=" + pb.getMaPB());
+            }
+            
+            // Nếu không có phiên bản nào, thêm thông báo
+            if (danhSachPhienBan.isEmpty()) {
+                cbxPhienBan.addItem("Không có phiên bản");
+                System.out.println("Ô trống, không có giá trị nào để hiển thị.");
+            }
+        } catch (NumberFormatException e) {
+            // Nếu mã sản phẩm không hợp lệ, xóa nội dung cbxPhienBan
+            cbxPhienBan.removeAllItems();
+            cbxPhienBan.addItem("Không có phiên bản");
+            danhSachPhienBan.clear();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -674,9 +842,11 @@ public class SuaPhieuNhap extends javax.swing.JDialog {
     private javax.swing.JButton btnThemCTPN;
     private javax.swing.JButton btnXoaCTPN;
     private javax.swing.JComboBox<String> cbxPhienBan;
+    private javax.swing.JComboBox<String> cbxTrangThai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

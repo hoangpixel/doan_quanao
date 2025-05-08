@@ -82,10 +82,10 @@ public ArrayList<CTPNDTO> DSCTPNDAOs()
         }
     }
     
-    public boolean xoa(int maPN, int maSP)
+    public boolean xoa(int maPN)
     {
         try {
-            String qry = "Delete from ctpn where MAPN = '" + maPN + "' AND MASP = '" + maSP + "'";
+            String qry = "Delete from ctpn where MAPN = " + maPN;
             con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);

@@ -44,6 +44,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         header.add("Mã NCC");
         header.add("Tổng tiền");
         header.add("Ngày nhập");
+        header.add("Trạng thái");
         model = new DefaultTableModel(header,0)
                 {
                     @Override
@@ -80,6 +81,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
             row.add(pn.getMaNCC());
             row.add(pn.getTongTien());
             row.add(pn.getNgayNhap());
+            row.add(trangThai(pn.getTrangThai()));
             model.addRow(row);
         }
         tblPN.setModel(model);
@@ -316,6 +318,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
                 row.add(pn.getMaNCC());
                 row.add(pn.getTongTien());
                 row.add(pn.getNgayNhap());
+                row.add(trangThai(pn.getTrangThai()));
                 model.addRow(row);
             }
             tblPN.setModel(model);
@@ -364,7 +367,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         int tongtien = (int) tblPN.getValueAt(i,3);
         String ngayNhap = tblPN.getValueAt(i, 4).toString();
         
-        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap);
+        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap, 0);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         SuaPhieuNhap dialog = new SuaPhieuNhap(topFrame, true, pn);
         dialog.setVisible(true);
@@ -378,12 +381,34 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
             model.setValueAt(phieunhap.getMaNCC(),i,2);
             model.setValueAt(phieunhap.getTongTien(),i,3);
             model.setValueAt(phieunhap.getNgayNhap(),i,4);
+            model.setValueAt(trangThai(phieunhap.getTrangThai()),i,5);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void tblPNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPNMouseClicked
-
-    }//GEN-LAST:event_tblPNMouseClicked
+    private void tblPNMouseClicked(java.awt.event.MouseEvent evt) {
+        int selectedRow = tblPN.getSelectedRow();
+    if (selectedRow >= 0) {
+        // Kiểm tra trạng thái của dòng đã chọn (cột thứ 5 - index 5)
+        String trangThai = tblPN.getValueAt(selectedRow, 5).toString();
+        
+        // Nếu trạng thái là "Đã xử lý", vô hiệu hóa nút thêm và xóa
+        if (trangThai.equals("Đã xử lí")) {
+            btnXoa.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            
+            // Tùy chọn: thêm thông báo khi di chuột lên nút
+            btnXoa.setToolTipText("Không thể xóa phiếu nhập đã xử lý");
+            btnUpdate.setToolTipText("Không thể sửa phiếu nhập đã xử lý");
+        } else {
+            // Ngược lại, kích hoạt các nút
+            btnXoa.setEnabled(true);
+            btnUpdate.setEnabled(true);
+            
+            btnXoa.setToolTipText("Xóa phiếu nhập đã chọn");
+            btnUpdate.setToolTipText("Sửa phiếu nhập đã chọn");
+        }
+    }
+    }                                  
     public void updateTB(ArrayList<PhieuNhapDTO> dskq)
     {
        
@@ -430,7 +455,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         String ngayNhap = tblPN.getValueAt(i, 4).toString();
         
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap);
+        PhieuNhapDTO pn = new PhieuNhapDTO(ma, manv, mancc, tongtien, ngayNhap, 0);
         ChiTietPhieuNhap dialog  = new ChiTietPhieuNhap(topFrame, true, pn);
         dialog.setVisible(true);
         
@@ -440,7 +465,15 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
-
+    private String trangThai(int trangThai){
+        String tt = null;
+        if (trangThai == 0) {
+            tt = "Chưa xử lí";
+        } else {
+            tt = "Đã xử lí";
+        }
+        return tt;
+    }
    
     /**
      * @param args the command line arguments

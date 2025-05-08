@@ -14,16 +14,18 @@ public class PhieuNhapDTO {
     private int maNCC;
     private int tongTien;
     private String ngayNhap;
+    private int trangThai;
 
     public PhieuNhapDTO() {
     }
 
-    public PhieuNhapDTO(int maPN, int maNV, int maNCC, int tongTien, String ngayNhap) {
+    public PhieuNhapDTO(int maPN, int maNV, int maNCC, int tongTien, String ngayNhap, int trangThai) {
         this.maPN = maPN;
         this.maNV = maNV;
         this.maNCC = maNCC;
         this.tongTien = tongTien;
         this.ngayNhap = ngayNhap;
+        this.trangThai = trangThai;
     }
 
     public int getMaPN() {
@@ -45,7 +47,11 @@ public class PhieuNhapDTO {
     public String getNgayNhap() {
         return ngayNhap;
     }
-
+    
+    public int getTrangThai(){
+        return trangThai;
+    }
+    
     public void setMaPN(int maPN) {
         this.maPN = maPN;
     }
@@ -66,5 +72,7 @@ public class PhieuNhapDTO {
         this.ngayNhap = ngayNhap;
     }
     
-    
+    public void setTrangThai(int trangThai){
+        this.trangThai = trangThai;
+    } 
 }

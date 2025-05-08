@@ -47,4 +47,8 @@ public class PhienBanSanPhamBUS {
         }
         return pb;
     }
+    public int thayDoiSLPB(int sl, int mapb) {
+        PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
+        return pbspdao.thayDoiSLPB(sl,mapb);
+    }
 }

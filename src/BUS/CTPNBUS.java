@@ -34,8 +34,8 @@ public class CTPNBUS {
         return data.sua(ctpn);
     }
 
-    public boolean xoa(int maPN, int maSP){
+    public boolean xoa(int maPN){
         CTPNDAO data = new CTPNDAO();
-        return data.xoa(maPN, maSP);
+        return data.xoa(maPN);
     }      
 }

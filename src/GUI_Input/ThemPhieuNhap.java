@@ -420,7 +420,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
             String ngayNhap = now.format(formatter);
             
             // Create PhieuNhap object
-            pn = new PhieuNhapDTO(0, manv, mancc, tongTien, ngayNhap);
+            pn = new PhieuNhapDTO(0, manv, mancc, tongTien, ngayNhap, 0);
             
             // Add to database via BUS
             PhieuNhapBUS pnBUS = new PhieuNhapBUS();
