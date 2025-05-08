@@ -71,6 +71,11 @@ public class msfMaSP extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        tbSanPham.setRowHeight(30);
+        tbSanPham.setFocusable(false);
+        tbSanPham.setAutoCreateRowSorter(true);
+        tbSanPham.setDefaultEditor(Object.class, null);
+        tbSanPham.setShowVerticalLines(false); 
     }
     
     public void docSQL()

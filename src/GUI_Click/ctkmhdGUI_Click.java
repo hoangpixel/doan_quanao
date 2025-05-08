@@ -68,6 +68,12 @@ public class ctkmhdGUI_Click extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbCTKMHD.setRowHeight(30);
+        tbCTKMHD.setFocusable(false);
+        tbCTKMHD.setAutoCreateRowSorter(true);
+        tbCTKMHD.setDefaultEditor(Object.class, null);
+        tbCTKMHD.setShowVerticalLines(false);
     }
     
     public void updateTB(ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> dskq)

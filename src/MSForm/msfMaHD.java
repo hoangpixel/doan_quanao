@@ -66,6 +66,12 @@ public class msfMaHD extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbHoaDon.setRowHeight(30);
+        tbHoaDon.setFocusable(false);
+        tbHoaDon.setAutoCreateRowSorter(true);
+        tbHoaDon.setDefaultEditor(Object.class, null);
+        tbHoaDon.setShowVerticalLines(false);    
     }
     
     public void docSQL()

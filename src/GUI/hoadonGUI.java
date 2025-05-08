@@ -72,6 +72,12 @@ public class hoadonGUI extends javax.swing.JPanel {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbHoadon.setRowHeight(30);
+        tbHoadon.setFocusable(false);
+        tbHoadon.setAutoCreateRowSorter(true);
+        tbHoadon.setDefaultEditor(Object.class, null);
+        tbHoadon.setShowVerticalLines(false);
     }
     public void docSQL()
     {

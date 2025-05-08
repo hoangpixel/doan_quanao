@@ -6,7 +6,6 @@ package GUI_Input;
 
 import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -209,11 +208,10 @@ public class ThongTinNhanVien extends javax.swing.JDialog {
 
     private void loadNhanVien() {
         NhanVienDTO nv = new NhanVienBUS().layNhanVienTheoMa(manv);
-        DecimalFormat df = new DecimalFormat("#,###");
         txtMaNhanVien.setText(String.valueOf(nv.getMa()));
         txtHo.setText(nv.getHo());
         txtTen.setText(nv.getTen());
-        txtLuong.setText(df.format(String.valueOf(nv.getLuong())) + " VNĐ");
+        txtLuong.setText(String.valueOf(nv.getLuong()) + " VNĐ");
         txtSDT.setText(nv.getSDT());
         txtDiaChi.setText(nv.getDiaChi());
         txtEmail.setText(nv.getEmail());

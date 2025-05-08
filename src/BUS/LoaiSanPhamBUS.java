@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class LoaiSanPhamBUS {
     
-    private static ArrayList<LoaiSanPhamDTO> dslsp;
+    public static ArrayList<LoaiSanPhamDTO> dslsp;
     
     public boolean kiemTraMaLoai(int malsp) {
         LoaiSanPhamDTO lsp = layLSPTheoMa(malsp);
