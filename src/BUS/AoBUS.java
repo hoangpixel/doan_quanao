@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class AoBUS {
     
-    private static ArrayList<AoDTO> dsa;
+    public static ArrayList<AoDTO> dsa;
     
     public boolean kiemTraMaLoai(int maloai) {
         AoDTO a = layAoTheoMa(maloai);

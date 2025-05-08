@@ -88,7 +88,7 @@ public class SanPhamDAO {
     }
     
     public void xoaSanPham(int maSP) {
-        String query = "delete from sanpham where MASP = ?";
+        String query = "update sanpham set is_deleted = 1 where MASP = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();

@@ -9,6 +9,7 @@ import DTO.LoaiSanPhamDTO;
 import GUI_Input.ThongTinLoaiSanPham;
 import GUI_Input.SuaLoaiSanPham;
 import GUI_Input.ThemLoaiSanPham;
+import GUI_Input.xuLyExcelLoaiSanPham;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -136,9 +137,14 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -177,7 +183,7 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,7 +334,20 @@ public class LoaiSanPhamGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void loadDataTable(ArrayList<LoaiSanPhamDTO> ds) {
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         ArrayList<LoaiSanPhamDTO> danhSachHienTai = lspbus.docDSLSP(); // Lấy danh sách đầy đủ
+        // Kiểm tra nếu danh sách rỗng
+        if (danhSachHienTai == null || danhSachHienTai.isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Không có dữ liệu loại sản phẩm để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+             return;
+        }
+        xuLyExcelLoaiSanPham dialogExcel = new xuLyExcelLoaiSanPham(topFrame, true, danhSachHienTai, this);
+        dialogExcel.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    public void loadDataTable(ArrayList<LoaiSanPhamDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
             for(LoaiSanPhamDTO lsp : ds) {
