@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 09:24 AM
+-- Generation Time: May 08, 2025 at 03:59 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `ao` (
   `MALOAI` int(11) NOT NULL,
-  `TENAO` varchar(50) NOT NULL
+  `TENAO` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -170,34 +171,35 @@ CREATE TABLE `khachhang` (
   `TENKH` varchar(50) NOT NULL,
   `SDT` varchar(11) NOT NULL,
   `DIACHI` varchar(50) NOT NULL,
-  `EMAIL` varchar(50) NOT NULL
+  `EMAIL` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `khachhang`
 --
 
-INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`) VALUES
-(1, 'Smith', 'John', '0932456781', '123 Main St, Springfield, IL', 'john.smith@example.com'),
-(2, 'Johnson', 'Emily', '0943678210', '456 Elm St, Austin, TX', 'emily.johnson@example.com'),
-(3, 'Williams', 'Michael', '0965843212', '789 Oak Ave, Denver, CO', 'michael.williams@example.com'),
-(4, 'Brown', 'Sarah', '0912457693', '321 Pine Rd, Portland, OR', 'sarah.brown@example.com'),
-(5, 'Jones', 'David', '0982345611', '654 Cedar St, Miami, FL', 'david.jones@example.com'),
-(6, 'Garcia', 'Laura', '0901123456', '987 Birch Blvd, Seattle, WA', 'laura.garcia@example.com'),
-(7, 'Miller', 'James', '0934567890', '159 Maple Ln, Boston, MA', 'james.miller@example.com'),
-(8, 'Davis', 'Olivia', '0978563412', '753 Cherry Dr, Chicago, IL', 'olivia.davis@example.com'),
-(9, 'Rodriguez', 'Robert', '0911765432', '852 Willow St, Atlanta, GA', 'robert.rodriguez@example.com'),
-(10, 'Martinez', 'Sophia', '0965432187', '951 Aspen Way, Dallas, TX', 'sophia.martinez@example.com'),
-(11, 'Hernandez', 'Daniel', '0956743128', '135 Hickory St, Phoenix, AZ', 'daniel.hernandez@example.com'),
-(12, 'Lopez', 'Grace', '0943210987', '246 Palm Blvd, Charlotte, NC', 'grace.lopez@example.com'),
-(13, 'Gonzalez', 'William', '0901234567', '369 Cypress Rd, San Diego, CA', 'william.gonzalez@example.com'),
-(14, 'Wilson', 'Chloe', '0919238475', '147 Redwood Ave, Tampa, FL', 'chloe.wilson@example.com'),
-(15, 'Anderson', 'Benjamin', '0978123456', '258 Spruce St, Las Vegas, NV', 'benjamin.anderson@example.com'),
-(16, 'Thomas', 'Lily', '0932187654', '369 Magnolia Ln, Salt Lake City, UT', 'lily.thomas@example.com'),
-(17, 'Taylor', 'Christopher', '0982345678', '147 Poplar St, Baltimore, MD', 'chris.taylor@example.com'),
-(18, 'Moore', 'Zoe', '0956784321', '753 Oakwood Dr, Cincinnati, OH', 'zoe.moore@example.com'),
-(19, 'Jackson', 'Nathan', '0921435678', '951 River Rd, Kansas City, MO', 'nathan.jackson@example.com'),
-(20, 'Martin', 'Ella', '0945654321', '852 Sunset Blvd, Orlando, FL', 'ella.martin@example.com');
+INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`, `is_deleted`) VALUES
+(1, 'Smith', 'John', '0932456781', '123 Main St, Springfield, IL', 'john.smith@example.com', 0),
+(2, 'Johnson', 'Emily', '0943678210', '456 Elm St, Austin, TX', 'emily.johnson@example.com', 0),
+(3, 'Williams', 'Michael', '0965843212', '789 Oak Ave, Denver, CO', 'michael.williams@example.com', 0),
+(4, 'Brown', 'Sarah', '0912457693', '321 Pine Rd, Portland, OR', 'sarah.brown@example.com', 0),
+(5, 'Jones', 'David', '0982345611', '654 Cedar St, Miami, FL', 'david.jones@example.com', 0),
+(6, 'Garcia', 'Laura', '0901123456', '987 Birch Blvd, Seattle, WA', 'laura.garcia@example.com', 0),
+(7, 'Miller', 'James', '0934567890', '159 Maple Ln, Boston, MA', 'james.miller@example.com', 0),
+(8, 'Davis', 'Olivia', '0978563412', '753 Cherry Dr, Chicago, IL', 'olivia.davis@example.com', 0),
+(9, 'Rodriguez', 'Robert', '0911765432', '852 Willow St, Atlanta, GA', 'robert.rodriguez@example.com', 0),
+(10, 'Martinez', 'Sophia', '0965432187', '951 Aspen Way, Dallas, TX', 'sophia.martinez@example.com', 0),
+(11, 'Hernandez', 'Daniel', '0956743128', '135 Hickory St, Phoenix, AZ', 'daniel.hernandez@example.com', 0),
+(12, 'Lopez', 'Grace', '0943210987', '246 Palm Blvd, Charlotte, NC', 'grace.lopez@example.com', 0),
+(13, 'Gonzalez', 'William', '0901234567', '369 Cypress Rd, San Diego, CA', 'william.gonzalez@example.com', 0),
+(14, 'Wilson', 'Chloe', '0919238475', '147 Redwood Ave, Tampa, FL', 'chloe.wilson@example.com', 0),
+(15, 'Anderson', 'Benjamin', '0978123456', '258 Spruce St, Las Vegas, NV', 'benjamin.anderson@example.com', 0),
+(16, 'Thomas', 'Lily', '0932187654', '369 Magnolia Ln, Salt Lake City, UT', 'lily.thomas@example.com', 0),
+(17, 'Taylor', 'Christopher', '0982345678', '147 Poplar St, Baltimore, MD', 'chris.taylor@example.com', 0),
+(18, 'Moore', 'Zoe', '0956784321', '753 Oakwood Dr, Cincinnati, OH', 'zoe.moore@example.com', 0),
+(19, 'Jackson', 'Nathan', '0921435678', '951 River Rd, Kansas City, MO', 'nathan.jackson@example.com', 0),
+(20, 'Martin', 'Ella', '0945654321', '852 Sunset Blvd, Orlando, FL', 'ella.martin@example.com', 0);
 
 -- --------------------------------------------------------
 
@@ -207,24 +209,25 @@ INSERT INTO `khachhang` (`MAKH`, `HOKH`, `TENKH`, `SDT`, `DIACHI`, `EMAIL`) VALU
 
 CREATE TABLE `loaisp` (
   `MALOAI` int(11) NOT NULL,
-  `TENLOAI` varchar(50) NOT NULL
+  `TENLOAI` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `loaisp`
 --
 
-INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`) VALUES
-(1, 'Áo thun'),
-(2, 'Áo sơ mi'),
-(3, 'Quần jean'),
-(4, 'Váy'),
-(5, 'Áo khoác'),
-(6, 'Hoodie'),
-(7, 'Đầm dạ hội'),
-(8, 'Quần short'),
-(9, 'Đồ thể thao'),
-(10, 'Phụ kiện');
+INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`, `is_deleted`) VALUES
+(1, 'Áo thun', 0),
+(2, 'Áo sơ mi', 0),
+(3, 'Quần jean', 0),
+(4, 'Váy', 0),
+(5, 'Áo khoác', 0),
+(6, 'Hoodie', 0),
+(7, 'Đầm dạ hội', 0),
+(8, 'Quần short', 0),
+(9, 'Đồ thể thao', 0),
+(10, 'Phụ kiện', 0);
 
 -- --------------------------------------------------------
 
@@ -236,24 +239,25 @@ CREATE TABLE `ncc` (
   `MANCC` int(11) NOT NULL,
   `TENNCC` varchar(50) NOT NULL,
   `SDTNCC` varchar(11) NOT NULL,
-  `DIACHI` varchar(50) NOT NULL
+  `DIACHI` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `ncc`
 --
 
-INSERT INTO `ncc` (`MANCC`, `TENNCC`, `SDTNCC`, `DIACHI`) VALUES
-(1, 'Công ty May Mặc Bình Minh', '0912345678', '12 Nguyễn Trãi, Q.1, TP.HCM'),
-(2, 'Thời Trang Hoàng Gia', '0987654321', '45 Lê Lợi, Q.3, TP.HCM'),
-(3, 'Vải Sợi Phú Cường', '0901122334', '78 Hai Bà Trưng, Q.5, TP.HCM'),
-(4, 'Quần Áo Trẻ Em Sao Mai', '0933445566', '23 Lý Thường Kiệt, Hà Nội'),
-(5, 'Công ty TNHH VinaWear', '0977889900', '90 Trần Hưng Đạo, Đà Nẵng'),
-(6, 'Dệt May Thành Công', '0944112233', '56 Nguyễn Văn Cừ, Q.Ninh Kiều, Cần Thơ'),
-(7, 'FashionHub Việt Nam', '0922334455', '66 Phạm Văn Đồng, TP. Hải Phòng'),
-(8, 'Đồng Phục Ánh Dương', '0966554433', '88 Pasteur, Q.1, TP.HCM'),
-(9, 'Công ty TNHH BlueStyle', '0932111222', '33 Cách Mạng Tháng 8, TP. Vũng Tàu'),
-(10, 'Thời Trang Hàn Quốc KStyle', '0988111222', '99 Lạc Long Quân, TP. Huế');
+INSERT INTO `ncc` (`MANCC`, `TENNCC`, `SDTNCC`, `DIACHI`, `is_deleted`) VALUES
+(1, 'Công ty May Mặc Bình Minh', '0912345678', '12 Nguyễn Trãi, Q.1, TP.HCM', 0),
+(2, 'Thời Trang Hoàng Gia', '0987654321', '45 Lê Lợi, Q.3, TP.HCM', 0),
+(3, 'Vải Sợi Phú Cường', '0901122334', '78 Hai Bà Trưng, Q.5, TP.HCM', 0),
+(4, 'Quần Áo Trẻ Em Sao Mai', '0933445566', '23 Lý Thường Kiệt, Hà Nội', 0),
+(5, 'Công ty TNHH VinaWear', '0977889900', '90 Trần Hưng Đạo, Đà Nẵng', 0),
+(6, 'Dệt May Thành Công', '0944112233', '56 Nguyễn Văn Cừ, Q.Ninh Kiều, Cần Thơ', 0),
+(7, 'FashionHub Việt Nam', '0922334455', '66 Phạm Văn Đồng, TP. Hải Phòng', 0),
+(8, 'Đồng Phục Ánh Dương', '0966554433', '88 Pasteur, Q.1, TP.HCM', 0),
+(9, 'Công ty TNHH BlueStyle', '0932111222', '33 Cách Mạng Tháng 8, TP. Vũng Tàu', 0),
+(10, 'Thời Trang Hàn Quốc KStyle', '0988111222', '99 Lạc Long Quân, TP. Huế', 0);
 
 -- --------------------------------------------------------
 
@@ -268,34 +272,25 @@ CREATE TABLE `nhanvien` (
   `LUONG` int(11) NOT NULL,
   `SDT` varchar(11) NOT NULL,
   `DIACHI` varchar(50) NOT NULL,
-  `EMAIL` varchar(50) NOT NULL
+  `EMAIL` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `nhanvien`
 --
 
-INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) VALUES
-(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'TPHCM', 'sunamvi98@gmail.com'),
-(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Bình Thuận', 'nguyenthuh@gmail.com'),
-(3, 'Võ', 'K', 15600000, '0933451567', 'TPHCM', 'vok@gmail.com'),
-(4, 'Hoàng', 'S', 19800000, '0956734234', 'TPHCM', 'hoangs@gmail.com'),
-(5, 'Phan Văn', 'T', 16000000, '0331234567', 'TPHCM', 'phanvant@gmail.com'),
-(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'TPHCM', 'nguyenthih@gmail.com'),
-(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Lâm Đồng', 'vothim@gmail.com'),
-(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TPHCM', 'tranvana@gmail.com'),
-(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Long An', 'buithul@gmail.com'),
-(10, 'Lương Văn', 'N', 13900000, '0989845634', 'Bình Thuận', 'luongvann@gmail.com'),
-(11, 'Lê Thị', 'P', 17000000, '0912345678', 'Đồng Nai', 'lethip@gmail.com'),
-(12, 'Trần Quốc', 'V', 21000000, '0923456789', 'TPHCM', 'tranquocv@gmail.com'),
-(13, 'Nguyễn Văn', 'B', 14500000, '0934567890', 'Bình Dương', 'nguyenvanb@gmail.com'),
-(14, 'Phạm Thị', 'Q', 18500000, '0945678901', 'TPHCM', 'phamthiq@gmail.com'),
-(15, 'Đỗ Minh', 'T', 15500000, '0956789012', 'Cần Thơ', 'dominht@gmail.com'),
-(16, 'Hồ Thị', 'Y', 13200000, '0967890123', 'TPHCM', 'hothiy@gmail.com'),
-(17, 'Ngô Văn', 'C', 22000000, '0978901234', 'Hà Nội', 'ngovanc@gmail.com'),
-(18, 'Vũ Thị', 'D', 16500000, '0989012345', 'TPHCM', 'vuthid@gmail.com'),
-(19, 'Bùi Văn', 'E', 19000000, '0990123456', 'Đà Nẵng', 'buivane@gmail.com'),
-(20, 'Lý Thị', 'G', 12500000, '0901234567', 'TPHCM', 'lythig@gmail.com');
+INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`, `is_deleted`) VALUES
+(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'Quận 3, TPHCM', 'sunamvi98@gmail.com', 0),
+(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Tánh Linh, Bình Thuận', 'nguyenthuh@gmail.com', 0),
+(3, 'Võ', 'K', 15600000, '0933451567', 'Quận 5, TPHCM', 'vok@gmail.com', 0),
+(4, 'Hoàng', 'S', 19800000, '0956734234', 'Quận 8, TPHCM', 'hoangs@gmail.com', 0),
+(5, 'Phan Văn', 'T', 16000000, '0331234567', 'Quận Bình Tân, TPHCM', 'phanvant@gmail.com', 0),
+(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'Quận 7, TPHCM', 'nguyenthih@gmail.com', 0),
+(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Đà Lạt, Lâm Đồng', 'vothim@gmail.com', 0),
+(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TP Thủ Đức, TPHCM', 'tranvana@gmail.com', 0),
+(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Cần Giuộc, Long An', 'buithul@gmail.com', 0),
+(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -306,11 +301,24 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`) 
 CREATE TABLE `phienbansp` (
   `MAPB` int(11) NOT NULL,
   `MASP` int(11) NOT NULL,
-  `SIZE` varchar(20) NOT NULL,
-  `MAU` varchar(20) NOT NULL,
-  `SLSP` int(11) NOT NULL,
-  `maPBSP` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+  `SIZE` varchar(11) NOT NULL,
+  `MAU` varchar(11) NOT NULL,
+  `SLPB` int(11) NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `phienbansp`
+--
+
+INSERT INTO `phienbansp` (`MAPB`, `MASP`, `SIZE`, `MAU`, `SLPB`, `is_deleted`) VALUES
+(1, 1, 'M', 'Đỏ', 10, 0),
+(2, 1, 'XXL', 'Xanh', 10, 0),
+(3, 2, 'L', 'Trắng', 10, 0),
+(4, 2, 'XXL', 'Xanh', 10, 0),
+(5, 5, '1', '1', 0, 1),
+(6, 5, '2', '2', 0, 0),
+(7, 5, '3', '3', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -351,7 +359,8 @@ INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`) VALUES
 
 CREATE TABLE `quan` (
   `MALOAI` int(11) NOT NULL,
-  `TENQUAN` varchar(50) NOT NULL
+  `TENQUAN` varchar(50) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -367,16 +376,20 @@ CREATE TABLE `sanpham` (
   `DONVITINH` varchar(10) NOT NULL,
   `CHATLIEU` varchar(20) NOT NULL,
   `MOTA` varchar(200) NOT NULL,
-  `MALOAI` int(11) NOT NULL
+  `MALOAI` int(11) NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `sanpham`
 --
 
-INSERT INTO `sanpham` (`MASP`, `TENSP`, `DONGIA`, `DONVITINH`, `CHATLIEU`, `MOTA`, `MALOAI`) VALUES
-(1, 'a', 1000, 'VND', 'vải', 'adfàdàdà', 1),
-(2, 'b', 1000, 'VND', 'vải', 'ádfádfàdà', 2);
+INSERT INTO `sanpham` (`MASP`, `TENSP`, `DONGIA`, `DONVITINH`, `CHATLIEU`, `MOTA`, `MALOAI`, `is_deleted`) VALUES
+(1, 'a', 1000, 'VND', 'vải', 'adfàdàdà', 1, 0),
+(2, 'b', 1000, 'VND', 'vải', 'ádfádfàdà', 2, 0),
+(3, '123', 0, 'VNĐ', '123', '123', 1, 0),
+(4, 'test', 0, 'VNĐ', 'test', 'test', 1, 1),
+(5, 'test', 0, 'VNĐ', 'test', '', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -545,7 +558,7 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT for table `phienbansp`
 --
 ALTER TABLE `phienbansp`
-  MODIFY `MAPB` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `MAPB` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `phieunhap`
@@ -557,7 +570,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -589,11 +602,38 @@ ALTER TABLE `ctkmsp`
   ADD CONSTRAINT `ctkmsp_ibfk_2` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `ctpn`
+--
+ALTER TABLE `ctpn`
+  ADD CONSTRAINT `ctpn_ibfk_1` FOREIGN KEY (`MAPN`) REFERENCES `phieunhap` (`MAPN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ctpn_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`),
+  ADD CONSTRAINT `ctpn_ibfk_3` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`);
+
+--
 -- Constraints for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hoadon_ibfk_3` FOREIGN KEY (`MAKH`) REFERENCES `khachhang` (`MAKH`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `phienbansp`
+--
+ALTER TABLE `phienbansp`
+  ADD CONSTRAINT `phienbansp_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `phieunhap_ibfk_2` FOREIGN KEY (`MANCC`) REFERENCES `ncc` (`MANCC`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `quan`
+--
+ALTER TABLE `quan`
+  ADD CONSTRAINT `quan_ibfk_1` FOREIGN KEY (`MALOAI`) REFERENCES `loaisp` (`MALOAI`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
