@@ -69,6 +69,12 @@ public class msfMaKH extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbKhachHang.setRowHeight(30);
+        tbKhachHang.setFocusable(false);
+        tbKhachHang.setAutoCreateRowSorter(true);
+        tbKhachHang.setDefaultEditor(Object.class, null);
+        tbKhachHang.setShowVerticalLines(false); 
     }
     
     public void docSQL()

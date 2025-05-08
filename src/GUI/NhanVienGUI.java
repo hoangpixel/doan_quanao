@@ -9,6 +9,8 @@ import DTO.NhanVienDTO;
 import GUI_Input.ThongTinNhanVien;
 import GUI_Input.SuaNhanVien;
 import GUI_Input.ThemNhanVien;
+import GUI_Input.xuLyExcelNhanVien;
+import GUI_Input.ThongKeNhanVien;
 import java.awt.Image;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,8 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import borderRadius.roundedBorder;
 /**
  *
@@ -85,6 +85,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         cbbSearch = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
+        btnThongKe = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbNV = new javax.swing.JTable();
@@ -138,7 +139,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnExcel.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +168,18 @@ public class NhanVienGUI extends javax.swing.JPanel {
             }
         });
 
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
+        btnThongKe.setText("THỐNG KÊ");
+        btnThongKe.setToolTipText("");
+        btnThongKe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnThongKe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThongKeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,7 +197,9 @@ public class NhanVienGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnThongKe)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,7 +219,8 @@ public class NhanVienGUI extends javax.swing.JPanel {
                             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDetail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnDetail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnThongKe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -351,62 +367,33 @@ public class NhanVienGUI extends javax.swing.JPanel {
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
         // TODO add your handling code here:
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("DanhSachNhanVien");
-
-            // Create header row
-            Row headerRow = sheet.createRow(0);
-            String[] headers = {"Mã nhân viên", "Họ", "Tên", "Lương", "Số điện thoại", "Địa chỉ", "Email"};
-            for (int i = 0; i < headers.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers[i]);
-                // Optional: Style the header
-                CellStyle headerStyle = workbook.createCellStyle();
-                Font font = workbook.createFont();
-                font.setBold(true);
-                headerStyle.setFont(font);
-                headerStyle.setAlignment(HorizontalAlignment.CENTER);
-                cell.setCellStyle(headerStyle);
-            }
-
-            // Populate data
-            ArrayList<NhanVienDTO> ds = nvbus.docDSNV();
-            if (ds == null || ds.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Không có dữ liệu để xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int rowNum = 1;
-            for (NhanVienDTO nv : ds) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(nv.getMa());
-                row.createCell(1).setCellValue(nv.getHo());
-                row.createCell(2).setCellValue(nv.getTen());
-                row.createCell(3).setCellValue(nv.getLuong());
-                row.createCell(4).setCellValue(nv.getSDT());
-                row.createCell(5).setCellValue(nv.getDiaChi());
-                row.createCell(6).setCellValue(nv.getEmail());
-            }
-
-            // Auto-size columns
-            for (int i = 0; i < headers.length; i++) {
-                sheet.autoSizeColumn(i);
-            }
-
-            // Save the file
-            String filePath = "DanhSachNhanVien.xlsx";
-            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
-                workbook.write(fileOut);
-            }
-
-            JOptionPane.showMessageDialog(null, "Xuất file Excel thành công tại: " + filePath, "Thành công", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Lỗi khi xuất file Excel: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         ArrayList<NhanVienDTO> danhSachHienTai = nvbus.docDSNV(); // Lấy danh sách đầy đủ
+        // Kiểm tra nếu danh sách rỗng
+        if (danhSachHienTai == null || danhSachHienTai.isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Không có dữ liệu nhân viên để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+             return;
         }
+        xuLyExcelNhanVien dialogExcel = new xuLyExcelNhanVien(topFrame, true, danhSachHienTai, this);
+        dialogExcel.setVisible(true);
     }//GEN-LAST:event_btnExcelActionPerformed
 
-    private void loadDataTable(ArrayList<NhanVienDTO> ds) {
+    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
+        // TODO add your handling code here:
+        // Lấy Frame cha của JPanel này
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        // Khởi tạo và hiển thị dialog ThongKeNhanVien
+        // Đảm bảo rằng ThongKeNhanVien được đặt trong đúng package (ví dụ: GUI_Input hoặc GUI_ThongKe)
+        // và constructor của nó nhận (Frame, boolean)
+        ThongKeNhanVien thongKeDialog = new ThongKeNhanVien(topFrame, true);
+        thongKeDialog.setVisible(true);
+
+        // Dialog thống kê sẽ tự xử lý logic bên trong nó.
+        // Không cần làm gì thêm ở đây sau khi dialog đóng lại.
+    }//GEN-LAST:event_btnThongKeActionPerformed
+
+    public void loadDataTable(ArrayList<NhanVienDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
             for(NhanVienDTO nv : ds) {
@@ -431,6 +418,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnThongKe;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbbSearch;
     private javax.swing.JPanel jPanel1;

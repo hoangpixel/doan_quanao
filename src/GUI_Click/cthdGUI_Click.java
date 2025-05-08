@@ -68,7 +68,14 @@ public class cthdGUI_Click extends javax.swing.JDialog {
         JTableHeader headerTB = tbCTHD.getTableHeader();
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
-        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));    }
+        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));    
+        
+        tbCTHD.setRowHeight(30);
+        tbCTHD.setFocusable(false);
+        tbCTHD.setAutoCreateRowSorter(true);
+        tbCTHD.setDefaultEditor(Object.class, null);
+        tbCTHD.setShowVerticalLines(false);
+    }
     
     public void updateTB(ArrayList<ChiTietHoaDonDTO> dskq)
     {

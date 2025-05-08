@@ -9,6 +9,7 @@ import DTO.QuanDTO;
 import GUI_Input.ThongTinQuan;
 import GUI_Input.SuaQuan;
 import GUI_Input.ThemQuan;
+import GUI_Input.xuLyExcelQuan;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -135,9 +136,14 @@ public class QuanGUI extends javax.swing.JPanel {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -176,7 +182,7 @@ public class QuanGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,7 +334,20 @@ public class QuanGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void loadDataTable(ArrayList<QuanDTO> ds) {
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         ArrayList<QuanDTO> danhSachHienTai = quanbus.docDSQ(); // Lấy danh sách đầy đủ
+        // Kiểm tra nếu danh sách rỗng
+        if (danhSachHienTai == null || danhSachHienTai.isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Không có dữ liệu quần để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+             return;
+        }
+        xuLyExcelQuan dialogExcel = new xuLyExcelQuan(topFrame, true, danhSachHienTai, this);
+        dialogExcel.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    public void loadDataTable(ArrayList<QuanDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
             for(QuanDTO q : ds) {
