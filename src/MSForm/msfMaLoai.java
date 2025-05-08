@@ -71,6 +71,13 @@ public class msfMaLoai extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        
+        tbLSP.setRowHeight(30);
+        tbLSP.setFocusable(false);
+        tbLSP.setAutoCreateRowSorter(true);
+        tbLSP.setDefaultEditor(Object.class, null);
+        tbLSP.setShowVerticalLines(false);    
     }
     /**
      * This method is called from within the constructor to initialize the form.

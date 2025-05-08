@@ -90,6 +90,13 @@ public class msfMaNV extends javax.swing.JDialog {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+                
+        tbNhanVien.setRowHeight(30);
+        tbNhanVien.setFocusable(false);
+        tbNhanVien.setAutoCreateRowSorter(true);
+        tbNhanVien.setDefaultEditor(Object.class, null);
+        tbNhanVien.setShowVerticalLines(false); 
     }
     /**
      * This method is called from within the constructor to initialize the form.

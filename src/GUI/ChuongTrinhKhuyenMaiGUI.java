@@ -85,6 +85,13 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbCTKM.setRowHeight(30);
+        tbCTKM.setFocusable(false);
+        tbCTKM.setAutoCreateRowSorter(true);
+        tbCTKM.setDefaultEditor(Object.class, null);
+        tbCTKM.setShowVerticalLines(false);
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +130,11 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
         btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnThemMouseClicked(evt);
+            }
+        });
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
             }
         });
 
@@ -501,6 +513,10 @@ public class ChuongTrinhKhuyenMaiGUI extends javax.swing.JPanel {
         xuLyExcelctkm dialog = new xuLyExcelctkm(topFrame, true,getDataForExport(),gui);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnExcelActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     public ArrayList<ChuongTrinhKhuyenMaiDTO> getDataForExport() {

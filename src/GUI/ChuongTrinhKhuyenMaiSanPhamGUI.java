@@ -62,6 +62,12 @@ public class ChuongTrinhKhuyenMaiSanPhamGUI extends javax.swing.JPanel {
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
+        
+        tbCTKMSP.setRowHeight(30);
+        tbCTKMSP.setFocusable(false);
+        tbCTKMSP.setAutoCreateRowSorter(true);
+        tbCTKMSP.setDefaultEditor(Object.class, null);
+        tbCTKMSP.setShowVerticalLines(false);
     }
     public void docSQL()
     {
