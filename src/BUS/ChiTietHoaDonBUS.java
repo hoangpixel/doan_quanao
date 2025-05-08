@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class ChiTietHoaDonBUS {
     
-    private static ArrayList<ChiTietHoaDonDTO> dscthd;
+    public static ArrayList<ChiTietHoaDonDTO> dscthd;
     
     public boolean kiemTraMaDuyNhat(int mahd, int masp)
     {

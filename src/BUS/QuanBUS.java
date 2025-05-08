@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class QuanBUS {
     
-    private static ArrayList<QuanDTO> dsq;
+    public static ArrayList<QuanDTO> dsq;
     
     public boolean kiemTraMaLoai(int maloai) {
         QuanDTO q = layQuanTheoMa(maloai);

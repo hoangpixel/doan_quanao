@@ -9,6 +9,7 @@ import DTO.AoDTO;
 import GUI_Input.ThongTinAo;
 import GUI_Input.SuaAo;
 import GUI_Input.ThemAo;
+import GUI_Input.xuLyExcelAo;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -137,9 +138,14 @@ public class AoGUI extends javax.swing.JPanel {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -178,7 +184,7 @@ public class AoGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,7 +336,20 @@ public class AoGUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void loadDataTable(ArrayList<AoDTO> ds) {
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         ArrayList<AoDTO> danhSachHienTai = aobus.docDSA(); // Lấy danh sách đầy đủ
+        // Kiểm tra nếu danh sách rỗng
+        if (danhSachHienTai == null || danhSachHienTai.isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Không có dữ liệu áo để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+             return;
+        }
+        xuLyExcelAo dialogExcel = new xuLyExcelAo(topFrame, true, danhSachHienTai, this);
+        dialogExcel.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    public void loadDataTable(ArrayList<AoDTO> ds) {
         model.setRowCount(0);
         if(ds != null) {
             for(AoDTO a : ds) {

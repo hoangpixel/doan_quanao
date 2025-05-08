@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class NhanVienBUS {
 
-    private static ArrayList<NhanVienDTO> dsnv;
+    public static ArrayList<NhanVienDTO> dsnv;
     
     public boolean kiemTraMaNhanVien(int manv) {
         NhanVienDTO nv = layNhanVienTheoMa(manv);
