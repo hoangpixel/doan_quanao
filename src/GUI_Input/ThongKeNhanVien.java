@@ -199,70 +199,64 @@ public class ThongKeNhanVien extends javax.swing.JDialog {
 
     private void myInit() {
         nhanVienBUS = new NhanVienBUS();
-        // Lấy model từ bảng (đã được tạo trong initComponents)
         modelThongKe = (DefaultTableModel) tblThongKeNV.getModel();
         tblThongKeNV.setRowHeight(30);
-        tblThongKeNV.setDefaultEditor(Object.class, null); // Không cho sửa trực tiếp
-        tblThongKeNV.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Chỉ cho chọn 1 dòng
+        tblThongKeNV.setDefaultEditor(Object.class, null);
+        tblThongKeNV.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // Cấu hình JSpinner
         int currentYear = java.time.Year.now().getValue();
-        // Giả sử giới hạn năm từ 2000 đến năm hiện tại + 5
         spnNam.setModel(new SpinnerNumberModel(currentYear, 2000, currentYear + 5, 1));
-        // Định dạng Spinner để không hiển thị dấu phẩy
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spnNam, "#");
         spnNam.setEditor(editor);
 
-        // Thêm RadioButton vào ButtonGroup (đã có trong initComponents)
+        // Thêm RadioButton vào ButtonGroup
+        groupThongKe = new ButtonGroup();
         groupThongKe.add(rdoTheoDiaChi);
-        groupThongKe.add(rdoTheoQuy); // Sửa tên biến nếu cần
+        groupThongKe.add(rdoTheoQuy);
 
-        // Thêm Listener (các listener cho nút đã có trong initComponents)
-        // Chỉ cần thêm listener cho RadioButton nếu chưa có trong designer
-        addRadioListenersIfNeeded();
+        // Thêm Listener
+        addListeners();
 
         // Thiết lập trạng thái ban đầu
         rdoTheoDiaChi.setSelected(true);
-        pnlChonNam.setVisible(false); // Ẩn panel chọn năm
-        loadDefaultData(); // Tải dữ liệu mặc định
+        pnlChonNam.setVisible(false);
+        // *** SỬA: Không load dữ liệu mặc định nữa, chỉ đặt header ***
+        setTableHeaderDiaChi(); // Đặt header ban đầu
+        applyTableRenderers(); // Áp dụng renderer cho header ban đầu
 
-        // Áp dụng renderer ban đầu sau khi có cột
-        applyTableRenderers();
-
-        setLocationRelativeTo(null); // Đặt dialog ra giữa màn hình
+        setLocationRelativeTo(null);
     }
     
-    private void addRadioListenersIfNeeded() {
-        boolean hasActionListenerDiaChi = false;
-        for (ActionListener al : rdoTheoDiaChi.getActionListeners()) {
-            hasActionListenerDiaChi = true;
-            break;
-        }
-         boolean hasActionListenerQuy = false;
-        for (ActionListener al : rdoTheoQuy.getActionListeners()) {
-            hasActionListenerQuy = true;
-            break;
-        }
+    private void addListeners() {
+        btnXemThongKe.addActionListener(this::btnXemThongKeActionPerformed);
+        btnThoat.addActionListener(e -> dispose());
 
-        // Chỉ thêm nếu chưa có listener nào được gán
-        if (!hasActionListenerDiaChi || !hasActionListenerQuy) {
-            java.awt.event.ActionListener radioListener = this::radioThongKeActionPerformed;
-            // Xóa listener cũ (nếu có từ designer mà bị lỗi) trước khi thêm
-            for(ActionListener al : rdoTheoDiaChi.getActionListeners()) rdoTheoDiaChi.removeActionListener(al);
-            for(ActionListener al : rdoTheoQuy.getActionListeners()) rdoTheoQuy.removeActionListener(al);
-            // Thêm listener mới
-            rdoTheoDiaChi.addActionListener(radioListener);
-            rdoTheoQuy.addActionListener(radioListener);
-        }
+        java.awt.event.ActionListener radioListener = this::radioThongKeActionPerformed;
+        // Đảm bảo listener được thêm vào radio buttons
+        addRadioListenerIfNeeded(rdoTheoDiaChi, radioListener);
+        addRadioListenerIfNeeded(rdoTheoQuy, radioListener);
     }
     
-    private void loadDefaultData() {
-        try {
-            ArrayList<Object[]> data = nhanVienBUS.thongKeSoLuongTheoDiaChi();
-            loadTableDiaChi(data);
-        } catch (Exception e) {
-             JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu mặc định: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-             e.printStackTrace();
+    private void addRadioListenerIfNeeded(JRadioButton radio, ActionListener listener) {
+        boolean hasListener = false;
+        for (ActionListener al : radio.getActionListeners()) {
+            // Kiểm tra xem listener có phải là instance của listener đã định nghĩa không
+            // Cách kiểm tra này có thể không hoàn toàn chính xác nếu dùng lambda phức tạp
+            // hoặc anonymous class, nhưng đủ dùng trong trường hợp này.
+            if (al.getClass().getName().contains(this.getClass().getName())) {
+                 hasListener = true;
+                 break;
+            }
+        }
+        if (!hasListener) {
+            // Xóa listener cũ có thể có từ Designer (nếu tên phương thức trùng)
+            for(ActionListener al : radio.getActionListeners()) {
+                // Cẩn thận khi xóa listener không phải do mình thêm
+                // Nếu chắc chắn chỉ có listener từ Designer thì có thể xóa
+                 // radio.removeActionListener(al);
+            }
+            radio.addActionListener(listener);
         }
     }
     
@@ -299,22 +293,33 @@ public class ThongKeNhanVien extends javax.swing.JDialog {
 
     private void radioThongKeActionPerformed(java.awt.event.ActionEvent evt) {
         boolean isQuySelected = rdoTheoQuy.isSelected();
-        pnlChonNam.setVisible(isQuySelected); // Hiện/ẩn panel chọn năm
+        pnlChonNam.setVisible(isQuySelected);
 
+        // *** SỬA: Chỉ xóa bảng và đặt header, không load data ***
+        modelThongKe.setRowCount(0); // Xóa dữ liệu hiện có
         if (rdoTheoDiaChi.isSelected()) {
-            loadDefaultData(); // Tải lại thống kê số lượng theo địa chỉ
+            setTableHeaderDiaChi(); // Đặt header cho thống kê địa chỉ
         } else {
-            // Xóa bảng và chuẩn bị header cho thống kê quý
-            modelThongKe.setRowCount(0);
-            if (modelThongKe.getColumnCount() != 2 || !modelThongKe.getColumnName(0).equals("Quý")) {
-                modelThongKe.setColumnIdentifiers(new String[]{"Quý", "Tổng Lương"});
-                applyTableRenderers(); // Áp dụng lại renderer
-            }
+            setTableHeaderQuy();    // Đặt header cho thống kê quý
         }
-        // Cập nhật layout của panel chứa các control và panel năm
-         jPanel2.revalidate(); // Sửa: Gọi revalidate trên panel cha chứa pnlChonNam
-         jPanel2.repaint();
+        applyTableRenderers(); // Áp dụng lại renderer sau khi đổi header
+
+        // Cập nhật layout
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
+
+    private void setTableHeaderDiaChi() {
+         if (modelThongKe.getColumnCount() != 2 || !modelThongKe.getColumnName(1).equals("Số lượng nhân viên")) {
+            modelThongKe.setColumnIdentifiers(new String[]{"Địa chỉ", "Số lượng nhân viên"});
+        }
+    }
+    
+    private void setTableHeaderQuy() {
+         if (modelThongKe.getColumnCount() != 2 || !modelThongKe.getColumnName(0).equals("Quý")) {
+            modelThongKe.setColumnIdentifiers(new String[]{"Quý", "Tổng Lương"});
+        }
+     }
     
     private void loadTableDiaChi(ArrayList<Object[]> data) {
         if (modelThongKe.getColumnCount() != 2 || !modelThongKe.getColumnName(1).equals("Số lượng nhân viên")) {
