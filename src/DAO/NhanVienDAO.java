@@ -153,27 +153,30 @@ public class NhanVienDAO {
         return nv;
     }
     
-    public Object[] thongKeTheoDiaChi() {
-        Object[] result = new Object[10]; // Adjust size based on unique addresses
+    public ArrayList<Object[]> thongKeSoLuongTheoDiaChi() {
+        ArrayList<Object[]> result = new ArrayList<>(); // Sử dụng ArrayList để linh hoạt
         String query = """
-                       SELECT DIACHI, SUM(LUONG) AS TongLuong
-                       FROM nhanvien
-                       GROUP BY DIACHI
-                       """;
+                   SELECT DIACHI, COUNT(*) AS SoLuongNhanVien
+                   FROM nhanvien
+                   GROUP BY DIACHI
+                   ORDER BY SoLuongNhanVien DESC -- (Tùy chọn: Sắp xếp theo số lượng giảm dần)
+                   """;
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query);
             ResultSet rs = st.executeQuery();
-            int index = 0;
-            while (rs.next() && index < result.length) {
-                result[index] = new Object[] { rs.getString("DIACHI"), rs.getInt("TongLuong") };
-                index++;
+            while (rs.next()) {
+                result.add(new Object[] {
+                    rs.getString("DIACHI"),
+                    rs.getInt("SoLuongNhanVien") // Lấy số lượng nhân viên
+                });
             }
             rs.close();
             st.close();
         } catch (SQLException e) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, e);
+        // Ghi log lỗi cụ thể hơn
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, "Lỗi khi thống kê số lượng nhân viên theo địa chỉ", e);
         } finally {
             DBConnect.closeConnection(conn);
         }
