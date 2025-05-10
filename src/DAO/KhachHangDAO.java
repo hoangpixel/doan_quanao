@@ -44,13 +44,13 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     public void them(KhachHangDTO kh)
     {
         try {
-            String qry = "Insert into khachhang (HOKH,TENKH,SDT,DIACHI,EMAIL,TRANGTHAI) values (";
+            String qry = "Insert into khachhang (HOKH,TENKH,SDT,DIACHI,EMAIL,is_deleted) values (";
             qry = qry + "'" + kh.getHoKH() + "',";
             qry = qry + "'" + kh.getTenKH() + "',";
             qry = qry + "'" + kh.getSDT() + "',";
             qry = qry + "'" + kh.getDiaChi() + "',";
             qry = qry + "'" + kh.geteMail() + "',";
-            qry = qry + "1";
+            qry = qry + "0";
             qry = qry + ")";
             con = DBConnect.getConnection();
             st = con.createStatement();
