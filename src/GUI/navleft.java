@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnHome, btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
+    JButton[] buttons = { btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -48,7 +48,6 @@ public class navleft extends javax.swing.JPanel {
         btnCTKM = new javax.swing.JButton();
         btnCTKMSP = new javax.swing.JButton();
         btnSanPham = new javax.swing.JButton();
-        btnHome = new javax.swing.JButton();
         btnHoaDon = new javax.swing.JButton();
         btnCTKMHD = new javax.swing.JButton();
         btnNCC = new javax.swing.JButton();
@@ -69,26 +68,23 @@ public class navleft extends javax.swing.JPanel {
         );
 
         btnCTKM.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCTKM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/coupon.png"))); // NOI18N
-        btnCTKM.setText("       CTKM");
+        btnCTKM.setText("CTKM");
         btnCTKM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCTKM.setIconTextGap(20);
+        btnCTKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCTKMActionPerformed(evt);
+            }
+        });
 
         btnCTKMSP.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCTKMSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3615756_card_coupon_discount_gift_label_icon.png"))); // NOI18N
-        btnCTKMSP.setText("             CTKMSP");
+        btnCTKMSP.setText("CTKMSP");
         btnCTKMSP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCTKMSP.setIconTextGap(1);
 
         btnSanPham.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnSanPham.setText("Sản phẩm");
         btnSanPham.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        btnHome.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home.png"))); // NOI18N
-        btnHome.setText("      Home");
-        btnHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHome.setIconTextGap(20);
 
         btnHoaDon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnHoaDon.setText("Hóa đơn");
@@ -148,7 +144,6 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnCTKMSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCTKMHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -162,33 +157,31 @@ public class navleft extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addComponent(btnSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCTKMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnKH, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(btnCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCTKMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnKH, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
@@ -198,7 +191,7 @@ public class navleft extends javax.swing.JPanel {
         jLabel2.setText("jLabel2");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Phạm Minh Hoàng");
+        jLabel1.setText("Admin");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -251,6 +244,10 @@ public class navleft extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPhieuNhapActionPerformed
 
+    private void btnCTKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCTKMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCTKMActionPerformed
+
    
 
     
@@ -264,7 +261,6 @@ public class navleft extends javax.swing.JPanel {
     public javax.swing.JButton btnCTKMHD;
     public javax.swing.JButton btnCTKMSP;
     public javax.swing.JButton btnHoaDon;
-    private javax.swing.JButton btnHome;
     public javax.swing.JButton btnKH;
     public javax.swing.JButton btnLoaiSanPham;
     public javax.swing.JButton btnNCC;

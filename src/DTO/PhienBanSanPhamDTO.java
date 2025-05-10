@@ -19,6 +19,10 @@ public class PhienBanSanPhamDTO {
         this.soLuong = soLuong;
     }
 
+    public int getMaPB() {
+        return maPB;
+    }
+
     public int getMaSP() {
         return maSP;
     }
@@ -33,6 +37,10 @@ public class PhienBanSanPhamDTO {
 
     public int getSoLuong() {
         return soLuong;
+    }
+
+    public void setMaPB(int maPB) {
+        this.maPB = maPB;
     }
 
     public void setMaSP(int maSP) {
@@ -50,12 +58,8 @@ public class PhienBanSanPhamDTO {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
-    public int getMaPB(){
-        return maPB;
-    }
-    public void setMaPB(int maPB){
-        this.maPB = maPB;
-    }
+
+    
     
     
 }

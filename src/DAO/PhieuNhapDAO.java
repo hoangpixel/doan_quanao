@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
+import DTO.HoaDonDTO;
 import DTO.PhieuNhapDTO;
 import config.DBConnect;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     {
         ArrayList ds = new ArrayList<PhieuNhapDTO>();
         try {
-            String qry = "select * from phieunhap";
+            String qry = "select * from phieunhap where is_deleted=0";
             con = DBConnect.getConnection();
             st = con.createStatement();
             rs = st.executeQuery(qry);
@@ -43,12 +44,13 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     public boolean them(PhieuNhapDTO pn)
     {
         try {
-            String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP, TRANGTHAI) values (";
+            String qry = "Insert into phieunhap (MANV, MANCC, TONGTIEN, NGAYNHAP, TRANGTHAI, is_deleted) values (";
             qry = qry + pn.getMaNV() + ",";
             qry = qry + pn.getMaNCC() + ",";
             qry = qry + pn.getTongTien() + ",";
             qry = qry + "'" + pn.getNgayNhap() + "',";
-            qry = qry  + pn.getTrangThai(); 
+            qry = qry  + pn.getTrangThai() + ",";
+            qry = qry + "0";
             qry = qry + ")";          
             con = DBConnect.getConnection();
             st = con.createStatement();
@@ -66,7 +68,7 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
     public boolean xoa(int ma)
     {
         try {
-            String qry = "Delete from phieunhap where MAPN = '" + ma + "'";
+            String qry = "Update phieunhap set is_deleted = '1' where MAPN = '" + ma + "'";
             con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);
@@ -142,4 +144,64 @@ public ArrayList<PhieuNhapDTO> DSPhieuNhapDTOs()
         }
         return result;
     }
+    public boolean ktraMaPN(int ma)
+        {
+            try {
+                String qry = "select count(*) from phieunhap where mapn = " + ma;
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d=rs.getInt(1);
+                    if(d>0)
+                    {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+            }
+            return false;
+        }
+
+    public boolean ktraHopLe(PhieuNhapDTO ct)
+        {
+            if(ct.getTongTien() < 0)
+            {
+                return false;
+            }
+            
+            try {
+                String qry = "select count(*) from nhanvien where manv = " + ct.getMaNV();
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d= rs.getInt(1);
+                    if(d==0)
+                    {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
+            try {
+                String qry = "select count(*) from ncc where mancc = " + ct.getMaNCC();
+                con = DBConnect.getConnection();
+                st = con.createStatement();
+                rs = st.executeQuery(qry);
+                if(rs.next())
+                {
+                    int d = rs.getInt(1);
+                    if(d==0)
+                    {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+            }
+            return true;
+        }
 }

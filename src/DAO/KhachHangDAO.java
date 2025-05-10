@@ -19,7 +19,7 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     {
         ArrayList ds = new ArrayList<KhachHangDTO>();
         try {
-            String qry = "select * from khachhang";
+            String qry = "select * from khachhang where is_deleted=0";
             con = DBConnect.getConnection();
             st = con.createStatement();            
             rs = st.executeQuery(qry);
@@ -44,12 +44,13 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     public void them(KhachHangDTO kh)
     {
         try {
-            String qry = "Insert into khachhang (HOKH,TENKH,SDT,DIACHI,EMAIL) values (";
+            String qry = "Insert into khachhang (HOKH,TENKH,SDT,DIACHI,EMAIL,TRANGTHAI) values (";
             qry = qry + "'" + kh.getHoKH() + "',";
             qry = qry + "'" + kh.getTenKH() + "',";
             qry = qry + "'" + kh.getSDT() + "',";
             qry = qry + "'" + kh.getDiaChi() + "',";
-            qry = qry + "'" + kh.geteMail() + "'";
+            qry = qry + "'" + kh.geteMail() + "',";
+            qry = qry + "1";
             qry = qry + ")";
             con = DBConnect.getConnection();
             st = con.createStatement();
@@ -62,7 +63,7 @@ public ArrayList<KhachHangDTO> DSKhachHangDTOs()
     {
         try {
             
-            String qry = "Delete from khachhang where makh = '" + ma + "'";
+            String qry = "Update khachhang set is_deleted = '1' where makh = '" + ma + "'";
             con = DBConnect.getConnection();  
             st = con.createStatement();
             st.executeUpdate(qry);

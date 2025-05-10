@@ -124,7 +124,7 @@ public class cthdGUI_Click extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         btnHuy = new javax.swing.JButton();
 
-        setTitle("Thông tin CTKMSP theo mã CTKM");
+        setTitle("Thông tin CTHĐ theo mã HĐ");
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã SP", "Theo đơn giá min", "Theo đơn giá max" }));

@@ -19,6 +19,7 @@ import GUI_Input.ThemKhachHang;
 import GUI_Input.XoaKH;
 import GUI_Input.SuaKhachHang;
 import GUI_Input.ChiTietKhachHang;
+import GUI_Input.xuLyExcelKhachHang;
 /**
  *
  * @author mhoang
@@ -159,6 +160,11 @@ public class KhachHangGUI extends javax.swing.JPanel {
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -446,6 +452,22 @@ public class KhachHangGUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnDetailActionPerformed
 
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        KhachHangGUI gui = new KhachHangGUI();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        xuLyExcelKhachHang dialog =  new xuLyExcelKhachHang(topFrame, true, getDS(), gui);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+    public ArrayList<KhachHangDTO> getDS()
+    {
+        KhachHangBUS bus = new KhachHangBUS();
+        if(KhachHangBUS.ds == null)
+        {
+            bus.docDSKH();
+        }
+        return KhachHangBUS.ds!=null?KhachHangBUS.ds:new ArrayList<>();
+    }
    
     /**
      * @param args the command line arguments

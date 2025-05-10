@@ -19,6 +19,7 @@ import GUI_Input.SuaPhieuNhap;
 import GUI_Input.ThemPhieuNhap;
 import GUI_Input.XoaPN;
 import GUI_Input.ChiTietPhieuNhap;
+import GUI_Input.xuLyExcelPhieuNhap;
 /**
  *
  * @author mhoang
@@ -164,6 +165,11 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -189,7 +195,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         });
 
         cbbSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã PN", "Mã NV", "Mã NCC" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã PN", "Mã NV", "Mã NCC", "Trạng thái" }));
 
         btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/detailIcon.png"))); // NOI18N
@@ -411,7 +417,18 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     }                                  
     public void updateTB(ArrayList<PhieuNhapDTO> dskq)
     {
-       
+        model.setRowCount(0);
+        for (PhieuNhapDTO pn : dskq) {
+            Vector row = new Vector();
+            row.add(pn.getMaPN());
+            row.add(pn.getMaNV());
+            row.add(pn.getMaNCC());
+            row.add(pn.getTongTien());
+            row.add(pn.getNgayNhap());
+            row.add(trangThai(pn.getTrangThai()));
+            model.addRow(row);
+        }
+        tblPN.setModel(model);
     }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
     String search = txtSearch.getText().trim();
@@ -421,17 +438,18 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
             return;
         }
         int i = cbbSearch.getSelectedIndex();
-        PhieuNhapBUS khbus = new PhieuNhapBUS();
+        PhieuNhapBUS pnbus = new PhieuNhapBUS();
+        ArrayList<PhieuNhapDTO> kq = pnbus.timKiemThuong(search, i);
+        updateTB(kq);
 
         String mess ="";
-//        if(kq.isEmpty())
-//        {
-//            mess = "Không tìm thấy kết quả: " + search  + " trong dữ liệu";
-//            JLabel lbNull = new JLabel(mess);
-//            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-//            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
-//        }
-
+        if(kq.isEmpty())
+        {
+            mess = "Không tìm thấy kết quả: " + search  + " trong dữ liệu";
+            JLabel lbNull = new JLabel(mess);
+            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
+            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -465,6 +483,14 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        PhieuNhapGUI gui = new PhieuNhapGUI();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        xuLyExcelPhieuNhap dialog =  new xuLyExcelPhieuNhap(topFrame, true, getDS(), gui);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
     private String trangThai(int trangThai){
         String tt = null;
         if (trangThai == 0) {
@@ -473,6 +499,15 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
             tt = "Đã xử lí";
         }
         return tt;
+    }
+    public ArrayList<PhieuNhapDTO> getDS()
+    {
+        PhieuNhapBUS bus = new PhieuNhapBUS();
+        if(PhieuNhapBUS.ds == null)
+        {
+            bus.docDSPN();
+        }
+        return PhieuNhapBUS.ds!=null?PhieuNhapBUS.ds:new ArrayList<>();
     }
    
     /**

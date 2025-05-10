@@ -55,4 +55,55 @@ public class PhieuNhapBUS {
         PhieuNhapDAO data = new PhieuNhapDAO();
         return data.getAI();
     }
+    public ArrayList<PhieuNhapDTO> timKiemThuong(String tim, int index){
+        if(ds == null){
+            docDSPN();
+        }
+        ArrayList<PhieuNhapDTO> kq = new ArrayList<>();
+        for (PhieuNhapDTO pn : ds) {
+            switch (index) {
+                case 0:{
+                    if(String.valueOf(pn.getMaPN()).contains(tim))
+                        kq.add(pn);
+                }    
+                    break;
+                case 1:{
+                    if(String.valueOf(pn.getMaNV()).contains(tim))
+                        kq.add(pn);
+                }
+                    break;
+                    
+                case 2:{
+                    if(String.valueOf(pn.getMaNCC()).contains(tim)){
+                        kq.add(pn);
+                    }
+                    break;
+                }
+                case 3: {
+                    if("Chưa xử lí".equals(tim)) {
+                        if (pn.getTrangThai() == 0) {
+                            kq.add(pn);
+                        }
+                    } 
+                    else if ("Đã xử lí".equals(tim)) {
+                        if (pn.getTrangThai() == 1) {
+                            kq.add(pn);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return kq;
+    }
+    public boolean ktraMaPN(int ma)
+    {
+        PhieuNhapDAO data = new PhieuNhapDAO();
+        return data.ktraMaPN(ma);
+    }
+    public boolean ktraHopLe(PhieuNhapDTO ct)
+    {
+        PhieuNhapDAO data = new PhieuNhapDAO();
+        return data.ktraHopLe(ct);
+    }
 }
