@@ -231,13 +231,21 @@ public class ThemNhanVien extends javax.swing.JDialog {
             return false;
         }
         
-        try {
-            Integer.parseInt(txtLuong.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Lương phải là số hợp lệ!");
+        if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ!");
             return false;
         }
 
+        if (!txtSDT.getText().matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 chữ số!");
+            return false;
+        }
+        
+        int luong = Integer.parseInt(txtLuong.getText());
+        if (luong < 0) {
+            JOptionPane.showMessageDialog(this, "Lương không được nhỏ hơn 0!");
+            return false;
+        }
         return true;
     }
 

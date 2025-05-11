@@ -18,7 +18,7 @@ public class LoaiSanPhamDAO {
     
     public ArrayList<LoaiSanPhamDTO> docDSLSP() {
         ArrayList<LoaiSanPhamDTO> ds = new ArrayList<>();
-        String query = "select * from loaisp";
+        String query = "select * from loaisp where is_deleted=0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -42,7 +42,7 @@ public class LoaiSanPhamDAO {
     }
     
     public int them(LoaiSanPhamDTO lsp) {
-        String query = "insert into loaisp (TENLOAI) values (?)";
+        String query = "insert into loaisp (TENLOAI, is_deleted) values (?, 0)";
         Connection conn = null;
         int maloai = -1;
         try {
@@ -72,7 +72,7 @@ public class LoaiSanPhamDAO {
         String query = """
                        update loaisp
                        set TENLOAI = ?
-                       where MALOAI = ?
+                       where MALOAI = ? AND is_deleted = 0
                        """;
         Connection conn = null;
         try {
@@ -90,7 +90,7 @@ public class LoaiSanPhamDAO {
     }
     
     public void xoa(int ma) {
-        String query = "delete from loaisp where MALOAI = ?";
+        String query = "Update loaisp set is_deleted = 1 where MALOAI = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -111,7 +111,7 @@ public class LoaiSanPhamDAO {
     }
     
     public LoaiSanPhamDTO layLSPTheoMaLoai(int maloai) {
-        String query = "select * from loaisp where MALOAI = ?";
+        String query = "select * from loaisp where MALOAI = ? AND is_deleted = 0";
         Connection conn = null;
         LoaiSanPhamDTO lsp = null;
         try {

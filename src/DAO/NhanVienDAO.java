@@ -18,7 +18,7 @@ public class NhanVienDAO {
     
     public ArrayList<NhanVienDTO> docDSNV() {
         ArrayList<NhanVienDTO> ds = new ArrayList<>();
-        String query = "select * from nhanvien";
+        String query = "select * from nhanvien where is_deleted=0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -46,7 +46,7 @@ public class NhanVienDAO {
     }
     
     public int them(NhanVienDTO nv) {
-        String query = "insert into nhanvien (HO, TEN, LUONG, SDT, DIACHI, EMAIL) values (?, ?, ?, ?, ?, ?)";
+        String query = "insert into nhanvien (HO, TEN, LUONG, SDT, DIACHI, EMAIL, is_deleted) values (?, ?, ?, ?, ?, ?, 0)";
         Connection conn = null;
         int manv = -1;
         try {
@@ -81,7 +81,7 @@ public class NhanVienDAO {
         String query = """
                        update nhanvien
                        set HO = ?, TEN = ?, LUONG = ?, SDT = ?, DIACHI = ?, EMAIL = ?
-                       where MANV = ?
+                       where MANV = ? AND is_deleted = 0
                        """;
         Connection conn = null;
         try {
@@ -104,7 +104,7 @@ public class NhanVienDAO {
     }
     
     public void xoa(int manv) {
-        String query = "delete from nhanvien where MANV = ?";
+        String query = "Update nhanvien set is_deleted = 1 where MANV = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -125,7 +125,7 @@ public class NhanVienDAO {
     }
     
     public NhanVienDTO layNhanVienTheoMa(int manv) {
-        String query = "select * from nhanvien where MANV = ?";
+        String query = "select * from nhanvien where MANV = ? AND is_deleted = 0";
         Connection conn = null;
         NhanVienDTO nv = null;
         try {
@@ -158,6 +158,7 @@ public class NhanVienDAO {
         String query = """
                    SELECT DIACHI, COUNT(*) AS SoLuongNhanVien
                    FROM nhanvien
+                   WHERE is_deleted = 0
                    GROUP BY DIACHI
                    ORDER BY SoLuongNhanVien DESC -- (Tùy chọn: Sắp xếp theo số lượng giảm dần)
                    """;
@@ -197,7 +198,7 @@ public class NhanVienDAO {
                            SUM(LUONG) AS TongLuong
                        FROM nhanvien
                        JOIN phieunhap ON nhanvien.MANV = phieunhap.MANV
-                       WHERE YEAR(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = ?
+                       WHERE YEAR(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = ? AND nhanvien.is_deleted = 0
                        GROUP BY 
                            CASE 
                                WHEN QUARTER(STR_TO_DATE(NGAYNHAP, '%d/%m/%Y')) = 1 THEN 'Quý 1'

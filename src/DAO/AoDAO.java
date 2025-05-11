@@ -18,7 +18,7 @@ public class AoDAO {
     
     public ArrayList<AoDTO> docDSA() {
         ArrayList<AoDTO> ds = new ArrayList<>();
-        String query = "select * from ao";
+        String query = "select * from ao where is_deleted=0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -42,7 +42,7 @@ public class AoDAO {
     }
     
     public int them(AoDTO a) {
-        String query = "insert into ao (TENAO) values (?)";
+        String query = "insert into ao (TENAO, is_deleted) values (?, 0)";
         Connection conn = null;
         int maloai = -1;
         try {
@@ -72,7 +72,7 @@ public class AoDAO {
         String query = """
                        update ao
                        set TENAO = ?
-                       where MALOAI = ?
+                       where MALOAI = ? AND is_deleted = 0
                        """;
         Connection conn = null;
         try {
@@ -90,7 +90,7 @@ public class AoDAO {
     }
     
     public void xoa(int maao) {
-        String query = "delete from ao where MALOAI = ?";
+        String query = "Update ao set is_deleted = 1 where MALOAI = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -111,7 +111,7 @@ public class AoDAO {
     }
     
     public AoDTO layAoTheoMa(int maao) {
-        String query = "select * from ao where MALOAI = ?";
+        String query = "select * from ao where MALOAI = ? AND is_deleted = 0";
         Connection conn = null;
         AoDTO a = null;
         try {

@@ -18,7 +18,7 @@ public class QuanDAO {
     
     public ArrayList<QuanDTO> docDSQ() {
         ArrayList<QuanDTO> ds = new ArrayList<>();
-        String query = "select * from quan";
+        String query = "select * from quan where is_deleted=0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -42,7 +42,7 @@ public class QuanDAO {
     }
     
     public int them(QuanDTO a) {
-        String query = "insert into quan (TENQUAN) values (?)";
+        String query = "insert into quan (TENQUAN, is_deleted) values (?, 0)";
         Connection conn = null;
         int maloai = -1;
         try {
@@ -72,7 +72,7 @@ public class QuanDAO {
         String query = """
                        update quan
                        set TENQUAN = ?
-                       where MALOAI = ?
+                       where MALOAI = ? AND is_deleted = 0
                        """;
         Connection conn = null;
         try {
@@ -111,7 +111,7 @@ public class QuanDAO {
     }
     
     public QuanDTO layQuanTheoMa(int maloai) {
-        String query = "select * from quan where MALOAI = ?";
+        String query = "select * from quan where MALOAI = ? AND is_deleted = 0";
         Connection conn = null;
         QuanDTO q = null;
         try {
