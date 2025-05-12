@@ -41,29 +41,43 @@ public class QuanDAO {
         return ds;
     }
     
-    public int them(QuanDTO a) {
-        String query = "insert into quan (TENQUAN, is_deleted) values (?, 0)";
+    public int them(QuanDTO q) {
         Connection conn = null;
         int maloai = -1;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, a.getTenQuan());
+            conn.setAutoCommit(false);
+            String query = "insert into quan (MALOAI, TENQUAN, is_deleted) values (?, ?, 0)";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, q.getMaLoai());
+            st.setString(2, q.getTenQuan());
             
             int row = st.executeUpdate();
-            if(row > 0) {
-                ResultSet rs = st.getGeneratedKeys();
-                if(rs.next()) {
-                    maloai = rs.getInt(1);
-                }
-                rs.close();
+            if (row > 0) {
+                maloai = q.getMaLoai();
+                conn.commit();
             }
-            st.close();
+            else
+                conn.rollback();
         } catch (SQLException e) {
             Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
-
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return -1;
         } finally {
-            DBConnect.closeConnection(conn);
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    DBConnect.closeConnection(conn);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(QuanDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
         return maloai;
     }

@@ -33,6 +33,33 @@ CREATE TABLE `ao` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+--
+-- Dumping data for table `ao`
+--
+
+INSERT INTO `ao` (`MALOAI`, `TENAO`, `is_deleted`) VALUES 
+(1, 'Áo thun trơn', 0),
+(1, 'Áo sơ mi nam', 0),
+(1, 'Áo polo nữ', 0),
+(1, 'Áo hoodie', 0),
+(1, 'Áo khoác jean', 0),
+(1, 'Áo len cổ lọ', 0),
+(1, 'Áo vest công sở', 0),
+(1, 'Áo dài truyền thống', 0),
+(1, 'Áo croptop nữ', 0),
+(1, 'Áo tanktop nam', 0),
+(1, 'Áo sơ mi caro', 0),
+(1, 'Áo thun in hình', 0),
+(1, 'Áo khoác bomber', 0),
+(1, 'Áo mưa tiện lợi', 0),
+(1, 'Áo phông unisex', 0),
+(1, 'Áo sơ mi trắng', 0),
+(1, 'Áo blazer nữ', 0),
+(1, 'Áo thun oversize', 0),
+(1, 'Áo thể thao nữ', 0),
+(1, 'Áo chống nắng UV', 0);
+
+
 -- --------------------------------------------------------
 
 --
@@ -218,16 +245,8 @@ CREATE TABLE `loaisp` (
 --
 
 INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`, `is_deleted`) VALUES
-(1, 'Áo thun', 0),
-(2, 'Áo sơ mi', 0),
-(3, 'Quần jean', 0),
-(4, 'Váy', 0),
-(5, 'Áo khoác', 0),
-(6, 'Hoodie', 0),
-(7, 'Đầm dạ hội', 0),
-(8, 'Quần short', 0),
-(9, 'Đồ thể thao', 0),
-(10, 'Phụ kiện', 0);
+(1, 'Áo', 0),
+(2, 'Quần', 0);
 
 -- --------------------------------------------------------
 
@@ -290,7 +309,22 @@ INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`, 
 (7, 'Võ Thị', 'M', 12800000, '0388445566', 'Đà Lạt, Lâm Đồng', 'vothim@gmail.com', 0),
 (8, 'Trần Văn', 'A', 12000000, '0965748723', 'TP Thủ Đức, TPHCM', 'tranvana@gmail.com', 0),
 (9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Cần Giuộc, Long An', 'buithul@gmail.com', 0),
-(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com', 0);
+(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com', 0),
+(11, 'Nguyễn', 'An', 15500000, '0911223344', 'Đồng Nai', 'nguyenan@gmail.com', 0),
+(12, 'Lê Thị', 'B', 13000000, '0909123456', 'Bình Dương', 'lethib@gmail.com', 0),
+(13, 'Phạm Văn', 'C', 18000000, '0912345678', 'TPHCM', 'phamvanc@gmail.com', 0),
+(14, 'Đỗ', 'D', 17500000, '0987766554', 'Nha Trang', 'dod@gmail.com', 0),
+(15, 'Ngô Thị', 'E', 16000000, '0977888999', 'TPHCM', 'ngothie@gmail.com', 0),
+(16, 'Trịnh', 'F', 17000000, '0922334455', 'Hà Nội', 'trinhf@gmail.com', 0),
+(17, 'Mai Văn', 'G', 19000000, '0933225566', 'TPHCM', 'maivang@gmail.com', 0),
+(18, 'Đinh Thị', 'H', 15000000, '0977332211', 'Đồng Nai', 'dinhthih@gmail.com', 0),
+(19, 'Lý', 'I', 14000000, '0944556677', 'TPHCM', 'lyi@gmail.com', 0),
+(20, 'Hồ Quang', 'J', 21000000, '0911667788', 'Cần Thơ', 'hoquangj@gmail.com', 0),
+(21, 'Phạm Thị', 'K', 16000000, '0901234567', 'TPHCM', 'phamthik@gmail.com', 0),
+(22, 'Trần', 'L', 14500000, '0912345670', 'Bình Dương', 'tranl@gmail.com', 0),
+(23, 'Nguyễn Văn', 'M', 18500000, '0922334466', 'Hà Nội', 'nguyenvanm@gmail.com', 0),
+(24, 'Đoàn Thị', 'N', 17000000, '0933445566', 'TPHCM', 'doanthin@gmail.com', 0),
+(25, 'Trịnh Văn', 'O', 15000000, '0944556678', 'Đồng Nai', 'trinhvano@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -362,6 +396,32 @@ CREATE TABLE `quan` (
   `TENQUAN` varchar(50) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `quan`
+--
+
+INSERT INTO `quan` (`MALOAI`, `TENQUAN`, `is_deleted`) VALUES
+(2, 'Quần jeans', 0),
+(2, 'Quần tây', 0),
+(2, 'Quần short nam', 0),
+(2, 'Quần short nữ', 0),
+(2, 'Quần jogger', 0),
+(2, 'Quần kaki', 0),
+(2, 'Quần thể thao nam', 0),
+(2, 'Quần thể thao nữ', 0),
+(2, 'Quần legging', 0),
+(2, 'Quần culottes', 0),
+(2, 'Quần baggy', 0),
+(2, 'Quần ống suông', 0),
+(2, 'Quần yếm nữ', 0),
+(2, 'Quần ống loe', 0),
+(2, 'Quần lửng', 0),
+(2, 'Quần nỉ', 0),
+(2, 'Quần ống rộng', 0),
+(2, 'Quần bảo hộ lao động', 0),
+(2, 'Quần pyjama', 0),
+(2, 'Quần giả váy', 0);
 
 -- --------------------------------------------------------
 

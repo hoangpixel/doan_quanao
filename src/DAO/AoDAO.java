@@ -42,28 +42,42 @@ public class AoDAO {
     }
     
     public int them(AoDTO a) {
-        String query = "insert into ao (TENAO, is_deleted) values (?, 0)";
         Connection conn = null;
         int maloai = -1;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, a.getTenAo());
+            conn.setAutoCommit(false);
+            String query = "insert into ao (MALOAI, TENAO, is_deleted) values (?, ?, 0)";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, a.getMaLoai());
+            st.setString(2, a.getTenAo());
             
             int row = st.executeUpdate();
-            if(row > 0) {
-                ResultSet rs = st.getGeneratedKeys();
-                if(rs.next()) {
-                    maloai = rs.getInt(1);
-                }
-                rs.close();
+            if (row > 0) {
+                maloai = a.getMaLoai();
+                conn.commit();
             }
-            st.close();
+            else
+                conn.rollback();
         } catch (SQLException e) {
             Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
-
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return -1;
         } finally {
-            DBConnect.closeConnection(conn);
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    DBConnect.closeConnection(conn);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(AoDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
         return maloai;
     }

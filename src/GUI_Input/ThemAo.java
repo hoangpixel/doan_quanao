@@ -160,7 +160,7 @@ public class ThemAo extends javax.swing.JDialog {
             return;
         }
         AoDTO a = new AoDTO();
-        a.setTenAo(txtMaLoai.getText());
+        a.setTenAo(txtTenAo1.getText());
         a.setMaLoai(selectedMaLoai); // Set the selected maLoai
         new AoBUS().them(a);
         xacNhanThem = true;
