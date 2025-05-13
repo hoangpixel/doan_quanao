@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 03:59 PM
+-- Generation Time: May 13, 2025 at 12:53 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,28 +37,27 @@ CREATE TABLE `ao` (
 -- Dumping data for table `ao`
 --
 
-INSERT INTO `ao` (`MALOAI`, `TENAO`, `is_deleted`) VALUES 
-(1, 'Áo thun trơn', 0),
-(1, 'Áo sơ mi nam', 0),
-(1, 'Áo polo nữ', 0),
+INSERT INTO `ao` (`MALOAI`, `TENAO`, `is_deleted`) VALUES
+(1, 'Áo blazer nữ', 0),
+(1, 'Áo chống nắng UV', 0),
+(1, 'Áo croptop nữ', 0),
+(1, 'Áo dài truyền thống', 0),
 (1, 'Áo hoodie', 0),
+(1, 'Áo khoác bomber', 0),
 (1, 'Áo khoác jean', 0),
 (1, 'Áo len cổ lọ', 0),
-(1, 'Áo vest công sở', 0),
-(1, 'Áo dài truyền thống', 0),
-(1, 'Áo croptop nữ', 0),
-(1, 'Áo tanktop nam', 0),
-(1, 'Áo sơ mi caro', 0),
-(1, 'Áo thun in hình', 0),
-(1, 'Áo khoác bomber', 0),
 (1, 'Áo mưa tiện lợi', 0),
 (1, 'Áo phông unisex', 0),
+(1, 'Áo polo nữ', 0),
+(1, 'Áo sơ mi caro', 0),
+(1, 'Áo sơ mi nam', 0),
 (1, 'Áo sơ mi trắng', 0),
-(1, 'Áo blazer nữ', 0),
-(1, 'Áo thun oversize', 0),
+(1, 'Áo tanktop nam', 0),
 (1, 'Áo thể thao nữ', 0),
-(1, 'Áo chống nắng UV', 0);
-
+(1, 'Áo thun in hình', 0),
+(1, 'Áo thun oversize', 0),
+(1, 'Áo thun trơn', 0),
+(1, 'Áo vest công sở', 0);
 
 -- --------------------------------------------------------
 
@@ -69,6 +68,7 @@ INSERT INTO `ao` (`MALOAI`, `TENAO`, `is_deleted`) VALUES
 CREATE TABLE `cthd` (
   `MAHD` int(11) NOT NULL,
   `MASP` int(11) NOT NULL,
+  `MAPB` int(11) NOT NULL,
   `SL` int(11) NOT NULL,
   `DONGIA` int(11) NOT NULL,
   `THANHTIEN` int(11) NOT NULL
@@ -402,26 +402,26 @@ CREATE TABLE `quan` (
 --
 
 INSERT INTO `quan` (`MALOAI`, `TENQUAN`, `is_deleted`) VALUES
+(2, 'Quần baggy', 0),
+(2, 'Quần bảo hộ lao động', 0),
+(2, 'Quần culottes', 0),
+(2, 'Quần giả váy', 0),
 (2, 'Quần jeans', 0),
-(2, 'Quần tây', 0),
-(2, 'Quần short nam', 0),
-(2, 'Quần short nữ', 0),
 (2, 'Quần jogger', 0),
 (2, 'Quần kaki', 0),
-(2, 'Quần thể thao nam', 0),
-(2, 'Quần thể thao nữ', 0),
 (2, 'Quần legging', 0),
-(2, 'Quần culottes', 0),
-(2, 'Quần baggy', 0),
-(2, 'Quần ống suông', 0),
-(2, 'Quần yếm nữ', 0),
-(2, 'Quần ống loe', 0),
 (2, 'Quần lửng', 0),
 (2, 'Quần nỉ', 0),
+(2, 'Quần ống loe', 0),
 (2, 'Quần ống rộng', 0),
-(2, 'Quần bảo hộ lao động', 0),
+(2, 'Quần ống suông', 0),
 (2, 'Quần pyjama', 0),
-(2, 'Quần giả váy', 0);
+(2, 'Quần short nam', 0),
+(2, 'Quần short nữ', 0),
+(2, 'Quần tây', 0),
+(2, 'Quần thể thao nam', 0),
+(2, 'Quần thể thao nữ', 0),
+(2, 'Quần yếm nữ', 0);
 
 -- --------------------------------------------------------
 
@@ -466,7 +466,8 @@ ALTER TABLE `ao`
 --
 ALTER TABLE `cthd`
   ADD PRIMARY KEY (`MAHD`),
-  ADD KEY `MASP` (`MASP`);
+  ADD KEY `MASP` (`MASP`),
+  ADD KEY `cthd_ibfk_2` (`MAPB`);
 
 --
 -- Indexes for table `ctkm`
@@ -612,7 +613,7 @@ ALTER TABLE `ncc`
 -- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
-  MODIFY `MANV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `MANV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `phienbansp`
@@ -646,7 +647,8 @@ ALTER TABLE `ao`
 -- Constraints for table `cthd`
 --
 ALTER TABLE `cthd`
-  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ctkmhd`
