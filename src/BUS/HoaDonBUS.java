@@ -113,14 +113,16 @@ public class HoaDonBUS {
                     dk = true;
                 }
                 
-                if(ngaybd != null && !bd.before(ngaybd))
+                if(ngaybd != null && ngaykt != null 
+                && bd.compareTo(ngaybd) >=0 && bd.compareTo(ngaykt) <= 0)
                 {
-                    dk = true;
-                }
-                
-                if(ngaykt !=null && !bd.after(ngaykt))
+                    dk=true;
+                }else if(ngaybd != null && ngaykt == null && bd.compareTo(ngaybd) >= 0)
                 {
-                    dk = true;
+                    dk=true;
+                }else if(ngaybd == null && ngaykt != null && bd.compareTo(ngaykt) <= 0)
+                {
+                    dk=true;
                 }
                 
                 if(manv != -1  && manv == ct.getManv())
@@ -133,11 +135,13 @@ public class HoaDonBUS {
                     dk=true;
                 }
                 
-                if(tienMin != -1 && tienMin >= ct.getTongtien())
+                if(tienMin != -1 && tienMax != -1 && ct.getTongtien() >= tienMin && ct.getTongtien() <= tienMax)
                 {
                     dk=true;
-                }
-                if(tienMax !=-1 && tienMax <= ct.getTongtien())
+                }else if(tienMin != -1 && ct.getTongtien() >= tienMin)
+                {
+                    dk=true;
+                }else if(tienMax != -1 && ct.getTongtien() <= tienMax)
                 {
                     dk=true;
                 }
@@ -147,6 +151,7 @@ public class HoaDonBUS {
                     dskq.add(ct);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return dskq;

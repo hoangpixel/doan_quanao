@@ -16,12 +16,12 @@ import GUI.navleft;
 import java.awt.*;
 import javax.swing.*;
 
-public class run extends JFrame {
+public class main extends JFrame {
 
     private JPanel contentPanel;
     private CardLayout cardLayout;
 
-    public run() {
+    public main() {
         setTitle("Quản lý chương trình");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1330, 700);
@@ -156,7 +156,7 @@ public class run extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new run().setVisible(true);
+            new main().setVisible(true);
         });
     }
 }
