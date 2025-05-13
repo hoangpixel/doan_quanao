@@ -466,9 +466,7 @@ ALTER TABLE `ao`
 -- Chỉ mục cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MAHD`),
-  ADD KEY `MASP` (`MASP`),
-  ADD KEY `cthd_ibfk_2` (`MAPB`);
+  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`),
 
 --
 -- Chỉ mục cho bảng `ctkm`
@@ -566,7 +564,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAHD` int(11) NOT NULL;
 
 --
 -- AUTO_INCREMENT cho bảng `ctkm`
@@ -648,8 +646,9 @@ ALTER TABLE `ao`
 -- Các ràng buộc cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cthd_ibfk_3` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Các ràng buộc cho bảng `ctkmhd`
