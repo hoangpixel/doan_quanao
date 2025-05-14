@@ -5,7 +5,10 @@
 package BUS;
 import DTO.PhieuNhapDTO;
 import DAO.PhieuNhapDAO;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author laptop
@@ -106,4 +109,31 @@ public class PhieuNhapBUS {
         PhieuNhapDAO data = new PhieuNhapDAO();
         return data.ktraHopLe(ct);
     }
+    public long[] tinhDoanhThuTheoQuy(int nam) {
+    if (ds == null || ds.isEmpty()) {
+        docDSPN(); // Nạp dữ liệu nếu chưa có
+    }
+
+    long[] doanhThu = new long[4]; // Q1 → Q4
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    for (PhieuNhapDTO pn : ds) {
+        try {
+            Date ngay = sdf.parse(pn.getNgayNhap());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(ngay);
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH); // 0-based
+
+            if (year == nam) {
+                int quy = month / 3; // 0 = Q1, 1 = Q2,...
+                doanhThu[quy] += pn.getTongTien();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    return doanhThu;
+}
 }

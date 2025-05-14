@@ -20,6 +20,7 @@ import GUI_Input.ThemPhieuNhap;
 import GUI_Input.XoaPN;
 import GUI_Input.ChiTietPhieuNhap;
 import GUI_Input.xuLyExcelPhieuNhap;
+import GUI_Input.ThongKePhieuNhap;
 /**
  *
  * @author mhoang
@@ -106,6 +107,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         btnSearch = new javax.swing.JButton();
         cbbSearch = new javax.swing.JComboBox<>();
         btnDetail = new javax.swing.JButton();
+        btnRefresh1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPN = new javax.swing.JTable();
 
@@ -210,6 +212,19 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
             }
         });
 
+        btnRefresh1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRefresh1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/4288598_analysis_analytics_chart_data_pie_icon.png"))); // NOI18N
+        btnRefresh1.setText("THỐNG KÊ");
+        btnRefresh1.setToolTipText("");
+        btnRefresh1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRefresh1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRefresh1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefresh1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefresh1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -226,8 +241,10 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -250,7 +267,8 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
                                     .addComponent(btnExcel)
                                     .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btnRefresh)
-                                    .addComponent(btnDetail))
+                                    .addComponent(btnDetail)
+                                    .addComponent(btnRefresh1))
                                 .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
@@ -288,7 +306,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -491,6 +509,13 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
         xuLyExcelPhieuNhap dialog =  new xuLyExcelPhieuNhap(topFrame, true, getDS(), gui);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnExcelActionPerformed
+
+    private void btnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefresh1ActionPerformed
+        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        ThongKePhieuNhap dialog = new ThongKePhieuNhap(topFrame,true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnRefresh1ActionPerformed
     private String trangThai(int trangThai){
         String tt = null;
         if (trangThai == 0) {
@@ -519,6 +544,7 @@ public class PhieuNhapGUI extends javax.swing.JPanel {
     private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRefresh1;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnUpdate;
