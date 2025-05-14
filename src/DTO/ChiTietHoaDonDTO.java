@@ -25,13 +25,13 @@ public class ChiTietHoaDonDTO {
         this.dongia = 0;
         this.thanhtien = 0;
     }
-    public ChiTietHoaDonDTO(int mahoadon, int masanpham, int maphienban, int soluong, int dongia) {
+    public ChiTietHoaDonDTO(int mahoadon, int masanpham, int maphienban, int soluong, int dongia, int thanhtien) {
         this.mahoadon = mahoadon;
         this.masanpham = masanpham;
         this.maphienban = maphienban;
         this.soluong = soluong;
         this.dongia = dongia;
-        this.thanhtien = soluong * dongia;
+        this.thanhtien = thanhtien;
     }
     public ChiTietHoaDonDTO(ChiTietHoaDonDTO cthd) {
         this.mahoadon = cthd.mahoadon;

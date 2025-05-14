@@ -11,14 +11,16 @@ package DTO;
 public class HoaDonDTO {
     public int mahd,manv,makh,tongtien;
     public String ngaylap;
+    private int trangThai;
     public HoaDonDTO(){}
-    public HoaDonDTO(int mahd,String ngaylap,int manv,int makh,int tongtien)
+    public HoaDonDTO(int mahd,String ngaylap,int manv,int makh,int tongtien, int trangThai)
     {
         this.mahd = mahd;
         this.ngaylap=ngaylap;
         this.manv=manv;
         this.makh=makh;
         this.tongtien=tongtien;
+        this.trangThai = trangThai;
     }
 
     public int getMahd() {
@@ -39,6 +41,10 @@ public class HoaDonDTO {
 
     public int getTongtien() {
         return tongtien;
+    }
+    
+    public int getTrangThai(){
+        return trangThai;
     }
 
     public void setMahd(int mahd) {
@@ -61,5 +67,7 @@ public class HoaDonDTO {
         this.tongtien = tongtien;
     }
     
-    
+    public void setTrangThai(int trangThai){
+        this.trangThai = trangThai;
+    } 
 }
