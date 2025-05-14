@@ -169,7 +169,7 @@ public class NhanVienGUI extends javax.swing.JPanel {
         });
 
         btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
+        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/4288598_analysis_analytics_chart_data_pie_icon.png"))); // NOI18N
         btnThongKe.setText("THỐNG KÊ");
         btnThongKe.setToolTipText("");
         btnThongKe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

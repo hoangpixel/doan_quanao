@@ -214,7 +214,7 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/refreshIcon.png"/>
+              <Image iconType="3" name="/img/4288598_analysis_analytics_chart_data_pie_icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="TH&#x1ed0;NG K&#xca;"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>

@@ -8,6 +8,7 @@ import DTO.HoaDonDTO;
 import DTO.ChiTietHoaDonDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 /**
  *
@@ -178,5 +179,33 @@ public class HoaDonBUS {
         HoaDonDAO data = new HoaDonDAO();
         return data.ktraHopLe(ct);
     }
+    public long[] tinhDoanhThuTheoQuy(int nam) {
+    if (ds == null || ds.isEmpty()) {
+        docDSHD(); // Nạp dữ liệu nếu chưa có
+    }
+
+    long[] doanhThu = new long[4]; // Q1 → Q4
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    for (HoaDonDTO hd : ds) {
+        try {
+            Date ngay = sdf.parse(hd.getNgaylap());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(ngay);
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH); // 0-based
+
+            if (year == nam) {
+                int quy = month / 3; // 0 = Q1, 1 = Q2,...
+                doanhThu[quy] += hd.getTongtien();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    return doanhThu;
+}
+
 }
     
