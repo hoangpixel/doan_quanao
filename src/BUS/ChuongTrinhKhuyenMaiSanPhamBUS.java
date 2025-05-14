@@ -18,6 +18,18 @@ public class ChuongTrinhKhuyenMaiSanPhamBUS {
         ds = data.docDSCTKMSP();
     }
     
+    public boolean ktraMaTrung(int ma)
+    {
+        for(ChuongTrinhKhuyenMaiSanPhamDTO ct : ds)
+        {
+            if(ct.getMactkmsp() == ma)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void them(ChuongTrinhKhuyenMaiSanPhamDTO ct)
     {
         ChuongTrinhKhuyenMaiSanPhamDAO data = new ChuongTrinhKhuyenMaiSanPhamDAO();

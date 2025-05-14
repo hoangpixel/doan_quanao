@@ -14,6 +14,17 @@ public class ChuongTrinhKhuyenMaiBUS {
             ds = data.docDSCTKM();
     }
     
+    public boolean ktraMaTrung(int mactkm)
+    {
+        for(ChuongTrinhKhuyenMaiDTO ct : ds)
+        {
+            if(ct.getMaCTKM() == mactkm)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
     
     public void them(ChuongTrinhKhuyenMaiDTO ct)
