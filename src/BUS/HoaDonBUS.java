@@ -5,6 +5,7 @@
 package BUS;
 import DAO.HoaDonDAO;
 import DTO.HoaDonDTO;
+import DTO.ChiTietHoaDonDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,10 +35,20 @@ public class HoaDonBUS {
         data.capnhat(hd);
     }
     
-    public void xoa(int ma)
-    {
+    //Nam sửa phần này
+    public void xoa(int ma) {
         HoaDonDAO data = new HoaDonDAO();
+        ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
+
+        // Xóa các chi tiết hóa đơn liên quan trước
+        ArrayList<ChiTietHoaDonDTO> dscthd = cthdBUS.timKiemTheoMaHoaDon(ma);
+        for (ChiTietHoaDonDTO cthd : dscthd) {
+            cthdBUS.xoa(cthd.getMaHoaDon(), cthd.getMaSanPham(), cthd.getMaPhienBan());
+        }
+
+        // Sau đó xóa hóa đơn
         data.xoa(ma);
+        ds.removeIf(hd -> hd.getMahd() == ma);
     }
     
     public ArrayList<HoaDonDTO> timKiemThuong(String tim,int index)

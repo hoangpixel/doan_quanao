@@ -292,4 +292,27 @@ public class ChiTietHoaDonDAO {
         }
         return -1;
     }
+    
+    public ArrayList<ChiTietHoaDonDTO> layCTHDTheoMaHoaDon(int maHoaDon) {
+        ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
+        String query = "SELECT * FROM cthd WHERE MAHD = ?";
+        try (Connection conn = DBConnect.getConnection();
+            PreparedStatement st = conn.prepareStatement(query)) {
+            st.setInt(1, maHoaDon);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
+                    cthd.setMaHoaDon(rs.getInt("MAHD"));
+                    cthd.setMaSanPham(rs.getInt("MASP"));
+                    cthd.setMaPhienBan(rs.getInt("MAPB"));
+                    cthd.setSoLuong(rs.getInt("SL"));
+                    cthd.setDonGia(rs.getInt("DONGIA"));
+                    ds.add(cthd);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching CTHD by MAHD", e);
+        }
+        return ds;
+    }
 }

@@ -11,7 +11,6 @@ import DTO.ChuongTrinhKhuyenMaiDTO;
 import DTO.ChuongTrinhKhuyenMaiHoaDonDTO;
 import MSForm.msfMaCTKM;
 import MSForm.msfMaCTKMjPanel;
-import MSForm.test;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;

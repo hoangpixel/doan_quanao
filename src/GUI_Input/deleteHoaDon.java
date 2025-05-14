@@ -18,13 +18,13 @@ public class deleteHoaDon extends javax.swing.JDialog {
      * Creates new form deleteCTKM
      */
     public boolean xacNhan = false;
-    public deleteHoaDon(java.awt.Frame parent, boolean modal)
-    {
-        super(parent,modal);
+    private int maHoaDon;
+
+    public deleteHoaDon(java.awt.Frame parent, boolean modal, int maHoaDon) {
+        super(parent, modal);
+        this.maHoaDon = maHoaDon;
         initComponents();
         setLocationRelativeTo(parent);
-
-
     }
     
     /**
@@ -120,11 +120,16 @@ public class deleteHoaDon extends javax.swing.JDialog {
 
     private void btnCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoActionPerformed
         // TODO add your handling code here:
-            JLabel lb = new JLabel("Xóa thành công!");
-            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        xacNhan = true;
-        dispose();
+        int result = JOptionPane.showConfirmDialog(this, 
+            "Bạn có chắc chắn muốn xóa hóa đơn này và các chi tiết hóa đơn liên quan?", 
+            "Xác nhận xóa", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.WARNING_MESSAGE);
+
+        if (result == JOptionPane.YES_OPTION) {
+            xacNhan = true;
+            dispose();
+        }
     }//GEN-LAST:event_btnCoActionPerformed
 
     public boolean xacNhanXoa()

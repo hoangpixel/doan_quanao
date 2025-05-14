@@ -90,11 +90,15 @@ public class ChiTietHoaDonBUS {
     public ChiTietHoaDonDTO layChiTietHoaDonTheoBaMa(int mahd, int masp, int mapb) {
         return cthdDAO.layChiTietHoaDonTheoBaMa(mahd, masp, mapb);
     }
+    
+    public ArrayList<ChiTietHoaDonDTO> layCTHDTheoMaHoaDon(int maHoaDon) {
+        return cthdDAO.layCTHDTheoMaHoaDon(maHoaDon);
+    }
 
     public void refreshDanhSach() {
         dscthd = cthdDAO.docDSCTHD();
     }
-
+    
     public ArrayList<ChiTietHoaDonDTO> timKiemTheoMaHoaDon(int mahd) {
         ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
         for (ChiTietHoaDonDTO cthd : dscthd) {
@@ -157,5 +161,9 @@ public class ChiTietHoaDonBUS {
     
     public int getLatestMaHoaDon() {
         return new ChiTietHoaDonDAO().getLatestMaHoaDon();
+    }
+    
+    public boolean capNhatTongTienHoaDon(int maHoaDon) {
+        return cthdDAO.capNhatTongTienHoaDon(maHoaDon);
     }
 }

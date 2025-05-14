@@ -41,8 +41,9 @@ public class cthdGUI_Click extends javax.swing.JDialog {
     {
 
         Vector header = new Vector();
-        header.add("Mã HD");
-        header.add("Mã SP");
+        header.add("Mã hóa đơn");
+        header.add("Mã phiên bản");
+        header.add("Mã sản phẩm");
         header.add("Số lượng");
         header.add("Đơn giá");
         header.add("Thành tiền");
@@ -84,6 +85,7 @@ public class cthdGUI_Click extends javax.swing.JDialog {
        {
            Vector row = new Vector();
            row.add(ct.getMaHoaDon());
+           row.add(ct.getMaPhienBan());
            row.add(ct.getMaSanPham());
            row.add(ct.getSoLuong());
            row.add(ct.getDonGia());
@@ -93,17 +95,12 @@ public class cthdGUI_Click extends javax.swing.JDialog {
        tbCTHD.setModel(model);
     }
     
-    public void docSQL()
-    {
+    public void docSQL() {
         ChiTietHoaDonBUS bus = new ChiTietHoaDonBUS();
-        if(ChiTietHoaDonBUS.getDSCTHD() == null)
-        {
-            updateTB(bus.docDSCTHD());
-        }
-        dscthd = bus.layDScthdTheoMAHD(mahd);
+        dscthd = bus.layCTHDTheoMaHoaDon(mahd); // Lấy dữ liệu từ DAO theo mã hóa đơn
         updateTB(dscthd);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -265,61 +262,57 @@ public class cthdGUI_Click extends javax.swing.JDialog {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
          int i = jComboBox1.getSelectedIndex();
-         String tim = txtSearch.getText().trim();
-                 if(tim.isEmpty())
-        {
+        String tim = txtSearch.getText().trim();
+
+        if (tim.isEmpty()) {
             String messTim = "Vui lòng nhập dữ liệu muốn tìm kiếm!";
             JLabel lbNull = new JLabel(messTim);
-            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);
+            lbNull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbNull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-         ArrayList<ChiTietHoaDonDTO> dskq = new ArrayList<>();
-         try {
-                    for(ChiTietHoaDonDTO ct : dscthd)
-        {
-            switch(i)
-            {
-                case 0:
-                {
-                    if(String.valueOf(ct.getMaSanPham()).contains(tim))
-                    {
-                        dskq.add(ct);                   
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    float giaMin = Float.parseFloat(tim);
-                    if(ct.getDonGia() <= giaMin)
-                    {
-                        dskq.add(ct);
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    float giaMax = Float.parseFloat(tim);
-                    if(ct.getDonGia() >= giaMax)
-                    {
-                        dskq.add(ct);
-                    }
-                    break;
+
+        ArrayList<ChiTietHoaDonDTO> dskq = new ArrayList<>();
+        try {
+            for (ChiTietHoaDonDTO ct : dscthd) {
+                switch (i) {
+                    case 0: // Theo mã sản phẩm
+                        if (String.valueOf(ct.getMaSanPham()).contains(tim)) {
+                            dskq.add(ct);
+                        }
+                        break;
+                    case 1: // Đơn giá min
+                        float giaMin = Float.parseFloat(tim);
+                        if (ct.getDonGia() <= giaMin) {
+                            dskq.add(ct);
+                        }
+                        break;
+                    case 2: // Đơn giá max
+                        float giaMax = Float.parseFloat(tim);
+                        if (ct.getDonGia() >= giaMax) {
+                            dskq.add(ct);
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Lựa chọn tìm kiếm không hợp lệ.");
                 }
             }
-        }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Lỗi định dạng đơn giá","Lỗi định dạng",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng nhập vào. Vui lòng nhập số đúng định dạng!", "Lỗi định dạng", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(dskq.isEmpty())
-        {
-            String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu";
+
+        if (dskq.isEmpty()) {
+            String mess = "Không tìm thấy kết quả: " + tim + " trong dữ liệu.";
             JLabel lbNull = new JLabel(mess);
-            lbNull.setFont(new Font("Segoe UI",Font.BOLD,16));
-            JOptionPane.showMessageDialog(this, lbNull,"Thông báo",JOptionPane.ERROR_MESSAGE);              
+            lbNull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbNull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else {
+            updateTB(dskq);
         }
-        updateTB(dskq);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     public ArrayList<ChiTietHoaDonDTO> getDSCTHD()

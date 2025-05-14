@@ -56,11 +56,9 @@ public class hoadonGUI extends javax.swing.JPanel {
 
         docSQL();
     }
-
-    public void docSQL() {
+    
+    private void capNhatBang(ArrayList<HoaDonDTO> ds) {
         model.setRowCount(0);
-        ArrayList<HoaDonDTO> ds = bus.docDSHD();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (HoaDonDTO hd : ds) {
             Vector row = new Vector();
             row.add(hd.getMahd());
@@ -71,6 +69,13 @@ public class hoadonGUI extends javax.swing.JPanel {
             model.addRow(row);
         }
         tbHoadon.setModel(model);
+    }
+
+    public void docSQL() {
+        if (HoaDonBUS.ds == null) {
+            bus.docDSHD();
+        }
+        capNhatBang(HoaDonBUS.ds);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -302,23 +307,31 @@ public class hoadonGUI extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:      
-        
-        int i = tbHoadon.getSelectedRow();
-        if (i < 0) {
-            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
-            lbchonMaXoa.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbchonMaXoa, "Chọn mã cần xóa", JOptionPane.ERROR_MESSAGE);
+        int selectedRow = tbHoadon.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        deleteHoaDon dialog = new deleteHoaDon(topFrame, true);
+
+        int maHoaDon = (int) tbHoadon.getValueAt(selectedRow, 0); // Cột mã hóa đơn
+
+        // Mở dialog xác nhận xóa
+        deleteHoaDon dialog = new deleteHoaDon(null, true, maHoaDon);
         dialog.setVisible(true);
+
         if (dialog.xacNhanXoa()) {
-            int ma = (int) tbHoadon.getValueAt(i, 0);
-            HoaDonBUS bus = new HoaDonBUS();
-            bus.xoa(ma);
-            model.removeRow(i);
-            JOptionPane.showMessageDialog(this, "Xóa hóa đơn và các chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                HoaDonBUS bus = new HoaDonBUS();
+                bus.xoa(maHoaDon);
+
+                // Cập nhật lại bảng sau khi xóa
+                docSQL();
+
+                JOptionPane.showMessageDialog(null, "Xóa hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xóa hóa đơn.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
