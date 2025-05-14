@@ -102,9 +102,9 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
 
     private void btnGhiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGhiActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Chọn nơi lưu file Excel CTHD");
+        fileChooser.setDialogTitle("Chọn nơi lưu file Excel Chi Tiết Hóa Đơn");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setSelectedFile(new File("DanhSachChiTietHoaDon.xlsx")); // Đổi tên file
+        fileChooser.setSelectedFile(new File("DanhSachChiTietHoaDon.xlsx"));
 
         int userSelection = fileChooser.showSaveDialog(this);
 
@@ -116,7 +116,7 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
                 filePath += ".xlsx";
             }
 
-             File existingFile = new File(filePath);
+            File existingFile = new File(filePath);
             if (existingFile.exists()) {
                 int result = JOptionPane.showConfirmDialog(this,
                         "File đã tồn tại, bạn có muốn ghi đè không?",
@@ -125,31 +125,24 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
             }
 
             try (Workbook workbook = new XSSFWorkbook()) {
-                Sheet sheet = workbook.createSheet("Chi Tiết Hóa Đơn"); // Đổi tên sheet
+                Sheet sheet = workbook.createSheet("Chi Tiết Hóa Đơn");
 
                 // --- Cell Styles ---
-                CellStyle headerStyle = workbook.createCellStyle(); /* ... */
-                 headerStyle.setAlignment(HorizontalAlignment.CENTER);
-                headerStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex()); // Màu khác
+                CellStyle headerStyle = workbook.createCellStyle();
+                headerStyle.setAlignment(HorizontalAlignment.CENTER);
+                headerStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
                 headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 headerStyle.setBorderTop(BorderStyle.THIN);
                 headerStyle.setBorderBottom(BorderStyle.THIN);
                 headerStyle.setBorderLeft(BorderStyle.THIN);
                 headerStyle.setBorderRight(BorderStyle.THIN);
-                 org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+                org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
                 headerFont.setBold(true);
                 headerFont.setFontHeightInPoints((short) 12);
                 headerStyle.setFont(headerFont);
 
-                CellStyle dataStyle = workbook.createCellStyle(); /* ... */
-                 dataStyle.setAlignment(HorizontalAlignment.LEFT);
-                dataStyle.setBorderTop(BorderStyle.THIN);
-                dataStyle.setBorderBottom(BorderStyle.THIN);
-                dataStyle.setBorderLeft(BorderStyle.THIN);
-                dataStyle.setBorderRight(BorderStyle.THIN);
-
-                CellStyle numberStyle = workbook.createCellStyle(); /* ... */
-                 numberStyle.setAlignment(HorizontalAlignment.RIGHT);
+                CellStyle numberStyle = workbook.createCellStyle();
+                numberStyle.setAlignment(HorizontalAlignment.RIGHT);
                 numberStyle.setBorderTop(BorderStyle.THIN);
                 numberStyle.setBorderBottom(BorderStyle.THIN);
                 numberStyle.setBorderLeft(BorderStyle.THIN);
@@ -157,8 +150,7 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
                 // --- End Cell Styles ---
 
                 Row headerRow = sheet.createRow(0);
-                // Sửa Headers (Không nên export Thành tiền vì nó được tính toán)
-                String[] headers = {"Mã Hóa Đơn", "Mã Sản Phẩm", "Số Lượng", "Đơn Giá"};
+                String[] headers = {"Mã Hóa Đơn", "Mã Phiên Bản", "Mã Sản Phẩm", "Số Lượng", "Đơn Giá"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -166,24 +158,19 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
                 }
 
                 int rowNum = 1;
-                ChiTietHoaDonBUS tempBus = new ChiTietHoaDonBUS(); // Lấy dữ liệu mới nhất
-                ArrayList<ChiTietHoaDonDTO> currentList = tempBus.docDSCTHD();
-
-                if (currentList != null && !currentList.isEmpty()) {
-                     // Sửa: Lặp qua ChiTietHoaDonDTO
-                    for (ChiTietHoaDonDTO cthd : currentList) {
+                if (dskq != null && !dskq.isEmpty()) {
+                    for (ChiTietHoaDonDTO cthd : dskq) {
                         Row row = sheet.createRow(rowNum++);
                         row.createCell(0).setCellValue(cthd.getMaHoaDon());
                         row.getCell(0).setCellStyle(numberStyle);
-
-                        row.createCell(1).setCellValue(cthd.getMaSanPham());
+                        row.createCell(1).setCellValue(cthd.getMaPhienBan());
                         row.getCell(1).setCellStyle(numberStyle);
-
-                        row.createCell(2).setCellValue(cthd.getSoLuong());
+                        row.createCell(2).setCellValue(cthd.getMaSanPham());
                         row.getCell(2).setCellStyle(numberStyle);
-
-                        row.createCell(3).setCellValue(cthd.getDonGia());
+                        row.createCell(3).setCellValue(cthd.getSoLuong());
                         row.getCell(3).setCellStyle(numberStyle);
+                        row.createCell(4).setCellValue(cthd.getDonGia());
+                        row.getCell(4).setCellStyle(numberStyle);
                     }
                 }
 
@@ -253,7 +240,7 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
                         // --- Kết thúc kiểm tra ---
 
 
-                        ChiTietHoaDonDTO existingCTHD = bus.layChiTietHoaDonTheoHaiMa(cthdFromExcel.getMaHoaDon(), cthdFromExcel.getMaSanPham());
+                        ChiTietHoaDonDTO existingCTHD = bus.layChiTietHoaDonTheoBaMa(cthdFromExcel.getMaHoaDon(), cthdFromExcel.getMaSanPham(), cthdFromExcel.getMaPhienBan());
 
                         if (existingCTHD != null) {
                             // Đã tồn tại -> Cập nhật
@@ -289,7 +276,7 @@ public class xuLyExcelChiTietHoaDon extends javax.swing.JDialog {
                 }
 
                 // Cập nhật lại cache trong BUS
-                 bus.refreshDanhSach(); // Gọi hàm refresh của BUS
+                 bus.docDSCTHD(); // Gọi hàm refresh của BUS
 
                 // Làm mới danh sách hiển thị trên GUI
                 if (gui != null) {

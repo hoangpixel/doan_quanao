@@ -24,9 +24,9 @@ public class SuaChiTietHoaDon extends javax.swing.JDialog {
      * Creates new form SuaChiTietHoaDon
      */
     private boolean xacNhanSua = false;
-    private int mahd, masp;
+    private int mahd, masp, mapb;
 
-    public SuaChiTietHoaDon(java.awt.Frame parent, boolean modal, int mahd, int masp) {
+    public SuaChiTietHoaDon(java.awt.Frame parent, boolean modal, int mahd, int masp, int mapb) {
         super(parent, modal);
         this.mahd = mahd;
         this.masp = masp;
@@ -319,7 +319,7 @@ public class SuaChiTietHoaDon extends javax.swing.JDialog {
     }
     
     public void loadChiTietHoaDon(int mahd, int masp) {
-        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoHaiMa(mahd, masp);
+        ChiTietHoaDonDTO cthd = new ChiTietHoaDonBUS().layChiTietHoaDonTheoBaMa(mahd, masp, mapb);
         if (cthd != null) {
             txtMaHoaDon.setText(String.valueOf(mahd));
             txtMaSanPham.setText(String.valueOf(masp));

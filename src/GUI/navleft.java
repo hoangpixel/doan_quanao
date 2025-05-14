@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
+    JButton[] buttons = { btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTHD, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -57,6 +57,7 @@ public class navleft extends javax.swing.JPanel {
         btnNhanVien = new javax.swing.JButton();
         btnQuan = new javax.swing.JButton();
         btnAo = new javax.swing.JButton();
+        btnCTHD = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -133,6 +134,10 @@ public class navleft extends javax.swing.JPanel {
         btnAo.setActionCommand("");
         btnAo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        btnCTHD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnCTHD.setText("Chi tiết hóa đơn");
+        btnCTHD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,7 +156,8 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnQuan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCTHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -169,7 +175,9 @@ public class navleft extends javax.swing.JPanel {
                 .addComponent(btnPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCTHD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(btnCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,6 +265,7 @@ public class navleft extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAo;
+    public javax.swing.JButton btnCTHD;
     public javax.swing.JButton btnCTKM;
     public javax.swing.JButton btnCTKMHD;
     public javax.swing.JButton btnCTKMSP;

@@ -20,7 +20,7 @@ import javax.swing.table.JTableHeader;
 public class msfMaNV extends javax.swing.JDialog {
 
     /**
-     * Creates new form msfMaNVhoadon
+     * Creates new form msfMaNV
      */
     public boolean xacNhan = false;
     public int getMa;

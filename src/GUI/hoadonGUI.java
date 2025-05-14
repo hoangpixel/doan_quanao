@@ -320,26 +320,7 @@ public class hoadonGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
 
         if (dialog.xacNhanNhap()) {
-            HoaDonDTO hd = dialog.getHoaDon();
-
-            HoaDonBUS bus = new HoaDonBUS();
-            bus.them(hd);
-
-            // Đọc lại dữ liệu từ SQL
-            docSQL();
-
-            // Cập nhật lại bảng
-            model.setRowCount(0);
-            for (HoaDonDTO ct : HoaDonBUS.ds) {
-                Vector row = new Vector();
-                row.add(ct.getMahd());
-                row.add(ct.getNgaylap());
-                row.add(ct.getManv());
-                row.add(ct.getMakh());
-                row.add(ct.getTongtien());
-                model.addRow(row);
-            }
-            tbHoadon.setModel(model);
+            docSQL(); // Refresh table to include new invoice and updated tongTien
         }
     }//GEN-LAST:event_btnThemMouseClicked
 
@@ -347,22 +328,21 @@ public class hoadonGUI extends javax.swing.JPanel {
         // TODO add your handling code here:      
         
         int i = tbHoadon.getSelectedRow();
-        if(i<0)
-        {
+        if (i < 0) {
             JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
-           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
-           return;           
+            lbchonMaXoa.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbchonMaXoa, "Chọn mã cần xóa", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         deleteHoaDon dialog = new deleteHoaDon(topFrame, true);
         dialog.setVisible(true);
-        if(dialog.xacNhanXoa())
-        {
+        if (dialog.xacNhanXoa()) {
             int ma = (int) tbHoadon.getValueAt(i, 0);
             HoaDonBUS bus = new HoaDonBUS();
             bus.xoa(ma);
             model.removeRow(i);
+            JOptionPane.showMessageDialog(this, "Xóa hóa đơn và các chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 

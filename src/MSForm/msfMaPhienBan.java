@@ -4,8 +4,8 @@
  */
 package MSForm;
 
-import BUS.LoaiSanPhamBUS;
-import DTO.LoaiSanPhamDTO;
+import BUS.PhienBanSanPhamBUS;
+import DTO.PhienBanSanPhamDTO;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -16,18 +16,18 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 /**
  *
- * @author mhoang
+ * @author suvie
  */
-public class msfMaLoai extends javax.swing.JDialog {
+public class msfMaPhienBan extends javax.swing.JDialog {
 
     /**
-     * Creates new form msfMaNVhoadon
+     * Creates new form msfMaPhienBan
      */
     private boolean xacNhan = false;
     private int getMa;
     private DefaultTableModel model = new DefaultTableModel();
 
-    public msfMaLoai(java.awt.Frame parent, boolean modal) {
+    public msfMaPhienBan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(this);
@@ -37,19 +37,27 @@ public class msfMaLoai extends javax.swing.JDialog {
 
     public void docSQL() {
         model.setRowCount(0);
-        for (LoaiSanPhamDTO lsp : LoaiSanPhamBUS.getDSLSP()) {
+        PhienBanSanPhamBUS bus = new PhienBanSanPhamBUS();
+        bus.docDSPB();
+        for (PhienBanSanPhamDTO pbsp : PhienBanSanPhamBUS.getDSPBSP()) {
             Vector row = new Vector();
-            row.add(lsp.getMaLoai());
-            row.add(lsp.getTenLoai());
+            row.add(pbsp.getMaPB());
+            row.add(pbsp.getMaSP());
+            row.add(pbsp.getSize());
+            row.add(pbsp.getMau());
+            row.add(pbsp.getSoLuong());
             model.addRow(row);
         }
-        tbLSP.setModel(model);
+        tbPBSP.setModel(model);
     }
 
     public void headerTable() {
         Vector header = new Vector();
-        header.add("Mã loại");
-        header.add("Tên loại");
+        header.add("Mã phiên bản");
+        header.add("Mã sản phẩm");
+        header.add("Size");
+        header.add("Màu");
+        header.add("Số lượng");
         model = new DefaultTableModel(header, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -57,27 +65,27 @@ public class msfMaLoai extends javax.swing.JDialog {
             }
         };
 
-        tbLSP.setModel(model);
+        tbPBSP.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         // Center content
-        for (int i = 0; i < tbLSP.getColumnCount(); i++) {
-            tbLSP.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int i = 0; i < tbPBSP.getColumnCount(); i++) {
+            tbPBSP.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
         // Center header
-        JTableHeader headerTB = tbLSP.getTableHeader();
+        JTableHeader headerTB = tbPBSP.getTableHeader();
         DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
         center.setHorizontalAlignment(JLabel.CENTER);
         headerTB.setFont(new Font("Segoe UI", Font.BOLD, 14));
         
         
-        tbLSP.setRowHeight(30);
-        tbLSP.setFocusable(false);
-        tbLSP.setAutoCreateRowSorter(true);
-        tbLSP.setDefaultEditor(Object.class, null);
-        tbLSP.setShowVerticalLines(false);    
+        tbPBSP.setRowHeight(30);
+        tbPBSP.setFocusable(false);
+        tbPBSP.setAutoCreateRowSorter(true);
+        tbPBSP.setDefaultEditor(Object.class, null);
+        tbPBSP.setShowVerticalLines(false);    
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,12 +103,12 @@ public class msfMaLoai extends javax.swing.JDialog {
         btnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbLSP = new javax.swing.JTable();
+        tbPBSP = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnHuy = new javax.swing.JButton();
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã", "Theo tên" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo mã phiên bản", "Theo mã sản phẩm", "Theo size", "Theo màu", "Theo số lượng" }));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -128,7 +136,7 @@ public class msfMaLoai extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(btnRefresh)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,13 +159,13 @@ public class msfMaLoai extends javax.swing.JDialog {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tbLSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbLSP.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbPBSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbPBSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbLSPMouseClicked(evt);
+                tbPBSPMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbLSP);
+        jScrollPane1.setViewportView(tbPBSP);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -233,16 +241,20 @@ public class msfMaLoai extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
-    public void updateTB(ArrayList<LoaiSanPhamDTO> kqlsp)
+    public void updateTB(ArrayList<PhienBanSanPhamDTO> kqpbsp)
     {
         model.setRowCount(0);
-        for (LoaiSanPhamDTO lsp : kqlsp) {
+        for(PhienBanSanPhamDTO pbsp : kqpbsp)
+        {
             Vector row = new Vector();
-            row.add(lsp.getMaLoai());
-            row.add(lsp.getTenLoai());
+            row.add(pbsp.getMaPB());
+            row.add(pbsp.getMaSP());
+            row.add(pbsp.getSize());
+            row.add(pbsp.getMau());
+            row.add(pbsp.getSoLuong());
             model.addRow(row);
         }
-        tbLSP.setModel(model);
+        tbPBSP.setModel(model);
     }
     
     
@@ -254,19 +266,35 @@ public class msfMaLoai extends javax.swing.JDialog {
             return;
         }
         int i = jComboBox1.getSelectedIndex();
-        ArrayList<LoaiSanPhamDTO> kq = new ArrayList<>();
-        for (LoaiSanPhamDTO lsp : LoaiSanPhamBUS.getDSLSP()) {
+        ArrayList<PhienBanSanPhamDTO> kq = new ArrayList<>();
+        for (PhienBanSanPhamDTO pbsp : PhienBanSanPhamBUS.getDSPBSP()) {
             switch (i) {
-                case 0: // Theo mã
-                    if (String.valueOf(lsp.getMaLoai()).equals(tim)) {
-                        kq.add(lsp);
+                case 0: // Theo mã PB
+                    if (String.valueOf(pbsp.getMaPB()).equals(tim)) {
+                        kq.add(pbsp);
                     }
                     break;
-                case 1: // Theo tên
-                    if (lsp.getTenLoai().toLowerCase().contains(tim.toLowerCase())) {
-                        kq.add(lsp);
+                case 1: // Theo mã SP
+                    if (String.valueOf(pbsp.getMaSP()).equals(tim)) {
+                        kq.add(pbsp);
                     }
                     break;
+                case 2:
+                    if (String.valueOf(pbsp.getSize()).equals(tim)) {
+                        kq.add(pbsp);
+                    }
+                    break;
+                case 3:
+                    if (pbsp.getMau().toLowerCase().contains(tim.toLowerCase())) {
+                        kq.add(pbsp);
+                    }
+                    break;
+                case 4:
+                   if (String.valueOf(pbsp.getSoLuong()).equals(tim)) {
+                        kq.add(pbsp);
+                    }
+                    break; 
+                    
             }
         }
 
@@ -282,21 +310,25 @@ public class msfMaLoai extends javax.swing.JDialog {
 
 
     
-    private void tbLSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbLSPMouseClicked
+    private void tbPBSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPBSPMouseClicked
         // TODO add your handling code here:
-         if (evt.getClickCount() == 2) {
-            int i = tbLSP.getSelectedRow();
-            if (i != -1) {
-                try {
-                    getMa = Integer.parseInt(tbLSP.getValueAt(i, 0).toString());
-                    xacNhan = true;
-                    dispose();
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Dữ liệu mã loại không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
+        if(evt.getClickCount() == 2)
+        {
+            
+            if(tbPBSP.isEditing())
+            {
+                tbPBSP.getCellEditor().stopCellEditing();
+            }
+            
+            int i = tbPBSP.getSelectedRow();
+            if(i!=-1)
+            {
+            getMa = Integer.parseInt(tbPBSP.getValueAt(i, 0).toString());
+            xacNhan = true;
+            dispose();
             }
         }
-    }//GEN-LAST:event_tbLSPMouseClicked
+    }//GEN-LAST:event_tbPBSPMouseClicked
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
@@ -304,7 +336,7 @@ public class msfMaLoai extends javax.swing.JDialog {
         docSQL();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    public int getMALOAI()
+    public int getMAPHIENBAN()
     {
         return getMa;
     }
@@ -327,7 +359,7 @@ public class msfMaLoai extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbLSP;
+    private javax.swing.JTable tbPBSP;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
