@@ -390,14 +390,25 @@ public class hoadonGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbHoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoadonMouseClicked
+            int i = tbHoadon.getSelectedRow();
+            int ma = (int) tbHoadon.getValueAt(i, 0);
+            
+            HoaDonBUS bus = new HoaDonBUS();
+            if(bus.getTrangThai(ma) == 1)
+            {
+                btnUpdate.setEnabled(false);
+                btnXoa.setEnabled(false);
+            }else
+            {
+                btnUpdate.setEnabled(true);
+                btnXoa.setEnabled(true);   
+            }
         if(evt.getClickCount() == 2)
         {
             if(tbHoadon.isEditing())
             {
                 tbHoadon.getCellEditor().stopCellEditing();
             }
-            int i = tbHoadon.getSelectedRow();
-            int ma = (int) tbHoadon.getValueAt(i, 0);
             
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             cthdGUI_Click dialog = new cthdGUI_Click(topFrame, true, ma);

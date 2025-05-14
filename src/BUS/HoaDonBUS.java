@@ -218,6 +218,12 @@ public class HoaDonBUS {
 
     return doanhThu;
 }
+    
+public int getTrangThai(int mahd)
+{
+    HoaDonDAO data = new HoaDonDAO();
+    return data.getTrangThai(mahd);
+}
 
 }
     
