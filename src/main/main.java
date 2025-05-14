@@ -93,15 +93,15 @@ public class main extends JFrame {
             nav.highlightButton(nav.btnLoaiSanPham);
         });
         
-        nav.btnAo.addActionListener(e -> {
-            cardLayout.show(contentPanel, "ao");
-            nav.highlightButton(nav.btnAo);
-        });
-        
-        nav.btnQuan.addActionListener(e -> {
-            cardLayout.show(contentPanel, "quan");
-            nav.highlightButton(nav.btnQuan);
-        });
+//        nav.btnAo.addActionListener(e -> {
+//            cardLayout.show(contentPanel, "ao");
+//            nav.highlightButton(nav.btnAo);
+//        });
+//        
+//        nav.btnQuan.addActionListener(e -> {
+//            cardLayout.show(contentPanel, "quan");
+//            nav.highlightButton(nav.btnQuan);
+//        });
         // Thêm các panel cần hiển thị
         ChuongTrinhKhuyenMaiGUI ctkmPanel = new ChuongTrinhKhuyenMaiGUI();
         contentPanel.add(ctkmPanel, "CTKM");
@@ -142,13 +142,13 @@ public class main extends JFrame {
         contentPanel.add(lspgui, "loaisanpham");
         add(contentPanel,BorderLayout.CENTER);
         // panel Ao
-        AoGUI aogui = new AoGUI();
-        contentPanel.add(aogui, "ao");
-        add(contentPanel,BorderLayout.CENTER);
-        // panel Quan
-        QuanGUI quangui = new QuanGUI();
-        contentPanel.add(quangui, "quan");
-        add(contentPanel,BorderLayout.CENTER);
+//        AoGUI aogui = new AoGUI();
+//        contentPanel.add(aogui, "ao");
+//        add(contentPanel,BorderLayout.CENTER);
+//        // panel Quan
+//        QuanGUI quangui = new QuanGUI();
+//        contentPanel.add(quangui, "quan");
+//        add(contentPanel,BorderLayout.CENTER);
         // Bắt sự kiện các nút trong navleft
         nav.btnCTKM.addActionListener(e -> cardLayout.show(contentPanel, "CTKM"));
         nav.btnCTKMSP.addActionListener(e -> cardLayout.show(contentPanel, "CTKMSP"));
@@ -161,8 +161,8 @@ public class main extends JFrame {
         nav.btnPhieuNhap.addActionListener(e -> cardLayout.show(contentPanel,"phieunhap" ));
         nav.btnNhanVien.addActionListener(e -> cardLayout.show(contentPanel,"nhanvien"));
         nav.btnLoaiSanPham.addActionListener(e -> cardLayout.show(contentPanel,"loaisanpham"));
-        nav.btnAo.addActionListener(e -> cardLayout.show(contentPanel,"ao"));
-        nav.btnQuan.addActionListener(e -> cardLayout.show(contentPanel,"quan"));
+//        nav.btnAo.addActionListener(e -> cardLayout.show(contentPanel,"ao"));
+//        nav.btnQuan.addActionListener(e -> cardLayout.show(contentPanel,"quan"));
     }
 
     public static void main(String[] args) {
