@@ -21,7 +21,7 @@ public class HoaDonDAO {
             ArrayList ds = new ArrayList<HoaDonDTO>();
             try {
                 
-                String qry = "select * from hoadon";
+                String qry = "select * from hoadon where is_deleted = 0";
                 con = DBConnect.getConnection();
                 st = con.createStatement();
                 rs = st.executeQuery(qry);
@@ -60,20 +60,35 @@ public class HoaDonDAO {
             }
         }
         
-        public void xoa(int ma)
-        {
-            try {
-                
-                String qry1 = "Delete from hoadon where MAHD = " + ma;
-                String qry2 = "Delete from chitiethoadon where MAHD = " + ma;
-                con = DBConnect.getConnection();
-                st = con.createStatement();
-                st.executeUpdate(qry2);
-                st.executeUpdate(qry1);
-                
-            } catch (Exception e) {
-            }
-        }
+//        public void xoa(int ma)
+//        {
+//            try {
+//                
+//                String qry1 = "Delete from hoadon where MAHD = " + ma;
+//                String qry2 = "Delete from chitiethoadon where MAHD = " + ma;
+//                con = DBConnect.getConnection();
+//                st = con.createStatement();
+//                st.executeUpdate(qry2);
+//                st.executeUpdate(qry1);
+//                
+//            } catch (Exception e) {
+//            }
+//        }
+        
+public void xoa(int ma) {
+    try {
+        String qry = "UPDATE hoadon SET is_deleted = 1 WHERE MAHD = " + ma;
+        con = DBConnect.getConnection();
+        st = con.createStatement();
+        st.executeUpdate(qry);
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try { if (st != null) st.close(); } catch (Exception e) {}
+        try { if (con != null) con.close(); } catch (Exception e) {}
+    }
+}
+
         
         public void capnhat(HoaDonDTO hd)
         {
