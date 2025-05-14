@@ -29,69 +29,45 @@ public class hoadonGUI extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    DefaultTableModel model = new DefaultTableModel();
+    private DefaultTableModel model = new DefaultTableModel();
+    private HoaDonBUS bus = new HoaDonBUS();
 
-    
     public hoadonGUI() {
         initComponents();
-        headerTable();
-        docSQL();
-    }
-    
-
-    
-    public void headerTable()
-    {
-        
-        
-        Vector header = new Vector();
-        header.add("Mã hóa đơn");
-        header.add("Ngày lập");
-        header.add("Mã nhân viên");
-        header.add("Mã khách hàng");
-        header.add("Tổng tiền");
-        model = new DefaultTableModel(header,0)
-                {
-                    @Override
-                    public boolean isCellEditable(int row,int column)
-                {
-                    return false;
-                }
-                };
         tbHoadon.setModel(model);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        String[] header = {"Mã hóa đơn", "Ngày lập", "Mã nhân viên", "Mã khách hàng", "Tổng tiền"};
+        model.setColumnIdentifiers(header);
 
-        // Căn nội dung ra chính giữa
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        renderer.setVerticalAlignment(JLabel.CENTER);
         for (int i = 0; i < tbHoadon.getColumnCount(); i++) {
-        tbHoadon.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-}
+            tbHoadon.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
 
-        //căn header ra center
-        JTableHeader headerTB = tbHoadon.getTableHeader();
-        DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
-        center.setHorizontalAlignment(JLabel.CENTER);
-        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
-        
+        JTableHeader headerTable = tbHoadon.getTableHeader();
+        headerTable.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
         tbHoadon.setRowHeight(30);
         tbHoadon.setFocusable(false);
         tbHoadon.setAutoCreateRowSorter(true);
         tbHoadon.setDefaultEditor(Object.class, null);
         tbHoadon.setShowVerticalLines(false);
+
+        docSQL();
     }
-    public void docSQL()
-    {
+
+    public void docSQL() {
         model.setRowCount(0);
-        HoaDonBUS bus = new HoaDonBUS();
-        bus.docDSHD();
-        for(HoaDonDTO ct : HoaDonBUS.ds)
-        {
+        ArrayList<HoaDonDTO> ds = bus.docDSHD();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (HoaDonDTO hd : ds) {
             Vector row = new Vector();
-            row.add(ct.getMahd());
-            row.add(ct.getNgaylap());
-            row.add(ct.getManv());
-            row.add(ct.getMakh());
-            row.add(ct.getTongtien());
+            row.add(hd.getMahd());
+            row.add(hd.getNgaylap());
+            row.add(hd.getManv());
+            row.add(hd.getMakh());
+            row.add(hd.getTongtien());
             model.addRow(row);
         }
         tbHoadon.setModel(model);
@@ -315,7 +291,7 @@ public class hoadonGUI extends javax.swing.JPanel {
     
     // Gọi thư mục inputCTKM.java để điền info
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(hoadonGUI.this);
         insertHoaDon dialog = new insertHoaDon(topFrame, true);
         dialog.setVisible(true);
 

@@ -466,7 +466,9 @@ ALTER TABLE `ao`
 -- Chỉ mục cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`);
+  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`),
+  ADD KEY `MAPB` (`MAPB`),
+  ADD KEY `MASP` (`MASP`);
 
 --
 -- Chỉ mục cho bảng `ctkm`

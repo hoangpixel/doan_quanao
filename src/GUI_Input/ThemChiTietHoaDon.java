@@ -36,10 +36,8 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         txtThanhTien.setEditable(false);
-        if (maHoaDon > 0) {
-            txtMaHoaDon.setText(String.valueOf(maHoaDon));
-            txtMaHoaDon.setEditable(false);
-        }
+        txtMaHoaDon.setText(String.valueOf(maHoaDon));
+        txtMaHoaDon.setEditable(false);
         addInputListeners();
     }
     
@@ -285,22 +283,7 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
         if (!kiemTraHopLe()) {
             return;
         }
-
-        ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
-        cthd.setMaHoaDon(Integer.parseInt(txtMaHoaDon.getText()));
-        cthd.setMaSanPham(Integer.parseInt(txtMaSanPham.getText()));
-        cthd.setMaPhienBan(Integer.parseInt(txtMaPhienBan.getText()));
-        cthd.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
-        cthd.setDonGia(Integer.parseInt(txtDonGia.getText()));
-
-        if (new ChiTietHoaDonBUS().them(cthd)) {
-            xacNhanThem = true;
-            updateTongTienHoaDon(cthd.getMaHoaDon());
-            JOptionPane.showMessageDialog(this, "Thêm chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Thêm chi tiết hóa đơn thất bại! Kiểm tra số lượng tồn kho hoặc thông tin trùng lặp.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
+        processChiTietHoaDon(true);
     }//GEN-LAST:event_btnXacNhanThemActionPerformed
 
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
@@ -323,15 +306,8 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
 
             PhienBanSanPhamBUS pbBus = new PhienBanSanPhamBUS();
             SanPhamBUS spBus = new SanPhamBUS();
-        
-            PhienBanSanPhamDTO pb = null;
-            for (PhienBanSanPhamDTO p : pbBus.getDSPBSP()) {
-                if (p.getMaPB() == maPhienBan) {
-                    pb = p;
-                    break;
-                }
-            }
 
+            PhienBanSanPhamDTO pb = pbBus.layPBSPTheoMAPB(maPhienBan);
             if (pb != null) {
                 SanPhamDTO sp = spBus.laySanPhamTheoMaSP(pb.getMaSP());
                 if (sp != null) {
@@ -339,7 +315,6 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
                     txtDonGia.setText(String.valueOf(sp.getDonGia()));
                     txtDonGia.setEditable(false);
                     updateThanhTien();
-                
                     if (pb.getSoLuong() <= 0) {
                         JOptionPane.showMessageDialog(this, "Phiên bản sản phẩm này đã hết hàng!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                         txtSoLuong.setText("");
@@ -360,24 +335,33 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
         if (!kiemTraHopLe()) {
             return;
         }
+        processChiTietHoaDon(false);
+    }//GEN-LAST:event_btnTiepTucActionPerformed
 
+    private void processChiTietHoaDon(boolean closeDialog) {
+        ChiTietHoaDonBUS cthdBus = new ChiTietHoaDonBUS();
         ChiTietHoaDonDTO cthd = new ChiTietHoaDonDTO();
         cthd.setMaHoaDon(Integer.parseInt(txtMaHoaDon.getText()));
         cthd.setMaSanPham(Integer.parseInt(txtMaSanPham.getText()));
         cthd.setMaPhienBan(Integer.parseInt(txtMaPhienBan.getText()));
-        cthd.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+        int soLuong = Integer.parseInt(txtSoLuong.getText());
+        cthd.setSoLuong(soLuong);
         cthd.setDonGia(Integer.parseInt(txtDonGia.getText()));
+        //cthd.setThanhTien(soLuong * cthd.getDonGia());
 
-        if (new ChiTietHoaDonBUS().them(cthd)) {
+        if (cthdBus.them(cthd)) {
             xacNhanThem = true;
-            updateTongTienHoaDon(cthd.getMaHoaDon());
             JOptionPane.showMessageDialog(this, "Thêm chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            resetFields();
+            if (!closeDialog) {
+                resetFields();
+            } else {
+                dispose();
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Thêm chi tiết hóa đơn thất bại! Kiểm tra số lượng tồn kho hoặc thông tin trùng lặp.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thêm chi tiết hóa đơn thất bại! Kiểm tra số lượng tồn kho.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnTiepTucActionPerformed
-
+    }
+    
     private void updateTongTienHoaDon(int maHoaDon) {
         ChiTietHoaDonBUS cthdBus = new ChiTietHoaDonBUS();
         cthdBus.capNhatTongTienHoaDon(maHoaDon);
@@ -386,7 +370,7 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
     public boolean isXacNhanThem() {
         return xacNhanThem;
     }
-    
+
     private void resetFields() {
         txtMaSanPham.setText("");
         txtMaPhienBan.setText("");
@@ -397,50 +381,65 @@ public class ThemChiTietHoaDon extends javax.swing.JDialog {
     }
     
     private boolean kiemTraHopLe() {
-        if (txtMaHoaDon.getText().isEmpty() || txtMaSanPham.getText().isEmpty() || txtMaPhienBan.getText().isEmpty() || txtSoLuong.getText().isEmpty() || txtDonGia.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        try {
-            int maHoaDon = Integer.parseInt(txtMaHoaDon.getText());
-            int maSanPham = Integer.parseInt(txtMaSanPham.getText());
-            int maPhienBan = Integer.parseInt(txtMaPhienBan.getText());
-            int soLuong = Integer.parseInt(txtSoLuong.getText());
-            int donGia = Integer.parseInt(txtDonGia.getText());
-
-            if (maHoaDon <= 0) {
-                JOptionPane.showMessageDialog(this, "Mã hóa đơn phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if (maSanPham <= 0) {
-                JOptionPane.showMessageDialog(this, "Mã sản phẩm phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if (maPhienBan <= 0) {
-                JOptionPane.showMessageDialog(this, "Mã phiên bản phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if (soLuong <= 0) {
-                JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if (donGia <= 0) {
-                JOptionPane.showMessageDialog(this, "Đơn giá phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-
-            // Kiểm tra tồn tại hóa đơn
-            HoaDonBUS hdBus = new HoaDonBUS();
-            if (!hdBus.ktraMaHD(maHoaDon)) {
-                JOptionPane.showMessageDialog(this, "Hóa đơn với mã " + maHoaDon + " không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ cho các trường!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        return true;
+    if (txtMaHoaDon.getText().isEmpty() || txtMaSanPham.getText().isEmpty() || txtMaPhienBan.getText().isEmpty() || txtSoLuong.getText().isEmpty() || txtDonGia.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return false;
     }
+    try {
+        int maHoaDon = Integer.parseInt(txtMaHoaDon.getText());
+        int maSanPham = Integer.parseInt(txtMaSanPham.getText());
+        int maPhienBan = Integer.parseInt(txtMaPhienBan.getText());
+        int soLuong = Integer.parseInt(txtSoLuong.getText());
+        int donGia = Integer.parseInt(txtDonGia.getText());
+
+        if (maHoaDon <= 0) {
+            JOptionPane.showMessageDialog(this, "Mã hóa đơn phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (maSanPham <= 0) {
+            JOptionPane.showMessageDialog(this, "Mã sản phẩm phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (maPhienBan <= 0) {
+            JOptionPane.showMessageDialog(this, "Mã phiên bản phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (soLuong <= 0) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (donGia <= 0) {
+            JOptionPane.showMessageDialog(this, "Đơn giá phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Kiểm tra tồn tại hóa đơn
+        HoaDonBUS hdBus = new HoaDonBUS();
+        if (!hdBus.ktraMaHD(maHoaDon)) {
+            JOptionPane.showMessageDialog(this, "Hóa đơn với mã " + maHoaDon + " không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Kiểm tra số lượng tồn kho
+        PhienBanSanPhamBUS pbBus = new PhienBanSanPhamBUS();
+        PhienBanSanPhamDTO pb = pbBus.layPBSPTheoMAPB(maPhienBan);
+        if (pb == null) {
+            JOptionPane.showMessageDialog(this, "Phiên bản sản phẩm không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        ChiTietHoaDonBUS cthdBus = new ChiTietHoaDonBUS();
+        ChiTietHoaDonDTO existingCthd = cthdBus.layChiTietHoaDonTheoBaMa(maHoaDon, maSanPham, maPhienBan);
+        int currentSoLuong = existingCthd != null ? existingCthd.getSoLuong() : 0;
+        if (pb.getSoLuong() < (soLuong + currentSoLuong)) {
+            JOptionPane.showMessageDialog(this, "Số lượng tồn kho không đủ! Chỉ còn " + pb.getSoLuong() + " sản phẩm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ cho các trường!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    return true;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuyBo;

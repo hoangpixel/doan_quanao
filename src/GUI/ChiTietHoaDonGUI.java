@@ -21,7 +21,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import borderRadius.roundedBorder;
-
 /**
  *
  * @author suvie
@@ -31,7 +30,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
     /**
      * Creates new form ChiTietHoaDonGUI
      */
-    private ChiTietHoaDonBUS cthdbus = new ChiTietHoaDonBUS();
+    private ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
     DefaultTableModel model = new DefaultTableModel();
     public ChiTietHoaDonGUI() {
         initComponents();
@@ -62,7 +61,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
         // Load dữ liệu
         
-        this.loadDataTable(cthdbus.docDSCTHD());
+        this.loadDataTable(cthdBUS.docDSCTHD());
     }
 
     /**
@@ -75,11 +74,13 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         btnDetail = new javax.swing.JButton();
         btnExcel = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        cbbSearch = new javax.swing.JComboBox<>();
+        cbbSearch = new javax.swing.JComboBox<String>();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -89,7 +90,17 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(new roundedBorder(15));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1149, 89));
+
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addIcon.png"))); // NOI18N
+        btnAdd.setText("THÊM");
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editIcon.png"))); // NOI18N
@@ -99,6 +110,17 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/deleteIcon.png"))); // NOI18N
+        btnDelete.setText("XÓA");
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -114,7 +136,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("EXCEL");
+        btnExcel.setText("XUẤT EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnExcel.addActionListener(new java.awt.event.ActionListener() {
@@ -134,12 +156,18 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
             }
         });
 
-        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã hóa đơn", "Mã sản phẩm", "Số lượng", "Đơn giá", "Thành tiền" }));
+        cbbSearch.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Mã hóa đơn", "Mã phiên bản", "Mã sản phẩm", "Số lượng", "Đơn giá", "Thành tiền" }));
 
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
             }
         });
 
@@ -149,14 +177,18 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDetail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,9 +203,11 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                            .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnDetail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -214,31 +248,49 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        int row = tbCTHD.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Vui lòng chọn một hóa đơn!");
+        return;
+    }
+    int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
+    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
+    ThemChiTietHoaDon dialog = new ThemChiTietHoaDon(frame, true, mahd);
+    dialog.setVisible(true);
+    if (dialog.isXacNhanThem()) {
+        cthdBUS.refreshDanhSach(); // Refresh the in-memory list
+        this.loadDataTable(cthdBUS.docDSCTHD());
+    }
+    }//GEN-LAST:event_btnAddActionPerformed
+
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int row = tbCTHD.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một chi tiết hóa đơn!");
-        }
-        else {
+        } else {
             int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
             int mapb = Integer.parseInt(model.getValueAt(row, 1).toString());
             int masp = Integer.parseInt(model.getValueAt(row, 2).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(ChiTietHoaDonGUI.this);
             SuaChiTietHoaDon dialog = new SuaChiTietHoaDon(frame, true, mahd, masp, mapb);
             dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
-                this.loadDataTable(ChiTietHoaDonBUS.getDSCTHD());
+            if (dialog.isXacNhanSua()) {
+                this.loadDataTable(cthdBUS.docDSCTHD());
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
         int row = tbCTHD.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một chi tiết hóa đơn!");
-        }
-        else {
+        } else {
             int mahd = Integer.parseInt(model.getValueAt(row, 0).toString());
             int mapb = Integer.parseInt(model.getValueAt(row, 1).toString());
             int masp = Integer.parseInt(model.getValueAt(row, 2).toString());
@@ -250,7 +302,7 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        this.loadDataTable(cthdbus.docDSCTHD());
+        this.loadDataTable(cthdBUS.docDSCTHD());
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -258,62 +310,57 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
         ArrayList<ChiTietHoaDonDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
-        if(!value.isEmpty()) {
-            switch (key) {
-                case "Mã hóa đơn":
-                    ds = cthdbus.timKiemTheoMaHoaDon(Integer.parseInt(value));
-                    break;
-                case "Mã phiên bản":
-                    ds = cthdbus.timKiemTheoMaPhienBan(Integer.parseInt(value));
-                    break;
-                case "Mã sản phẩm":
-                    ds = cthdbus.timKiemTheoMaSanPham(Integer.parseInt(value));
-                    break;
-                case "Số lượng":
-                    ds = cthdbus.timKiemTheoSoLuong(Integer.parseInt(value));
-                    break;
-                case "Đơn giá":
-                    ds = cthdbus.timKiemTheoDonGia(Integer.parseInt(value));
-                    break;
-                case "Thành tiền":
-                    ds = cthdbus.timKiemTheoThanhTien(Integer.parseInt(value));
-                    break;
+        if (!value.isEmpty()) {
+            try {
+                switch (key) {
+                    case "Mã hóa đơn":
+                        ds = cthdBUS.timKiemTheoMaHoaDon(Integer.parseInt(value));
+                        break;
+                    case "Mã phiên bản":
+                        ds = cthdBUS.timKiemTheoMaPhienBan(Integer.parseInt(value));
+                        break;
+                    case "Mã sản phẩm":
+                        ds = cthdBUS.timKiemTheoMaSanPham(Integer.parseInt(value));
+                        break;
+                    case "Số lượng":
+                        ds = cthdBUS.timKiemTheoSoLuong(Integer.parseInt(value));
+                        break;
+                    case "Đơn giá":
+                        ds = cthdBUS.timKiemTheoDonGia(Integer.parseInt(value));
+                        break;
+                    case "Thành tiền":
+                        ds = cthdBUS.timKiemTheoThanhTien(Integer.parseInt(value));
+                        break;
+                }
+                this.loadDataTable(ds);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-            this.loadDataTable(ds);
+        } else {
+            this.loadDataTable(cthdBUS.docDSCTHD());
         }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
         // TODO add your handling code here:
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-         ArrayList<ChiTietHoaDonDTO> danhSachHienTai = cthdbus.docDSCTHD(); // Lấy danh sách đầy đủ
-        // Kiểm tra nếu danh sách rỗng
+        ArrayList<ChiTietHoaDonDTO> danhSachHienTai = cthdBUS.docDSCTHD();
         if (danhSachHienTai == null || danhSachHienTai.isEmpty()) {
-             JOptionPane.showMessageDialog(this, "Không có dữ liệu chi tiết hóa đơn để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-             return;
+            JOptionPane.showMessageDialog(this, "Không có dữ liệu chi tiết hóa đơn để xử lý Excel.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
         xuLyExcelChiTietHoaDon dialogExcel = new xuLyExcelChiTietHoaDon(topFrame, true, danhSachHienTai, this);
         dialogExcel.setVisible(true);
     }//GEN-LAST:event_btnExcelActionPerformed
 
-    public void loadDataTable(ArrayList<ChiTietHoaDonDTO> ds) {
-        model.setRowCount(0);
-        if(ds != null) {
-            for(ChiTietHoaDonDTO cthd : ds) {
-                Vector row = new Vector();
-                row.add(cthd.getMaHoaDon());
-                row.add(cthd.getMaPhienBan());
-                row.add(cthd.getMaSanPham());
-                row.add(cthd.getSoLuong());
-                row.add(cthd.getDonGia());
-                row.add(cthd.getDonGia() * cthd.getSoLuong());
-                model.addRow(row);
-            }
-            tbCTHD.setModel(model);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnRefresh;
@@ -326,5 +373,21 @@ public class ChiTietHoaDonGUI extends javax.swing.JPanel {
     private javax.swing.JTable tbCTHD;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
- 
+
+    public void loadDataTable(ArrayList<ChiTietHoaDonDTO> ds) {
+        model.setRowCount(0);
+        if (ds != null) {
+            for (ChiTietHoaDonDTO cthd : ds) {
+                Vector row = new Vector();
+                row.add(cthd.getMaHoaDon());
+                row.add(cthd.getMaPhienBan());
+                row.add(cthd.getMaSanPham());
+                row.add(cthd.getSoLuong());
+                row.add(cthd.getDonGia());
+                row.add(cthd.getThanhTien());
+                model.addRow(row);
+            }
+            tbCTHD.setModel(model);
+        }
+    }
 }

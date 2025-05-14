@@ -27,10 +27,11 @@ public class insertHoaDon extends javax.swing.JDialog {
     /**
      * Creates new form updateCTKM
      */
-public boolean xacNhan = false;
-public HoaDonDTO hd;
-    public insertHoaDon(java.awt.Frame parent,boolean model) {
-        super(parent,model);
+    public boolean xacNhan = false;
+    public HoaDonDTO hd;
+
+    public insertHoaDon(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         setLocationRelativeTo(this);
     }
@@ -240,72 +241,70 @@ public HoaDonDTO hd;
             return;
         }
 
-        int manv = Integer.parseInt(txtManv.getText());
-        int makh = Integer.parseInt(txtMakh.getText());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String ngaynhap = sdf.format(dateNhap.getDate());
+        try {
+            int manv = Integer.parseInt(txtManv.getText());
+            int makh = Integer.parseInt(txtMakh.getText());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String ngaynhap = sdf.format(dateNhap.getDate());
 
-        NhanVienBUS busNV = new NhanVienBUS();
-        if (!busNV.kiemTraMaNhanVien(manv)) {
-            JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
-            lbSaimanv.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbSaimanv, "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        KhachHangBUS busKH = new KhachHangBUS();
-        if (!busKH.ktraMaKH(makh)) {
-            JLabel lbSaimakh = new JLabel("Mã KH : " + txtMakh.getText() + " không có trong hệ thống!");
-            lbSaimakh.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbSaimakh, "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        hd = new HoaDonDTO(0, ngaynhap, manv, makh, 0);
-        HoaDonBUS bus = new HoaDonBUS();
-        ChiTietHoaDonBUS cthdbus = new ChiTietHoaDonBUS();
-        bus.them(hd); // Thêm hóa đơn
-
-        // Lấy mã hóa đơn mới nhất từ HoaDonBUS
-        int maHoaDon = cthdbus.getLatestMaHoaDon();
-        if (maHoaDon > 0) {
-            // Mở giao diện ThemChiTietHoaDon
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            ThemChiTietHoaDon dialog = new ThemChiTietHoaDon(topFrame, true, maHoaDon);
-            dialog.setVisible(true);
-
-            if (dialog.isXacNhanThem()) {
-                xacNhan = true;
-                JOptionPane.showMessageDialog(this, "Thêm hóa đơn và chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                
-                // Cập nhật giao diện cha
-                hoadonGUI parent = (hoadonGUI) SwingUtilities.getAncestorOfClass(hoadonGUI.class, this);
-                if (parent != null) {
-                    parent.docSQL();
-                }
-                dispose();
-            } else {
-                // Xóa hóa đơn nếu không có chi tiết hóa đơn
-                bus.xoa(maHoaDon);
-                JOptionPane.showMessageDialog(this, "Hủy thêm chi tiết hóa đơn. Hóa đơn đã bị xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                xacNhan = false;
-                dispose();
+            NhanVienBUS busNV = new NhanVienBUS();
+            if (!busNV.kiemTraMaNhanVien(manv)) {
+                JLabel lbSaimanv = new JLabel("Mã NV : " + txtManv.getText() + " không có trong hệ thống!");
+                lbSaimanv.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbSaimanv, "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Thêm hóa đơn thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            KhachHangBUS busKH = new KhachHangBUS();
+            if (!busKH.ktraMaKH(makh)) {
+                JLabel lbSaimakh = new JLabel("Mã KH : " + txtMakh.getText() + " không có trong hệ thống!");
+                lbSaimakh.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                JOptionPane.showMessageDialog(this, lbSaimakh, "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            hd = new HoaDonDTO(0, ngaynhap, manv, makh, 0);
+            HoaDonBUS bus = new HoaDonBUS();
+            ChiTietHoaDonBUS cthdbus = new ChiTietHoaDonBUS();
+            bus.them(hd);
+            int maHoaDon = cthdbus.getLatestMaHoaDon();
+            if (maHoaDon > 0) {
+                JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                ThemChiTietHoaDon dialog = new ThemChiTietHoaDon(topFrame, true, maHoaDon);
+                dialog.setVisible(true);
+
+                if (dialog.isXacNhanThem()) {
+                    xacNhan = true;
+                    JOptionPane.showMessageDialog(this, "Thêm hóa đơn và chi tiết hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    hoadonGUI parent = (hoadonGUI) SwingUtilities.getAncestorOfClass(hoadonGUI.class, this);
+                    if (parent != null) {
+                        parent.docSQL();
+                    }
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hóa đơn đã được tạo, nhưng chưa thêm chi tiết hóa đơn.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    xacNhan = true;
+                    hoadonGUI parent = (hoadonGUI) SwingUtilities.getAncestorOfClass(hoadonGUI.class, this);
+                    if (parent != null) {
+                        parent.docSQL();
+                    }
+                    dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm hóa đơn thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JLabel lbInvalid = new JLabel("Vui lòng nhập số hợp lệ cho mã nhân viên và khách hàng!");
+            lbInvalid.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lbInvalid, "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaNVActionPerformed
         // TODO add your handling code here:
-        
-        
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaNV msfDialog = new msfMaNV(topFrame, true);
         msfDialog.setVisible(true);
-        
-        
-        if(msfDialog.xacNhanChon())
-        {
+        if (msfDialog.xacNhanChon()) {
             int manv = msfDialog.getMANV();
             txtManv.setText(String.valueOf(manv));
         }
@@ -313,13 +312,10 @@ public HoaDonDTO hd;
 
     private void btnMaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaKHActionPerformed
         // TODO add your handling code here:
-        
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaKH dialog = new msfMaKH(topFrame, true);
         dialog.setVisible(true);
-        
-        if(dialog.xacNhanTim())
-        {
+        if (dialog.xacNhanTim()) {
             txtMakh.setText(String.valueOf(dialog.getMaKh()));
         }
     }//GEN-LAST:event_btnMaKHActionPerformed
