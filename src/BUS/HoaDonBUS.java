@@ -23,6 +23,18 @@ public class HoaDonBUS {
         ds = data.docDSHD();
     }
     
+    public boolean ktraMaTrung(int mahd)
+    {
+        for(HoaDonDTO ct : ds)
+        {
+            if(ct.getMahd() == mahd)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void them(HoaDonDTO hd)
     {
         HoaDonDAO data = new HoaDonDAO();

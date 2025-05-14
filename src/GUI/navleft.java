@@ -23,7 +23,7 @@ public class navleft extends javax.swing.JPanel {
     }
     
     public void highlightButton(JButton selectedButton) {
-    JButton[] buttons = { btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTHD, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham, btnAo, btnQuan };
+    JButton[] buttons = { btnCTKM, btnCTKMSP, btnSanPham, btnHoaDon, btnCTHD, btnCTKMHD, btnNCC, btnNhanVien, btnLoaiSanPham};
 
     for (JButton btn : buttons) {
         if (btn == selectedButton) {
@@ -55,8 +55,6 @@ public class navleft extends javax.swing.JPanel {
         btnPhieuNhap = new javax.swing.JButton();
         btnLoaiSanPham = new javax.swing.JButton();
         btnNhanVien = new javax.swing.JButton();
-        btnQuan = new javax.swing.JButton();
-        btnAo = new javax.swing.JButton();
         btnCTHD = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -125,15 +123,6 @@ public class navleft extends javax.swing.JPanel {
         btnNhanVien.setText("Nhân viên");
         btnNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btnQuan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnQuan.setText("Quần");
-        btnQuan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        btnAo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnAo.setText("Áo");
-        btnAo.setActionCommand("");
-        btnAo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         btnCTHD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnCTHD.setText("Chi tiết hóa đơn");
         btnCTHD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -155,8 +144,6 @@ public class navleft extends javax.swing.JPanel {
                     .addComponent(btnPhieuNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnQuan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCTHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -168,16 +155,12 @@ public class navleft extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTHD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTKM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCTKMSP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,7 +172,7 @@ public class navleft extends javax.swing.JPanel {
                 .addComponent(btnNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnKH, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
@@ -264,7 +247,6 @@ public class navleft extends javax.swing.JPanel {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnAo;
     public javax.swing.JButton btnCTHD;
     public javax.swing.JButton btnCTKM;
     public javax.swing.JButton btnCTKMHD;
@@ -275,7 +257,6 @@ public class navleft extends javax.swing.JPanel {
     public javax.swing.JButton btnNCC;
     public javax.swing.JButton btnNhanVien;
     public javax.swing.JButton btnPhieuNhap;
-    public javax.swing.JButton btnQuan;
     public javax.swing.JButton btnSanPham;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

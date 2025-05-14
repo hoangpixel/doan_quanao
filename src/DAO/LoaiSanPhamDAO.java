@@ -42,19 +42,22 @@ public class LoaiSanPhamDAO {
     }
     
     public int them(LoaiSanPhamDTO lsp) {
-        String query = "insert into loaisp (TENLOAI, is_deleted) values (?, 0)";
+        String query = "insert into loaisp (MALOAI, TENLOAI, is_deleted) values (?, ?, 0)";
         Connection conn = null;
         int maloai = -1;
         try {
             conn = DBConnect.getConnection();
             PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, lsp.getTenLoai());
+            st.setInt(1, lsp.getMaLoai());
+            st.setString(2, lsp.getTenLoai());
+            
+            
             
             int row = st.executeUpdate();
             if(row > 0) {
                 ResultSet rs = st.getGeneratedKeys();
                 if(rs.next()) {
-                    maloai = rs.getInt(1);
+                    maloai = lsp.getMaLoai();
                 }
                 rs.close();
             }

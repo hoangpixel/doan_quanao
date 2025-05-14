@@ -41,7 +41,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
 
         tbPhienBan.setModel(model);
 
-        String[] header = {"Size", "Màu"};
+        String[] header = {"Size", "Màu", "Số lượng phiên bản"};
         model.setColumnIdentifiers(header);
 
         // Tạo renderer có padding và căn giữa
@@ -116,7 +116,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +240,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
                             .addComponent(scrollMoTa)
                             .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -394,6 +394,7 @@ public class ChiTietSanPham extends javax.swing.JDialog {
             Vector rowData = new Vector();
             rowData.add(d.getSize());
             rowData.add(d.getMau());
+            rowData.add(d.getSoLuong());
             rowData.add(d.getMaPB());
             model.addRow(rowData);
 
