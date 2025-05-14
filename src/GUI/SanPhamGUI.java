@@ -11,6 +11,8 @@ import GUI_Input.ChiTietSanPham;
 import GUI_Input.SearchSanPham;
 import GUI_Input.SuaSanPham;
 import GUI_Input.ThemSanPham;
+import GUI_Input.xuLyExcelSanPham;
+import GUI_Input.xuLyExcelctkm;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -24,17 +26,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import borderRadius.roundedBorder;
+
 /**
  *
  * @author Vinh
  */
 public class SanPhamGUI extends javax.swing.JPanel {
+
     private SanPhamBUS sanPhamBUS = new SanPhamBUS();
     /**
      * Creates new form listNCC
      */
     DefaultTableModel model = new DefaultTableModel();
-    
+
     public SanPhamGUI() {
         initComponents();
 
@@ -49,7 +53,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setVerticalAlignment(JLabel.CENTER);
-        
+
         // Gán renderer cho tất cả các cột
         for (int i = 0; i < tbSanPham.getColumnCount(); i++) {
             tbSanPham.getColumnModel().getColumn(i).setCellRenderer(renderer);
@@ -63,7 +67,6 @@ public class SanPhamGUI extends javax.swing.JPanel {
         tbSanPham.setShowVerticalLines(false);
 
         // Load dữ liệu
-        
         this.loadDataTable(sanPhamBUS.layTatCaSanPham());
 
     }
@@ -140,10 +143,17 @@ public class SanPhamGUI extends javax.swing.JPanel {
             }
         });
 
+        btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
+        btnExcel.setActionCommand("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -200,7 +210,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                 .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,6 +244,8 @@ public class SanPhamGUI extends javax.swing.JPanel {
                                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27))))
         );
+
+        btnExcel.getAccessibleContext().setAccessibleName("EXCEL");
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -274,16 +286,15 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
+        } else {
             int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
             String tenSP = model.getValueAt(row, 1).toString();
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa sản phẩm \"" + tenSP + "\""+ " có mã SP: \"" + maSP + "\" ?",
-                "Xác nhận xóa",
-                JOptionPane.YES_NO_OPTION);
+                    "Bạn có chắc muốn xóa sản phẩm \"" + tenSP + "\"" + " có mã SP: \"" + maSP + "\" ?",
+                    "Xác nhận xóa",
+                    JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Xóa sản phẩm
@@ -295,15 +306,14 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
+        } else {
             int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
             SuaSanPham dialog = new SuaSanPham(frame, true, maSP);
             dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
+            if (dialog.isXacNhanSua()) {
                 this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
             }
         }
@@ -313,7 +323,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
         ThemSanPham dialog = new ThemSanPham(frame, true);
         dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
+        if (dialog.isXacNhanThem()) {
             this.loadDataTable(SanPhamBUS.getDanhSachSanPham());
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -321,10 +331,9 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
         int row = tbSanPham.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
+        } else {
             int maSP = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
             ChiTietSanPham dialog = new ChiTietSanPham(frame, true, maSP);
@@ -342,12 +351,12 @@ public class SanPhamGUI extends javax.swing.JPanel {
         ArrayList<SanPhamDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
-        if(!value.isEmpty()) {
+        if (!value.isEmpty()) {
             switch (key) {
                 case "Mã sản phẩm":
                     try {
                         SanPhamDTO sp = sanPhamBUS.laySanPhamTheoMaSP(Integer.parseInt(value));
-                        if(sp != null) {
+                        if (sp != null) {
                             ds.add(sp);
                         }
                     } catch (NumberFormatException e) {
@@ -380,19 +389,37 @@ public class SanPhamGUI extends javax.swing.JPanel {
             }
             this.loadDataTable(ds);
         }
-        
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SanPhamGUI.this);
         SearchSanPham dialog = new SearchSanPham(frame, true);
         dialog.setVisible(true);
-        if(dialog.isTimKiem()) {
+        if (dialog.isTimKiem()) {
             this.loadDataTable(dialog.getDs());
         }
     }//GEN-LAST:event_btnFilterActionPerformed
 
-    
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+
+        // Lấy frame cha (cửa sổ chính)
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        // Tạo giao diện chính sản phẩm nếu cần
+        SanPhamGUI gui = new SanPhamGUI();
+
+        // Tạo dialog xử lý Excel và truyền dữ liệu sản phẩm vào
+        xuLyExcelSanPham dialog = new xuLyExcelSanPham(topFrame, true, getDataForExport(), gui);
+
+        // Hiển thị dialog
+        dialog.setVisible(true);
+        loadDataTable(new SanPhamBUS().getDanhSachSanPham());
+    }//GEN-LAST:event_btnExcelActionPerformed
+    private ArrayList<SanPhamDTO> getDataForExport() {
+        SanPhamBUS spBUS = new SanPhamBUS();
+        return spBUS.layTatCaSanPham(); // hoặc spBUS.getDanhSachSanPham();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -413,8 +440,8 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
     public void loadDataTable(ArrayList<SanPhamDTO> ds) {
         model.setRowCount(0);
-        if(ds != null) {
-            for(SanPhamDTO sp : ds) {
+        if (ds != null) {
+            for (SanPhamDTO sp : ds) {
                 Vector row = new Vector();
                 row.add(sp.getMaSP());
                 row.add(sp.getTenSP());
@@ -430,8 +457,3 @@ public class SanPhamGUI extends javax.swing.JPanel {
         tbSanPham.setModel(model);
     }
 }
-
-
-
-
-
