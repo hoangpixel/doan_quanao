@@ -74,20 +74,60 @@ public class HoaDonDAO {
 //            } catch (Exception e) {
 //            }
 //        }
-        
-public void xoa(int ma) {
+
+public void capNhatLaiSoLuongSauXoa(int mahd) {
     try {
-        String qry = "UPDATE hoadon SET is_deleted = 1 WHERE MAHD = " + ma;
         con = DBConnect.getConnection();
-        st = con.createStatement();
-        st.executeUpdate(qry);
+
+        // 1. Lấy danh sách MAPB và SL từ CTHD của hóa đơn cần xóa
+        String qry = "SELECT MAPB, SL FROM cthd WHERE MAHD = ?";
+        PreparedStatement ps = con.prepareStatement(qry);
+        ps.setInt(1, mahd);
+        ResultSet rs = ps.executeQuery();
+
+        // 2. Cập nhật lại bảng phienbansp
+        while (rs.next()) {
+            int mapb = rs.getInt("MAPB");
+            int sl = rs.getInt("SL");
+
+            String update = "UPDATE phienbansp SET SLPB = SLPB + ? WHERE MAPB = ?";
+            PreparedStatement psUpdate = con.prepareStatement(update);
+            psUpdate.setInt(1, sl);
+            psUpdate.setInt(2, mapb);
+            psUpdate.executeUpdate();
+            psUpdate.close();
+        }
+
+        rs.close();
+        ps.close();
     } catch (Exception e) {
         e.printStackTrace();
     } finally {
-        try { if (st != null) st.close(); } catch (Exception e) {}
         try { if (con != null) con.close(); } catch (Exception e) {}
     }
 }
+
+        
+public void xoa(int ma) {
+    try {
+        con = DBConnect.getConnection();
+        String qry = "UPDATE hoadon SET is_deleted = 1 WHERE MAHD = ?";
+        PreparedStatement ps = con.prepareStatement(qry);
+        ps.setInt(1, ma);
+        ps.executeUpdate();
+        ps.close();
+
+        // Gọi cập nhật lại tồn kho
+        capNhatLaiSoLuongSauXoa(ma);
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try { if (con != null) con.close(); } catch (Exception e) {}
+    }
+}
+
+
+
 
         
         public void capnhat(HoaDonDTO hd)
