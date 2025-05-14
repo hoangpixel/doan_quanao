@@ -67,7 +67,7 @@ public class HoaDonDTO {
         this.tongtien = tongtien;
     }
     
-    public void setTrangThai(int trangThai){
+    public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
-    } 
+    }
 }

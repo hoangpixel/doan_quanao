@@ -487,7 +487,7 @@ public class SuaHoaDon extends javax.swing.JDialog {
         
         // Cập nhật vào database
         HoaDonBUS hdBUS = new HoaDonBUS();
-        boolean resultHD = hdBUS.sua(hd);
+        boolean resultHD = hdBUS.capnhat(hd);
         
         if(resultHD) {
             // Quản lý CTHD

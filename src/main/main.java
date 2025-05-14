@@ -7,10 +7,9 @@ import GUI.ChuongTrinhKhuyenMaiSanPhamGUI;
 import GUI.ChuongTrinhKhuyenMaiGUI;
 import GUI.KhachHangGUI;
 import GUI.PhieuNhapGUI;
-import GUI.hoadonGUI;
+import GUI.HoaDonGUI;
 import GUI.NhanVienGUI;
 import GUI.LoaiSanPhamGUI;
-import GUI.ChiTietHoaDonGUI;
 import GUI.AoGUI;
 import GUI.QuanGUI;
 import GUI.navleft;
@@ -63,11 +62,6 @@ public class main extends JFrame {
         nav.highlightButton(nav.btnHoaDon);
         });
         
-        nav.btnCTHD.addActionListener(e -> {
-        cardLayout.show(contentPanel, "cthd");
-        nav.highlightButton(nav.btnCTHD);
-        });
-        
         nav.btnCTKMHD.addActionListener(e -> {
         cardLayout.show(contentPanel, "CTKMHD");
         nav.highlightButton(nav.btnCTKMHD);
@@ -114,12 +108,8 @@ public class main extends JFrame {
         NhaCungCapGUI nhaCungCapGUI = new NhaCungCapGUI();
         contentPanel.add(nhaCungCapGUI, "NhaCungCap");
         //panel hóa đơn
-        hoadonGUI hdPanel = new hoadonGUI();
+        HoaDonGUI hdPanel = new HoaDonGUI();
         contentPanel.add(hdPanel,"hoadon");
-        add(contentPanel, BorderLayout.CENTER);
-        //panel cthd
-        ChiTietHoaDonGUI cthdPanel = new ChiTietHoaDonGUI();
-        contentPanel.add(cthdPanel,"cthd");
         add(contentPanel, BorderLayout.CENTER);
         // panel CTKMHD
         ChuongTrinhKhuyenMaiHoaDonGUI ctkmhdgui = new ChuongTrinhKhuyenMaiHoaDonGUI();
@@ -155,7 +145,6 @@ public class main extends JFrame {
         nav.btnSanPham.addActionListener(e -> cardLayout.show(contentPanel, "SanPham"));
         nav.btnNCC.addActionListener(e -> cardLayout.show(contentPanel, "NhaCungCap"));
         nav.btnHoaDon.addActionListener(e -> cardLayout.show(contentPanel, "hoadon"));
-        nav.btnCTHD.addActionListener(e -> cardLayout.show(contentPanel, "cthd"));
         nav.btnCTKMHD.addActionListener(e -> cardLayout.show(contentPanel, "CTKMHD"));
         nav.btnKH.addActionListener(e -> cardLayout.show(contentPanel, "khachhang"));
         nav.btnPhieuNhap.addActionListener(e -> cardLayout.show(contentPanel,"phieunhap" ));

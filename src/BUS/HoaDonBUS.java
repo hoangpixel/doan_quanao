@@ -35,33 +35,23 @@ public class HoaDonBUS {
         return false;
     }
     
-    public void them(HoaDonDTO hd)
-    {
+    public boolean them(HoaDonDTO hd){
         HoaDonDAO data = new HoaDonDAO();
-        data.them(hd);
-        ds.add(hd);
-    }
-    
-    public void capnhat(HoaDonDTO hd)
-    {
-        HoaDonDAO data = new HoaDonDAO();
-        data.capnhat(hd);
-    }
-    
-    //Nam sửa phần này
-    public void xoa(int ma) {
-        HoaDonDAO data = new HoaDonDAO();
-        ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
-
-        // Xóa các chi tiết hóa đơn liên quan trước
-        ArrayList<ChiTietHoaDonDTO> dscthd = cthdBUS.timKiemTheoMaHoaDon(ma);
-        for (ChiTietHoaDonDTO cthd : dscthd) {
-            cthdBUS.xoa(cthd.getMaHoaDon(), cthd.getMaSanPham(), cthd.getMaPhienBan());
+        boolean result = data.them(hd);
+        if (result) {
+            ds.add(hd);
         }
-
-        // Sau đó xóa hóa đơn
-        data.xoa(ma);
-        ds.removeIf(hd -> hd.getMahd() == ma);
+        return result;
+    }
+    
+    public boolean xoa(int ma){
+        HoaDonDAO data = new HoaDonDAO();
+        return data.xoa(ma);
+    }
+    
+    public boolean capnhat(HoaDonDTO pn){
+        HoaDonDAO data = new HoaDonDAO();
+        return data.capnhat(pn);
     }
     
     public ArrayList<HoaDonDTO> timKiemThuong(String tim,int index)
@@ -186,6 +176,23 @@ public class HoaDonBUS {
         HoaDonDAO data = new HoaDonDAO();
         return data.ktraMaHD(ma);
     }
+    
+    public boolean ktraMaNV(int ma)
+    {
+        HoaDonDAO data = new HoaDonDAO();
+        return data.ktraMaNV(ma);
+    }
+    
+    public boolean ktraMaKH(int ma)
+    {
+        HoaDonDAO data = new HoaDonDAO();
+        return data.ktraMaKH(ma);
+    }
+    public int getAI(){
+        HoaDonDAO data = new HoaDonDAO();
+        return data.getAI();
+    }
+    
     public boolean ktraHopLe(HoaDonDTO ct)
     {
         HoaDonDAO data = new HoaDonDAO();

@@ -10,7 +10,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.awt.Font;
-import GUI.hoadonGUI;
+import GUI.HoaDonGUI;
 import BUS.HoaDonBUS;
 import DTO.HoaDonDTO;
 import java.text.SimpleDateFormat;
@@ -26,8 +26,8 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
      * Creates new form xuLyExcel
      */
     ArrayList<HoaDonDTO> dskq;
-    hoadonGUI gui;
-    public xuLyExcelhoadon(java.awt.Frame parent, boolean modal,ArrayList<HoaDonDTO> dskq,hoadonGUI gui) {
+    HoaDonGUI gui;
+    public xuLyExcelhoadon(java.awt.Frame parent, boolean modal,ArrayList<HoaDonDTO> dskq,HoaDonGUI gui) {
         super(parent, modal);
         this.dskq = dskq;
         this.gui=gui;
@@ -141,7 +141,7 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                 dataStyle.setBorderRight(BorderStyle.THIN);
 
                 Row headerRow = sheet.createRow(0);
-                String[] headers = {"Mã HD", "Ngày lập", "Mã NV", "Mã KH","Tổng tiền"};
+                String[] headers = {"Mã HD", "Ngày lập", "Mã NV", "Mã KH","Tổng tiền", "Trạng thái"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -156,6 +156,7 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                     row.createCell(2).setCellValue(ct.getManv());
                     row.createCell(3).setCellValue(ct.getMakh());
                     row.createCell(4).setCellValue(ct.getTongtien());
+                    row.createCell(5).setCellValue(ct.getTrangThai());
 
                     for (int i = 0; i < headers.length; i++) {
                         row.getCell(i).setCellStyle(dataStyle);
@@ -254,7 +255,7 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
 //            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
 //            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     // Cập nhật lại giao diện
-                    gui.docSQL();
+                    gui.docDB();
                 } else {
                     JOptionPane.showMessageDialog(this, "Không có dữ liệu trong file Excel", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -325,7 +326,13 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                         throw new IllegalStateException("Tổng tiền phải là số nguyên tại dòng " + (row.getRowNum() + 1));        
                     }
                     int tongtien = (int) tongtienCell.getNumericCellValue();
-                    HoaDonDTO dto = new HoaDonDTO(mahd, ngayBD, manv, makh, tongtien);
+                    Cell trangthaiCell = row.getCell(5);
+                    if(trangthaiCell.getCellType() != CellType.NUMERIC)
+                    {
+                        throw new IllegalStateException("Trạng thái phải là số nguyên tại dòng " + (row.getRowNum() + 1));        
+                    }
+                     int trangthai = (int) trangthaiCell.getNumericCellValue();
+                    HoaDonDTO dto = new HoaDonDTO(mahd, ngayBD, manv, makh, tongtien, trangthai);
                     dataList.add(dto);
 
                 } catch (IllegalStateException e) {

@@ -42,23 +42,29 @@ public class HoaDonDAO {
             return ds;
         }
         
-        public void them(HoaDonDTO hd)
-        {
-            try {
-                
-            String qry = "Insert into hoadon (NGAYLAP,MANV,MAKH,TONGTIEN) values (";
-            qry += "'" + hd.getNgaylap() + "',";
-            qry += "'" + hd.getManv() + "',";
-            qry += "'" + hd.getMakh() + "',";
-            qry += "'" + hd.getTongtien() + "'";
-            qry += ")";
-            con = DBConnect.getConnection();            
+        public boolean them(HoaDonDTO hd)
+    {
+        try {
+            String qry = "Insert into hoadon (MANV, MAKH, TONGTIEN, NGAYNHAP, TRANGTHAI, is_deleted) values (";
+            qry = qry + hd.getManv() + ",";
+            qry = qry + hd.getMakh() + ",";
+            qry = qry + hd.getTongtien() + ",";
+            qry = qry + "'" + hd.getNgaylap() + "',";
+            qry = qry  + hd.getTrangThai() + ",";
+            qry = qry + "0";
+            qry = qry + ")";          
+            con = DBConnect.getConnection();
             st = con.createStatement();
-            st.execute(qry);
-                
-            } catch (Exception e) {
-            }
-        }
+            st.executeUpdate(qry);
+            
+            System.out.println("Thêm phiếu nhập thành công");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } 
+    }
         
 //        public void xoa(int ma)
 //        {
@@ -108,7 +114,7 @@ public void capNhatLaiSoLuongSauXoa(int mahd) {
 }
 
         
-public void xoa(int ma) {
+public boolean xoa(int ma) {
     try {
         con = DBConnect.getConnection();
         String qry = "UPDATE hoadon SET is_deleted = 1 WHERE MAHD = ?";
@@ -119,8 +125,10 @@ public void xoa(int ma) {
 
         // Gọi cập nhật lại tồn kho
         capNhatLaiSoLuongSauXoa(ma);
+        return true;
     } catch (Exception e) {
         e.printStackTrace();
+        return false;
     } finally {
         try { if (con != null) con.close(); } catch (Exception e) {}
     }
@@ -130,7 +138,7 @@ public void xoa(int ma) {
 
 
         
-        public void capnhat(HoaDonDTO hd)
+        public boolean capnhat(HoaDonDTO hd)
         {
             try {
                 
@@ -143,7 +151,9 @@ public void xoa(int ma) {
                 con = DBConnect.getConnection();
                 st = con.createStatement();
                 st.executeUpdate(qry);
+                return true;
             } catch (Exception e) {
+                return false;
             }
         }
         
@@ -167,6 +177,39 @@ public void xoa(int ma) {
             }
             return false;
         }
+        
+        public boolean ktraMaNV(int ma)
+    {
+        try {
+            String qry = "select count(*) from nhanvien where manv=" + ma;
+            con = DBConnect.getConnection();            
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next());
+            {
+                int d = rs.getInt(1);
+                return d > 0;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+    public boolean ktraMaKH(int ma)
+    {
+        try {
+            String qry = "select count(*) from khachhang where makh=" + ma;
+            con = DBConnect.getConnection();            
+            st = con.createStatement();
+            rs = st.executeQuery(qry);
+            if(rs.next());
+            {
+                int d = rs.getInt(1);
+                return d > 0;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
         
         public boolean ktraHopLe(HoaDonDTO ct)
         {
@@ -225,4 +268,20 @@ public void xoa(int ma) {
             }
             return trangthai;
         }
+        
+        public int getAI(){
+        int result = 0;
+        try {
+            String qry = "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES " +
+                     "WHERE TABLE_SCHEMA = 'java_quanao' AND TABLE_NAME = 'hoadon'";
+        con = DBConnect.getConnection();
+        st = con.createStatement();
+        rs = st.executeQuery(qry);
+        if (rs.next()) {
+            result = rs.getInt("AUTO_INCREMENT");
+        }
+        } catch (Exception e) {
+        }
+        return result;
+    }
 }
