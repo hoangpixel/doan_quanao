@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 13, 2025 lúc 05:07 PM
+-- Thời gian đã tạo: Th5 14, 2025 lúc 12:23 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -73,6 +73,13 @@ CREATE TABLE `cthd` (
   `DONGIA` int(11) NOT NULL,
   `THANHTIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cthd`
+--
+
+INSERT INTO `cthd` (`MAHD`, `MASP`, `MAPB`, `SL`, `DONGIA`, `THANHTIEN`) VALUES
+(11, 2, 4, 2, 1000, 0);
 
 -- --------------------------------------------------------
 
@@ -154,7 +161,9 @@ CREATE TABLE `ctpn` (
 
 INSERT INTO `ctpn` (`MAPN`, `MASP`, `MAPB`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
 (11, 1, 1, 1, 1111, 1111),
-(11, 2, 3, 1, 2222, 2222);
+(11, 2, 3, 1, 2222, 2222),
+(12, 1, 1, 1, 2222, 2222),
+(13, 1, 1, 1, 2222, 2222);
 
 -- --------------------------------------------------------
 
@@ -184,7 +193,9 @@ INSERT INTO `hoadon` (`MAHD`, `NGAYLAP`, `MANV`, `MAKH`, `TONGTIEN`) VALUES
 (7, '01/04/2025', 4, 18, 0),
 (8, '05/04/2025', 3, 19, 0),
 (9, '04/04/2025', 2, 20, 0),
-(10, '05/04/2025', 10, 3, 0);
+(10, '05/04/2025', 10, 3, 0),
+(11, '15/05/2025', 7, 9, 0),
+(12, '15/05/2025', 6, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -300,16 +311,16 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`, `is_deleted`) VALUES
-(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'TPHCM', 'sunamvi98@gmail.com', 0),
-(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Bình Thuận', 'nguyenthuh@gmail.com', 0),
-(3, 'Võ', 'K', 15600000, '0933451567', 'TPHCM', 'vok@gmail.com', 0),
-(4, 'Hoàng', 'S', 19800000, '0956734234', 'TPHCM', 'hoangs@gmail.com', 0),
-(5, 'Phan Văn', 'T', 16000000, '0331234567', 'TPHCM', 'phanvant@gmail.com', 0),
-(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'TPHCM', 'nguyenthih@gmail.com', 0),
-(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Lâm Đồng', 'vothim@gmail.com', 0),
-(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TPHCM', 'tranvana@gmail.com', 0),
-(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Long An', 'buithul@gmail.com', 0),
-(10, 'Lương Văn', 'N', 13900000, '0989845634', 'Bình Thuận', 'luongvann@gmail.com', 0),
+(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'Quận 3, TPHCM', 'sunamvi98@gmail.com', 0),
+(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Tánh Linh, Bình Thuận', 'nguyenthuh@gmail.com', 0),
+(3, 'Võ', 'K', 15600000, '0933451567', 'Quận 5, TPHCM', 'vok@gmail.com', 0),
+(4, 'Hoàng', 'S', 19800000, '0956734234', 'Quận 8, TPHCM', 'hoangs@gmail.com', 0),
+(5, 'Phan Văn', 'T', 16000000, '0331234567', 'Quận Bình Tân, TPHCM', 'phanvant@gmail.com', 0),
+(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'Quận 7, TPHCM', 'nguyenthih@gmail.com', 0),
+(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Đà Lạt, Lâm Đồng', 'vothim@gmail.com', 0),
+(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TP Thủ Đức, TPHCM', 'tranvana@gmail.com', 0),
+(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Cần Giuộc, Long An', 'buithul@gmail.com', 0),
+(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com', 0),
 (11, 'Nguyễn', 'An', 15500000, '0911223344', 'Đồng Nai', 'nguyenan@gmail.com', 0),
 (12, 'Lê Thị', 'B', 13000000, '0909123456', 'Bình Dương', 'lethib@gmail.com', 0),
 (13, 'Phạm Văn', 'C', 18000000, '0912345678', 'TPHCM', 'phamvanc@gmail.com', 0),
@@ -346,10 +357,10 @@ CREATE TABLE `phienbansp` (
 --
 
 INSERT INTO `phienbansp` (`MAPB`, `MASP`, `SIZE`, `MAU`, `SLPB`, `is_deleted`) VALUES
-(1, 1, 'M', 'Đỏ', 10, 0),
+(1, 1, 'M', 'Đỏ', 11, 0),
 (2, 1, 'XXL', 'Xanh', 10, 0),
-(3, 2, 'L', 'Trắng', 10, 0),
-(4, 2, 'XXL', 'Xanh', 10, 0),
+(3, 2, 'L', 'Trắng', 5, 0),
+(4, 2, 'XXL', 'Xanh', 8, 0),
 (5, 5, '1', '1', 0, 1),
 (6, 5, '2', '2', 0, 0),
 (7, 5, '3', '3', 0, 0);
@@ -366,6 +377,7 @@ CREATE TABLE `phieunhap` (
   `MANCC` int(11) NOT NULL,
   `TONGTIEN` int(15) NOT NULL,
   `NGAYNHAP` varchar(20) NOT NULL,
+  `TRANGTHAI` int(11) NOT NULL,
   `is_deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
@@ -373,18 +385,20 @@ CREATE TABLE `phieunhap` (
 -- Đang đổ dữ liệu cho bảng `phieunhap`
 --
 
-INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`, `is_deleted`) VALUES
-(1, 2, 3, 4320000, '15/03/2025', 0),
-(2, 1, 4, 6850000, '22/01/2025', 0),
-(3, 3, 2, 7895000, '07/02/2025', 0),
-(4, 4, 5, 2345000, '10/12/2024', 0),
-(5, 5, 1, 9100000, '02/03/2025', 0),
-(6, 2, 2, 5600000, '11/04/2025', 0),
-(7, 3, 3, 7400000, '08/01/2025', 0),
-(8, 4, 4, 3100000, '20/02/2025', 0),
-(9, 1, 5, 8450000, '14/03/2025', 0),
-(10, 5, 1, 6550000, '17/04/2025', 0),
-(11, 1, 1, 3333, '2025-05-06 15:41:03', 0);
+INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`, `TRANGTHAI`, `is_deleted`) VALUES
+(1, 2, 3, 4320000, '15/03/2025', 0, 0),
+(2, 1, 4, 6850000, '22/01/2025', 0, 0),
+(3, 3, 2, 7895000, '07/02/2025', 0, 0),
+(4, 4, 5, 2345000, '10/12/2024', 0, 0),
+(5, 5, 1, 9100000, '02/03/2025', 0, 0),
+(6, 2, 2, 5600000, '11/04/2025', 0, 0),
+(7, 3, 3, 7400000, '08/01/2025', 0, 0),
+(8, 4, 4, 3100000, '20/02/2025', 0, 0),
+(9, 1, 5, 8450000, '14/03/2025', 0, 0),
+(10, 5, 1, 6550000, '17/04/2025', 0, 0),
+(11, 1, 1, 3333, '2025-05-14 17:09:56', 1, 0),
+(12, 1, 1, 2222, '2025-05-14', 0, 0),
+(13, 1, 1, 2222, '14/05/2025', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -466,9 +480,9 @@ ALTER TABLE `ao`
 -- Chỉ mục cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`),
-  ADD KEY `MAPB` (`MAPB`),
-  ADD KEY `MASP` (`MASP`);
+  ADD PRIMARY KEY (`MAHD`),
+  ADD KEY `MASP` (`MASP`),
+  ADD KEY `cthd_ibfk_2` (`MAPB`);
 
 --
 -- Chỉ mục cho bảng `ctkm`
@@ -566,7 +580,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  MODIFY `MAHD` int(11) NOT NULL;
+  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `ctkm`
@@ -590,7 +604,7 @@ ALTER TABLE `ctkmsp`
 -- AUTO_INCREMENT cho bảng `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `MAHD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `khachhang`
@@ -626,7 +640,7 @@ ALTER TABLE `phienbansp`
 -- AUTO_INCREMENT cho bảng `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `sanpham`
@@ -648,9 +662,8 @@ ALTER TABLE `ao`
 -- Các ràng buộc cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD CONSTRAINT `cthd_fk_mahd` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `cthd_fk_masp` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `cthd_fk_mapb` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Các ràng buộc cho bảng `ctkmhd`

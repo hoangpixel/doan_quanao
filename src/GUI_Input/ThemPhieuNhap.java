@@ -416,7 +416,7 @@ public class ThemPhieuNhap extends javax.swing.JDialog {
             
             // Get current date
             java.time.LocalDateTime now = java.time.LocalDateTime.now();
-            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String ngayNhap = now.format(formatter);
             
             // Create PhieuNhap object

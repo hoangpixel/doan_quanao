@@ -16,7 +16,7 @@ public class KhachHangDAO {
     Statement st=null;
     ResultSet rs=null;
 public ArrayList<KhachHangDTO> DSKhachHangDTOs()
-    {
+    {          
         ArrayList ds = new ArrayList<KhachHangDTO>();
         try {
             String qry = "select * from khachhang where is_deleted=0";
