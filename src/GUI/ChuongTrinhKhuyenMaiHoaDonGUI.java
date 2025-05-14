@@ -9,6 +9,7 @@ import DTO.ChuongTrinhKhuyenMaiHoaDonDTO;
 import GUI_Input.ChiTietCTKMHD;
 import GUI_Input.SuaCTKMHD;
 import GUI_Input.ThemCTKMHD;
+import GUI_Input.xuLyExcelCTKMHD;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -20,6 +21,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import borderRadius.roundedBorder;
+
 /**
  *
  * @author Vinh
@@ -31,9 +33,10 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
      */
     private ChuongTrinhKhuyenMaiHoaDonBUS ctkmhdBUS = new ChuongTrinhKhuyenMaiHoaDonBUS();
     DefaultTableModel model = new DefaultTableModel();
+
     public ChuongTrinhKhuyenMaiHoaDonGUI() {
         initComponents();
-        
+
         // Gán model cho bảng
         tbCTKMHD.setModel(model);
 
@@ -45,7 +48,7 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setVerticalAlignment(JLabel.CENTER);
-        
+
         // Gán renderer cho tất cả các cột
         for (int i = 0; i < tbCTKMHD.getColumnCount(); i++) {
             tbCTKMHD.getColumnModel().getColumn(i).setCellRenderer(renderer);
@@ -159,6 +162,11 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -261,39 +269,37 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
         JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
         ThemCTKMHD dialog = new ThemCTKMHD(jframe, true);
         dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
+        if (dialog.isXacNhanThem()) {
             this.loadDataTable(ChuongTrinhKhuyenMaiHoaDonBUS.getDs());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int row = tbCTKMHD.getSelectedRow();
-        if(row == -1 ) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
-        }
-        else {
+        } else {
             int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
             SuaCTKMHD dialog = new SuaCTKMHD(jframe, true, maCTKMHD);
             dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
+            if (dialog.isXacNhanSua()) {
                 this.loadDataTable(ChuongTrinhKhuyenMaiHoaDonBUS.getDs());
             }
         }
-        
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tbCTKMHD.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
-        }
-        else {
+        } else {
             int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa chương trình khuyến mãi hóa đơn có mã:  \"" + maCTKMHD + "\" ?",
-                "Xác nhận xóa",
-                JOptionPane.YES_NO_OPTION);
+                    "Bạn có chắc muốn xóa chương trình khuyến mãi hóa đơn có mã:  \"" + maCTKMHD + "\" ?",
+                    "Xác nhận xóa",
+                    JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Xóa sản phẩm
@@ -305,10 +311,9 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         int row = tbCTKMHD.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một chương trình khuyến mãi hóa đơn!");
-        }
-        else {
+        } else {
             int maCTKMHD = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame jframe = (JFrame) SwingUtilities.getWindowAncestor(ChuongTrinhKhuyenMaiHoaDonGUI.this);
             ChiTietCTKMHD dialog = new ChiTietCTKMHD(jframe, true, maCTKMHD);
@@ -318,7 +323,7 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         this.loadDataTable(ctkmhdBUS.layTatCaCTKMHD());
-        
+
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void cbbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchActionPerformed
@@ -330,20 +335,20 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
         ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
-        if(!value.isEmpty()) {
+        if (!value.isEmpty()) {
             int vl;
             try {
                 vl = Integer.parseInt(value);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-                        return;
+                return;
             }
             switch (key) {
                 case "Mã CTKMHD":
                     ChuongTrinhKhuyenMaiHoaDonDTO ct = ctkmhdBUS.layCTKMHDTheoMa(vl);
                     if (ct != null) {
                         ds.add(ct);
-                    }  
+                    }
                     break;
                 case "Mã CTKM":
                     ds = ctkmhdBUS.timKiemTheoMaCTKM(vl);
@@ -363,18 +368,30 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
             }
             this.loadDataTable(ds);
         }
-        
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
 
-    
-    private void loadDataTable (ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds) {
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // Lấy frame cha hiện tại
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        // Đảm bảo dữ liệu được load từ BUS
+        ChuongTrinhKhuyenMaiHoaDonBUS bus = new ChuongTrinhKhuyenMaiHoaDonBUS();
+        ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds = bus.layTatCaCTKMHD();
+
+        // Tạo form xử lý Excel CTKM Hóa đơn
+        xuLyExcelCTKMHD dialog = new xuLyExcelCTKMHD(parentFrame, true, ds, this); // this là GUI hiện tại
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    private void loadDataTable(ArrayList<ChuongTrinhKhuyenMaiHoaDonDTO> ds) {
         model.setRowCount(0);
-        if(ds != null) {
-            for(ChuongTrinhKhuyenMaiHoaDonDTO ct : ds) {
+        if (ds != null) {
+            for (ChuongTrinhKhuyenMaiHoaDonDTO ct : ds) {
                 Vector row = new Vector();
                 row.add(ct.getMaCTKMHD());
                 row.add(ct.getMaCTKM());
