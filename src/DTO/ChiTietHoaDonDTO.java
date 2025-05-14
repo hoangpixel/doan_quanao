@@ -15,6 +15,7 @@ public class ChiTietHoaDonDTO {
     private int maphienban;
     private int soluong;
     private int dongia;
+    private int thanhtien;
     //Constructors
     public ChiTietHoaDonDTO() {
         this.mahoadon = 0;
@@ -22,6 +23,7 @@ public class ChiTietHoaDonDTO {
         this.maphienban = 0;
         this.soluong = 0;
         this.dongia = 0;
+        this.thanhtien = 0;
     }
     public ChiTietHoaDonDTO(int mahoadon, int masanpham, int maphienban, int soluong, int dongia) {
         this.mahoadon = mahoadon;
@@ -29,6 +31,7 @@ public class ChiTietHoaDonDTO {
         this.maphienban = maphienban;
         this.soluong = soluong;
         this.dongia = dongia;
+        this.thanhtien = soluong * dongia;
     }
     public ChiTietHoaDonDTO(ChiTietHoaDonDTO cthd) {
         this.mahoadon = cthd.mahoadon;
@@ -36,6 +39,7 @@ public class ChiTietHoaDonDTO {
         this.maphienban = cthd.maphienban;
         this.soluong = cthd.soluong;
         this.dongia = cthd.dongia;
+        this.thanhtien = cthd.thanhtien;
     }
     //Getter
     public int getMaHoaDon() {
@@ -54,7 +58,7 @@ public class ChiTietHoaDonDTO {
         return dongia;
     }
     public int getThanhTien() {
-        return soluong * dongia;
+        return thanhtien;
     }
     //Setter
     public void setMaHoaDon(int mahoadon) {
@@ -71,5 +75,8 @@ public class ChiTietHoaDonDTO {
     }
     public void setDonGia(int dongia) {
         this.dongia = dongia;
+    }
+    public void setThanhTien(int thanhtien) {
+        this.thanhtien = thanhtien;
     }
 }

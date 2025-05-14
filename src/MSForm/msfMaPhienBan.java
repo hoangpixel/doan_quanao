@@ -261,51 +261,52 @@ public class msfMaPhienBan extends javax.swing.JDialog {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         String tim = txtSearch.getText().trim();
-        if (tim.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        int i = jComboBox1.getSelectedIndex();
-        ArrayList<PhienBanSanPhamDTO> kq = new ArrayList<>();
-        for (PhienBanSanPhamDTO pbsp : PhienBanSanPhamBUS.getDSPBSP()) {
-            switch (i) {
-                case 0: // Theo mã PB
-                    if (String.valueOf(pbsp.getMaPB()).equals(tim)) {
-                        kq.add(pbsp);
-                    }
-                    break;
-                case 1: // Theo mã SP
-                    if (String.valueOf(pbsp.getMaSP()).equals(tim)) {
-                        kq.add(pbsp);
-                    }
-                    break;
-                case 2:
-                    if (String.valueOf(pbsp.getSize()).equals(tim)) {
-                        kq.add(pbsp);
-                    }
-                    break;
-                case 3:
-                    if (pbsp.getMau().toLowerCase().contains(tim.toLowerCase())) {
-                        kq.add(pbsp);
-                    }
-                    break;
-                case 4:
-                   if (String.valueOf(pbsp.getSoLuong()).equals(tim)) {
-                        kq.add(pbsp);
-                    }
-                    break; 
-                    
-            }
-        }
 
-        updateTB(kq);
+    if (tim.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        if (kq.isEmpty()) {
-            String mess = "Không tìm thấy kết quả cho \"" + tim + "\".";
-            JLabel lbNull = new JLabel(mess);
-            lbNull.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            JOptionPane.showMessageDialog(this, lbNull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+    int i = jComboBox1.getSelectedIndex();
+    ArrayList<PhienBanSanPhamDTO> kq = new ArrayList<>();
+    for (PhienBanSanPhamDTO pbsp : PhienBanSanPhamBUS.getDSPBSP()) {
+        switch (i) {
+            case 0: // Theo mã phiên bản
+                if (String.valueOf(pbsp.getMaPB()).equals(tim)) {
+                    kq.add(pbsp);
+                }
+                break;
+            case 1: // Theo mã sản phẩm
+                if (String.valueOf(pbsp.getMaSP()).equals(tim)) {
+                    kq.add(pbsp);
+                }
+                break;
+            case 2: // Theo size
+                if (String.valueOf(pbsp.getSize()).equals(tim)) {
+                    kq.add(pbsp);
+                }
+                break;
+            case 3: // Theo màu
+                if (pbsp.getMau().toLowerCase().contains(tim.toLowerCase())) {
+                    kq.add(pbsp);
+                }
+                break;
+            case 4: // Theo số lượng
+                if (String.valueOf(pbsp.getSoLuong()).equals(tim)) {
+                    kq.add(pbsp);
+                }
+                break;
         }
+    }
+
+    updateTB(kq);
+
+    if (kq.isEmpty()) {
+        String mess = "Không tìm thấy kết quả cho \"" + tim + "\".";
+        JLabel lbNull = new JLabel(mess);
+        lbNull.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(this, lbNull, "Thông báo", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnSearchActionPerformed
 
 

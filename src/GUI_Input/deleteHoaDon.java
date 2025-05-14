@@ -114,8 +114,13 @@ public class deleteHoaDon extends javax.swing.JDialog {
 
     private void btnKhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhongActionPerformed
         // TODO add your handling code here:
-        xacNhan=false;
-        dispose();
+        // Ensure no invoice data is reset
+        xacNhan = false; // Indicate cancellation
+        JOptionPane.showMessageDialog(this, 
+            "Thao tác đã bị hủy. Dữ liệu hóa đơn vẫn được giữ nguyên.", 
+            "Thông báo", 
+            JOptionPane.INFORMATION_MESSAGE);
+        dispose(); // Close the dialog
     }//GEN-LAST:event_btnKhongActionPerformed
 
     private void btnCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoActionPerformed

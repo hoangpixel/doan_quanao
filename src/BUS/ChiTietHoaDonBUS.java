@@ -38,6 +38,7 @@ public class ChiTietHoaDonBUS {
     }
 
     public boolean them(ChiTietHoaDonDTO cthd) {
+    try {
         int generatedMaHD = cthdDAO.them(cthd);
         if (generatedMaHD == -1) {
             return false; // Stock insufficient or DB error
@@ -50,17 +51,22 @@ public class ChiTietHoaDonBUS {
                 existing.getMaSanPham() == cthd.getMaSanPham() &&
                 existing.getMaPhienBan() == cthd.getMaPhienBan()) {
                 existing.setSoLuong(existing.getSoLuong() + cthd.getSoLuong());
-                //existing.setThanhTien(existing.getSoLuong() * existing.getDonGia());
+                existing.setThanhTien(existing.getSoLuong() * existing.getDonGia()); // Update ThanhTien
                 dscthd.set(i, existing);
                 found = true;
                 break;
             }
         }
         if (!found) {
+            cthd.setThanhTien(cthd.getSoLuong() * cthd.getDonGia()); // Set ThanhTien for new entry
             dscthd.add(cthd);
         }
         return true;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     public boolean sua(ChiTietHoaDonDTO cthd) {
         int oldSoLuong = cthdDAO.laySoLuongHienTai(cthd.getMaHoaDon(), cthd.getMaSanPham(), cthd.getMaPhienBan());
