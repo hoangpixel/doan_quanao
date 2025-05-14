@@ -157,8 +157,9 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
             }
         });
 
+        btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -216,7 +217,7 @@ public class ChuongTrinhKhuyenMaiHoaDonGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)

@@ -9,6 +9,7 @@ import DTO.NhaCungCapDTO;
 import GUI_Input.ChiTietNCC;
 import GUI_Input.SuaNCC;
 import GUI_Input.ThemNCC;
+import GUI_Input.xuLyExcelNCC;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -20,6 +21,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import borderRadius.roundedBorder;
+
 /**
  *
  * @author Vinh
@@ -31,21 +33,22 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
      */
     private NhaCungCapBUS nhaCungCapBUS = new NhaCungCapBUS();
     DefaultTableModel model = new DefaultTableModel();
+
     public NhaCungCapGUI() {
         initComponents();
-        
+
         // Gán model cho bảng
         tbNCC.setModel(model);
-        
+
         // Đặt tên cột
         String[] header = {"Mã NCC", "Tên NCC", "Số điện thoại", "Địa chỉ"};
         model.setColumnIdentifiers(header);
-        
+
         // Tạo renderer có padding và căn giữa
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setVerticalAlignment(JLabel.CENTER);
-        
+
         // Gán renderer cho tất cả các cột
         for (int i = 0; i < tbNCC.getColumnCount(); i++) {
             tbNCC.getColumnModel().getColumn(i).setCellRenderer(renderer);
@@ -59,7 +62,6 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         tbNCC.setShowVerticalLines(false);
 
         // Load dữ liệu
-        
         this.loadDataTable(nhaCungCapBUS.layTatCaNCC());
     }
 
@@ -134,10 +136,16 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
             }
         });
 
+        btnExcel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("XUẤT EXCEL");
+        btnExcel.setText("EXCEL");
         btnExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refreshIcon.png"))); // NOI18N
@@ -182,7 +190,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                 .addComponent(btnExcel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
                 .addComponent(cbbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,22 +254,21 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
         ThemNCC dialog = new ThemNCC(frame, true);
         dialog.setVisible(true);
-        if(dialog.isXacNhanThem()) {
+        if (dialog.isXacNhanThem()) {
             this.loadDataTable(NhaCungCapBUS.getDsncc());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int row = tbNCC.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
-        }
-        else {
+        } else {
             int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
             SuaNCC dialog = new SuaNCC(frame, true, maNCC);
             dialog.setVisible(true);
-            if(dialog.isXacNhanSua()) {
+            if (dialog.isXacNhanSua()) {
                 this.loadDataTable(NhaCungCapBUS.getDsncc());
             }
         }
@@ -269,16 +276,15 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tbNCC.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhà cung cấp!");
-        }
-        else {
+        } else {
             int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
             String tenNCC = model.getValueAt(row, 1).toString();
             int choice = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa nhà cung cấp \"" + tenNCC + "\""+ " có mã NCC: \"" + maNCC + "\" ?",
-                "Xác nhận xóa",
-                JOptionPane.YES_NO_OPTION);
+                    "Bạn có chắc muốn xóa nhà cung cấp \"" + tenNCC + "\"" + " có mã NCC: \"" + maNCC + "\" ?",
+                    "Xác nhận xóa",
+                    JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 // Xóa sản phẩm
@@ -291,10 +297,9 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
         int row = tbNCC.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm!");
-        }
-        else {
+        } else {
             int maNCC = Integer.parseInt(model.getValueAt(row, 0).toString());
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(NhaCungCapGUI.this);
             ChiTietNCC dialog = new ChiTietNCC(frame, true, maNCC);
@@ -312,7 +317,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         ArrayList<NhaCungCapDTO> ds = new ArrayList<>();
         String key = cbbSearch.getSelectedItem().toString();
         String value = txtSearch.getText();
-        if(!value.isEmpty()) {
+        if (!value.isEmpty()) {
             switch (key) {
                 case "Mã NCC":
                     try {
@@ -320,7 +325,7 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
                         if (ncc != null) {
                             ds.add(ncc);
                         }
-                        
+
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
                         return;
@@ -344,6 +349,19 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
 
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // Lấy frame cha hiện tại (nếu đang trong JPanel)
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        // Tải danh sách nhà cung cấp
+        NhaCungCapBUS bus = new NhaCungCapBUS();
+        ArrayList<NhaCungCapDTO> ds = bus.layTatCaNCC();
+
+        // Mở dialog xử lý Excel cho nhà cung cấp
+        xuLyExcelNCC dialog = new xuLyExcelNCC(parentFrame, true, ds, this); // this là GUI hiện tại
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExcelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -363,8 +381,8 @@ public class NhaCungCapGUI extends javax.swing.JPanel {
 
     private void loadDataTable(ArrayList<NhaCungCapDTO> ds) {
         model.setRowCount(0);
-        if(ds != null) {
-            for(NhaCungCapDTO ncc : ds) {
+        if (ds != null) {
+            for (NhaCungCapDTO ncc : ds) {
                 Vector row = new Vector();
                 row.add(ncc.getMaNCC());
                 row.add(ncc.getTenNCC());
