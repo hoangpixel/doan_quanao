@@ -300,16 +300,16 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANV`, `HO`, `TEN`, `LUONG`, `SDT`, `DIACHI`, `EMAIL`, `is_deleted`) VALUES
-(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'Quận 3, TPHCM', 'sunamvi98@gmail.com', 0),
-(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Tánh Linh, Bình Thuận', 'nguyenthuh@gmail.com', 0),
-(3, 'Võ', 'K', 15600000, '0933451567', 'Quận 5, TPHCM', 'vok@gmail.com', 0),
-(4, 'Hoàng', 'S', 19800000, '0956734234', 'Quận 8, TPHCM', 'hoangs@gmail.com', 0),
-(5, 'Phan Văn', 'T', 16000000, '0331234567', 'Quận Bình Tân, TPHCM', 'phanvant@gmail.com', 0),
-(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'Quận 7, TPHCM', 'nguyenthih@gmail.com', 0),
-(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Đà Lạt, Lâm Đồng', 'vothim@gmail.com', 0),
-(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TP Thủ Đức, TPHCM', 'tranvana@gmail.com', 0),
-(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Cần Giuộc, Long An', 'buithul@gmail.com', 0),
-(10, 'Lương Văn', 'N', 13900000, '0989845634', 'TP Phan Thiết, Bình Thuận', 'luongvann@gmail.com', 0),
+(1, 'Sử Việt', 'Nam', 30000000, '0933447453', 'TPHCM', 'sunamvi98@gmail.com', 0),
+(2, 'Nguyễn Thu', 'H', 24000000, '0933451234', 'Bình Thuận', 'nguyenthuh@gmail.com', 0),
+(3, 'Võ', 'K', 15600000, '0933451567', 'TPHCM', 'vok@gmail.com', 0),
+(4, 'Hoàng', 'S', 19800000, '0956734234', 'TPHCM', 'hoangs@gmail.com', 0),
+(5, 'Phan Văn', 'T', 16000000, '0331234567', 'TPHCM', 'phanvant@gmail.com', 0),
+(6, 'Nguyễn Thị', 'H', 14000000, '0778765432', 'TPHCM', 'nguyenthih@gmail.com', 0),
+(7, 'Võ Thị', 'M', 12800000, '0388445566', 'Lâm Đồng', 'vothim@gmail.com', 0),
+(8, 'Trần Văn', 'A', 12000000, '0965748723', 'TPHCM', 'tranvana@gmail.com', 0),
+(9, 'Bùi Thu', 'L', 23000000, '0867923457', 'Long An', 'buithul@gmail.com', 0),
+(10, 'Lương Văn', 'N', 13900000, '0989845634', 'Bình Thuận', 'luongvann@gmail.com', 0),
 (11, 'Nguyễn', 'An', 15500000, '0911223344', 'Đồng Nai', 'nguyenan@gmail.com', 0),
 (12, 'Lê Thị', 'B', 13000000, '0909123456', 'Bình Dương', 'lethib@gmail.com', 0),
 (13, 'Phạm Văn', 'C', 18000000, '0912345678', 'TPHCM', 'phamvanc@gmail.com', 0),
@@ -466,7 +466,7 @@ ALTER TABLE `ao`
 -- Chỉ mục cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`),
+  ADD PRIMARY KEY (`MAHD`, `MASP`, `MAPB`);
 
 --
 -- Chỉ mục cho bảng `ctkm`
@@ -646,9 +646,7 @@ ALTER TABLE `ao`
 -- Các ràng buộc cho bảng `cthd`
 --
 ALTER TABLE `cthd`
-  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cthd_ibfk_3` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `ctkmhd`
