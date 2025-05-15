@@ -141,7 +141,8 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                 dataStyle.setBorderRight(BorderStyle.THIN);
 
                 Row headerRow = sheet.createRow(0);
-                String[] headers = {"Mã HD", "Ngày lập", "Mã NV", "Mã KH","Tổng tiền", "Trạng thái"};
+//                String[] headers = {"Mã HD", "Ngày lập", "Mã NV", "Mã KH","Tổng tiền", "Trạng thái"};
+String[] headers = {"Mã HD", "Ngày lập", "Mã NV", "Mã KH","Tổng tiền"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -156,7 +157,7 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
                     row.createCell(2).setCellValue(ct.getManv());
                     row.createCell(3).setCellValue(ct.getMakh());
                     row.createCell(4).setCellValue(ct.getTongtien());
-                    row.createCell(5).setCellValue(ct.getTrangThai());
+//                    row.createCell(5).setCellValue(ct.getTrangThai());
 
                     for (int i = 0; i < headers.length; i++) {
                         row.getCell(i).setCellStyle(dataStyle);
