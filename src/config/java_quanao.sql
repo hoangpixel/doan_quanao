@@ -37,28 +37,6 @@ CREATE TABLE `ao` (
 -- Dumping data for table `ao`
 --
 
-INSERT INTO `ao` (`MALOAI`, `TENAO`, `is_deleted`) VALUES
-(1, 'Áo blazer nữ', 0),
-(1, 'Áo chống nắng UV', 0),
-(1, 'Áo croptop nữ', 0),
-(1, 'Áo dài truyền thống', 0),
-(1, 'Áo hoodie', 0),
-(1, 'Áo khoác bomber', 0),
-(1, 'Áo khoác jean', 0),
-(1, 'Áo len cổ lọ', 0),
-(1, 'Áo mưa tiện lợi', 0),
-(1, 'Áo phông unisex', 0),
-(1, 'Áo polo nữ', 0),
-(1, 'Áo sơ mi caro', 0),
-(1, 'Áo sơ mi nam', 0),
-(1, 'Áo sơ mi trắng', 0),
-(1, 'Áo tanktop nam', 0),
-(1, 'Áo thể thao nữ', 0),
-(1, 'Áo thun in hình', 0),
-(1, 'Áo thun oversize', 0),
-(1, 'Áo thun trơn', 0),
-(1, 'Áo vest công sở', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -418,27 +396,7 @@ CREATE TABLE `quan` (
 -- Dumping data for table `quan`
 --
 
-INSERT INTO `quan` (`MALOAI`, `TENQUAN`, `is_deleted`) VALUES
-(2, 'Quần baggy', 0),
-(2, 'Quần bảo hộ lao động', 0),
-(2, 'Quần culottes', 0),
-(2, 'Quần giả váy', 0),
-(2, 'Quần jeans', 0),
-(2, 'Quần jogger', 0),
-(2, 'Quần kaki', 0),
-(2, 'Quần legging', 0),
-(2, 'Quần lửng', 0),
-(2, 'Quần nỉ', 0),
-(2, 'Quần ống loe', 0),
-(2, 'Quần ống rộng', 0),
-(2, 'Quần ống suông', 0),
-(2, 'Quần pyjama', 0),
-(2, 'Quần short nam', 0),
-(2, 'Quần short nữ', 0),
-(2, 'Quần tây', 0),
-(2, 'Quần thể thao nam', 0),
-(2, 'Quần thể thao nữ', 0),
-(2, 'Quần yếm nữ', 0);
+
 
 -- --------------------------------------------------------
 
