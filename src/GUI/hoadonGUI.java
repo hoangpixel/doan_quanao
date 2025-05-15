@@ -406,7 +406,7 @@ public class hoadonGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbHoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoadonMouseClicked
-            int selectedRow = tbHoadon.getSelectedRow();
+    int selectedRow = tbHoadon.getSelectedRow();
     if (selectedRow >= 0) {
         // Kiểm tra trạng thái của dòng đã chọn (cột thứ 5 - index 5)
         String trangThai = tbHoadon.getValueAt(selectedRow, 5).toString();

@@ -163,4 +163,9 @@ public class SanPhamBUS {
         }
         return ten;
     }
+
+        public int getDonGiaByMaSP(int masp) {
+            SanPhamDAO data = new SanPhamDAO();
+        return data.getDonGiaByMaSP(masp);
+    }
 }

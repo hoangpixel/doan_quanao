@@ -460,6 +460,24 @@ public class ThemHoaDon extends javax.swing.JDialog {
                 }
                 
                 if(allSuccess) {
+                        // --- Thêm đoạn gọi trừ tồn kho ở đây ---
+    PhienBanSanPhamBUS pbspbus = new PhienBanSanPhamBUS();
+    boolean deductSuccess = true;
+        for(ChiTietHoaDonDTO item : dsCTHD) {
+        int result = pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan());
+        if(result == 0) {
+            deductSuccess = false;
+            System.out.println("Lỗi khi trừ tồn kho phiên bản: MaPB=" + item.getMaPhienBan());
+            break;
+        }
+    }
+        if(!deductSuccess) {
+        JLabel lbTB = new JLabel("Lỗi khi cập nhật tồn kho sau khi thêm hóa đơn!");
+        lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.ERROR_MESSAGE);
+        return; // hoặc xử lý rollback nếu cần
+    }
+    // --- Kết thúc đoạn gọi trừ tồn kho ---
                     JLabel lbTB = new JLabel("Thêm hóa đơn thành công!");
                     lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
                     JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -494,6 +512,7 @@ public class ThemHoaDon extends javax.swing.JDialog {
         {
             int manv = msfDialog.getMaSP();
             tMaSP.setText(String.valueOf(manv));
+                    updateDonGiaByMaSP(); // Cập nhật đơn giá ngay khi chọn sản phẩm
         }
     }//GEN-LAST:event_btnMoreSPActionPerformed
 
@@ -550,12 +569,22 @@ public class ThemHoaDon extends javax.swing.JDialog {
             // Kiểm tra xem sản phẩm đã tồn tại chưa
             int existingIndex = findExistingProductIndex(masp, mapb);
             
+            // Tạo instance BUS để dùng hàm kiểm tra tồn kho
+PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
             if (existingIndex != -1) {
                 // Sản phẩm đã tồn tại, cập nhật số lượng và thành tiền
                 ChiTietHoaDonDTO existingItem = dsCTHD.get(existingIndex);
                 int newSoLuong = existingItem.getSoLuong() + soLuong;
-                int newThanhTien = existingItem.getThanhTien() + thanhTien;
+                // int newThanhTien = existingItem.getThanhTien() + thanhTien;
                 
+                    // Kiểm tra tồn kho với tổng số lượng
+    if (!pbBUS.kiemTraTonKho(mapb, newSoLuong)) {
+        JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        return; // dừng thêm
+    }
+
+                    // Nếu đủ tồn kho, cập nhật số lượng và thành tiền
+    int newThanhTien = existingItem.getDonGia() * newSoLuong;
                 // Cập nhật thông tin
                 existingItem.setSoLuong(newSoLuong);
                 existingItem.setThanhTien(newThanhTien);
@@ -571,6 +600,13 @@ public class ThemHoaDon extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 // Sản phẩm chưa tồn tại, thêm mới
+
+                    // Kiểm tra tồn kho trước khi thêm mới
+    if (!pbBUS.kiemTraTonKho(mapb, soLuong)) {
+        JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        return; // dừng thêm
+    }
+
                 cthd = new ChiTietHoaDonDTO(mahd, masp, mapb, soLuong, donGia, thanhTien);
                 dsCTHD.add(cthd);
 
@@ -768,6 +804,23 @@ public class ThemHoaDon extends javax.swing.JDialog {
             }
         });
     }
+
+    private void updateDonGiaByMaSP() {
+    try {
+        int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
+        if (masp > 0) {
+            SanPhamBUS spBUS = new SanPhamBUS();
+            int donGia = spBUS.getDonGiaByMaSP(masp);
+            tDonGia.setText(String.valueOf(donGia));
+        } else {
+            tDonGia.setText("");
+        }
+    } catch (NumberFormatException e) {
+        tDonGia.setText("");
+    }
+}
+
+
     private void updatePhienBanOptions() {
         try {
             // Lấy mã sản phẩm từ tMaSP
@@ -794,6 +847,10 @@ public class ThemHoaDon extends javax.swing.JDialog {
                 cbxPhienBan.addItem("Không có phiên bản");
                 System.out.println("Ô trống, không có giá trị nào để hiển thị.");
             }
+
+            
+        // Gọi hàm cập nhật đơn giá sản phẩm ngay sau khi cập nhật phiên bản
+        updateDonGiaByMaSP();
         } catch (NumberFormatException e) {
             // Nếu mã sản phẩm không hợp lệ, xóa nội dung cbxPhienBan
             cbxPhienBan.removeAllItems();

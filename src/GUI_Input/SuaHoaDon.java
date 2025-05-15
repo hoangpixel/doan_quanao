@@ -503,12 +503,12 @@ public class SuaHoaDon extends javax.swing.JDialog {
             addSuccess = false;
             System.out.println("Lỗi thêm CTHD: MaHD=" + mahd + ", MaSP=" + item.getMaSanPham() + ", MaPB=" + item.getMaPhienBan());
         }
-        if (cbxTrangThai.getSelectedIndex() == 1) {
-            if (pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan()) == 0) {
-                addSuccess = false;
-                System.out.println("Lỗi khi thay đổi số lượng pb: MaPB=" + item.getMaPhienBan() + ", SoLuong=" + item.getSoLuong());
-            }
-        }
+        // if (cbxTrangThai.getSelectedIndex() == 1) {
+        //     if (pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan()) == 0) {
+        //         addSuccess = false;
+        //         System.out.println("Lỗi khi thay đổi số lượng pb: MaPB=" + item.getMaPhienBan() + ", SoLuong=" + item.getSoLuong());
+        //     }
+        // }
     }
     if (deleteSuccess && addSuccess) {
         JLabel lbTB = new JLabel("Sửa hóa đơn thành công!");

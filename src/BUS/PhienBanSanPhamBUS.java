@@ -104,8 +104,24 @@ public class PhienBanSanPhamBUS {
         return pbspdao.thayDoiSLPB(sl,mapb);
     }
     
+    // public int thayDoiSLPBTrongHD(int sl, int mapb) {
+    //     PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
+    //     return pbspdao.thayDoiSLPBTrongHD(sl,mapb);
+    // }
     public int thayDoiSLPBTrongHD(int sl, int mapb) {
-        PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
-        return pbspdao.thayDoiSLPBTrongHD(sl,mapb);
+    System.out.println("Trừ tồn kho: MaPB = " + mapb + ", SL = " + sl);
+    int result = 0;
+    PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
+    result = pbspdao.thayDoiSLPBTrongHD(sl, mapb);
+    System.out.println("Kết quả trừ tồn kho: " + result);
+    return result;
+}
+
+        // Hàm kiểm tra số lượng nhập có vượt quá tồn kho không
+    public boolean kiemTraTonKho(int maPB, int soLuongNhap) {
+                PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
+
+        int tonKhoHienTai = pbspdao.getTonKhoByMaPB(maPB);
+        return soLuongNhap <= tonKhoHienTai;
     }
 }

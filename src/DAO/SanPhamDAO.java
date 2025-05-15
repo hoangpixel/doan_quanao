@@ -201,4 +201,25 @@ public class SanPhamDAO {
         return false;
     }
 
+public int getDonGiaByMaSP(int masp) {
+    int donGia = 0;
+    String sql = "SELECT DONGIA FROM sanpham WHERE MASP = ? AND is_deleted = 0 LIMIT 1";
+
+    try (Connection con = DBConnect.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, masp);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            donGia = rs.getInt("DONGIA");
+        }
+        rs.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return donGia;
+}
+
+
 }   
