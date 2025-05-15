@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2025 at 06:41 AM
+-- Generation Time: May 15, 2025 at 08:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,21 +65,8 @@ CREATE TABLE `ctkm` (
 --
 
 INSERT INTO `ctkm` (`MACTKM`, `NGAYBD`, `NGAYKT`) VALUES
-(1, '09/01/2025', '25/05/2025'),
-(2, '14/01/2025', '27/04/2025'),
-(3, '31/03/2025', '23/12/2025'),
-(4, '09/04/2025', '24/05/2025'),
-(5, '06/02/2025', '27/08/2025'),
-(6, '14/02/2025', '27/07/2025'),
-(7, '02/04/2025', '14/10/2025'),
-(8, '03/02/2025', '28/04/2025'),
-(9, '16/02/2025', '20/04/2025'),
-(10, '06/02/2025', '25/09/2025'),
-(11, '01/04/2025', '14/08/2025'),
-(12, '22/03/2025', '14/07/2025'),
-(13, '06/02/2025', '13/10/2025'),
-(14, '10/02/2025', '21/09/2025'),
-(15, '09/01/2025', '31/10/2025');
+(16, '01/05/2025', '31/05/2025'),
+(17, '01/04/2025', '30/04/2025');
 
 -- --------------------------------------------------------
 
@@ -94,6 +81,16 @@ CREATE TABLE `ctkmhd` (
   `PTGG` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+--
+-- Dumping data for table `ctkmhd`
+--
+
+INSERT INTO `ctkmhd` (`MACTKMHD`, `MACTKM`, `TONGTIENHD`, `PTGG`) VALUES
+(5, 16, 100000, 5),
+(6, 16, 200000, 10),
+(7, 16, 300000, 15),
+(8, 17, 100000, 50);
+
 -- --------------------------------------------------------
 
 --
@@ -106,6 +103,18 @@ CREATE TABLE `ctkmsp` (
   `MASP` int(11) NOT NULL,
   `PTGG` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `ctkmsp`
+--
+
+INSERT INTO `ctkmsp` (`MACTKM`, `MACTKMSP`, `MASP`, `PTGG`) VALUES
+(16, 1, 1, 12),
+(16, 2, 2, 10),
+(17, 3, 5, 12),
+(16, 4, 3, 30),
+(16, 5, 4, 5),
+(16, 6, 6, 24);
 
 -- --------------------------------------------------------
 
@@ -386,7 +395,7 @@ CREATE TABLE `phieunhap` (
 --
 
 INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`, `TRANGTHAI`, `is_deleted`) VALUES
-(1, 3, 1, 88650000, '2025-05-15', 0, 0),
+(1, 3, 1, 88650000, '2025-05-15', 1, 0),
 (2, 1, 1, 89560000, '2025-05-15', 1, 0);
 
 -- --------------------------------------------------------
@@ -554,19 +563,19 @@ ALTER TABLE `cthd`
 -- AUTO_INCREMENT for table `ctkm`
 --
 ALTER TABLE `ctkm`
-  MODIFY `MACTKM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `MACTKM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ctkmhd`
 --
 ALTER TABLE `ctkmhd`
-  MODIFY `MACTKMHD` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MACTKMHD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ctkmsp`
 --
 ALTER TABLE `ctkmsp`
-  MODIFY `MACTKMSP` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MACTKMSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
