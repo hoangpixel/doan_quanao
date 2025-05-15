@@ -112,8 +112,7 @@ public class PhieuNhapBUS {
     public long[] tinhDoanhThuTheoQuy(int nam) {
     if (ds == null || ds.isEmpty()) {
         docDSPN(); // Nạp dữ liệu nếu chưa có
-    }
-
+    }  
     long[] doanhThu = new long[4]; // Q1 → Q4
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
