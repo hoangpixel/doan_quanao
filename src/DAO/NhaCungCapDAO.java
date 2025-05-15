@@ -76,7 +76,7 @@ public class NhaCungCapDAO {
     }
     
     public void xoaNCC (int maNCC) {
-        String query = "delete from ncc where MANCC = ?";
+        String query = "update ncc set is_deleted = 1 where MANCC = ?";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -99,7 +99,7 @@ public class NhaCungCapDAO {
     
     public NhaCungCapDTO layNCCTheoMaNCC (int maNCC) {
         NhaCungCapDTO ncc = null;
-        String query = "select * from ncc where MANCC = ?";
+        String query = "select * from ncc where MANCC = ? and is_deleted = 0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -127,7 +127,7 @@ public class NhaCungCapDAO {
     
     public ArrayList<NhaCungCapDTO> layTatCaNCC() {
         ArrayList<NhaCungCapDTO> dsncc = new ArrayList<>();
-        String query = "select * from ncc";
+        String query = "select * from ncc where is_deleted = 0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();

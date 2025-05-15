@@ -113,7 +113,7 @@ public class SanPhamDAO {
     
     public SanPhamDTO laySanPhamTheoMaSP (int maSP) {
         SanPhamDTO sp = null;
-        String query = "select * from sanpham where MASP = ?";
+        String query = "select * from sanpham where MASP = ? and is_deleted = 0";
         Connection conn = null;
         
         try {
@@ -146,7 +146,7 @@ public class SanPhamDAO {
     
     public ArrayList<SanPhamDTO> layTatCaSanPham() {
         ArrayList<SanPhamDTO> dssp = new ArrayList<>();
-        String query = "select * from sanpham";
+        String query = "select * from sanpham where is_deleted = 0";
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -186,7 +186,7 @@ public class SanPhamDAO {
         ResultSet rs = null;
         try {
             con = DBConnect.getConnection();
-            String qry = "SELECT COUNT(*) FROM sanpham WHERE MASP = ?";
+            String qry = "SELECT COUNT(*) FROM sanpham WHERE MASP = ? AND is_deleted = 0";
             st = con.prepareStatement(qry);
             st.setInt(1, ma);
             rs = st.executeQuery();

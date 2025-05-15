@@ -95,13 +95,15 @@ public class main extends JFrame {
 //            nav.highlightButton(nav.btnQuan);
 //        });
         // Thêm các panel cần hiển thị
+        // panel sản phẩm
+        SanPhamGUI sanPhamPanel = new SanPhamGUI();
+        contentPanel.add(sanPhamPanel, "SanPham");
+        
         ChuongTrinhKhuyenMaiGUI ctkmPanel = new ChuongTrinhKhuyenMaiGUI();
         contentPanel.add(ctkmPanel, "CTKM");
         ChuongTrinhKhuyenMaiSanPhamGUI ctkmspPanel = new ChuongTrinhKhuyenMaiSanPhamGUI();
         contentPanel.add(ctkmspPanel,"CTKMSP");
-        // panel sản phẩm
-        SanPhamGUI sanPhamPanel = new SanPhamGUI();
-        contentPanel.add(sanPhamPanel, "SanPham");
+        
         //panel ncc
         NhaCungCapGUI nhaCungCapGUI = new NhaCungCapGUI();
         contentPanel.add(nhaCungCapGUI, "NhaCungCap");
