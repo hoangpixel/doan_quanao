@@ -57,6 +57,20 @@ public class PhienBanSanPhamDAO {
         }
         return result;
     }
+    
+    public int thayDoiSLPBTrongHD(int sl, int mapb) {
+        int result = 0;
+        try {
+            String qry = "Update phienbansp set SLPB = SLPB - ? where MAPB = ?";
+            con = DBConnect.getConnection();
+            pstm = con.prepareStatement(qry);
+            pstm.setInt(1, sl);
+            pstm.setInt(2, mapb);
+            result = pstm.executeUpdate();
+        } catch (Exception e) {
+        }
+        return result;
+    }
 
     public int themPBSP(PhienBanSanPhamDTO pbsp) {
         String query = "INSERT INTO phienbansp (MASP, SIZE, MAU, SLPB) values (?,?,?,?)";

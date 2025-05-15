@@ -45,11 +45,11 @@ public class HoaDonDAO {
         public boolean them(HoaDonDTO hd)
     {
         try {
-            String qry = "Insert into hoadon (MANV, MAKH, TONGTIEN, NGAYNHAP, TRANGTHAI, is_deleted) values (";
+            String qry = "Insert into hoadon (NGAYLAP, MANV, MAKH, TONGTIEN, TRANGTHAI, is_deleted) values (";
+            qry = qry + "'" + hd.getNgaylap() + "',";
             qry = qry + hd.getManv() + ",";
             qry = qry + hd.getMakh() + ",";
             qry = qry + hd.getTongtien() + ",";
-            qry = qry + "'" + hd.getNgaylap() + "',";
             qry = qry  + hd.getTrangThai() + ",";
             qry = qry + "0";
             qry = qry + ")";          
@@ -139,23 +139,23 @@ public boolean xoa(int ma) {
 
         
         public boolean capnhat(HoaDonDTO hd)
-        {
-            try {
-                
-                String qry = "Update hoadon Set ";
-                qry += " " + "NGAYLAP='" + hd.getNgaylap() + "'";
-                qry += ",MANV='" + hd.getManv() + "'";
-                qry += ",MAKH='" + hd.getMakh() + "'";
-                qry += ",TONGTIEN='" + hd.getTongtien() + "'";
-                qry += " Where MAHD='" + hd.getMahd() +"'";
-                con = DBConnect.getConnection();
-                st = con.createStatement();
-                st.executeUpdate(qry);
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
+    {
+        try {
+            String qry = "Update hoadon Set ";
+            qry = qry + ",NGAYLAP=" + "'" + hd.getNgaylap() + "'";
+            qry = qry + " MANV= " + "'" + hd.getManv() + "'";
+            qry = qry + ",MAKH=" + "'" + hd.getMakh() + "'";
+            qry = qry + ",TONGTIEN=" + "'" + hd.getTongtien() + "'";
+            qry = qry + ",TRANGTHAI=" + "'" + hd.getTrangThai() + "'";
+            qry = qry + " " + " where MAHD='" + hd.getMahd() + "'";
+            con = DBConnect.getConnection();
+            st = con.createStatement();
+            st.executeUpdate(qry);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
+    }
         
         
         public boolean ktraMaHD(int ma)
@@ -251,7 +251,7 @@ public boolean xoa(int ma) {
             }
             return true;
         }
-        
+        /*
         public int getTrangThai(int mahd)
         {
             int trangthai = 0;
@@ -267,7 +267,7 @@ public boolean xoa(int ma) {
             } catch (Exception e) {
             }
             return trangthai;
-        }
+        }*/
         
         public int getAI(){
         int result = 0;

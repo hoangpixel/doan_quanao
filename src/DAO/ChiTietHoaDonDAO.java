@@ -39,13 +39,11 @@ public class ChiTietHoaDonDAO {
         }
         return ds;
     }
-    
-    
-    
+
     public boolean them(ChiTietHoaDonDTO cthd)
     {
         try {
-            String qry = "Insert into cthd (MAHD,MASP,MAPB,SOLUONG,DONGIA,THANHTIEN) values (";
+            String qry = "Insert into cthd (MAHD,MASP,MAPB,SL,DONGIA,THANHTIEN) values (";
             qry = qry + "'" + cthd.getMaHoaDon() + "',";
             qry = qry + "'" + cthd.getMaSanPham() + "',";
             qry = qry + "'" + cthd.getMaPhienBan() + "',";
@@ -63,17 +61,17 @@ public class ChiTietHoaDonDAO {
     }
     
     
-    public boolean sua(ChiTietHoaDonDTO cthd)
+    public boolean sua(ChiTietHoaDonDTO ctpn)
     {
         try {
             
         String qry = "Update cthd Set ";
-        qry = qry + " " + "MASP=" + "'" + cthd.getMaSanPham() + "'";
-        qry = qry + ",MAPB=" + "'" + cthd.getMaPhienBan() + "'";
-        qry = qry + ",SOLUONG=" + "'" + cthd.getSoLuong() + "'";
-        qry = qry + ",DONGIA=" + "'" + cthd.getDonGia() + "'";
-        qry = qry + ",THANHTIEN=" + "'" + cthd.getThanhTien() + "'";
-        qry = qry + " " + " where MAHD='" + cthd.getMaHoaDon() + "'";
+        qry = qry + " " + "MASP=" + "'" + ctpn.getMaSanPham() + "'";
+        qry = qry + ",MAPB=" + "'" + ctpn.getMaPhienBan() + "'";
+        qry = qry + ",SL=" + "'" + ctpn.getSoLuong() + "'";
+        qry = qry + ",DONGIA=" + "'" + ctpn.getDonGia() + "'";
+        qry = qry + ",THANHTIEN=" + "'" + ctpn.getThanhTien() + "'";
+        qry = qry + " " + " where MAHD='" + ctpn.getMaHoaDon() + "'";
         con = DBConnect.getConnection();
         st = con.createStatement();
         st.executeUpdate(qry);            
@@ -86,7 +84,7 @@ public class ChiTietHoaDonDAO {
     public boolean xoa(int maHD)
     {
         try {
-            String qry = "Delete from cthd where MAHD = " + maHD;
+            String qry = "Delete from ctpn where MAHD = " + maHD;
             con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);

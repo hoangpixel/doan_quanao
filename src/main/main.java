@@ -10,8 +10,6 @@ import GUI.PhieuNhapGUI;
 import GUI.hoadonGUI;
 import GUI.NhanVienGUI;
 import GUI.LoaiSanPhamGUI;
-import GUI.AoGUI;
-import GUI.QuanGUI;
 import GUI.navleft;
 import java.awt.*;
 import javax.swing.*;

@@ -58,7 +58,7 @@ public class PhienBanSanPhamBUS {
     }
     
     //Nam thêm 2 phần này
-    public PhienBanSanPhamDTO layPBSPTheoMAPB(int mapb) {
+    /*public PhienBanSanPhamDTO layPBSPTheoMAPB(int mapb) {
         for (PhienBanSanPhamDTO p : ds) {
             if (p.getMaPB() == mapb) {
                 return p; // Return the matching PhienBanSanPhamDTO
@@ -69,7 +69,7 @@ public class PhienBanSanPhamBUS {
     
     public static ArrayList<PhienBanSanPhamDTO> getDSPBSP() {
         return ds;
-    }
+    }*/
 
     public ArrayList<PhienBanSanPhamDTO> layPBSPTheoMaSP(int masp) {
         return new PhienBanSanPhamDAO().layPBSPTheoMaSP(masp);
@@ -102,5 +102,10 @@ public class PhienBanSanPhamBUS {
     public int thayDoiSLPB(int sl, int mapb) {
         PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
         return pbspdao.thayDoiSLPB(sl,mapb);
+    }
+    
+    public int thayDoiSLPBTrongHD(int sl, int mapb) {
+        PhienBanSanPhamDAO pbspdao = new PhienBanSanPhamDAO();
+        return pbspdao.thayDoiSLPBTrongHD(sl,mapb);
     }
 }

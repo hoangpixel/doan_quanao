@@ -132,7 +132,7 @@ public class ThemHoaDon extends javax.swing.JDialog {
 
         tMaHD.setFocusable(false);
 
-        jLabel5.setText("Mã SP:");
+        jLabel5.setText("Mã sản phẩm:");
 
         jLabel6.setText("Số lượng:");
 

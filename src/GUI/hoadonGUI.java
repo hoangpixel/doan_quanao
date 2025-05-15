@@ -42,7 +42,7 @@ public class hoadonGUI extends javax.swing.JPanel {
         header.add("Mã nhân viên");
         header.add("Mã khách hàng");
         header.add("Tổng tiền");
-        header.add("Ngày nhập");
+        header.add("Ngày lập");
         header.add("Trạng thái");
         model = new DefaultTableModel(header,0)
                 {
