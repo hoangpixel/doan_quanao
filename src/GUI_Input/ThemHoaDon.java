@@ -6,6 +6,8 @@ package GUI_Input;
 
 import BUS.HoaDonBUS;
 import BUS.ChiTietHoaDonBUS;
+import BUS.ChuongTrinhKhuyenMaiHoaDonBUS;
+import BUS.ChuongTrinhKhuyenMaiSanPhamBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.SanPhamBUS;
 import DTO.ChiTietHoaDonDTO;
@@ -29,12 +31,14 @@ import javax.swing.event.DocumentEvent;
  * @author laptop
  */
 public class ThemHoaDon extends javax.swing.JDialog {
+
     public boolean xacNhan = false;
     public HoaDonDTO hd;
     public ChiTietHoaDonDTO cthd;
     public ArrayList<ChiTietHoaDonDTO> dsCTHD = new ArrayList<>();
     public HoaDonBUS hdbus = new HoaDonBUS();
     private ArrayList<PhienBanSanPhamDTO> danhSachPhienBan = new ArrayList<>();
+
     /**
      * Creates new form ThemPhieuNhap
      */
@@ -346,10 +350,8 @@ public class ThemHoaDon extends javax.swing.JDialog {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaNV msfDialog = new msfMaNV(topFrame, true);
         msfDialog.setVisible(true);
-        
-        
-        if(msfDialog.xacNhanChon())
-        {
+
+        if (msfDialog.xacNhanChon()) {
             int manv = msfDialog.getMANV();
             tMaNV.setText(String.valueOf(manv));
         }
@@ -360,10 +362,8 @@ public class ThemHoaDon extends javax.swing.JDialog {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaKH msfDialog = new msfMaKH(topFrame, true);
         msfDialog.setVisible(true);
-        
-        
-        if(msfDialog.xacNhanTim())
-        {
+
+        if (msfDialog.xacNhanTim()) {
             int makh = msfDialog.getMaKh();
             tMaKH.setText(String.valueOf(makh));
         }
@@ -371,76 +371,76 @@ public class ThemHoaDon extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        xacNhan=false;
+        xacNhan = false;
         dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnThemPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemPNActionPerformed
         // Validate inputs
-        if(tMaNV.getText().isEmpty() || tMaKH.getText().isEmpty()){
+        if (tMaNV.getText().isEmpty() || tMaKH.getText().isEmpty()) {
             JLabel lbTBnull = new JLabel("Không được để trống!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Check if employee ID exists
-        if(new HoaDonBUS().ktraMaNV(Integer.parseInt(tMaNV.getText())) == false) {
+        if (new HoaDonBUS().ktraMaNV(Integer.parseInt(tMaNV.getText())) == false) {
             JLabel lbTBnull = new JLabel("Mã nhân viên không tồn tại!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Check if supplier ID exists
-        if(new HoaDonBUS().ktraMaKH(Integer.parseInt(tMaKH.getText())) == false) {
+        if (new HoaDonBUS().ktraMaKH(Integer.parseInt(tMaKH.getText())) == false) {
             JLabel lbTBnull = new JLabel("Mã khách hàng không tồn tại!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Check if product list is empty
-        if(dsCTHD.isEmpty()) {
+        if (dsCTHD.isEmpty()) {
             JLabel lbTBnull = new JLabel("Chưa có sản phẩm nào trong hóa đơn!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try {
             // Create HoaDon
             int manv = Integer.parseInt(tMaNV.getText());
             int makh = Integer.parseInt(tMaKH.getText());
             int tongTien = Integer.parseInt(tTongTien.getText());
-            
+
             // Get current date
             java.time.LocalDateTime now = java.time.LocalDateTime.now();
             java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String ngayNhap = now.format(formatter);
-            
+
             // Create PhieuNhap object
             hd = new HoaDonDTO(0, ngayNhap, manv, makh, tongTien, 0);
-            
+
             // Add to database via BUS
             HoaDonBUS hdBUS = new HoaDonBUS();
-            
+
             // Initialize if null
             if (hdBUS.ds == null) {
                 hdBUS.docDSHD();
             }
-            
+
             boolean resultHD = hdBUS.them(hd);
-            
-            if(resultHD) {
-                
+
+            if (resultHD) {
+
                 // Add all CTPN to database via BUS
                 ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
                 boolean allSuccess = true;
                 System.out.println("=== DANH SÁCH CHI TIẾT HÓA ĐƠN ĐƯỢC THÊM VÀO DATABASE ===");
                 int count = 1;
 
-                for(ChiTietHoaDonDTO item : dsCTHD) {
+                for (ChiTietHoaDonDTO item : dsCTHD) {
                     System.out.println("-- Chi Tiết Hóa Đơn #" + count + " --");
                     System.out.println("Mã hóa đơn: " + item.getMaHoaDon());
                     System.out.println("Mã sản phẩm: " + item.getMaSanPham());
@@ -452,32 +452,32 @@ public class ThemHoaDon extends javax.swing.JDialog {
                     count++;
                     // Add to database via BUS
                     boolean resultCTHD = cthdBUS.them(item);
-                    if(!resultCTHD) {
+                    if (!resultCTHD) {
                         allSuccess = false;
                         break;
                     }
-                    
+
                 }
-                
-                if(allSuccess) {
-                        // --- Thêm đoạn gọi trừ tồn kho ở đây ---
-    PhienBanSanPhamBUS pbspbus = new PhienBanSanPhamBUS();
-    boolean deductSuccess = true;
-        for(ChiTietHoaDonDTO item : dsCTHD) {
-        int result = pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan());
-        if(result == 0) {
-            deductSuccess = false;
-            System.out.println("Lỗi khi trừ tồn kho phiên bản: MaPB=" + item.getMaPhienBan());
-            break;
-        }
-    }
-        if(!deductSuccess) {
-        JLabel lbTB = new JLabel("Lỗi khi cập nhật tồn kho sau khi thêm hóa đơn!");
-        lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.ERROR_MESSAGE);
-        return; // hoặc xử lý rollback nếu cần
-    }
-    // --- Kết thúc đoạn gọi trừ tồn kho ---
+
+                if (allSuccess) {
+                    // --- Thêm đoạn gọi trừ tồn kho ở đây ---
+                    PhienBanSanPhamBUS pbspbus = new PhienBanSanPhamBUS();
+                    boolean deductSuccess = true;
+                    for (ChiTietHoaDonDTO item : dsCTHD) {
+                        int result = pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan());
+                        if (result == 0) {
+                            deductSuccess = false;
+                            System.out.println("Lỗi khi trừ tồn kho phiên bản: MaPB=" + item.getMaPhienBan());
+                            break;
+                        }
+                    }
+                    if (!deductSuccess) {
+                        JLabel lbTB = new JLabel("Lỗi khi cập nhật tồn kho sau khi thêm hóa đơn!");
+                        lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                        JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return; // hoặc xử lý rollback nếu cần
+                    }
+                    // --- Kết thúc đoạn gọi trừ tồn kho ---
                     JLabel lbTB = new JLabel("Thêm hóa đơn thành công!");
                     lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
                     JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -506,13 +506,11 @@ public class ThemHoaDon extends javax.swing.JDialog {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         msfMaSP msfDialog = new msfMaSP(topFrame, true);
         msfDialog.setVisible(true);
-        
-        
-        if(msfDialog.xacNhanTim())
-        {
+
+        if (msfDialog.xacNhanTim()) {
             int manv = msfDialog.getMaSP();
             tMaSP.setText(String.valueOf(manv));
-                    updateDonGiaByMaSP(); // Cập nhật đơn giá ngay khi chọn sản phẩm
+            updateDonGiaByMaSP(); // Cập nhật đơn giá ngay khi chọn sản phẩm
         }
     }//GEN-LAST:event_btnMoreSPActionPerformed
 
@@ -533,79 +531,80 @@ public class ThemHoaDon extends javax.swing.JDialog {
         tenSP = spBUS.getTenSanPhamByMaSP(masp);
         return tenSP;
     }
+
     // Cập nhật phương thức btnThemCTPNActionPerformed
     private void btnThemCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCTPNActionPerformed
         // Validate inputs
-        if(tMaSP.getText().isEmpty() || tSoLuong.getText().isEmpty() || tDonGia.getText().isEmpty()) {
+        if (tMaSP.getText().isEmpty() || tSoLuong.getText().isEmpty() || tDonGia.getText().isEmpty()) {
             JLabel lbTBnull = new JLabel("Vui lòng điền đầy đủ thông tin sản phẩm!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
             JOptionPane.showMessageDialog(this, lbTBnull, "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try {
             // Get values from input fields
             int masp = Integer.parseInt(tMaSP.getText());
-            
+
             // Lấy mapb từ phiên bản đã chọn trong ComboBox
             int mapb = 1; // Giá trị mặc định
             int selectedIndex = cbxPhienBan.getSelectedIndex();
-            
+
             if (selectedIndex >= 0 && selectedIndex < danhSachPhienBan.size()) {
                 mapb = danhSachPhienBan.get(selectedIndex).getMaPB();
                 System.out.println("Đã chọn phiên bản: " + cbxPhienBan.getSelectedItem() + ", MaPB=" + mapb);
             } else {
                 System.out.println("Không có phiên bản được chọn, sử dụng mapb mặc định = 1");
             }
-            
+
             int mahd = Integer.parseInt(tMaHD.getText());
             int soLuong = Integer.parseInt(tSoLuong.getText());
             int donGia = Integer.parseInt(tDonGia.getText());
             int thanhTien = soLuong * donGia;
-            
+
             // Set thanh tien field
             tThanhTien.setText(String.valueOf(thanhTien));
-            
+
             // Kiểm tra xem sản phẩm đã tồn tại chưa
             int existingIndex = findExistingProductIndex(masp, mapb);
-            
+
             // Tạo instance BUS để dùng hàm kiểm tra tồn kho
-PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
+            PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
             if (existingIndex != -1) {
                 // Sản phẩm đã tồn tại, cập nhật số lượng và thành tiền
                 ChiTietHoaDonDTO existingItem = dsCTHD.get(existingIndex);
                 int newSoLuong = existingItem.getSoLuong() + soLuong;
                 // int newThanhTien = existingItem.getThanhTien() + thanhTien;
-                
-                    // Kiểm tra tồn kho với tổng số lượng
-    if (!pbBUS.kiemTraTonKho(mapb, newSoLuong)) {
-        JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        return; // dừng thêm
-    }
 
-                    // Nếu đủ tồn kho, cập nhật số lượng và thành tiền
-    int newThanhTien = existingItem.getDonGia() * newSoLuong;
+                // Kiểm tra tồn kho với tổng số lượng
+                if (!pbBUS.kiemTraTonKho(mapb, newSoLuong)) {
+                    JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                    return; // dừng thêm
+                }
+
+                // Nếu đủ tồn kho, cập nhật số lượng và thành tiền
+                int newThanhTien = existingItem.getDonGia() * newSoLuong;
                 // Cập nhật thông tin
                 existingItem.setSoLuong(newSoLuong);
                 existingItem.setThanhTien(newThanhTien);
-                
+
                 System.out.println("Cập nhật sản phẩm đã tồn tại:");
                 System.out.println("Mã sản phẩm: " + masp);
                 System.out.println("Mã phiên bản: " + mapb);
                 System.out.println("Số lượng mới: " + newSoLuong);
                 System.out.println("Thành tiền mới: " + newThanhTien);
-                
+
                 JLabel lbTB = new JLabel("Đã cập nhật số lượng sản phẩm trong hóa đơn!");
                 lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 // Sản phẩm chưa tồn tại, thêm mới
 
-                    // Kiểm tra tồn kho trước khi thêm mới
-    if (!pbBUS.kiemTraTonKho(mapb, soLuong)) {
-        JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        return; // dừng thêm
-    }
+                // Kiểm tra tồn kho trước khi thêm mới
+                if (!pbBUS.kiemTraTonKho(mapb, soLuong)) {
+                    JOptionPane.showMessageDialog(this, "Số lượng vượt quá tồn kho!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                    return; // dừng thêm
+                }
 
                 cthd = new ChiTietHoaDonDTO(mahd, masp, mapb, soLuong, donGia, thanhTien);
                 dsCTHD.add(cthd);
@@ -617,21 +616,21 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
                 System.out.println("Số lượng: " + cthd.getSoLuong());
                 System.out.println("Đơn giá: " + cthd.getDonGia());
                 System.out.println("Thành tiền: " + cthd.getThanhTien());
-                
+
                 JLabel lbTB = new JLabel("Đã thêm sản phẩm mới vào hóa đơn!");
                 lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
-            
+
             // Update tong tien
             updateTongTien();
-            
+
             // Refresh table
             loadTableData();
-            
+
             // Clear input fields
             clearInputFields();
-            
+
         } catch (NumberFormatException e) {
             JLabel lbTBnull = new JLabel("Dữ liệu không hợp lệ!");
             lbTBnull.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -648,16 +647,16 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
             JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Remove from list
         dsCTHD.remove(selectedRow);
-        
+
         // Update total amount
         updateTongTien();
-        
+
         // Refresh table
         loadTableData();
-        
+
         JLabel lbTB = new JLabel("Đã xóa sản phẩm khỏi hóa đơn!");
         lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
         JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -666,43 +665,62 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
     private void cbxPhienBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPhienBanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxPhienBanActionPerformed
-    public boolean xacNhanThem()
-    {                   
+    public boolean xacNhanThem() {
         return xacNhan;
     }
-    public HoaDonDTO getHD()
-    {
+
+    public HoaDonDTO getHD() {
         return hd;
     }
+
     // Helper method to update total price
     private void updateTongTien() {
-        int total = 0;
+        double tongTienGoc = 0;
+        double tongGiamGiaSP = 0;
+
+        ChuongTrinhKhuyenMaiSanPhamBUS ctkmSPBus = new ChuongTrinhKhuyenMaiSanPhamBUS();
+        ChuongTrinhKhuyenMaiHoaDonBUS ctkmHDBus = new ChuongTrinhKhuyenMaiHoaDonBUS();
+
         for (ChiTietHoaDonDTO item : dsCTHD) {
-            total += item.getThanhTien();
+            double thanhTien = item.getThanhTien();
+            tongTienGoc += thanhTien;
+
+            // Tính giảm giá theo CTKM sản phẩm cho từng chi tiết
+            double giamGiaSP = ctkmSPBus.tinhGiamGiaChoSanPham(item.getMaSanPham(), item.getSoLuong());
+            tongGiamGiaSP += giamGiaSP;
         }
-        tTongTien.setText(String.valueOf(total));
+
+        double tienSauGiamSP = tongTienGoc - tongGiamGiaSP;
+
+        // Tính giảm giá theo CTKM hóa đơn trên tổng tiền sau giảm sản phẩm
+        double giamGiaHD = ctkmHDBus.tinhGiamGiaChoHoaDon(tienSauGiamSP);
+
+        double tongTienCuoi = tienSauGiamSP - giamGiaHD;
+
+        // Cập nhật giao diện tổng tiền
+        tTongTien.setText(String.valueOf((int) tongTienCuoi));
     }
 
     // Helper method to load data to table
     private void loadTableData() {
         String[] headerNames = {"Tên sản phẩm", "Phiên bản", "Số lượng", "Đơn giá", "Thành tiền"};
         Object[][] data = new Object[dsCTHD.size()][5];
-        
+
         PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
-        
+
         for (int i = 0; i < dsCTHD.size(); i++) {
             ChiTietHoaDonDTO item = dsCTHD.get(i);
             String tenSP = getTenSanPhamByMaSP(item.getMaSanPham());
             data[i][0] = tenSP;
-            
+
             // Lấy thông tin phiên bản cho từng sản phẩm
             int mapb = item.getMaPhienBan();
             String pbInfo = String.valueOf(mapb); // Mặc định hiển thị mapb
-            
+
             try {
                 // Lấy danh sách phiên bản cho sản phẩm hiện tại
                 ArrayList<PhienBanSanPhamDTO> pbList = pbBUS.getPhienBanByMaSP(item.getMaSanPham());
-                
+
                 // Tìm phiên bản phù hợp
                 for (PhienBanSanPhamDTO pb : pbList) {
                     if (pb.getMaPB() == mapb) {
@@ -714,13 +732,13 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
                 // Nếu có lỗi, hiển thị mã phiên bản
                 System.out.println("Lỗi khi lấy thông tin phiên bản cho sản phẩm " + item.getMaSanPham() + ": " + e.getMessage());
             }
-            
+
             data[i][1] = pbInfo;
             data[i][2] = item.getSoLuong();
             data[i][3] = item.getDonGia();
             data[i][4] = item.getThanhTien();
         }
-        
+
         tbSP.setModel(new javax.swing.table.DefaultTableModel(data, headerNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -728,12 +746,13 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
             }
         });
     }
+
     private void calculateThanhTien() {
         try {
             // Get values from fields (default to 0 if empty)
             int soLuong = tSoLuong.getText().isEmpty() ? 0 : Integer.parseInt(tSoLuong.getText());
             int donGia = tDonGia.getText().isEmpty() ? 0 : Integer.parseInt(tDonGia.getText());
-            
+
             // Calculate and set ThanhTien
             int thanhTien = soLuong * donGia;
             tThanhTien.setText(String.valueOf(thanhTien));
@@ -749,6 +768,7 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
         tSoLuong.setText("");
         tDonGia.setText("");
     }
+
     private void setupAutoCalculation() {
         // Add document listener for SoLuong field
         tSoLuong.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
@@ -756,48 +776,49 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
-    
+
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
-    
+
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
         });
-        
+
         // Add document listener for DonGia field
         tDonGia.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
-    
+
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
-    
+
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 calculateThanhTien();
             }
         });
     }
+
     private void setupMaSPChangeListener() {
         tMaSP.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 updatePhienBanOptions();
             }
-    
+
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
                 updatePhienBanOptions();
             }
-    
+
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 updatePhienBanOptions();
@@ -806,51 +827,49 @@ PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
     }
 
     private void updateDonGiaByMaSP() {
-    try {
-        int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
-        if (masp > 0) {
-            SanPhamBUS spBUS = new SanPhamBUS();
-            int donGia = spBUS.getDonGiaByMaSP(masp);
-            tDonGia.setText(String.valueOf(donGia));
-        } else {
+        try {
+            int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
+            if (masp > 0) {
+                SanPhamBUS spBUS = new SanPhamBUS();
+                int donGia = spBUS.getDonGiaByMaSP(masp);
+                tDonGia.setText(String.valueOf(donGia));
+            } else {
+                tDonGia.setText("");
+            }
+        } catch (NumberFormatException e) {
             tDonGia.setText("");
         }
-    } catch (NumberFormatException e) {
-        tDonGia.setText("");
     }
-}
-
 
     private void updatePhienBanOptions() {
         try {
             // Lấy mã sản phẩm từ tMaSP
             int masp = tMaSP.getText().isEmpty() ? 0 : Integer.parseInt(tMaSP.getText());
-            
+
             // Gọi hàm getPhienBanByMaSP từ PhienBanSanPhamBUS
             PhienBanSanPhamBUS pbBUS = new PhienBanSanPhamBUS();
-            
+
             // Lưu danh sách phiên bản vào biến của class
             danhSachPhienBan = pbBUS.getPhienBanByMaSP(masp);
-            
+
             // Xóa tất cả các mục trong cbxPhienBan
             cbxPhienBan.removeAllItems();
-            
+
             // Thêm các phiên bản vào cbxPhienBan với định dạng size-màu
             for (PhienBanSanPhamDTO pb : danhSachPhienBan) {
                 String displayText = pb.getSize() + " - " + pb.getMau();
                 cbxPhienBan.addItem(displayText);
                 System.out.println("Đã thêm phiên bản: " + displayText + ", MaPB=" + pb.getMaPB());
             }
-            
+
             // Nếu không có phiên bản nào, thêm thông báo
             if (danhSachPhienBan.isEmpty()) {
                 cbxPhienBan.addItem("Không có phiên bản");
                 System.out.println("Ô trống, không có giá trị nào để hiển thị.");
             }
 
-            
-        // Gọi hàm cập nhật đơn giá sản phẩm ngay sau khi cập nhật phiên bản
-        updateDonGiaByMaSP();
+            // Gọi hàm cập nhật đơn giá sản phẩm ngay sau khi cập nhật phiên bản
+            updateDonGiaByMaSP();
         } catch (NumberFormatException e) {
             // Nếu mã sản phẩm không hợp lệ, xóa nội dung cbxPhienBan
             cbxPhienBan.removeAllItems();

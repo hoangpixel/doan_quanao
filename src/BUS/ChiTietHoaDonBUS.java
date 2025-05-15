@@ -39,4 +39,17 @@ public class ChiTietHoaDonBUS {
         ChiTietHoaDonDAO data = new ChiTietHoaDonDAO();
         return data.xoa(maHD);
     }
+    
+    public ArrayList<ChiTietHoaDonDTO> docDSCTHDTheoMaHD(int maHD) {
+        ArrayList<ChiTietHoaDonDTO> dskq = new ArrayList<>();
+        if(ds == null) {
+            this.docDSCTHD();
+        }
+        for(ChiTietHoaDonDTO ct: ds) {
+            if(ct.getMaHoaDon() == maHD) {
+                dskq.add(ct);
+            }
+        }
+        return dskq;
+    }
 }
