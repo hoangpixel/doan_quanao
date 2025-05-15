@@ -13,13 +13,12 @@ import javax.swing.table.JTableHeader;
 import java.util.ArrayList;
 import BUS.HoaDonBUS;
 import DTO.HoaDonDTO;
-import GUI_Input.insertHoaDon;
-import GUI_Input.deleteHoaDon;
-import GUI_Input.updateHoaDon;
-import GUI_Input.detailHD_promax;
+import GUI_Input.ThemHoaDon;
+import GUI_Input.XoaHoaDon;
+import GUI_Input.SuaHoaDon;
+import GUI_Input.ChiTietHoaDon;
 import GUI_Input.timKiemNangCaoHoadon;
 import GUI_Input.xuLyExcelhoadon;
-import GUI_Click.cthdGUI_Click;
 import GUI_Input.ThongKeHoaDon;
 /**
  *
@@ -30,53 +29,61 @@ public class hoadonGUI extends javax.swing.JPanel {
     /**
      * Creates new form listCTKM
      */
-    private DefaultTableModel model = new DefaultTableModel();
-    private HoaDonBUS bus = new HoaDonBUS();
+    DefaultTableModel model = new DefaultTableModel();
 
     public hoadonGUI() {
-        initComponents();
+         initComponents();
+        headerTable();
+        docDB();
+    }
+    public void headerTable(){
+        Vector header = new Vector();
+        header.add("Mã hóa đơn");
+        header.add("Mã nhân viên");
+        header.add("Mã khách hàng");
+        header.add("Tổng tiền");
+        header.add("Ngày nhập");
+        header.add("Trạng thái");
+        model = new DefaultTableModel(header,0)
+                {
+                    @Override
+                    public boolean isCellEditable(int row,int column)
+                {
+                    return false;
+                }
+                };
         tbHoadon.setModel(model);
-        String[] header = {"Mã hóa đơn", "Ngày lập", "Mã nhân viên", "Mã khách hàng", "Tổng tiền"};
-        model.setColumnIdentifiers(header);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(JLabel.CENTER);
-        renderer.setVerticalAlignment(JLabel.CENTER);
+        // Căn nội dung ra chính giữa
         for (int i = 0; i < tbHoadon.getColumnCount(); i++) {
-            tbHoadon.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        tbHoadon.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        JTableHeader headerTable = tbHoadon.getTableHeader();
-        headerTable.setFont(new Font("Segoe UI", Font.BOLD, 13));
-
-        tbHoadon.setRowHeight(30);
-        tbHoadon.setFocusable(false);
-        tbHoadon.setAutoCreateRowSorter(true);
-        tbHoadon.setDefaultEditor(Object.class, null);
-        tbHoadon.setShowVerticalLines(false);
-
-        docSQL();
+        //căn header ra center
+        JTableHeader headerTB = tbHoadon.getTableHeader();
+        DefaultTableCellRenderer center = (DefaultTableCellRenderer) headerTB.getDefaultRenderer();
+        center.setHorizontalAlignment(JLabel.CENTER);
+        headerTB.setFont(new Font("Segoe UI",Font.BOLD,14));
     }
-    
-    private void capNhatBang(ArrayList<HoaDonDTO> ds) {
+    public void docDB(){
         model.setRowCount(0);
-        for (HoaDonDTO hd : ds) {
+        HoaDonBUS pnbus = new HoaDonBUS();
+        if(HoaDonBUS.ds == null){
+            pnbus.docDSHD();
+        }
+        for( HoaDonDTO pn : HoaDonBUS.ds){
             Vector row = new Vector();
-            row.add(hd.getMahd());
-            row.add(hd.getNgaylap());
-            row.add(hd.getManv());
-            row.add(hd.getMakh());
-            row.add(hd.getTongtien());
+            row.add(pn.getMahd());
+            row.add(pn.getManv());
+            row.add(pn.getMakh());
+            row.add(pn.getTongtien());
+            row.add(pn.getNgaylap());
+            row.add(trangThai(pn.getTrangThai()));
             model.addRow(row);
         }
         tbHoadon.setModel(model);
-    }
-
-    public void docSQL() {
-        if (HoaDonBUS.ds == null) {
-            bus.docDSHD();
-        }
-        capNhatBang(HoaDonBUS.ds);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -315,113 +322,112 @@ public class hoadonGUI extends javax.swing.JPanel {
     
     // Gọi thư mục inputCTKM.java để điền info
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(hoadonGUI.this);
-        insertHoaDon dialog = new insertHoaDon(topFrame, true);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        ThemHoaDon dialog = new ThemHoaDon(topFrame, true);
         dialog.setVisible(true);
-
-        if (dialog.xacNhanNhap()) {
-            docSQL(); // Refresh table to include new invoice and updated tongTien
+        if(dialog.xacNhanThem())
+        {
+            HoaDonBUS pnbus = new HoaDonBUS();
+            pnbus.docDSHD();
+            model.setRowCount(0);
+            for(HoaDonDTO pn : HoaDonBUS.ds)
+            {
+                Vector row = new Vector();
+                row.add(pn.getMahd());
+                row.add(pn.getManv());
+                row.add(pn.getMakh());
+                row.add(pn.getTongtien());
+                row.add(pn.getNgaylap());
+                row.add(trangThai(pn.getTrangThai()));
+                model.addRow(row);
+            }
+            tbHoadon.setModel(model);
         }
     }//GEN-LAST:event_btnThemMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:      
-        int selectedRow = tbHoadon.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
+        int i = tbHoadon.getSelectedRow();
+        if(i<0)
+        {
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xóa");
+           lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;
         }
-
-        int maHoaDon = (int) tbHoadon.getValueAt(selectedRow, 0); // Cột mã hóa đơn
-
-        // Mở dialog xác nhận xóa
-        deleteHoaDon dialog = new deleteHoaDon(null, true, maHoaDon);
+        
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        XoaHoaDon dialog = new XoaHoaDon(topFrame,true);
         dialog.setVisible(true);
-
-        if (dialog.xacNhanXoa()) {
-            try {
-                HoaDonBUS bus = new HoaDonBUS();
-                bus.xoa(maHoaDon);
-
-                // Cập nhật lại bảng sau khi xóa
-                docSQL();
-
-                JOptionPane.showMessageDialog(null, "Xóa hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xóa hóa đơn.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
+        if(dialog.xacNhanXoa())
+        {
+            int ma = (int) tbHoadon.getValueAt(i, 0);
+            HoaDonBUS pnbus = new HoaDonBUS();
+            pnbus.xoa(ma);
+            model.removeRow(i);
+            JLabel lb = new JLabel("Xóa thành công!");
+            lb.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            JOptionPane.showMessageDialog(this, lb, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here
-        
-        int i=tbHoadon.getSelectedRow();
+        int i = tbHoadon.getSelectedRow();
         if(i<0)
         {
-            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật!");
+           JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để cập nhật");
            lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần cập nhật",JOptionPane.ERROR_MESSAGE);
-           return;           
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
+           return;            
         }
-        int mahd = (int) tbHoadon.getValueAt(i,0);
-        String ngaylap = tbHoadon.getValueAt(i, 1).toString();
-        int manv = (int) tbHoadon.getValueAt(i, 2);
-        int makh = (int) tbHoadon.getValueAt(i, 3);
-        int tongtien = (int) tbHoadon.getValueAt(i, 4);
+        int ma = (int) tbHoadon.getValueAt(i, 0);
+        int manv = (int) tbHoadon.getValueAt(i, 1);
+        int makh = (int) tbHoadon.getValueAt(i, 2);
+        int tongtien = (int) tbHoadon.getValueAt(i,3);
+        String ngayNhap = tbHoadon.getValueAt(i, 4).toString();
         
-        HoaDonDTO hdct = new HoaDonDTO(mahd, ngaylap, manv, makh, tongtien);
+        HoaDonDTO hd = new HoaDonDTO(ma, ngayNhap, manv, makh, tongtien, 0);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        updateHoaDon dialog = new updateHoaDon(topFrame,true,hdct);
+        SuaHoaDon dialog = new SuaHoaDon(topFrame, true, hd);
         dialog.setVisible(true);
         
-        if(dialog.xacNhanCapNhat())
+        if(dialog.xacNhanSua())
         {
-            HoaDonBUS bus = new HoaDonBUS();
-            HoaDonDTO hddata = dialog.getHD();
-            bus.capnhat(hddata);
-            
-            model.setValueAt(hddata.getNgaylap(), i, 1);
-            model.setValueAt(hddata.getManv(), i, 2);
-            model.setValueAt(hddata.getMakh(), i, 3);
-            model.setValueAt(hddata.getTongtien(), i, 4);
+            HoaDonBUS pnbus = new HoaDonBUS();
+            HoaDonDTO hd1 = dialog.getHD();
+            pnbus.capnhat(hd1);
+            model.setValueAt(hd1.getManv(),i,1);
+            model.setValueAt(hd1.getMakh(),i,2);
+            model.setValueAt(hd1.getTongtien(),i,3);
+            model.setValueAt(hd1.getNgaylap(),i,4);
+            model.setValueAt(trangThai(hd1.getTrangThai()),i,5);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbHoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoadonMouseClicked
-            int i = tbHoadon.getSelectedRow();
-            int ma = (int) tbHoadon.getValueAt(i, 0);
+            int selectedRow = tbHoadon.getSelectedRow();
+    if (selectedRow >= 0) {
+        // Kiểm tra trạng thái của dòng đã chọn (cột thứ 5 - index 5)
+        String trangThai = tbHoadon.getValueAt(selectedRow, 5).toString();
+        
+        // Nếu trạng thái là "Đã xử lý", vô hiệu hóa nút thêm và xóa
+        if (trangThai.equals("Đã xử lí")) {
+            btnXoa.setEnabled(false);
+            btnUpdate.setEnabled(false);
             
-            HoaDonBUS bus = new HoaDonBUS();
-            if(bus.getTrangThai(ma) == 1)
-            {
-                btnUpdate.setEnabled(false);
-                btnXoa.setEnabled(false);
-            }else
-            {
-                btnUpdate.setEnabled(true);
-                btnXoa.setEnabled(true);   
-            }
-        if(evt.getClickCount() == 2)
-        {
-            if(tbHoadon.isEditing())
-            {
-                tbHoadon.getCellEditor().stopCellEditing();
-            }
+            // Tùy chọn: thêm thông báo khi di chuột lên nút
+            btnXoa.setToolTipText("Không thể xóa hóa đơn đã xử lý");
+            btnUpdate.setToolTipText("Không thể sửa hóa đơn đã xử lý");
+        } else {
+            // Ngược lại, kích hoạt các nút
+            btnXoa.setEnabled(true);
+            btnUpdate.setEnabled(true);
             
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            cthdGUI_Click dialog = new cthdGUI_Click(topFrame, true, ma);
-            
-            if(dialog.getDSCTHD() == null || dialog.getDSCTHD().isEmpty())
-            {
-                JOptionPane.showMessageDialog(this, "Không có dữ liệu chi tiết hóa đơn trong mã này","Lỗi không có mã",JOptionPane.ERROR_MESSAGE);
-                return;
-            }else
-            {
-                dialog.setVisible(true);
-            }
+            btnXoa.setToolTipText("Xóa hóa đơn đã chọn");
+            btnUpdate.setToolTipText("Sửa hóa đơn đã chọn");
         }
+    }
     }//GEN-LAST:event_tbHoadonMouseClicked
 
     
@@ -444,30 +450,28 @@ public class hoadonGUI extends javax.swing.JPanel {
     
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        docSQL();
+        docDB();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
-        
-        int i=tbHoadon.getSelectedRow();
+        int i = tbHoadon.getSelectedRow();
         if(i<0)
         {
            JLabel lbchonMaXoa = new JLabel("Vui lòng chọn mã để xem chi tiết");
            lbchonMaXoa.setFont(new Font("Segoe UI",Font.BOLD,16));
-           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã để xem chi tiết",JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, lbchonMaXoa,"Chọn mã cần xóa",JOptionPane.ERROR_MESSAGE);
            return;            
         }
+        int ma = (int) tbHoadon.getValueAt(i, 0);
+        int manv = (int) tbHoadon.getValueAt(i, 1);
+        int makh = (int) tbHoadon.getValueAt(i, 2);
+        int tongtien = (int) tbHoadon.getValueAt(i,3);
+        String ngayNhap = tbHoadon.getValueAt(i, 4).toString();
         
-        int mahd = (int) tbHoadon.getValueAt(i, 0);
-        String ngaylap = tbHoadon.getValueAt(i, 1).toString();
-        int manv = (int) tbHoadon.getValueAt(i, 2);
-        int makg = (int) tbHoadon.getValueAt(i, 3);
-        int tongtien = (int) tbHoadon.getValueAt(i, 4);
-        
-        HoaDonDTO data = new HoaDonDTO(mahd, ngaylap, manv, makg, tongtien);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        detailHD_promax dialog = new detailHD_promax(topFrame,true,data);
+        HoaDonDTO hd = new HoaDonDTO(ma, ngayNhap,manv, makh, tongtien,0);
+        ChiTietHoaDon dialog  = new ChiTietHoaDon(topFrame, true, hd);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnDetailActionPerformed
 
@@ -530,6 +534,16 @@ public class hoadonGUI extends javax.swing.JPanel {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnThongKeActionPerformed
 
+    private String trangThai(int trangThai){
+        String tt = null;
+        if (trangThai == 0) {
+            tt = "Chưa xử lí";
+        } else {
+            tt = "Đã xử lí";
+        }
+        return tt;
+    }
+    
     public ArrayList<HoaDonDTO> getDS()
     {
         HoaDonBUS bus = new HoaDonBUS();

@@ -57,10 +57,10 @@ public class HoaDonDAO {
             st = con.createStatement();
             st.executeUpdate(qry);
             
-            System.out.println("Thêm phiếu nhập thành công");
+            System.out.println("Thêm hóa đơn thành công");
             return true;
         } catch (Exception e) {
-            System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
+            System.out.println("Lỗi thêm hóa đơn: " + e.getMessage());
             e.printStackTrace();
             return false;
         } 

@@ -10,7 +10,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.awt.Font;
-import GUI.HoaDonGUI;
+import GUI.hoadonGUI;
 import BUS.HoaDonBUS;
 import DTO.HoaDonDTO;
 import java.text.SimpleDateFormat;
@@ -26,8 +26,8 @@ public class xuLyExcelhoadon extends javax.swing.JDialog {
      * Creates new form xuLyExcel
      */
     ArrayList<HoaDonDTO> dskq;
-    HoaDonGUI gui;
-    public xuLyExcelhoadon(java.awt.Frame parent, boolean modal,ArrayList<HoaDonDTO> dskq,HoaDonGUI gui) {
+    hoadonGUI gui;
+    public xuLyExcelhoadon(java.awt.Frame parent, boolean modal,ArrayList<HoaDonDTO> dskq,hoadonGUI gui) {
         super(parent, modal);
         this.dskq = dskq;
         this.gui=gui;

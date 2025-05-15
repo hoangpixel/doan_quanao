@@ -7,7 +7,7 @@ import GUI.ChuongTrinhKhuyenMaiSanPhamGUI;
 import GUI.ChuongTrinhKhuyenMaiGUI;
 import GUI.KhachHangGUI;
 import GUI.PhieuNhapGUI;
-import GUI.HoaDonGUI;
+import GUI.hoadonGUI;
 import GUI.NhanVienGUI;
 import GUI.LoaiSanPhamGUI;
 import GUI.AoGUI;
@@ -108,7 +108,7 @@ public class main extends JFrame {
         NhaCungCapGUI nhaCungCapGUI = new NhaCungCapGUI();
         contentPanel.add(nhaCungCapGUI, "NhaCungCap");
         //panel hóa đơn
-        HoaDonGUI hdPanel = new HoaDonGUI();
+        hoadonGUI hdPanel = new hoadonGUI();
         contentPanel.add(hdPanel,"hoadon");
         add(contentPanel, BorderLayout.CENTER);
         // panel CTKMHD

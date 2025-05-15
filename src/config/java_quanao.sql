@@ -482,9 +482,9 @@ ALTER TABLE `ao`
 -- Indexes for table `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MAHD`),
-  ADD KEY `MASP` (`MASP`),
-  ADD KEY `cthd_ibfk_2` (`MAPB`);
+  ADD PRIMARY KEY (`MAHD`,`MASP`,`MAPB`),
+  ADD KEY `MAPB` (`MAPB`),
+  ADD KEY `MASP` (`MASP`);
 
 --
 -- Indexes for table `ctkm`
@@ -519,9 +519,9 @@ ALTER TABLE `ctpn`
 -- Indexes for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  ADD PRIMARY KEY (`MAHD`,`NGAYLAP`),
-  ADD KEY `MANV` (`MANV`),
-  ADD KEY `MAKH` (`MAKH`);
+  ADD PRIMARY KEY (`MAHD`),
+  ADD KEY `hoadon_ibfk_1` (`MANV`),
+  ADD KEY `hoadon_ibfk_2` (`MAKH`);
 
 --
 -- Indexes for table `khachhang`
@@ -664,8 +664,9 @@ ALTER TABLE `ao`
 -- Constraints for table `cthd`
 --
 ALTER TABLE `cthd`
-  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cthd_ibfk_1` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cthd_ibfk_2` FOREIGN KEY (`MAPB`) REFERENCES `phienbansp` (`MAPB`),
+  ADD CONSTRAINT `cthd_ibfk_3` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`);
 
 --
 -- Constraints for table `ctkmhd`
