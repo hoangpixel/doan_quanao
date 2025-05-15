@@ -142,8 +142,8 @@ public boolean xoa(int ma) {
     {
         try {
             String qry = "Update hoadon Set ";
-            qry = qry + ",NGAYLAP=" + "'" + hd.getNgaylap() + "'";
-            qry = qry + " MANV= " + "'" + hd.getManv() + "'";
+            qry = qry + "NGAYLAP=" + "'" + hd.getNgaylap() + "'";
+            qry = qry + ",MANV= " + "'" + hd.getManv() + "'";
             qry = qry + ",MAKH=" + "'" + hd.getMakh() + "'";
             qry = qry + ",TONGTIEN=" + "'" + hd.getTongtien() + "'";
             qry = qry + ",TRANGTHAI=" + "'" + hd.getTrangThai() + "'";
@@ -185,7 +185,7 @@ public boolean xoa(int ma) {
             con = DBConnect.getConnection();            
             st = con.createStatement();
             rs = st.executeQuery(qry);
-            if(rs.next());
+            if(rs.next())
             {
                 int d = rs.getInt(1);
                 return d > 0;
@@ -201,7 +201,7 @@ public boolean xoa(int ma) {
             con = DBConnect.getConnection();            
             st = con.createStatement();
             rs = st.executeQuery(qry);
-            if(rs.next());
+            if(rs.next())
             {
                 int d = rs.getInt(1);
                 return d > 0;

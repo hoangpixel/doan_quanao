@@ -84,7 +84,7 @@ public class ChiTietHoaDonDAO {
     public boolean xoa(int maHD)
     {
         try {
-            String qry = "Delete from ctpn where MAHD = " + maHD;
+            String qry = "Delete from cthd where MAHD = " + maHD;
             con = DBConnect.getConnection();
             st = con.createStatement();
             st.executeUpdate(qry);

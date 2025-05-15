@@ -479,53 +479,49 @@ public class SuaHoaDon extends javax.swing.JDialog {
         String ngayNhap = now.format(formatter);
         
         // Cập nhật đối tượng hóa đơn
+        hd.setNgaylap(ngayNhap);
         hd.setManv(manv);
         hd.setMakh(makh);
         hd.setTongtien(tongTien);
-        hd.setNgaylap(ngayNhap);
         hd.setTrangThai(cbxTrangThai.getSelectedIndex());
         
         // Cập nhật vào database
         HoaDonBUS hdBUS = new HoaDonBUS();
         boolean resultHD = hdBUS.capnhat(hd);
         
-        if(resultHD) {
-            // Quản lý CTHD
-            ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
-            cthdBUS.docDSCTHD();
-            
-            // 1. Xóa tất cả CTHD đang có
-            boolean deleteSuccess = cthdBUS.xoa(mahd);
-            
-            // 2. Thêm lại các CTHD trong danh sách hiện tại
-            boolean addSuccess = true;
-            for (ChiTietHoaDonDTO item : dsCTHD) {
-                // Đảm bảo MAHD được set đúng
-                item.setMaHoaDon(mahd);
-                if (!cthdBUS.them(item)) {
-                    addSuccess = false;
-                    System.out.println("Lỗi thêm CTHD: MaHD=" + mahd + ", MaSP=" + item.getMaSanPham());
-                }
-                if (cbxTrangThai.getSelectedIndex()==1) {
-                        if (pbspbus.thayDoiSLPB(item.getSoLuong(),item.getMaPhienBan())==0) {
-                        addSuccess = false;
-                        System.out.println("Lỗi khi thay đổi số lượng pb");
-                    }
-                }
-                
+        if (resultHD) {
+    ChiTietHoaDonBUS cthdBUS = new ChiTietHoaDonBUS();
+    cthdBUS.docDSCTHD();
+    boolean deleteSuccess = cthdBUS.xoa(mahd);
+    if (!deleteSuccess) {
+        System.out.println("Lỗi khi xóa CTHD cho MAHD=" + mahd);
+    }
+    boolean addSuccess = true;
+    for (ChiTietHoaDonDTO item : dsCTHD) {
+        item.setMaHoaDon(mahd);
+        if (!cthdBUS.them(item)) {
+            addSuccess = false;
+            System.out.println("Lỗi thêm CTHD: MaHD=" + mahd + ", MaSP=" + item.getMaSanPham() + ", MaPB=" + item.getMaPhienBan());
+        }
+        if (cbxTrangThai.getSelectedIndex() == 1) {
+            if (pbspbus.thayDoiSLPBTrongHD(item.getSoLuong(), item.getMaPhienBan()) == 0) {
+                addSuccess = false;
+                System.out.println("Lỗi khi thay đổi số lượng pb: MaPB=" + item.getMaPhienBan() + ", SoLuong=" + item.getSoLuong());
             }
-            
-            if (deleteSuccess && addSuccess) {
-                JLabel lbTB = new JLabel("Sửa hóa đơn thành công!");
-                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                xacNhan = true;
-                dispose();
-            } else {
-                JLabel lbTB = new JLabel("Có lỗi khi cập nhật chi tiết hóa đơn!");
-                lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.ERROR_MESSAGE);
-            }
+        }
+    }
+    if (deleteSuccess && addSuccess) {
+        JLabel lbTB = new JLabel("Sửa hóa đơn thành công!");
+        lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        xacNhan = true;
+        dispose();
+    } else {
+        JLabel lbTB = new JLabel("Có lỗi khi cập nhật chi tiết hóa đơn!");
+        lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(this, lbTB, "Thông báo", JOptionPane.ERROR_MESSAGE);
+        System.out.println("deleteSuccess=" + deleteSuccess + ", addSuccess=" + addSuccess);
+    }
         } else {
             JLabel lbTB = new JLabel("Lỗi khi cập nhật hóa đơn!");
             lbTB.setFont(new Font("Segoe UI", Font.BOLD, 16));
