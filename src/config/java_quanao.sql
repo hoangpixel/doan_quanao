@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2025 at 04:45 PM
+-- Generation Time: May 15, 2025 at 06:41 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,10 +33,6 @@ CREATE TABLE `ao` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Dumping data for table `ao`
---
-
 -- --------------------------------------------------------
 
 --
@@ -51,13 +47,6 @@ CREATE TABLE `cthd` (
   `DONGIA` int(11) NOT NULL,
   `THANHTIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
---
--- Dumping data for table `cthd`
---
-
-INSERT INTO `cthd` (`MAHD`, `MASP`, `MAPB`, `SL`, `DONGIA`, `THANHTIEN`) VALUES
-(11, 2, 4, 2, 1000, 0);
 
 -- --------------------------------------------------------
 
@@ -138,10 +127,32 @@ CREATE TABLE `ctpn` (
 --
 
 INSERT INTO `ctpn` (`MAPN`, `MASP`, `MAPB`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
-(11, 1, 1, 1, 1111, 1111),
-(11, 2, 3, 1, 2222, 2222),
-(12, 1, 1, 1, 2222, 2222),
-(13, 1, 1, 1, 2222, 2222);
+(1, 1, 1, 20, 150000, 3000000),
+(1, 1, 2, 30, 150000, 4500000),
+(1, 1, 3, 15, 150000, 2250000),
+(1, 2, 4, 25, 300000, 7500000),
+(1, 2, 5, 20, 300000, 6000000),
+(1, 3, 6, 35, 350000, 12250000),
+(1, 3, 7, 25, 350000, 8750000),
+(1, 4, 8, 40, 400000, 16000000),
+(1, 4, 9, 30, 400000, 12000000),
+(1, 5, 10, 45, 380000, 17100000),
+(1, 5, 11, 35, 380000, 13300000),
+(2, 6, 12, 30, 120000, 3600000),
+(2, 6, 13, 40, 120000, 4800000),
+(2, 6, 14, 25, 120000, 3000000),
+(2, 7, 15, 35, 180000, 6300000),
+(2, 7, 16, 45, 180000, 8100000),
+(2, 7, 17, 20, 180000, 3600000),
+(2, 8, 18, 50, 150000, 7500000),
+(2, 8, 19, 60, 150000, 9000000),
+(2, 8, 20, 40, 150000, 6000000),
+(2, 9, 21, 20, 200000, 4000000),
+(2, 9, 22, 30, 200000, 6000000),
+(2, 9, 23, 25, 200000, 5000000),
+(2, 10, 24, 35, 220000, 7700000),
+(2, 10, 25, 40, 220000, 8800000),
+(2, 10, 26, 28, 220000, 6160000);
 
 -- --------------------------------------------------------
 
@@ -158,24 +169,6 @@ CREATE TABLE `hoadon` (
   `TRANGTHAI` int(11) DEFAULT 0,
   `is_deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
---
--- Dumping data for table `hoadon`
---
-
-INSERT INTO `hoadon` (`MAHD`, `NGAYLAP`, `MANV`, `MAKH`, `TONGTIEN`, `TRANGTHAI`, `is_deleted`) VALUES
-(1, '01/04/2025', 1, 19, 0, 0, 0),
-(2, '05/04/2025', 6, 3, 0, 0, 0),
-(3, '13/04/2025', 10, 17, 0, 0, 0),
-(4, '02/04/2025', 5, 19, 0, 0, 0),
-(5, '30/04/2025', 2, 5, 0, 0, 0),
-(6, '07/04/2025', 9, 20, 0, 0, 0),
-(7, '01/04/2025', 4, 18, 0, 0, 0),
-(8, '05/04/2025', 3, 19, 0, 0, 0),
-(9, '04/04/2025', 2, 20, 0, 0, 0),
-(10, '05/04/2025', 10, 3, 0, 0, 0),
-(11, '15/05/2025', 7, 9, 0, 0, 0),
-(12, '15/05/2025', 6, 7, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -236,8 +229,16 @@ CREATE TABLE `loaisp` (
 --
 
 INSERT INTO `loaisp` (`MALOAI`, `TENLOAI`, `is_deleted`) VALUES
-(1, 'Áo', 0),
-(2, 'Quần', 0);
+(1, 'Áo Thun', 0),
+(2, 'Áo Sơ Mi', 0),
+(3, 'Áo Hoodie', 0),
+(4, 'Áo Polo', 0),
+(5, 'Áo Khoác', 0),
+(6, 'Quần Jean', 0),
+(7, 'Quần Tây', 0),
+(8, 'Quần Short', 0),
+(9, 'Quần Jogger', 0),
+(10, 'Quần Kaki', 0);
 
 -- --------------------------------------------------------
 
@@ -337,13 +338,32 @@ CREATE TABLE `phienbansp` (
 --
 
 INSERT INTO `phienbansp` (`MAPB`, `MASP`, `SIZE`, `MAU`, `SLPB`, `is_deleted`) VALUES
-(1, 1, 'M', 'Đỏ', 11, 0),
-(2, 1, 'XXL', 'Xanh', 10, 0),
-(3, 2, 'L', 'Trắng', 5, 0),
-(4, 2, 'XXL', 'Xanh', 8, 0),
-(5, 5, '1', '1', 0, 1),
-(6, 5, '2', '2', 0, 0),
-(7, 5, '3', '3', 0, 0);
+(1, 1, 'S', 'Trắng', 50, 0),
+(2, 1, 'M', 'Trắng', 50, 0),
+(3, 1, 'L', 'Đen', 30, 0),
+(4, 2, 'M', 'Trắng', 40, 0),
+(5, 2, 'L', 'Trắng', 35, 0),
+(6, 3, 'M', 'Đen', 60, 0),
+(7, 3, 'L', 'Xanh', 45, 0),
+(8, 4, 'M', 'Xanh', 50, 0),
+(9, 4, 'L', 'Xanh', 40, 0),
+(10, 5, 'M', 'Đen', 55, 0),
+(11, 5, 'L', 'Đen', 50, 0),
+(12, 6, 'S', 'Đen', 30, 0),
+(13, 6, 'M', 'Trắng', 40, 0),
+(14, 6, 'L', 'Xám', 25, 0),
+(15, 7, 'M', 'Xanh đen', 35, 0),
+(16, 7, 'L', 'Đen', 45, 0),
+(17, 7, 'XL', 'Xám', 20, 0),
+(18, 8, 'M', 'Be', 50, 0),
+(19, 8, 'L', 'Đen', 60, 0),
+(20, 8, 'XL', 'Xanh navy', 40, 0),
+(21, 9, 'S', 'Xám', 20, 0),
+(22, 9, 'M', 'Đen', 30, 0),
+(23, 9, 'L', 'Xám đậm', 25, 0),
+(24, 10, 'M', 'Nâu', 35, 0),
+(25, 10, 'L', 'Be', 40, 0),
+(26, 10, 'XL', 'Đen', 28, 0);
 
 -- --------------------------------------------------------
 
@@ -366,19 +386,8 @@ CREATE TABLE `phieunhap` (
 --
 
 INSERT INTO `phieunhap` (`MAPN`, `MANV`, `MANCC`, `TONGTIEN`, `NGAYNHAP`, `TRANGTHAI`, `is_deleted`) VALUES
-(1, 2, 3, 4320000, '15/03/2025', 0, 0),
-(2, 1, 4, 6850000, '22/01/2025', 0, 0),
-(3, 3, 2, 7895000, '07/02/2025', 0, 0),
-(4, 4, 5, 2345000, '10/12/2024', 0, 0),
-(5, 5, 1, 9100000, '02/03/2025', 0, 0),
-(6, 2, 2, 5600000, '11/04/2025', 0, 0),
-(7, 3, 3, 7400000, '08/01/2025', 0, 0),
-(8, 4, 4, 3100000, '20/02/2025', 0, 0),
-(9, 1, 5, 8450000, '14/03/2025', 0, 0),
-(10, 5, 1, 6550000, '17/04/2025', 0, 0),
-(11, 1, 1, 3333, '2025-05-14 17:09:56', 1, 0),
-(12, 1, 1, 2222, '2025-05-14', 0, 0),
-(13, 1, 1, 2222, '14/05/2025', 0, 0);
+(1, 3, 1, 88650000, '2025-05-15', 0, 0),
+(2, 1, 1, 89560000, '2025-05-15', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -391,12 +400,6 @@ CREATE TABLE `quan` (
   `TENQUAN` varchar(50) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
---
--- Dumping data for table `quan`
---
-
-
 
 -- --------------------------------------------------------
 
@@ -420,11 +423,16 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MASP`, `TENSP`, `DONGIA`, `DONVITINH`, `CHATLIEU`, `MOTA`, `MALOAI`, `is_deleted`) VALUES
-(1, 'a', 1000, 'VND', 'vải', 'adfàdàdà', 1, 0),
-(2, 'b', 1000, 'VND', 'vải', 'ádfádfàdà', 2, 0),
-(3, '123', 0, 'VNĐ', '123', '123', 1, 0),
-(4, 'test', 0, 'VNĐ', 'test', 'test', 1, 1),
-(5, 'test', 0, 'VNĐ', 'test', '', 1, 0);
+(1, 'Áo Thun Cổ Tròn', 150000, 'VNĐ', 'Cotton', 'Áo thun cotton mềm mại, thoáng mát', 1, 0),
+(2, 'Áo Sơ Mi Trắng', 300000, 'VNĐ', 'Polyester', 'Áo sơ mi trắng công sở thanh lịch', 2, 0),
+(3, 'Áo Hoodie Nỉ', 350000, 'VNĐ', 'Nỉ', 'Áo hoodie dày dặn, giữ ấm tốt', 3, 0),
+(4, 'Quần Jean Xanh', 400000, 'VNĐ', 'Denim', 'Quần jean xanh trẻ trung, phù hợp mọi lứa tuổi', 6, 0),
+(5, 'Quần Tây Đen', 380000, 'VNĐ', 'Vải', 'Quần tây đen lịch sự, phù hợp công sở', 7, 0),
+(6, 'Áo Polo Nam', 280000, 'VNĐ', 'Cotton', 'Áo polo trẻ trung, lịch sự, dễ phối đồ', 4, 0),
+(7, 'Áo Khoác Gió', 450000, 'VNĐ', 'Vải dù', 'Áo khoác nhẹ, chắn gió tốt, phù hợp thời tiết se lạnh', 5, 0),
+(8, 'Quần Short Nam', 250000, 'VNĐ', 'Vải dù', 'Quần short thoải mái, thích hợp đi chơi, thể thao', 8, 0),
+(9, 'Quần Jogger Thể Thao', 320000, 'VNĐ', 'Thun co giãn', 'Jogger co giãn tốt, phù hợp vận động', 9, 0),
+(10, 'Quần Kaki Trơn', 370000, 'VNĐ', 'Kaki', 'Kaki trơn, dễ phối đồ, phù hợp công sở và dạo phố', 10, 0);
 
 --
 -- Indexes for dumped tables
@@ -576,7 +584,7 @@ ALTER TABLE `khachhang`
 -- AUTO_INCREMENT for table `loaisp`
 --
 ALTER TABLE `loaisp`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `ncc`
@@ -594,19 +602,19 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT for table `phienbansp`
 --
 ALTER TABLE `phienbansp`
-  MODIFY `MAPB` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `MAPB` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `MASP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
